@@ -412,96 +412,13 @@
       cursor: pointer;
     }
 
-    /* 記帳小幫手看板 (整合建議2) */
+    /* 消費總金額看板卡片 */
     .account-summary {
       background: var(--accent-wood);
       color: white;
       border-radius: 14px;
       padding: 18px;
       margin-bottom: 16px;
-    }
-
-    .account-summary .title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .payer-breakdown {
-      margin-top: 12px;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(255, 255, 255, 0.3);
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 8px;
-    }
-
-    .payer-item {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 12px;
-    }
-
-    .payer-name {
-      font-weight: 600;
-      opacity: 0.9;
-    }
-
-    .payer-amount {
-      font-weight: 700;
-      font-size: 13px;
-      margin-top: 2px;
-    }
-
-    /* 韓國消費小撇步 (建議4) */
-    .tips-card {
-      background: var(--card-bg);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 16px;
-      border: 1px solid var(--border-color);
-    }
-
-    .tips-header {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .korean-phrase-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .phrase-item {
-      background: var(--bg-color);
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 12px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .phrase-zh { color: var(--text-sub); font-size: 11px; }
-    .phrase-kr { font-weight: 700; color: var(--text-main); margin: 2px 0; }
-    .phrase-roma { font-size: 10px; color: var(--accent-wood); }
-
-    .copy-btn {
-      align-self: flex-end;
-      background: none;
-      border: none;
-      color: var(--text-sub);
-      font-size: 11px;
-      cursor: pointer;
-      margin-top: 4px;
     }
 
     .expense-actions {
@@ -691,49 +608,11 @@
 
     <!-- 頁籤三：記帳小幫手 -->
     <div id="tab-expenses" class="tab-content">
-      <!-- 記帳小幫手 + AA分攤看板 -->
+      <!-- 消費總金額看板 -->
       <div class="account-summary">
-        <div class="title-row">
-          <div style="font-size: 13px; font-weight: 600; opacity: 0.95;">記帳小幫手</div>
-          <div style="font-size: 11px; opacity: 0.8;">AA分攤統計</div>
-        </div>
-        <div style="font-size: 26px; font-weight: 700; margin-top: 2px;" id="total-expense">₩ 0</div>
-        <div style="font-size: 13px; opacity: 0.9;" id="total-expense-twd">≈ NT$ 0</div>
-
-        <!-- 各成員墊付明細 (自動算) -->
-        <div class="payer-breakdown" id="payer-breakdown-list">
-          <div style="font-size: 11px; opacity: 0.8;">尚無墊付紀錄</div>
-        </div>
-      </div>
-
-      <!-- 韓國消費小撇步 / 實用韓文小卡 (建議 4) -->
-      <div class="tips-card">
-        <div class="tips-header">
-          <i class="fa-solid fa-lightbulb" style="color:var(--accent-wood);"></i> 韓國結算與消費小卡
-        </div>
-        <div class="korean-phrase-grid">
-          <div class="phrase-item">
-            <div>
-              <div class="phrase-zh">請分開刷卡/付帳</div>
-              <div class="phrase-kr">따로 계산해 주세요</div>
-              <div class="phrase-roma">Ttaro gyesan-hae juseyo</div>
-            </div>
-            <button class="copy-btn" onclick="copyText('따로 계산해 주세요')"><i class="fa-regular fa-copy"></i> 複製</button>
-          </div>
-          <div class="phrase-item">
-            <div>
-              <div class="phrase-zh">請給我收據 (退稅用)</div>
-              <div class="phrase-kr">영수증 주세요</div>
-              <div class="phrase-roma">Yeongsujeung juseyo</div>
-            </div>
-            <button class="copy-btn" onclick="copyText('영수증 주세요')"><i class="fa-regular fa-copy"></i> 複製</button>
-          </div>
-          <div class="phrase-item" style="grid-column: span 2;">
-            <div style="font-size: 11px; color: var(--text-sub);">
-              💡 <b>退稅小提醒：</b>單筆消費滿 <b>₩15,000</b> 即可現場或機場退稅，結帳時請出示護照！
-            </div>
-          </div>
-        </div>
+        <div style="font-size: 13px; font-weight: 600; opacity: 0.95; margin-bottom: 4px;">消費總金額</div>
+        <div style="font-size: 28px; font-weight: 700; margin-top: 2px;" id="total-expense">₩ 0</div>
+        <div style="font-size: 13px; opacity: 0.9; margin-top: 2px;" id="total-expense-twd">≈ NT$ 0</div>
       </div>
 
       <!-- 新增消費紀錄 -->
@@ -800,13 +679,6 @@
       }
       const twd = Math.round(num / EXCHANGE_RATE);
       hintElem.innerText = `台幣試算：≈ NT$ ${twd.toLocaleString()}`;
-    };
-
-    // 複製韓文文字
-    window.copyText = function(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert('已複製到剪貼簿：' + text);
-      });
     };
 
     const presetData = [
@@ -981,7 +853,7 @@
 
     window.goHome = function() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      switchTab('schedule', '釜山安妞   |   Hi BUSAN', document.getElementById('nav-schedule'));
+      switchTab('schedule', '釜山安妞  |  Hi BUSAN', document.getElementById('nav-schedule'));
     };
 
     let currentFilter = 'ALL';
@@ -1118,26 +990,21 @@
       }
     };
 
-    // Firebase 記帳即時監聽與 AA 分攤計算
+    // Firebase 記帳即時監聽
     onSnapshot(collection(db, "expenses"), (snapshot) => {
       const expensesList = document.getElementById('expenses-list');
       const totalElement = document.getElementById('total-expense');
       const totalTwdElement = document.getElementById('total-expense-twd');
-      const payerBreakdownList = document.getElementById('payer-breakdown-list');
-
+      
       expensesList.innerHTML = '';
       let total = 0;
-      let payerTotals = {}; // 用於統計每個人墊付的金額
 
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const docId = docSnap.id;
         total += data.amount;
 
-        // 統計各人總支出
         const pName = data.payer || '公款';
-        payerTotals[pName] = (payerTotals[pName] || 0) + data.amount;
-
         const itemTwd = Math.round(data.amount / EXCHANGE_RATE);
 
         const card = document.createElement('div');
@@ -1164,26 +1031,6 @@
       const totalTwd = Math.round(total / EXCHANGE_RATE);
       totalElement.innerText = `₩ ${total.toLocaleString()}`;
       totalTwdElement.innerText = `≈ NT$ ${totalTwd.toLocaleString()}`;
-
-      // 更新付款人 AA 統計看板
-      payerBreakdownList.innerHTML = '';
-      const payerKeys = Object.keys(payerTotals);
-      if (payerKeys.length === 0) {
-        payerBreakdownList.innerHTML = `<div style="font-size: 11px; opacity: 0.8;">尚無墊付紀錄</div>`;
-      } else {
-        payerKeys.forEach(name => {
-          const pAmount = payerTotals[name];
-          const pTwd = Math.round(pAmount / EXCHANGE_RATE);
-          const itemDiv = document.createElement('div');
-          itemDiv.className = 'payer-item';
-          itemDiv.innerHTML = `
-            <div class="payer-name">${name} 已墊付</div>
-            <div class="payer-amount">₩ ${pAmount.toLocaleString()}</div>
-            <div style="font-size: 10px; opacity: 0.85;">≈ NT$ ${pTwd.toLocaleString()}</div>
-          `;
-          payerBreakdownList.appendChild(itemDiv);
-        });
-      }
     });
   </script>
 </body>
