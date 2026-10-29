@@ -171,7 +171,6 @@
       );
     }
 
-    /* 兩側轉軸小卡榫 */
     .flip-card-wrapper::before,
     .flip-card-wrapper::after {
       content: '';
@@ -187,7 +186,6 @@
     .flip-card-wrapper::before { left: 0; }
     .flip-card-wrapper::after { right: 0; }
 
-    /* 上下固定面與動態葉片共同樣式 */
     .card-face {
       position: absolute;
       left: 0;
@@ -221,7 +219,6 @@
     .card-face.top span { transform: translateY(50%); }
     .card-face.bottom span { transform: translateY(-50%); }
 
-    /* 翻頁中的動態葉片 (完美解決多餘數字跑出問題) */
     .flip-card {
       position: absolute;
       top: 0;
@@ -409,6 +406,27 @@
       margin-bottom: 16px;
     }
 
+    .expense-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .expense-btn {
+      padding: 4px 10px;
+      font-size: 11px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-color);
+      cursor: pointer;
+      color: var(--text-sub);
+    }
+
+    .expense-btn.delete {
+      color: #E07A5F;
+      border-color: #FDE8E2;
+    }
+
     nav {
       position: fixed;
       bottom: 0;
@@ -463,7 +481,7 @@
         <div class="weather-temp">12°C</div>
       </div>
 
-      <!-- 3D 擬真絲滑翻頁倒數區塊 (已修復殘影) -->
+      <!-- 3D 擬真絲滑翻頁倒數區塊 -->
       <div class="teams-container">
         <!-- Team 1 -->
         <div class="team-card">
@@ -547,12 +565,12 @@
     <div id="tab-schedule" class="tab-content active">
       <div class="category-scroll">
         <button class="cat-btn active" onclick="filterCategory('ALL', this)">全部區塊</button>
-        <button class="cat-btn" onclick="filterCategory('A', this)">A. 松島/影島</button>
-        <button class="cat-btn" onclick="filterCategory('B', this)">B. 市場/南浦</button>
-        <button class="cat-btn" onclick="filterCategory('C', this)">C. 西面/田浦</button>
+        <button class="cat-btn" onclick="filterCategory('A', this)">A. 松島.影島</button>
+        <button class="cat-btn" onclick="filterCategory('B', this)">B. 市集.市場</button>
+        <button class="cat-btn" onclick="filterCategory('C', this)">C. 西面.田浦</button>
         <button class="cat-btn" onclick="filterCategory('D', this)">D. 廣安里</button>
         <button class="cat-btn" onclick="filterCategory('E', this)">E. 海雲台</button>
-        <button class="cat-btn" onclick="filterCategory('F', this)">F. 藍線海岸列車</button>
+        <button class="cat-btn" onclick="filterCategory('F', this)">F. 天空膠囊列車 & 海岸列車</button>
       </div>
 
       <div class="add-form">
@@ -571,7 +589,7 @@
       <div id="favorites-list"></div>
     </div>
 
-    <!-- 頁籤三：共用記帳 -->
+    <!-- 頁籤三：旅費管家 -->
     <div id="tab-expenses" class="tab-content">
       <div class="account-summary">
         <div style="font-size: 12px; opacity: 0.8;">旅程總公款花費 (KRW 韓元)</div>
@@ -583,7 +601,7 @@
         <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
         <input type="number" id="expense-amount" placeholder="金額 (KRW)">
         <input type="text" id="expense-payer" placeholder="付款人（例：Jessie）">
-        <button class="btn-submit" onclick="addExpense()">記一筆</button>
+        <button class="btn-submit" onclick="addExpense()">帳單確認</button>
       </div>
 
       <div id="expenses-list"></div>
@@ -600,16 +618,16 @@
       <i class="fa-solid fa-heart"></i>
       愛心收藏
     </button>
-    <button class="nav-item" onclick="switchTab('expenses', '💰 共用記帳', this)">
+    <button class="nav-item" onclick="switchTab('expenses', '💰 旅費管家', this)">
       <i class="fa-solid fa-wallet"></i>
-      旅伴記帳
+      旅費管家
     </button>
   </nav>
 
-  <!-- 邏輯與完美遮罩翻頁 JS -->
+  <!-- 邏輯與 Firebase 整合 JS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyArSoZq0ZMYSrt5oqb_E3uxP2iC...",
@@ -625,15 +643,17 @@
     const db = getFirestore(app);
 
     const presetData = [
+      // A 松島.影島
       { cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', tag: '必去景點', story: '跨越海港的透明水晶纜車，飽覽松島海灣景色。' },
       { cat: 'A', name: 'Songdo Sky Park', type: 'spot', tag: '景點故事', story: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋。' },
       { cat: 'A', name: '影島海女村', type: 'food', tag: '必吃美食', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯。坐在海邊大圓桶上享用現採海鮮。' },
       { cat: 'A', name: 'Having moment', type: 'food', tag: '海景咖啡', story: '位於影島白淺灘文化村的海景第一排質感咖啡廳。' },
       { cat: 'A', name: 'Burger Yo Busan', type: 'food', tag: '必吃美食', story: '必點：手工巨無霸漢堡，露天高層海景極佳。' },
-      { cat: 'A', name: 'THRILL ON THE MUG 海景咖啡', type: 'food', tag: '必去咖啡', story: '擁有階梯式海景座位與壯觀海景窗戶。' },
+      { cat: 'A', name: 'THRILL ON THE MUG 海景咖啡', type: 'food', tag: '海景咖啡', story: '擁有階梯式海景座位與壯觀海景窗戶。' },
       { cat: 'A', name: 'ATRE Museum Busan', type: 'spot', tag: '藝術展館', story: '光影藝術沉浸式展覽，拍照質感極高。' },
       { cat: 'A', name: '甘川文化村', type: 'spot', tag: '必去景點', story: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸。' },
 
+      // B 市集.市場
       { cat: 'B', name: '山青豬肉湯飯', type: 'food', tag: '必吃美食', story: '在地老字號湯飯，湯頭濃郁無腥味。' },
       { cat: 'B', name: '富平罐頭市場', type: 'spot', tag: '特色夜市', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞。' },
       { cat: 'B', name: '愉快的生拌牛肉', type: 'food', tag: '必點菜單', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵。' },
@@ -643,29 +663,60 @@
       { cat: 'B', name: '札嘎其市場', type: 'spot', tag: '海鮮市場', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理。' },
       { cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', tag: '在地市場', story: '在地人偏愛的海鮮綜合市場，價格實惠。' },
 
+      // C 西面.田浦
       { cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', tag: '必吃美食', story: '廣安里名店分店，薄切豬肉片湯飯極讚。' },
       { cat: 'C', name: '安木 西面店', type: 'food', tag: '必點菜單', story: '精緻韓定食與特色熟成肉料理。' },
+      { cat: 'C', name: '세든 365약국 藥局', type: 'spot', tag: '藥局採買', story: '西面便利藥局，常備藥與保健品採買好去處。' },
       { cat: 'C', name: '돼지나무 사랑엄청난 서면 본점 燒肉', type: 'food', tag: '必吃燒肉', story: '西面人氣黑豬肉專賣店。' },
       { cat: 'C', name: '烤肉的男子 西面店', type: 'food', tag: '必點菜單', story: '桌邊專人幫烤，五花肉與豬頸肉極度優質。' },
       { cat: 'C', name: 'Poset Jeonpo 明信片', type: 'spot', tag: '文具文創', story: '田浦咖啡街必逛質感明信片文創選物店。' },
+      { cat: 'C', name: '老宅邸 燒肉', type: 'food', tag: '特色燒肉', story: '充滿復古老宅氛圍的高質感燒肉店。' },
+      { cat: 'C', name: 'Solsot 西面店 燒肉', type: 'food', tag: '人氣釜飯', story: '精緻韓式釜飯，拌入特製醬汁與鍋巴湯。' },
       { cat: 'C', name: 'PURADAK炸雞', type: 'food', tag: '必點菜單', story: '精品級黑色包裝炸雞，必點：青辣椒蛋黃醬炸雞。' },
+      { cat: 'C', name: 'moody bread market 咖啡&麵包', type: 'food', tag: '咖啡麵包', story: '田浦質感烘焙坊，各式新鮮出爐歐式麵包。' },
+      { cat: 'C', name: 'Pot of busan 甜點', type: 'food', tag: '精緻甜點', story: '特色造型甜點與午茶好去處。' },
+      { cat: 'C', name: 'Strut Coffee', type: 'food', tag: '精品咖啡', story: '極簡工業風咖啡廳，手沖與拿鐵表現極佳。' },
       { cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', tag: '世界冠軍', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖。' },
 
+      // D 廣安里
       { cat: 'D', name: '五六島天空步道', type: 'spot', tag: '絕景步道', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖。' },
       { cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', tag: '米其林必比登', story: '米其林推薦高質感湯飯，清爽極致。' },
+      { cat: 'D', name: 'Momos Coffee - Dorunheon', type: 'food', tag: '質感咖啡', story: 'Momos 咖啡廣안리/도런헌 分店，環境清幽雅緻。' },
+      { cat: 'D', name: '烤肉的男子 廣安里店', type: 'food', tag: '海景燒肉', story: '享受美味專人代烤肉品同時欣賞廣安里海景。' },
+      { cat: 'D', name: '釜飯', type: 'food', tag: '特色料理', story: '廣安里在地高評價精緻釜飯料理。' },
+      { cat: 'D', name: 'Ancien 咖啡&麵包', type: 'food', tag: '烘焙咖啡', story: '香氣四溢的手工麵包與舒適咖啡空間。' },
+      { cat: 'D', name: 'La Mia Estate 義式冰淇淋', type: 'food', tag: '義式冰淇淋', story: '香濃滑順的義式手工 Gelato 冰淇淋。' },
+      { cat: 'D', name: 'All Sunday', type: 'food', tag: '早午餐咖啡', story: '廣安里人氣打卡早午餐與咖啡烘焙坊。' },
       { cat: 'D', name: '廣安里 M 無人機燈光秀', type: 'spot', tag: '重要時刻', story: '每週六晚上限定的廣安大橋無人機燈光演出。' },
+      { cat: 'D', name: '고하순 광안직영점 燒肉', type: 'food', tag: '人氣燒肉', story: '廣安里直營極品熟成烤肉專賣店。' },
       { cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', tag: '必去汗蒸幕', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕。' },
 
+      // E 海雲台
       { cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', tag: '必吃燒肉', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳。' },
       { cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', tag: '排隊名店', story: '分為釜山式濃湯與密陽式清湯兩種風格。' },
-      { cat: 'E', name: 'Jayeondo Sogeumppang 鹽可頌', type: 'food', tag: '必買伴手禮', story: '自然島鹽可頌，每天出爐四次排隊名店。' },
+      { cat: 'E', name: 'Busandang 紅豆麵包', type: 'food', tag: '傳統糕點', story: '香甜濃郁的經典紅豆麵包與伴手禮。' },
+      { cat: 'E', name: '螞蟻家辣炒章魚', type: 'food', tag: '必吃名店', story: '招牌牛腸炒章魚蝦仁（낙곱새），拌飯一流。' },
+      { cat: 'E', name: '海雲台傳統市場', type: 'spot', tag: '傳統市場', story: '充滿在地小吃、海鮮與糖餅的熱鬧市集。' },
+      { cat: 'E', name: 'Haeundae 31cm Haemul Kalguksu', type: 'food', tag: '貝類刀削麵', story: '滿滿超澎湃 31cm 綜合貝類海鮮刀削麵。' },
+      { cat: 'E', name: 'Jayeondo Sogeumppang & Jayeondohae', type: 'food', tag: '必買伴手禮', story: '自然島鹽可頌，外酥內軟每天排隊名店。' },
+      { cat: 'E', name: '오브봔 ovone水果蛋糕', type: 'food', tag: '精緻甜點', story: '精緻美味的季節水果蛋糕與午茶甜點。' },
+      { cat: 'E', name: 'Miffy 專門店', type: 'spot', tag: '療癒周邊', story: '可愛的米飛兔官方授權專賣店與選物。' },
+      { cat: 'E', name: '水邊豬肉湯飯', type: 'food', tag: '人氣湯飯', story: '海雲台分店，濃郁順口的在地好滋味。' },
 
+      // F 天空膠囊列車 & 海岸列車
       { cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', tag: '重要預約', story: '天空膠囊列車搭乘區間，預約號碼請提早確認。' },
-      { cat: 'F', name: '青沙浦紅白雙燈塔', type: 'spot', tag: '打卡景點', story: '經典韓劇經典造景，紅白燈塔映襯海景。' },
-      { cat: 'F', name: 'Chuplus 松亭店 吉拿棒', type: 'food', tag: '必吃甜點', story: '現炸香酥吉拿棒佐濃郁冰淇淋。' }
+      { cat: 'F', name: 'TIDE Coffee Roasters', type: 'food', tag: '海景咖啡', story: '青沙浦海景第一排的精品烘焙咖啡館。' },
+      { cat: 'F', name: 'Edge 993', type: 'food', tag: '景觀咖啡', story: '擁有超棒頂樓露台，眺望海岸列車與海景。' },
+      { cat: 'F', name: 'CHU PLUS 松亭店', type: 'food', tag: '特色甜點', story: '松亭海灘旁的美味吉拿棒專賣店。' },
+      { cat: 'F', name: 'Sky Capsule 青沙浦站', type: 'spot', tag: '交通景點', story: '天空膠囊列車青沙浦端搭乘與拍照熱點。' },
+      { cat: 'F', name: 'Blue line park 青沙浦站', type: 'spot', tag: '藍線公園', story: '海岸列車與步道交會的重要據點。' },
+      { cat: 'F', name: '青沙浦紅白雙燈塔', type: 'spot', tag: '打卡景點', story: '經典韓劇造景，紅白燈塔映襯海景。' },
+      { cat: 'F', name: '青沙浦踏石瞭望臺', type: 'spot', tag: '海上步道', story: '透明玻璃天空步道，感受懸空看海的刺激。' },
+      { cat: 'F', name: 'Chuplus 松亭店 吉拿棒', type: 'food', tag: '必吃甜點', story: '現炸香酥吉拿棒佐濃郁冰淇淋。' },
+      { cat: 'F', name: 'Skyline Luge Busan', type: 'spot', tag: '極速滑車', story: '釜山斜坡滑車，驚險刺激適合結伴同遊。' }
     ];
 
-    // --- 完美遮罩的 3D 翻頁核心 ---
+    // 翻頁鐘邏輯
     function updateFlipCard(unitElem, newValue) {
       const formattedValue = String(newValue).padStart(2, '0');
       const topFace = unitElem.querySelector('.card-face.top span');
@@ -801,6 +852,7 @@
       document.getElementById('schedule-note').value = '';
     };
 
+    // 新增記帳
     window.addExpense = async function() {
       const item = document.getElementById('expense-item').value;
       const amount = Number(document.getElementById('expense-amount').value);
@@ -816,6 +868,27 @@
       document.getElementById('expense-payer').value = '';
     };
 
+    // 刪除記帳
+    window.deleteExpense = async function(docId) {
+      if (confirm('確定要刪除這筆帳單嗎？')) {
+        await deleteDoc(doc(db, "expenses", docId));
+      }
+    };
+
+    // 修改記帳金額
+    window.editExpenseAmount = async function(docId, currentAmount) {
+      const newAmountStr = prompt('請輸入修改後的金額 (KRW):', currentAmount);
+      if (newAmountStr !== null) {
+        const newAmount = Number(newAmountStr);
+        if (isNaN(newAmount) || newAmount <= 0) {
+          return alert('請輸入有效的數字金額！');
+        }
+        await updateDoc(doc(db, "expenses", docId), {
+          amount: newAmount
+        });
+      }
+    };
+
     onSnapshot(collection(db, "expenses"), (snapshot) => {
       const expensesList = document.getElementById('expenses-list');
       const totalElement = document.getElementById('total-expense');
@@ -824,6 +897,7 @@
 
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
+        const docId = docSnap.id;
         total += data.amount;
 
         const card = document.createElement('div');
@@ -834,6 +908,10 @@
             <span style="color:var(--tag-food); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
           </div>
           <div style="font-size:12px; color:var(--text-sub); margin-top:4px;">💳 付款人：${data.payer}</div>
+          <div class="expense-actions">
+            <button class="expense-btn" onclick="editExpenseAmount('${docId}', ${data.amount})"><i class="fa-solid fa-pen"></i> 修改金額</button>
+            <button class="expense-btn delete" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
+          </div>
         `;
         expensesList.appendChild(card);
       });
