@@ -421,6 +421,16 @@
       margin-bottom: 16px;
     }
 
+    .rate-tag {
+      font-size: 11px;
+      opacity: 0.85;
+      margin-top: 6px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
     .expense-actions {
       display: flex;
       gap: 8px;
@@ -501,9 +511,9 @@
       <div class="weather-box">
         <div>
           <div style="font-size: 12px; color: var(--text-sub);">釜山今日天氣</div>
-          <div style="font-size: 14px; font-weight: 500; margin-top:2px;">多雲晴朗 🌤️</div>
+          <div style="font-size: 14px; font-weight: 500; margin-top:2px;" id="weather-text">載入天氣中... 🌤️</div>
         </div>
-        <div class="weather-temp">12°C</div>
+        <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
       <!-- 3D 擬真絲滑翻頁倒數區塊 -->
@@ -613,6 +623,7 @@
         <div style="font-size: 13px; font-weight: 600; opacity: 0.95; margin-bottom: 4px;">消費總金額</div>
         <div style="font-size: 28px; font-weight: 700; margin-top: 2px;" id="total-expense">₩ 0</div>
         <div style="font-size: 13px; opacity: 0.9; margin-top: 2px;" id="total-expense-twd">≈ NT$ 0</div>
+        <div class="rate-tag" id="current-rate-info">🔄 載入即時匯率中...</div>
       </div>
 
       <!-- 新增消費紀錄 -->
@@ -667,8 +678,55 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 匯率設定：1 台幣約合 42.5 韓元
-    const EXCHANGE_RATE = 42.5;
+    // 預設匯率 (備用)：1 台幣約合 41.5 韓元
+    let EXCHANGE_RATE = 41.5;
+    let latestExpensesData = []; // 暫存 Firebase 快照
+
+    // 1. 自動連動最新台幣對韓元匯率 API
+    async function fetchLiveExchangeRate() {
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/TWD');
+        const data = await res.json();
+        if (data && data.rates && data.rates.KRW) {
+          EXCHANGE_RATE = data.rates.KRW;
+          const rateText = `💱 當日即時匯率：1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW`;
+          document.getElementById('current-rate-info').innerText = rateText;
+          renderExpensesUI(); // 重新依照即時匯率計算總額
+        }
+      } catch (err) {
+        document.getElementById('current-rate-info').innerText = `💱 匯率連動中：1 TWD ≈ ${EXCHANGE_RATE} KRW`;
+      }
+    }
+    fetchLiveExchangeRate();
+
+    // 2. 自動連動釜山 (Busan) 當日氣象 API
+    async function fetchBusanWeather() {
+      try {
+        const busanLat = 35.1796;
+        const busanLon = 129.0756;
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${busanLat}&longitude=${busanLon}&current_weather=true`);
+        const data = await res.json();
+        
+        if (data && data.current_weather) {
+          const temp = Math.round(data.current_weather.temperature);
+          const code = data.current_weather.weathercode;
+          
+          let weatherDesc = "晴朗 ☀️";
+          if (code === 1 || code === 2) weatherDesc = "多雲晴朗 🌤️";
+          else if (code === 3) weatherDesc = "陰天 ☁️";
+          else if (code >= 45 && code <= 48) weatherDesc = "有霧 🌫️";
+          else if (code >= 51 && code <= 67) weatherDesc = "有雨 🌧️";
+          else if (code >= 71) weatherDesc = "降雪 ❄️";
+
+          document.getElementById('weather-temp').innerText = `${temp}°C`;
+          document.getElementById('weather-text').innerText = `${weatherDesc}`;
+        }
+      } catch (err) {
+        document.getElementById('weather-temp').innerText = "12°C";
+        document.getElementById('weather-text').innerText = "多雲晴朗 🌤️";
+      }
+    }
+    fetchBusanWeather();
 
     window.updateTwdHint = function(val) {
       const hintElem = document.getElementById('twd-conversion-hint');
@@ -990,16 +1048,17 @@
       }
     };
 
-    // Firebase 記帳即時監聽
-    onSnapshot(collection(db, "expenses"), (snapshot) => {
+    // 渲染記帳清單與計算總額
+    function renderExpensesUI() {
       const expensesList = document.getElementById('expenses-list');
       const totalElement = document.getElementById('total-expense');
       const totalTwdElement = document.getElementById('total-expense-twd');
       
+      if (!expensesList) return;
       expensesList.innerHTML = '';
       let total = 0;
 
-      snapshot.forEach((docSnap) => {
+      latestExpensesData.forEach((docSnap) => {
         const data = docSnap.data();
         const docId = docSnap.id;
         total += data.amount;
@@ -1031,6 +1090,12 @@
       const totalTwd = Math.round(total / EXCHANGE_RATE);
       totalElement.innerText = `₩ ${total.toLocaleString()}`;
       totalTwdElement.innerText = `≈ NT$ ${totalTwd.toLocaleString()}`;
+    }
+
+    // Firebase 記帳即時監聽
+    onSnapshot(collection(db, "expenses"), (snapshot) => {
+      latestExpensesData = snapshot.docs;
+      renderExpensesUI();
     });
   </script>
 </body>
