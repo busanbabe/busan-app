@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>釜山自由行手冊</title>
+  <title>釜山自由行手冊 | Busan Travel Guide</title>
   
   <!-- iOS PWA 設定 -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="釜山之旅">
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/201/201623.png">
   
@@ -16,28 +16,33 @@
 
   <style>
     :root {
-      --primary-color: #007AFF;
-      --bg-color: #F2F2F7;
+      --bg-color: #F7F6F2;
       --card-bg: #FFFFFF;
-      --text-main: #1C1C1E;
-      --text-sub: #8E8E93;
-      --accent-red: #FF3B30;
-      --accent-green: #34C759;
+      --text-main: #2C2C2A;
+      --text-sub: #787774;
+      --accent-wood: #8C7A6B;
+      --accent-soft-blue: #5B8296;
+      --tag-food: #E07A5F;
+      --tag-spot: #3D405B;
+      --tag-buy: #81B29A;
+      --tag-story: #F2CC8F;
+      --border-color: #E8E6E1;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
-      padding-bottom: 90px;
+      padding-bottom: 95px;
       padding-top: env(safe-area-inset-top);
+      letter-spacing: 0.3px;
     }
 
     header {
@@ -46,15 +51,16 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     header h1 {
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-main);
     }
 
     .container {
@@ -71,99 +77,210 @@
       display: block;
     }
 
-    /* 卡片通用樣式 */
-    .card {
+    /* 天氣與倒數卡片 (日式簡約風格) */
+    .hero-card {
       background: var(--card-bg);
       border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-      position: relative;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
     }
 
-    .card-header {
+    .weather-box {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px dashed var(--border-color);
     }
 
-    .card-title {
-      font-size: 17px;
+    .weather-temp {
+      font-size: 22px;
       font-weight: 600;
+      color: var(--accent-soft-blue);
     }
 
-    .card-desc {
-      font-size: 14px;
-      color: var(--text-sub);
-      margin-bottom: 8px;
-    }
-
-    /* 愛心與刪除按鈕 */
-    .action-btns {
+    .countdown-section {
       display: flex;
-      gap: 12px;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .timer-card {
+      flex: 1;
+      background: var(--bg-color);
+      padding: 10px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .timer-card .team-name {
+      font-size: 11px;
+      color: var(--text-sub);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .timer-display {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-wood);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 分類頁籤按鈕 */
+    .category-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      scrollbar-width: none;
+    }
+
+    .category-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-btn {
+      white-space: nowrap;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      font-size: 13px;
+      color: var(--text-sub);
+      cursor: pointer;
+    }
+
+    .cat-btn.active {
+      background: var(--accent-wood);
+      color: white;
+      border-color: var(--accent-wood);
+    }
+
+    /* 景點與美食卡片 */
+    .item-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .item-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
     }
 
     .icon-btn {
       background: none;
       border: none;
-      font-size: 18px;
+      font-size: 16px;
+      color: #C5C5C0;
       cursor: pointer;
-      color: var(--text-sub);
     }
 
     .icon-btn.active-heart {
-      color: var(--accent-red);
+      color: #E07A5F;
     }
 
-    /* 新增表單 */
+    /* 標籤 Tag 風格 */
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .tag-food { background: #FDE8E2; color: var(--tag-food); }
+    .tag-spot { background: #E8EBF0; color: var(--tag-spot); }
+    .tag-buy  { background: #E8F3EE; color: #2D6A4F; }
+    .tag-story { background: #FEF5E7; color: #B57A12; }
+
+    .story-box {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-top: 6px;
+      background: var(--bg-color);
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+
+    .map-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: #F0EDE6;
+      color: var(--accent-wood);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* 記帳與表單簡約化 */
     .add-form {
       background: var(--card-bg);
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
     }
 
-    .add-form input, .add-form select {
+    .add-form input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 10px;
-      border: 1px solid #E5E5EA;
-      border-radius: 10px;
-      font-size: 15px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 14px;
+      background: var(--bg-color);
     }
 
     .btn-submit {
       width: 100%;
-      background: var(--primary-color);
+      background: var(--accent-wood);
       color: white;
       border: none;
-      padding: 12px;
-      border-radius: 10px;
-      font-size: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
     }
 
-    /* 記帳統計資訊 */
     .account-summary {
-      background: linear-gradient(135deg, #007AFF, #5856D6);
+      background: var(--accent-wood);
       color: white;
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: 14px;
+      padding: 18px;
       margin-bottom: 16px;
-    }
-
-    .account-summary h3 {
-      font-size: 14px;
-      opacity: 0.8;
-    }
-
-    .account-summary .total-amount {
-      font-size: 28px;
-      font-weight: 700;
-      margin: 8px 0;
     }
 
     /* 底部導覽列 */
@@ -172,12 +289,12 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       display: flex;
       justify-content: space-around;
       padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
-      border-top: 0.5px solid rgba(0,0,0,0.1);
+      border-top: 1px solid var(--border-color);
       z-index: 100;
     }
 
@@ -194,57 +311,95 @@
     }
 
     .nav-item i {
-      font-size: 20px;
-      margin-bottom: 4px;
+      font-size: 18px;
+      margin-bottom: 3px;
     }
 
     .nav-item.active {
-      color: var(--primary-color);
+      color: var(--accent-wood);
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1 id="page-title">📅 動態行程</h1>
+    <h1 id="page-title">釜山旅覽 | BUSAN</h1>
+    <span style="font-size: 12px; color: var(--text-sub);">2026 WINTER</span>
   </header>
 
   <div class="container">
-    <!-- 頁籤一：行程管理 -->
-    <div id="tab-schedule" class="tab-content active">
-      <div class="add-form">
-        <h3>新增行程 / 景點</h3>
-        <input type="text" id="schedule-title" placeholder="景點或活動名稱（例：海雲台膠囊列車）" style="margin-top: 10px;">
-        <input type="text" id="schedule-time" placeholder="時間（例：Day 1 14:00）">
-        <input type="text" id="schedule-note" placeholder="備註（例：預約號碼 #1234）">
-        <button class="btn-submit" onclick="addSchedule()">新增至行程</button>
+    <!-- 頂部資訊卡：天氣與雙團隊倒數 -->
+    <div class="hero-card">
+      <div class="weather-box">
+        <div>
+          <div style="font-size: 12px; color: var(--text-sub);">🇰🇷 釜山當前天氣</div>
+          <div style="font-size: 14px; font-weight: 500; margin-top:2px;">多雲晴朗 🌤️</div>
+        </div>
+        <div class="weather-temp">12°C</div>
       </div>
 
+      <div class="countdown-section">
+        <div class="timer-card">
+          <div class="team-name">TEAM 1 到達 (12/27)</div>
+          <div class="timer-display" id="timer-team1">00天 00:00:00</div>
+        </div>
+        <div class="timer-card">
+          <div class="team-name">TEAM 2 到達 (12/31)</div>
+          <div class="timer-display" id="timer-team2">00天 00:00:00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 頁籤一：完整行程/景點總覽 -->
+    <div id="tab-schedule" class="tab-content active">
+      
+      <!-- 區域過濾按鈕 -->
+      <div class="category-scroll">
+        <button class="cat-btn active" onclick="filterCategory('ALL', this)">全部區塊</button>
+        <button class="cat-btn" onclick="filterCategory('A', this)">A. 松島/影島</button>
+        <button class="cat-btn" onclick="filterCategory('B', this)">B. 市場/南浦</button>
+        <button class="cat-btn" onclick="filterCategory('C', this)">C. 西面/田浦</button>
+        <button class="cat-btn" onclick="filterCategory('D', this)">D. 廣安里</button>
+        <button class="cat-btn" onclick="filterCategory('E', this)">E. 海雲台</button>
+        <button class="cat-btn" onclick="filterCategory('F', this)">F. 藍線海岸列車</button>
+      </div>
+
+      <!-- 新增自訂景點表單 -->
+      <div class="add-form">
+        <h3 style="font-size: 14px; margin-bottom: 8px;">＋ 新增自訂景點或筆記</h3>
+        <input type="text" id="schedule-title" placeholder="地點或名稱（例：甘川洞彩虹階梯）">
+        <input type="text" id="schedule-time" placeholder="預計時間或類別">
+        <input type="text" id="schedule-note" placeholder="備註筆記">
+        <button class="btn-submit" onclick="addSchedule()">加入行程清單</button>
+      </div>
+
+      <!-- 景點與美食列表 -->
       <div id="schedule-list">
-        <!-- 動態行程載入區 -->
+        <!-- 系統自動渲染景點列表 -->
       </div>
     </div>
 
     <!-- 頁籤二：愛心收藏 -->
     <div id="tab-favorites" class="tab-content">
       <div id="favorites-list">
-        <!-- 收藏清單載入區 -->
+        <!-- 愛心收藏載入區 -->
       </div>
     </div>
 
     <!-- 頁籤三：共用記帳 -->
     <div id="tab-expenses" class="tab-content">
       <div class="account-summary">
-        <h3>旅程總花費 (KRW 韓元)</h3>
-        <div class="total-amount" id="total-expense">₩ 0</div>
+        <div style="font-size: 12px; opacity: 0.8;">旅程總公款花費 (KRW 韓元)</div>
+        <div style="font-size: 26px; font-weight: 700; margin-top: 4px;" id="total-expense">₩ 0</div>
       </div>
 
       <div class="add-form">
-        <h3>新增消費紀錄</h3>
-        <input type="text" id="expense-item" placeholder="品項（例：烤肉晚餐）" style="margin-top: 10px;">
+        <h3 style="font-size: 14px; margin-bottom: 8px;">新增消費紀錄</h3>
+        <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
         <input type="number" id="expense-amount" placeholder="金額 (KRW)">
         <input type="text" id="expense-payer" placeholder="付款人（例：Jessie）">
-        <button class="btn-submit" onclick="addExpense()" style="background-color: var(--accent-green);">新增記帳</button>
+        <button class="btn-submit" onclick="addExpense()">記一筆</button>
       </div>
 
       <div id="expenses-list">
@@ -255,55 +410,174 @@
 
   <!-- 底部導覽列 -->
   <nav>
-    <button class="nav-item active" onclick="switchTab('schedule', '📅 動態行程', this)">
-      <i class="fa-solid fa-calendar-days"></i>
-      行程
+    <button class="nav-item active" onclick="switchTab('schedule', '釜山旅覽 | BUSAN', this)">
+      <i class="fa-solid fa-compass"></i>
+      行程導覽
     </button>
     <button class="nav-item" onclick="switchTab('favorites', '❤️ 愛心收藏', this)">
       <i class="fa-solid fa-heart"></i>
-      收藏
+      愛心收藏
     </button>
     <button class="nav-item" onclick="switchTab('expenses', '💰 共用記帳', this)">
       <i class="fa-solid fa-wallet"></i>
-      記帳
+      旅伴記帳
     </button>
   </nav>
 
-  <!-- Firebase 載入與邏輯 -->
+  <!-- 景點資料資料庫與 Firebase 邏輯 -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 你的 Firebase 金鑰設定
+    // 完整的 Firebase 金鑰
     const firebaseConfig = {
       apiKey: "AIzaSyArSoZq0ZMYSrt5oqb_E3uxP2iC...",
       authDomain: "busan-app-1a910.firebaseapp.com",
       projectId: "busan-app-1a910",
       storageBucket: "busan-app-1a910.firebasestorage.app",
       messagingSenderId: "48335271845",
-      appId: "1:48335271845:web:9aca079ac5943ff..."
+      appId: "1:48335271845:web:9aca079ac5943ff...",
+      measurementId: "G-7HBZZ7H72Z"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 切換分頁
+    // A~F 區塊內建豐富景點庫
+    const presetData = [
+      // A 松島.影島
+      { cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', tag: '必去景點', story: '跨越海港的透明水晶纜車，飽覽松島海灣景色。' },
+      { cat: 'A', name: 'Songdo Sky Park', type: 'spot', tag: '景點故事', story: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋。' },
+      { cat: 'A', name: '影島海女村', type: 'food', tag: '必吃美食', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯。坐在海邊大圓桶上享用現採海鮮。' },
+      { cat: 'A', name: 'Having moment', type: 'food', tag: '海景咖啡', story: '位於影島白淺灘文化村的海景第一排質感咖啡廳。' },
+      { cat: 'A', name: 'Burger Yo Busan', type: 'food', tag: '必吃美食', story: '必點：手工巨無霸漢堡，露天高層海景極佳。' },
+      { cat: 'A', name: 'THRILL ON THE MUG 海景咖啡', type: 'food', tag: '必去咖啡', story: '擁有階梯式海景座位與壯觀海景窗戶。' },
+      { cat: 'A', name: 'ATRE Museum Busan', type: 'spot', tag: '藝術展館', story: '光影藝術沉浸式展覽，拍照質感極高。' },
+      { cat: 'A', name: '甘川文化村', type: 'spot', tag: '必去景點', story: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸。' },
+
+      // B 市集.市場
+      { cat: 'B', name: '山青豬肉湯飯', type: 'food', tag: '必吃美食', story: '在地老字號湯飯，湯頭濃郁無腥味。' },
+      { cat: 'B', name: '富平罐頭市場', type: 'spot', tag: '特色夜市', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞。' },
+      { cat: 'B', name: '愉快的生拌牛肉', type: 'food', tag: '必點菜單', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵。' },
+      { cat: 'B', name: '國際市場', type: 'spot', tag: '伴手禮', story: '歷史悠久的大型傳統市場，購買雜貨與伴手禮好去處。' },
+      { cat: 'B', name: 'BIFF 廣場', type: 'spot', tag: '必吃小吃', story: '必吃：黑糖餅（堅果黑糖餡）。' },
+      { cat: 'B', name: 'Olive Young gwangbok town', type: 'spot', tag: '必買彩妝', story: '光復路旗艦店，品項最齊全的美妝護膚天堂。' },
+      { cat: 'B', name: '札嘎其市場', type: 'spot', tag: '海鮮市場', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理。' },
+      { cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', tag: '在地市場', story: '在地人偏愛的海鮮綜合市場，價格實惠。' },
+
+      // C 西面.田浦
+      { cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', tag: '必吃美食', story: '廣安里名店分店，薄切豬肉片湯飯極讚。' },
+      { cat: 'C', name: '安木 西面店', type: 'food', tag: '必點菜單', story: '精緻韓定食與特色熟成肉料理。' },
+      { cat: 'C', name: '돼지나무 사랑엄청난 서면 본점 燒肉', type: 'food', tag: '必吃燒肉', story: '西面人氣黑豬肉專賣店。' },
+      { cat: 'C', name: '烤肉的男子 西面店', type: 'food', tag: '必點菜單', story: '桌邊專人幫烤，五花肉與豬頸肉極度優質。' },
+      { cat: 'C', name: 'Poset Jeonpo 明信片', type: 'spot', tag: '文具文創', story: '田浦咖啡街必逛質感明信片文創選物店。' },
+      { cat: 'C', name: 'PURADAK炸雞', type: 'food', tag: '必點菜單', story: '精品級黑色包裝炸雞，必點：青辣椒蛋黃醬炸雞。' },
+      { cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', tag: '世界冠軍', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖。' },
+
+      // D 廣安里
+      { cat: 'D', name: '五六島天空步道', type: 'spot', tag: '絕景步道', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖。' },
+      { cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', tag: '米其林必比登', story: '米其林推薦高質感湯飯，清爽極致。' },
+      { cat: 'D', name: '廣安里 M 無人機燈光秀', type: 'spot', tag: '重要時刻', story: '每週六晚上限定的廣安大橋無人機燈光演出。' },
+      { cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', tag: '必去汗蒸幕', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕。' },
+
+      // E 海雲台
+      { cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', tag: '必吃燒肉', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳。' },
+      { cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', tag: '排隊名店', story: '分為釜山式濃湯與密陽式清湯兩種風格。' },
+      { cat: 'E', name: 'Jayeondo Sogeumppang 鹽可頌', type: 'food', tag: '必買伴手禮', story: '自然島鹽可頌，每天出爐四次排隊名店。' },
+
+      // F 海雲台 天空膠囊列車 & 海岸列車
+      { cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', tag: '重要預約', story: '天空膠囊列車搭乘區間，預約號碼請提早確認。' },
+      { cat: 'F', name: '青沙浦紅白雙燈塔', type: 'spot', tag: '打卡景點', story: '經典韓劇經典造景，紅白燈塔映襯海景。' },
+      { cat: 'F', name: 'Chuplus 松亭店 吉拿棒', type: 'food', tag: '必吃甜點', story: '現炸香酥吉拿棒佐濃郁冰淇淋。' }
+    ];
+
+    // 倒數計時器邏輯 (Team1: 12/27, Team2: 12/31)
+    function startCountdowns() {
+      const year = 2026; // 自動抓取 2026 年底
+      const t1Date = new Date(`${year}-12-27T00:00:00`);
+      const t2Date = new Date(`${year}-12-31T00:00:00`);
+
+      function update() {
+        const now = new Date();
+        
+        function format(diff) {
+          if (diff <= 0) return "已到達！🎉";
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
+          const mins = Math.floor((diff / 1000 / 60) % 60).toString().padStart(2, '0');
+          const secs = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
+          return `${days}天 ${hrs}:${mins}:${secs}`;
+        }
+
+        document.getElementById('timer-team1').innerText = format(t1Date - now);
+        document.getElementById('timer-team2').innerText = format(t2Date - now);
+      }
+      setInterval(update, 1000);
+      update();
+    }
+    startCountdowns();
+
+    // 分頁切換
     window.switchTab = function(tabId, title, btnElement) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      
       document.getElementById('tab-' + tabId).classList.add('active');
       document.getElementById('page-title').innerText = title;
       btnElement.classList.add('active');
     };
 
-    // 1. 行程邏輯
+    // 類別過濾
+    let currentFilter = 'ALL';
+    window.filterCategory = function(cat, btn) {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = cat;
+      renderScheduleList();
+    };
+
+    // 渲染景點列表
+    function renderScheduleList() {
+      const scheduleList = document.getElementById('schedule-list');
+      scheduleList.innerHTML = '';
+
+      const filtered = currentFilter === 'ALL' 
+        ? presetData 
+        : presetData.filter(i => i.cat === currentFilter);
+
+      filtered.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}`;
+        
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="item-title">${item.name}</div>
+            <div class="card-actions">
+              <button class="icon-btn" onclick="toggleLocalFavorite(${index}, this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+          </div>
+          <div class="tag-container">
+            <span class="tag ${item.type === 'food' ? 'tag-food' : 'tag-spot'}">${item.tag}</span>
+          </div>
+          <div class="story-box">${item.story}</div>
+          <a href="${mapUrl}" target="_blank" class="map-btn">
+            <i class="fa-solid fa-location-dot"></i> Google Maps 導航
+          </a>
+        `;
+        scheduleList.appendChild(card);
+      });
+    }
+
+    renderScheduleList();
+
+    // 愛心與記帳雲端連動 (Firebase Firestore)
     window.addSchedule = async function() {
       const title = document.getElementById('schedule-title').value;
       const time = document.getElementById('schedule-time').value;
       const note = document.getElementById('schedule-note').value;
-
-      if (!title) return alert('請輸入名稱！');
+      if (!title) return alert('請輸入景點名稱！');
 
       await addDoc(collection(db, "schedules"), {
         title, time, note, isFavorite: false, createdAt: Date.now()
@@ -314,70 +588,15 @@
       document.getElementById('schedule-note').value = '';
     };
 
-    // 實時同步行程與收藏
-    onSnapshot(collection(db, "schedules"), (snapshot) => {
-      const scheduleList = document.getElementById('schedule-list');
-      const favoritesList = document.getElementById('favorites-list');
-      
-      scheduleList.innerHTML = '';
-      favoritesList.innerHTML = '';
-
-      snapshot.forEach((docSnap) => {
-        const item = docSnap.data();
-        const id = docSnap.id;
-
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-header">
-            <div class="card-title">${item.title}</div>
-            <div class="action-btns">
-              <button class="icon-btn ${item.isFavorite ? 'active-heart' : ''}" onclick="toggleFavorite('${id}', ${item.isFavorite})">
-                <i class="fa-${item.isFavorite ? 'solid' : 'regular'} fa-heart"></i>
-              </button>
-              <button class="icon-btn" onclick="deleteItem('schedules', '${id}')">
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </div>
-          <div class="card-desc">⏰ ${item.time || '未指定時間'}</div>
-          ${item.note ? `<div class="card-desc">📝 ${item.note}</div>` : ''}
-        `;
-
-        scheduleList.appendChild(card);
-
-        if (item.isFavorite) {
-          favoritesList.appendChild(card.cloneNode(true));
-        }
-      });
-
-      if (favoritesList.innerHTML === '') {
-        favoritesList.innerHTML = '<p style="text-align:center; color:var(--text-sub); padding:20px;">尚無收藏的景點 ❤️</p>';
-      }
-    });
-
-    // 切換愛心收藏狀態
-    window.toggleFavorite = async function(id, currentStatus) {
-      await updateDoc(doc(db, "schedules", id), { isFavorite: !currentStatus });
-    };
-
-    // 刪除項目
-    window.deleteItem = async function(collectionName, id) {
-      if (confirm('確定要刪除嗎？')) {
-        await deleteDoc(doc(db, collectionName, id));
-      }
-    };
-
-    // 2. 記帳邏輯
+    // 記帳邏輯
     window.addExpense = async function() {
       const item = document.getElementById('expense-item').value;
       const amount = Number(document.getElementById('expense-amount').value);
       const payer = document.getElementById('expense-payer').value;
-
       if (!item || !amount) return alert('請填寫品項與金額！');
 
       await addDoc(collection(db, "expenses"), {
-        item, amount, payer: payer || '共同', createdAt: Date.now()
+        item, amount, payer: payer || '公款', createdAt: Date.now()
       });
 
       document.getElementById('expense-item').value = '';
@@ -385,32 +604,25 @@
       document.getElementById('expense-payer').value = '';
     };
 
-    // 實時同步記帳
+    // 實時連動記帳
     onSnapshot(collection(db, "expenses"), (snapshot) => {
       const expensesList = document.getElementById('expenses-list');
       const totalElement = document.getElementById('total-expense');
-      
       expensesList.innerHTML = '';
       let total = 0;
 
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        const id = docSnap.id;
         total += data.amount;
 
         const card = document.createElement('div');
-        card.className = 'card';
+        card.className = 'item-card';
         card.innerHTML = `
-          <div class="card-header">
-            <div class="card-title">${data.item}</div>
-            <button class="icon-btn" onclick="deleteItem('expenses', '${id}')">
-              <i class="fa-solid fa-trash"></i>
-            </button>
+          <div class="card-top">
+            <div class="item-title">${data.item}</div>
+            <span style="color:var(--tag-food); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
           </div>
-          <div class="card-desc" style="color:var(--accent-green); font-weight:bold; font-size:16px;">
-            ₩ ${data.amount.toLocaleString()}
-          </div>
-          <div class="card-desc">💳 付款人：${data.payer}</div>
+          <div style="font-size:12px; color:var(--text-sub); margin-top:4px;">💳 付款人：${data.payer}</div>
         `;
         expensesList.appendChild(card);
       });
