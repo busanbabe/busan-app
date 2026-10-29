@@ -412,23 +412,45 @@
       cursor: pointer;
     }
 
-    /* 消費總金額看板卡片 */
-    .account-summary {
-      background: var(--accent-wood);
-      color: white;
-      border-radius: 14px;
-      padding: 18px;
+    /* 左右雙欄對稱頂部看板 */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
       margin-bottom: 16px;
     }
 
-    .rate-tag {
-      font-size: 11px;
-      opacity: 0.85;
-      margin-top: 6px;
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 2px 8px;
-      border-radius: 6px;
+    .dash-box {
+      background: var(--accent-wood);
+      color: white;
+      border-radius: 14px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 105px;
+    }
+
+    .dash-title {
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0.95;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .dash-main-val {
+      font-size: clamp(20px, 5.5vw, 24px);
+      font-weight: 700;
+      margin-top: 4px;
+      line-height: 1.2;
+    }
+
+    .dash-sub-val {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-top: 2px;
     }
 
     .expense-actions {
@@ -618,12 +640,25 @@
 
     <!-- 頁籤三：記帳小幫手 -->
     <div id="tab-expenses" class="tab-content">
-      <!-- 消費總金額看板 -->
-      <div class="account-summary">
-        <div style="font-size: 13px; font-weight: 600; opacity: 0.95; margin-bottom: 4px;">消費總金額</div>
-        <div style="font-size: 28px; font-weight: 700; margin-top: 2px;" id="total-expense">₩ 0</div>
-        <div style="font-size: 13px; opacity: 0.9; margin-top: 2px;" id="total-expense-twd">≈ NT$ 0</div>
-        <div class="rate-tag" id="current-rate-info">🔄 載入即時匯率中...</div>
+      <!-- 左右對稱雙欄看板 -->
+      <div class="dashboard-grid">
+        <!-- 左側：消費總金額 -->
+        <div class="dash-box">
+          <div class="dash-title">💰 消費總金額</div>
+          <div>
+            <div class="dash-main-val" id="total-expense">₩ 0</div>
+            <div class="dash-sub-val" id="total-expense-twd">≈ NT$ 0</div>
+          </div>
+        </div>
+
+        <!-- 右側：當日即時匯率 -->
+        <div class="dash-box">
+          <div class="dash-title">💱 當日即時匯率</div>
+          <div>
+            <div class="dash-main-val" id="rate-main-val">41.50</div>
+            <div class="dash-sub-val" id="rate-sub-val">1 TWD ≈ KRW</div>
+          </div>
+        </div>
       </div>
 
       <!-- 新增消費紀錄 -->
@@ -689,12 +724,13 @@
         const data = await res.json();
         if (data && data.rates && data.rates.KRW) {
           EXCHANGE_RATE = data.rates.KRW;
-          const rateText = `💱 當日即時匯率：1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW`;
-          document.getElementById('current-rate-info').innerText = rateText;
+          document.getElementById('rate-main-val').innerText = EXCHANGE_RATE.toFixed(2);
+          document.getElementById('rate-sub-val').innerText = `1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW`;
           renderExpensesUI(); // 重新依照即時匯率計算總額
         }
       } catch (err) {
-        document.getElementById('current-rate-info').innerText = `💱 匯率連動中：1 TWD ≈ ${EXCHANGE_RATE} KRW`;
+        document.getElementById('rate-main-val').innerText = EXCHANGE_RATE.toFixed(2);
+        document.getElementById('rate-sub-val').innerText = `1 TWD ≈ ${EXCHANGE_RATE} KRW`;
       }
     }
     fetchLiveExchangeRate();
