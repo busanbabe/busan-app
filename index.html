@@ -84,7 +84,7 @@
       display: block;
     }
 
-    /* 天氣與倒數卡片 (日式簡約風格) */
+    /* 天氣與倒數卡片 */
     .hero-card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -197,10 +197,11 @@
       background-image: inherit;
       color: var(--flip-text);
       font-weight: 700;
-      font-size: min(5vw, 20px);
+      font-size: min(4.5vw, 18px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
       justify-content: center;
+      backface-visibility: hidden;
     }
 
     .card-face.top {
@@ -218,30 +219,15 @@
     .card-face.top span { transform: translateY(50%); }
     .card-face.bottom span { transform: translateY(-50%); }
 
-    .flip-leaf {
+    /* 翻頁動態葉片 */
+    .flip-card {
       position: absolute;
-      left: 0;
-      right: 0;
-      height: 50%;
-      overflow: hidden;
-      background-color: inherit;
-      background-image: inherit;
-      backface-visibility: hidden;
-      transform-style: preserve-3d;
-      z-index: 4;
-    }
-
-    .flip-leaf.top {
       top: 0;
-      transform-origin: bottom;
-      border-bottom: 0.5px solid var(--flip-divider);
-    }
-
-    .flip-leaf.bottom {
-      bottom: 0;
-      transform-origin: top;
-      border-top: 0.5px solid var(--flip-divider);
-      transform: rotateX(180deg);
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      will-change: transform;
     }
 
     .unit-label {
@@ -255,19 +241,6 @@
       z-index: 5;
       pointer-events: none;
     }
-
-    @keyframes flipTop {
-      0% { transform: rotateX(0deg); }
-      100% { transform: rotateX(-90deg); }
-    }
-
-    @keyframes flipBottom {
-      0% { transform: rotateX(90deg); }
-      100% { transform: rotateX(0deg); }
-    }
-
-    .animate-top { animation: flipTop 0.25s ease-in forwards; }
-    .animate-bottom { animation: flipBottom 0.25s ease-out 0.25s forwards; }
 
     /* 分類頁籤按鈕 */
     .category-scroll {
@@ -340,7 +313,6 @@
       color: #E07A5F;
     }
 
-    /* 標籤 Tag 風格 */
     .tag-container {
       display: flex;
       flex-wrap: wrap;
@@ -384,7 +356,6 @@
       font-weight: 600;
     }
 
-    /* 記帳與表單簡約化 */
     .add-form {
       background: var(--card-bg);
       border-radius: 14px;
@@ -423,7 +394,6 @@
       margin-bottom: 16px;
     }
 
-    /* 底部導覽列 */
     nav {
       position: fixed;
       bottom: 0;
@@ -469,7 +439,6 @@
   </header>
 
   <div class="container">
-    <!-- 頂部資訊卡：天氣與雙團隊 3D 翻頁倒數 -->
     <div class="hero-card">
       <div class="weather-box">
         <div>
@@ -479,7 +448,7 @@
         <div class="weather-temp">12°C</div>
       </div>
 
-      <!-- 3D 擬真翻頁倒數區塊 (雙欄併排) -->
+      <!-- 3D 擬真絲滑翻頁倒數區塊 -->
       <div class="teams-container">
         <!-- Team 1 -->
         <div class="team-card">
@@ -561,8 +530,6 @@
 
     <!-- 頁籤一：完整行程/景點總覽 -->
     <div id="tab-schedule" class="tab-content active">
-      
-      <!-- 區域過濾按鈕 -->
       <div class="category-scroll">
         <button class="cat-btn active" onclick="filterCategory('ALL', this)">全部區塊</button>
         <button class="cat-btn" onclick="filterCategory('A', this)">A. 松島/影島</button>
@@ -573,7 +540,6 @@
         <button class="cat-btn" onclick="filterCategory('F', this)">F. 藍線海岸列車</button>
       </div>
 
-      <!-- 新增自訂景點表單 -->
       <div class="add-form">
         <h3 style="font-size: 14px; margin-bottom: 8px;">＋ 新增自訂景點或筆記</h3>
         <input type="text" id="schedule-title" placeholder="地點或名稱（例：甘川洞彩虹階梯）">
@@ -582,17 +548,12 @@
         <button class="btn-submit" onclick="addSchedule()">加入行程清單</button>
       </div>
 
-      <!-- 景點與美食列表 -->
-      <div id="schedule-list">
-        <!-- 系統自動渲染景點列表 -->
-      </div>
+      <div id="schedule-list"></div>
     </div>
 
     <!-- 頁籤二：愛心收藏 -->
     <div id="tab-favorites" class="tab-content">
-      <div id="favorites-list">
-        <!-- 愛心收藏載入區 -->
-      </div>
+      <div id="favorites-list"></div>
     </div>
 
     <!-- 頁籤三：共用記帳 -->
@@ -610,9 +571,7 @@
         <button class="btn-submit" onclick="addExpense()">記一筆</button>
       </div>
 
-      <div id="expenses-list">
-        <!-- 記帳載入區 -->
-      </div>
+      <div id="expenses-list"></div>
     </div>
   </div>
 
@@ -632,12 +591,11 @@
     </button>
   </nav>
 
-  <!-- 景點資料資料庫與 Firebase 邏輯 -->
+  <!-- 邏輯與絲滑翻頁 JS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 完整的 Firebase 金鑰
     const firebaseConfig = {
       apiKey: "AIzaSyArSoZq0ZMYSrt5oqb_E3uxP2iC...",
       authDomain: "busan-app-1a910.firebaseapp.com",
@@ -651,9 +609,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // A~F 區塊內建豐富景點庫
     const presetData = [
-      // A 松島.影島
       { cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', tag: '必去景點', story: '跨越海港的透明水晶纜車，飽覽松島海灣景色。' },
       { cat: 'A', name: 'Songdo Sky Park', type: 'spot', tag: '景點故事', story: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋。' },
       { cat: 'A', name: '影島海女村', type: 'food', tag: '必吃美食', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯。坐在海邊大圓桶上享用現採海鮮。' },
@@ -663,7 +619,6 @@
       { cat: 'A', name: 'ATRE Museum Busan', type: 'spot', tag: '藝術展館', story: '光影藝術沉浸式展覽，拍照質感極高。' },
       { cat: 'A', name: '甘川文化村', type: 'spot', tag: '必去景點', story: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸。' },
 
-      // B 市集.市場
       { cat: 'B', name: '山青豬肉湯飯', type: 'food', tag: '必吃美食', story: '在地老字號湯飯，湯頭濃郁無腥味。' },
       { cat: 'B', name: '富平罐頭市場', type: 'spot', tag: '特色夜市', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞。' },
       { cat: 'B', name: '愉快的生拌牛肉', type: 'food', tag: '必點菜單', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵。' },
@@ -673,7 +628,6 @@
       { cat: 'B', name: '札嘎其市場', type: 'spot', tag: '海鮮市場', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理。' },
       { cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', tag: '在地市場', story: '在地人偏愛的海鮮綜合市場，價格實惠。' },
 
-      // C 西面.田浦
       { cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', tag: '必吃美食', story: '廣安里名店分店，薄切豬肉片湯飯極讚。' },
       { cat: 'C', name: '安木 西面店', type: 'food', tag: '必點菜單', story: '精緻韓定食與特色熟成肉料理。' },
       { cat: 'C', name: '돼지나무 사랑엄청난 서면 본점 燒肉', type: 'food', tag: '必吃燒肉', story: '西面人氣黑豬肉專賣店。' },
@@ -682,58 +636,55 @@
       { cat: 'C', name: 'PURADAK炸雞', type: 'food', tag: '必點菜單', story: '精品級黑色包裝炸雞，必點：青辣椒蛋黃醬炸雞。' },
       { cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', tag: '世界冠軍', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖。' },
 
-      // D 廣安里
       { cat: 'D', name: '五六島天空步道', type: 'spot', tag: '絕景步道', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖。' },
       { cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', tag: '米其林必比登', story: '米其林推薦高質感湯飯，清爽極致。' },
       { cat: 'D', name: '廣安里 M 無人機燈光秀', type: 'spot', tag: '重要時刻', story: '每週六晚上限定的廣安大橋無人機燈光演出。' },
       { cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', tag: '必去汗蒸幕', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕。' },
 
-      // E 海雲台
       { cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', tag: '必吃燒肉', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳。' },
       { cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', tag: '排隊名店', story: '分為釜山式濃湯與密陽式清湯兩種風格。' },
       { cat: 'E', name: 'Jayeondo Sogeumppang 鹽可頌', type: 'food', tag: '必買伴手禮', story: '自然島鹽可頌，每天出爐四次排隊名店。' },
 
-      // F 海雲台 天空膠囊列車 & 海岸列車
       { cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', tag: '重要預約', story: '天空膠囊列車搭乘區間，預約號碼請提早確認。' },
       { cat: 'F', name: '青沙浦紅白雙燈塔', type: 'spot', tag: '打卡景點', story: '經典韓劇經典造景，紅白燈塔映襯海景。' },
       { cat: 'F', name: 'Chuplus 松亭店 吉拿棒', type: 'food', tag: '必吃甜點', story: '現炸香酥吉拿棒佐濃郁冰淇淋。' }
     ];
 
-    // --- 3D Split-Flap 翻頁動畫的核心邏輯 ---
+    // --- 極速絲滑 3D 翻頁核心 ---
     function updateFlipCard(unitElem, newValue) {
       const formattedValue = String(newValue).padStart(2, '0');
       const topFace = unitElem.querySelector('.card-face.top span');
       const bottomFace = unitElem.querySelector('.card-face.bottom span');
       const wrapper = unitElem.querySelector('.flip-card-wrapper');
 
-      if (topFace.textContent === formattedValue) return;
-
       const currentVal = topFace.textContent;
+      if (currentVal === formattedValue) return;
 
-      const leafTop = document.createElement('div');
-      leafTop.className = 'flip-leaf top';
-      leafTop.innerHTML = `<div class="card-face top"><span>${currentVal}</span></div>`;
-
-      const leafBottom = document.createElement('div');
-      leafBottom.className = 'flip-leaf bottom';
-      leafBottom.innerHTML = `<div class="card-face bottom"><span>${formattedValue}</span></div>`;
-
-      wrapper.appendChild(leafTop);
-      wrapper.appendChild(leafBottom);
+      const flipCard = document.createElement('div');
+      flipCard.className = 'flip-card';
+      flipCard.innerHTML = `
+        <div class="card-face top" style="height:100%; align-items:flex-end; border-bottom:0.5px solid var(--flip-divider);">
+          <span style="transform:translateY(50%);">${currentVal}</span>
+        </div>
+      `;
+      wrapper.appendChild(flipCard);
 
       topFace.textContent = formattedValue;
+      bottomFace.textContent = currentVal;
 
-      leafTop.classList.add('animate-top');
-      leafBottom.classList.add('animate-bottom');
-
-      leafBottom.addEventListener('animationend', () => {
-        bottomFace.textContent = formattedValue;
-        leafTop.remove();
-        leafBottom.remove();
+      flipCard.style.transition = 'transform 0.25s ease-in';
+      flipCard.style.transformOrigin = 'bottom';
+      
+      requestAnimationFrame(() => {
+        flipCard.style.transform = 'rotateX(-90deg)';
       });
+
+      setTimeout(() => {
+        bottomFace.textContent = formattedValue;
+        flipCard.remove();
+      }, 250);
     }
 
-    // 倒數計時器邏輯 (Team1: 12/27, Team2: 12/31)
     function startCountdowns() {
       const year = 2026;
       const t1Date = new Date(`${year}-12-27T00:00:00`);
@@ -743,13 +694,7 @@
         const now = new Date();
         const diff = targetDate - now;
 
-        if (diff <= 0) {
-          ['days', 'hours', 'minutes', 'seconds'].forEach(u => {
-            const unitElem = document.querySelector(`#${clockId} [data-unit="${u}"]`);
-            if (unitElem) updateFlipCard(unitElem, 0);
-          });
-          return;
-        }
+        if (diff <= 0) return;
 
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -775,7 +720,6 @@
     }
     startCountdowns();
 
-    // 分頁切換
     window.switchTab = function(tabId, title, btnElement) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -784,7 +728,6 @@
       btnElement.classList.add('active');
     };
 
-    // 類別過濾
     let currentFilter = 'ALL';
     window.filterCategory = function(cat, btn) {
       document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -793,7 +736,6 @@
       renderScheduleList();
     };
 
-    // 渲染景點列表
     function renderScheduleList() {
       const scheduleList = document.getElementById('schedule-list');
       scheduleList.innerHTML = '';
@@ -830,7 +772,6 @@
 
     renderScheduleList();
 
-    // 愛心與記帳雲端連動 (Firebase Firestore)
     window.addSchedule = async function() {
       const title = document.getElementById('schedule-title').value;
       const time = document.getElementById('schedule-time').value;
@@ -846,7 +787,6 @@
       document.getElementById('schedule-note').value = '';
     };
 
-    // 記帳邏輯
     window.addExpense = async function() {
       const item = document.getElementById('expense-item').value;
       const amount = Number(document.getElementById('expense-amount').value);
@@ -862,7 +802,6 @@
       document.getElementById('expense-payer').value = '';
     };
 
-    // 實時連動記帳
     onSnapshot(collection(db, "expenses"), (snapshot) => {
       const expensesList = document.getElementById('expenses-list');
       const totalElement = document.getElementById('total-expense');
