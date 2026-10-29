@@ -1,83 +1,422 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>釜山行程手冊</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>釜山自由行手冊</title>
+  
+  <!-- iOS PWA 設定 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="釜山之旅">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/201/201623.png">
+  
+  <!-- FontAwesome 標誌庫 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #007AFF;
+      --bg-color: #F2F2F7;
+      --card-bg: #FFFFFF;
+      --text-main: #1C1C1E;
+      --text-sub: #8E8E93;
+      --accent-red: #FF3B30;
+      --accent-green: #34C759;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding-bottom: 90px;
+      padding-top: env(safe-area-inset-top);
+    }
+
+    header {
+      background-color: var(--card-bg);
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .container {
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* 卡片通用樣式 */
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      position: relative;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    /* 愛心與刪除按鈕 */
+    .action-btns {
+      display: flex;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: var(--text-sub);
+    }
+
+    .icon-btn.active-heart {
+      color: var(--accent-red);
+    }
+
+    /* 新增表單 */
+    .add-form {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .add-form input, .add-form select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #E5E5EA;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* 記帳統計資訊 */
+    .account-summary {
+      background: linear-gradient(135deg, #007AFF, #5856D6);
+      color: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .account-summary h3 {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .account-summary .total-amount {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 8px 0;
+    }
+
+    /* 底部導覽列 */
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+      border-top: 0.5px solid rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 11px;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .nav-item i {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .nav-item.active {
+      color: var(--primary-color);
+    }
+  </style>
 </head>
 <body>
-    <h1>歡迎使用釜山行程手冊 App</h1>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>釜山行程手冊</title>
-    <link rel="manifest" href="manifest.json">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f5f5f7;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        h1 {
-            color: #1d1d1f;
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .day-card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .day-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #007aff;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #007aff;
-            padding-bottom: 5px;
-        }
-        ul {
-            padding-left: 20px;
-            margin: 0;
-        }
-        li {
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
-    </style>
-</head>
-<body>
 
-    <h1>🇰🇷 釜山精彩行程手冊</h1>
+  <header>
+    <h1 id="page-title">📅 動態行程</h1>
+  </header>
 
-    <div class="day-card">
-        <div class="day-title">Day 1：海雲台與海岸列車</div>
-        <ul>
-            <li><strong>10:00</strong> 抵達金海機場 / 飯店 Check-in</li>
-            <li><strong>12:30</strong> 午餐：海雲台傳統市場（豬肉湯飯）</li>
-            <li><strong>15:00</strong> 藍線公園 Sky Capsule 天空膠囊火車</li>
-            <li><strong>18:30</strong> 晚餐：海雲台烤肉 / 欣賞海景夜景</li>
-        </ul>
+  <div class="container">
+    <!-- 頁籤一：行程管理 -->
+    <div id="tab-schedule" class="tab-content active">
+      <div class="add-form">
+        <h3>新增行程 / 景點</h3>
+        <input type="text" id="schedule-title" placeholder="景點或活動名稱（例：海雲台膠囊列車）" style="margin-top: 10px;">
+        <input type="text" id="schedule-time" placeholder="時間（例：Day 1 14:00）">
+        <input type="text" id="schedule-note" placeholder="備註（例：預約號碼 #1234）">
+        <button class="btn-submit" onclick="addSchedule()">新增至行程</button>
+      </div>
+
+      <div id="schedule-list">
+        <!-- 動態行程載入區 -->
+      </div>
     </div>
 
-    <div class="day-card">
-        <div class="day-title">Day 2：甘川洞文化村與南浦洞</div>
-        <ul>
-            <li><strong>10:00</strong> 甘川洞文化村（穿韓服、拍小王子）</li>
-            <li><strong>13:00</strong> 午餐：南浦洞美食街（冷麵、黑糖餅）</li>
-            <li><strong>15:30</strong> 龍頭山公園 & 釜山塔</li>
-            <li><strong>18:00</strong> 札嘎其市場享用新鮮海鮮</li>
-        </ul>
+    <!-- 頁籤二：愛心收藏 -->
+    <div id="tab-favorites" class="tab-content">
+      <div id="favorites-list">
+        <!-- 收藏清單載入區 -->
+      </div>
     </div>
 
+    <!-- 頁籤三：共用記帳 -->
+    <div id="tab-expenses" class="tab-content">
+      <div class="account-summary">
+        <h3>旅程總花費 (KRW 韓元)</h3>
+        <div class="total-amount" id="total-expense">₩ 0</div>
+      </div>
+
+      <div class="add-form">
+        <h3>新增消費紀錄</h3>
+        <input type="text" id="expense-item" placeholder="品項（例：烤肉晚餐）" style="margin-top: 10px;">
+        <input type="number" id="expense-amount" placeholder="金額 (KRW)">
+        <input type="text" id="expense-payer" placeholder="付款人（例：Jessie）">
+        <button class="btn-submit" onclick="addExpense()" style="background-color: var(--accent-green);">新增記帳</button>
+      </div>
+
+      <div id="expenses-list">
+        <!-- 記帳載入區 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部導覽列 -->
+  <nav>
+    <button class="nav-item active" onclick="switchTab('schedule', '📅 動態行程', this)">
+      <i class="fa-solid fa-calendar-days"></i>
+      行程
+    </button>
+    <button class="nav-item" onclick="switchTab('favorites', '❤️ 愛心收藏', this)">
+      <i class="fa-solid fa-heart"></i>
+      收藏
+    </button>
+    <button class="nav-item" onclick="switchTab('expenses', '💰 共用記帳', this)">
+      <i class="fa-solid fa-wallet"></i>
+      記帳
+    </button>
+  </nav>
+
+  <!-- Firebase 載入與邏輯 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // 你的 Firebase 金鑰設定
+    const firebaseConfig = {
+      apiKey: "AIzaSyArSoZq0ZMYSrt5oqb_E3uxP2iC...",
+      authDomain: "busan-app-1a910.firebaseapp.com",
+      projectId: "busan-app-1a910",
+      storageBucket: "busan-app-1a910.firebasestorage.app",
+      messagingSenderId: "48335271845",
+      appId: "1:48335271845:web:9aca079ac5943ff..."
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 切換分頁
+    window.switchTab = function(tabId, title, btnElement) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById('tab-' + tabId).classList.add('active');
+      document.getElementById('page-title').innerText = title;
+      btnElement.classList.add('active');
+    };
+
+    // 1. 行程邏輯
+    window.addSchedule = async function() {
+      const title = document.getElementById('schedule-title').value;
+      const time = document.getElementById('schedule-time').value;
+      const note = document.getElementById('schedule-note').value;
+
+      if (!title) return alert('請輸入名稱！');
+
+      await addDoc(collection(db, "schedules"), {
+        title, time, note, isFavorite: false, createdAt: Date.now()
+      });
+
+      document.getElementById('schedule-title').value = '';
+      document.getElementById('schedule-time').value = '';
+      document.getElementById('schedule-note').value = '';
+    };
+
+    // 實時同步行程與收藏
+    onSnapshot(collection(db, "schedules"), (snapshot) => {
+      const scheduleList = document.getElementById('schedule-list');
+      const favoritesList = document.getElementById('favorites-list');
+      
+      scheduleList.innerHTML = '';
+      favoritesList.innerHTML = '';
+
+      snapshot.forEach((docSnap) => {
+        const item = docSnap.data();
+        const id = docSnap.id;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="card-title">${item.title}</div>
+            <div class="action-btns">
+              <button class="icon-btn ${item.isFavorite ? 'active-heart' : ''}" onclick="toggleFavorite('${id}', ${item.isFavorite})">
+                <i class="fa-${item.isFavorite ? 'solid' : 'regular'} fa-heart"></i>
+              </button>
+              <button class="icon-btn" onclick="deleteItem('schedules', '${id}')">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-desc">⏰ ${item.time || '未指定時間'}</div>
+          ${item.note ? `<div class="card-desc">📝 ${item.note}</div>` : ''}
+        `;
+
+        scheduleList.appendChild(card);
+
+        if (item.isFavorite) {
+          favoritesList.appendChild(card.cloneNode(true));
+        }
+      });
+
+      if (favoritesList.innerHTML === '') {
+        favoritesList.innerHTML = '<p style="text-align:center; color:var(--text-sub); padding:20px;">尚無收藏的景點 ❤️</p>';
+      }
+    });
+
+    // 切換愛心收藏狀態
+    window.toggleFavorite = async function(id, currentStatus) {
+      await updateDoc(doc(db, "schedules", id), { isFavorite: !currentStatus });
+    };
+
+    // 刪除項目
+    window.deleteItem = async function(collectionName, id) {
+      if (confirm('確定要刪除嗎？')) {
+        await deleteDoc(doc(db, collectionName, id));
+      }
+    };
+
+    // 2. 記帳邏輯
+    window.addExpense = async function() {
+      const item = document.getElementById('expense-item').value;
+      const amount = Number(document.getElementById('expense-amount').value);
+      const payer = document.getElementById('expense-payer').value;
+
+      if (!item || !amount) return alert('請填寫品項與金額！');
+
+      await addDoc(collection(db, "expenses"), {
+        item, amount, payer: payer || '共同', createdAt: Date.now()
+      });
+
+      document.getElementById('expense-item').value = '';
+      document.getElementById('expense-amount').value = '';
+      document.getElementById('expense-payer').value = '';
+    };
+
+    // 實時同步記帳
+    onSnapshot(collection(db, "expenses"), (snapshot) => {
+      const expensesList = document.getElementById('expenses-list');
+      const totalElement = document.getElementById('total-expense');
+      
+      expensesList.innerHTML = '';
+      let total = 0;
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const id = docSnap.id;
+        total += data.amount;
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="card-title">${data.item}</div>
+            <button class="icon-btn" onclick="deleteItem('expenses', '${id}')">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+          <div class="card-desc" style="color:var(--accent-green); font-weight:bold; font-size:16px;">
+            ₩ ${data.amount.toLocaleString()}
+          </div>
+          <div class="card-desc">💳 付款人：${data.payer}</div>
+        `;
+        expensesList.appendChild(card);
+      });
+
+      totalElement.innerText = `₩ ${total.toLocaleString()}`;
+    });
+  </script>
 </body>
 </html>
