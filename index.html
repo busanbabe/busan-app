@@ -27,6 +27,13 @@
       --tag-buy: #81B29A;
       --tag-story: #F2CC8F;
       --border-color: #E8E6E1;
+
+      /* 莫蘭迪大地色系翻頁鐘變數 */
+      --flip-bg: #C58C80;
+      --flip-stripe: rgba(0, 0, 0, 0.08);
+      --flip-text: #222222;
+      --flip-subtext: #111111;
+      --flip-divider: rgba(0, 0, 0, 0.25);
     }
 
     * {
@@ -90,8 +97,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 12px;
-      margin-bottom: 12px;
+      padding-bottom: 14px;
+      margin-bottom: 14px;
       border-bottom: 1px dashed var(--border-color);
     }
 
@@ -101,33 +108,166 @@
       color: var(--accent-soft-blue);
     }
 
-    .countdown-section {
+    /* 3D 翻頁倒數計時器 (雙欄併排) */
+    .teams-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .team-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 12px 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .team-header {
       display: flex;
       justify-content: space-between;
-      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
-    .timer-card {
-      flex: 1;
-      background: var(--bg-color);
-      padding: 10px;
-      border-radius: 12px;
-      text-align: center;
+    .team-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-main);
     }
 
-    .timer-card .team-name {
+    .arrival-date {
       font-size: 11px;
       color: var(--text-sub);
-      font-weight: 600;
-      margin-bottom: 4px;
     }
 
-    .timer-display {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent-wood);
-      font-variant-numeric: tabular-nums;
+    .flip-clock {
+      display: flex;
+      gap: 4px;
+      justify-content: space-between;
     }
+
+    .flip-unit {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .flip-card-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 0.85;
+      perspective: 300px;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      background-color: var(--flip-bg);
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 4px,
+        var(--flip-stripe) 4px,
+        var(--flip-stripe) 6px
+      );
+    }
+
+    .flip-card-wrapper::before,
+    .flip-card-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 2.5px;
+      height: 7px;
+      background-color: #111;
+      transform: translateY(-50%);
+      z-index: 10;
+      border-radius: 1px;
+    }
+    .flip-card-wrapper::before { left: 0; }
+    .flip-card-wrapper::after { right: 0; }
+
+    .card-face {
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 50%;
+      overflow: hidden;
+      background-color: inherit;
+      background-image: inherit;
+      color: var(--flip-text);
+      font-weight: 700;
+      font-size: min(5vw, 20px);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card-face.top {
+      top: 0;
+      align-items: flex-end;
+      border-bottom: 0.5px solid var(--flip-divider);
+    }
+
+    .card-face.bottom {
+      bottom: 0;
+      align-items: flex-start;
+      border-top: 0.5px solid var(--flip-divider);
+    }
+
+    .card-face.top span { transform: translateY(50%); }
+    .card-face.bottom span { transform: translateY(-50%); }
+
+    .flip-leaf {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 50%;
+      overflow: hidden;
+      background-color: inherit;
+      background-image: inherit;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      z-index: 4;
+    }
+
+    .flip-leaf.top {
+      top: 0;
+      transform-origin: bottom;
+      border-bottom: 0.5px solid var(--flip-divider);
+    }
+
+    .flip-leaf.bottom {
+      bottom: 0;
+      transform-origin: top;
+      border-top: 0.5px solid var(--flip-divider);
+      transform: rotateX(180deg);
+    }
+
+    .unit-label {
+      position: absolute;
+      bottom: 2px;
+      left: 3px;
+      font-size: 7px;
+      font-weight: 800;
+      color: var(--flip-subtext);
+      letter-spacing: 0.2px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    @keyframes flipTop {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(-90deg); }
+    }
+
+    @keyframes flipBottom {
+      0% { transform: rotateX(90deg); }
+      100% { transform: rotateX(0deg); }
+    }
+
+    .animate-top { animation: flipTop 0.25s ease-in forwards; }
+    .animate-bottom { animation: flipBottom 0.25s ease-out 0.25s forwards; }
 
     /* 分類頁籤按鈕 */
     .category-scroll {
@@ -329,7 +469,7 @@
   </header>
 
   <div class="container">
-    <!-- 頂部資訊卡：天氣與雙團隊倒數 -->
+    <!-- 頂部資訊卡：天氣與雙團隊 3D 翻頁倒數 -->
     <div class="hero-card">
       <div class="weather-box">
         <div>
@@ -339,14 +479,82 @@
         <div class="weather-temp">12°C</div>
       </div>
 
-      <div class="countdown-section">
-        <div class="timer-card">
-          <div class="team-name">TEAM 1 到達 (12/27)</div>
-          <div class="timer-display" id="timer-team1">00天 00:00:00</div>
+      <!-- 3D 擬真翻頁倒數區塊 (雙欄併排) -->
+      <div class="teams-container">
+        <!-- Team 1 -->
+        <div class="team-card">
+          <div class="team-header">
+            <span class="team-title">Team 1</span>
+            <span class="arrival-date">12/27到達</span>
+          </div>
+          <div class="flip-clock" id="clock-team1">
+            <div class="flip-unit" data-unit="days">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">DAY</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="hours">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">HR</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="minutes">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">MIN</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="seconds">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">SEC</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="timer-card">
-          <div class="team-name">TEAM 2 到達 (12/31)</div>
-          <div class="timer-display" id="timer-team2">00天 00:00:00</div>
+
+        <!-- Team 2 -->
+        <div class="team-card">
+          <div class="team-header">
+            <span class="team-title">Team 2</span>
+            <span class="arrival-date">12/31到達</span>
+          </div>
+          <div class="flip-clock" id="clock-team2">
+            <div class="flip-unit" data-unit="days">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">DAY</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="hours">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">HR</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="minutes">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">MIN</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="seconds">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">SEC</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -491,29 +699,79 @@
       { cat: 'F', name: 'Chuplus 松亭店 吉拿棒', type: 'food', tag: '必吃甜點', story: '現炸香酥吉拿棒佐濃郁冰淇淋。' }
     ];
 
+    // --- 3D Split-Flap 翻頁動畫的核心邏輯 ---
+    function updateFlipCard(unitElem, newValue) {
+      const formattedValue = String(newValue).padStart(2, '0');
+      const topFace = unitElem.querySelector('.card-face.top span');
+      const bottomFace = unitElem.querySelector('.card-face.bottom span');
+      const wrapper = unitElem.querySelector('.flip-card-wrapper');
+
+      if (topFace.textContent === formattedValue) return;
+
+      const currentVal = topFace.textContent;
+
+      const leafTop = document.createElement('div');
+      leafTop.className = 'flip-leaf top';
+      leafTop.innerHTML = `<div class="card-face top"><span>${currentVal}</span></div>`;
+
+      const leafBottom = document.createElement('div');
+      leafBottom.className = 'flip-leaf bottom';
+      leafBottom.innerHTML = `<div class="card-face bottom"><span>${formattedValue}</span></div>`;
+
+      wrapper.appendChild(leafTop);
+      wrapper.appendChild(leafBottom);
+
+      topFace.textContent = formattedValue;
+
+      leafTop.classList.add('animate-top');
+      leafBottom.classList.add('animate-bottom');
+
+      leafBottom.addEventListener('animationend', () => {
+        bottomFace.textContent = formattedValue;
+        leafTop.remove();
+        leafBottom.remove();
+      });
+    }
+
     // 倒數計時器邏輯 (Team1: 12/27, Team2: 12/31)
     function startCountdowns() {
-      const year = 2026; // 自動抓取 2026 年底
+      const year = 2026;
       const t1Date = new Date(`${year}-12-27T00:00:00`);
       const t2Date = new Date(`${year}-12-31T00:00:00`);
 
-      function update() {
+      function updateTeam(clockId, targetDate) {
         const now = new Date();
-        
-        function format(diff) {
-          if (diff <= 0) return "已到達！🎉";
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
-          const mins = Math.floor((diff / 1000 / 60) % 60).toString().padStart(2, '0');
-          const secs = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
-          return `${days}天 ${hrs}:${mins}:${secs}`;
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          ['days', 'hours', 'minutes', 'seconds'].forEach(u => {
+            const unitElem = document.querySelector(`#${clockId} [data-unit="${u}"]`);
+            if (unitElem) updateFlipCard(unitElem, 0);
+          });
+          return;
         }
 
-        document.getElementById('timer-team1').innerText = format(t1Date - now);
-        document.getElementById('timer-team2').innerText = format(t2Date - now);
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / 1000 / 60) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+
+        const clockElem = document.getElementById(clockId);
+        if (clockElem) {
+          updateFlipCard(clockElem.querySelector('[data-unit="days"]'), days);
+          updateFlipCard(clockElem.querySelector('[data-unit="hours"]'), hrs);
+          updateFlipCard(clockElem.querySelector('[data-unit="minutes"]'), mins);
+          updateFlipCard(clockElem.querySelector('[data-unit="seconds"]'), secs);
+        }
       }
-      setInterval(update, 1000);
-      update();
+
+      function tick() {
+        updateTeam('clock-team1', t1Date);
+        updateTeam('clock-team2', t2Date);
+      }
+
+      setInterval(tick, 1000);
+      tick();
     }
     startCountdowns();
 
