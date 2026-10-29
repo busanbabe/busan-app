@@ -116,7 +116,7 @@
       color: var(--accent-soft-blue);
     }
 
-    /* 3D 翻頁倒數計時器 */
+    /* 3D 擬真絲滑翻頁倒數區塊 */
     .teams-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -205,7 +205,7 @@
       background-image: inherit;
       color: var(--flip-text);
       font-weight: 700;
-      /* 使用 clamp 確保在手機與平板間自動完美縮放，避免過大或過小 */
+      /* 使用 clamp 確保各裝置自動完美縮放 */
       font-size: clamp(14px, 4.2vw, 24px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
@@ -305,11 +305,10 @@
       padding: 16px;
       margin-bottom: 12px;
       border: 1px solid var(--border-color);
-      border-left: 6px solid var(--accent-wood); /* 預設邊框 */
+      border-left: 6px solid var(--accent-wood);
       position: relative;
     }
 
-    /* 卡片左側邊框莫蘭迪對應色 */
     .item-card.cat-A { border-left-color: var(--color-cat-a); }
     .item-card.cat-B { border-left-color: var(--color-cat-b); }
     .item-card.cat-C { border-left-color: var(--color-cat-c); }
@@ -393,6 +392,14 @@
       border-radius: 8px;
       font-size: 14px;
       background: var(--bg-color);
+    }
+
+    .twd-hint {
+      font-size: 12px;
+      color: var(--accent-wood);
+      margin-bottom: 8px;
+      font-weight: 500;
+      padding-left: 2px;
     }
 
     .btn-submit {
@@ -603,14 +610,16 @@
     <!-- 頁籤三：旅費管家 -->
     <div id="tab-expenses" class="tab-content">
       <div class="account-summary">
-        <div style="font-size: 12px; opacity: 0.8;">旅程總公款花費 (KRW 韓元)</div>
+        <div style="font-size: 12px; opacity: 0.8;">旅程總公款花費</div>
         <div style="font-size: 26px; font-weight: 700; margin-top: 4px;" id="total-expense">₩ 0</div>
+        <div style="font-size: 14px; opacity: 0.9; margin-top: 2px;" id="total-expense-twd">≈ NT$ 0</div>
       </div>
 
       <div class="add-form">
         <h3 style="font-size: 14px; margin-bottom: 8px;">新增消費紀錄</h3>
         <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
-        <input type="number" id="expense-amount" placeholder="金額 (KRW)">
+        <input type="number" id="expense-amount" placeholder="金額 (KRW)" oninput="updateTwdHint(this.value)">
+        <div class="twd-hint" id="twd-conversion-hint">台幣試算：≈ NT$ 0</div>
         <input type="text" id="expense-payer" placeholder="付款人（例：Jessie）">
         <button class="btn-submit" onclick="addExpense()">帳單確認</button>
       </div>
@@ -635,7 +644,7 @@
     </button>
     <button class="nav-item" id="nav-expenses" onclick="switchTab('expenses', '💰 旅費管家', this)">
       <i class="fa-solid fa-wallet"></i>
-      旅費管家
+      記帳小幫手
     </button>
   </nav>
 
@@ -656,6 +665,20 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+
+    // 匯率設定：1 台幣約合 42.5 韓元 (可依實際需求微調)
+    const EXCHANGE_RATE = 42.5;
+
+    window.updateTwdHint = function(val) {
+      const hintElem = document.getElementById('twd-conversion-hint');
+      const num = Number(val);
+      if (!val || isNaN(num) || num <= 0) {
+        hintElem.innerText = '台幣試算：≈ NT$ 0';
+        return;
+      }
+      const twd = Math.round(num / EXCHANGE_RATE);
+      hintElem.innerText = `台幣試算：≈ NT$ ${twd.toLocaleString()}`;
+    };
 
     const presetData = [
       // A 松島.影島
@@ -951,6 +974,7 @@
       document.getElementById('expense-item').value = '';
       document.getElementById('expense-amount').value = '';
       document.getElementById('expense-payer').value = '';
+      document.getElementById('twd-conversion-hint').innerText = '台幣試算：≈ NT$ 0';
     };
 
     // 刪除記帳
@@ -978,6 +1002,7 @@
     onSnapshot(collection(db, "expenses"), (snapshot) => {
       const expensesList = document.getElementById('expenses-list');
       const totalElement = document.getElementById('total-expense');
+      const totalTwdElement = document.getElementById('total-expense-twd');
       expensesList.innerHTML = '';
       let total = 0;
 
@@ -986,13 +1011,18 @@
         const docId = docSnap.id;
         total += data.amount;
 
+        const itemTwd = Math.round(data.amount / EXCHANGE_RATE);
+
         const card = document.createElement('div');
         card.className = 'item-card';
         card.style.borderLeftColor = 'var(--accent-wood)';
         card.innerHTML = `
           <div class="card-top">
             <div class="item-title">${data.item}</div>
-            <span style="color:var(--tag-food); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+            <div style="text-align: right;">
+              <span style="color:var(--tag-food); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+              <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${itemTwd.toLocaleString()}</div>
+            </div>
           </div>
           <div style="font-size:12px; color:var(--text-sub); margin-top:4px;">💳 付款人：${data.payer}</div>
           <div class="expense-actions">
@@ -1003,7 +1033,9 @@
         expensesList.appendChild(card);
       });
 
+      const totalTwd = Math.round(total / EXCHANGE_RATE);
       totalElement.innerText = `₩ ${total.toLocaleString()}`;
+      totalTwdElement.innerText = `≈ NT$ ${totalTwd.toLocaleString()}`;
     });
   </script>
 </body>
