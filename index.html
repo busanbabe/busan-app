@@ -1,744 +1,892 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>釜山自由行手冊 | Busan Travel Guide</title>
-<!-- iOS PWA 設定 -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="釜山之旅">
-<link rel="apple-touch-icon" href="https://i.ibb.co/0ppX3mmH/IMG-6699.jpg">
-<!-- FontAwesome 標誌庫 -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
---bg-color: #F7F6F2;
---card-bg: #FFFFFF;
---text-main: #2C2C2A;
---text-sub: #787774;
---accent-wood: #8C7A6B;
---accent-soft-blue: #5B8296;
---tag-food: #E07A5F;
---tag-spot: #3D405B;
---tag-buy: #81B29A;
---tag-story: #F2CC8F;
---border-color: #E8E6E1;
-/* 莫蘭迪大地色系翻頁鐘變數 */
---flip-bg: #C58C80;
---flip-stripe: rgba(0, 0, 0, 0.08);
---flip-text: #222222;
---flip-subtext: #111111;
---flip-divider: rgba(0, 0, 0, 0.25);
-}
-* {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
--webkit-tap-highlight-color: transparent;
-}
-body {
-background-color: var(--bg-color);
-color: var(--text-main);
-padding-bottom: 95px;
-padding-top: env(safe-area-inset-top);
-letter-spacing: 0.3px;
-}
-header {
-background-color: var(--card-bg);
-padding: 16px 20px;
-position: sticky;
-top: 0;
-z-index: 100;
-border-bottom: 1px solid var(--border-color);
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
-header h1 {
-font-size: 18px;
-font-weight: 600;
-color: var(--text-main);
-}
-.container {
-padding: 16px;
-max-width: 600px;
-margin: 0 auto;
-}
-.tab-content {
-display: none;
-}
-.tab-content.active {
-display: block;
-}
-/* 天氣與倒數卡片 */
-.hero-card {
-background: var(--card-bg);
-border-radius: 16px;
-padding: 18px;
-margin-bottom: 16px;
-border: 1px solid var(--border-color);
-}
-.weather-box {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding-bottom: 14px;
-margin-bottom: 14px;
-border-bottom: 1px dashed var(--border-color);
-}
-.weather-temp {
-font-size: 22px;
-font-weight: 600;
-color: var(--accent-soft-blue);
-}
-/* 3D 翻頁倒數計時器 (雙欄併排) */
-.teams-container {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 12px;
-}
-.team-card {
-background: var(--card-bg);
-border-radius: 14px;
-padding: 12px 10px;
-border: 1px solid var(--border-color);
-}
-.team-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 10px;
-}
-.team-title {
-font-weight: 700;
-font-size: 13px;
-color: var(--text-main);
-}
-.arrival-date {
-font-size: 11px;
-color: var(--text-sub);
-}
-.flip-clock {
-display: flex;
-gap: 4px;
-justify-content: space-between;
-}
-.flip-unit {
-flex: 1;
-display: flex;
-flex-direction: column;
-align-items: center;
-}
-.flip-card-wrapper {
-position: relative;
-width: 100%;
-aspect-ratio: 0.85;
-perspective: 300px;
-border-radius: 6px;
-overflow: hidden;
-box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-background-color: var(--flip-bg);
-background-image: repeating-linear-gradient(
--45deg,
-transparent,
-transparent 4px,
-var(--flip-stripe) 4px,
-var(--flip-stripe) 6px
-);
-}
-.flip-card-wrapper::before,
-.flip-card-wrapper::after {
-content: '';
-position: absolute;
-top: 50%;
-width: 2.5px;
-height: 7px;
-background-color: #111;
-transform: translateY(-50%);
-z-index: 20;
-border-radius: 1px;
-}
-.flip-card-wrapper::before { left: 0; }
-.flip-card-wrapper::after { right: 0; }
-.card-face {
-position: absolute;
-left: 0;
-right: 0;
-width: 100%;
-height: 50%;
-overflow: hidden;
-background-color: inherit;
-background-image: inherit;
-color: var(--flip-text);
-font-weight: 700;
-font-size: min(4.5vw, 18px);
-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
-display: flex;
-justify-content: center;
-backface-visibility: hidden;
-}
-.card-face.top {
-top: 0;
-align-items: flex-end;
-border-bottom: 0.5px solid var(--flip-divider);
-}
-.card-face.bottom {
-bottom: 0;
-align-items: flex-start;
-border-top: 0.5px solid var(--flip-divider);
-}
-.card-face.top span { transform: translateY(50%); }
-.card-face.bottom span { transform: translateY(-50%); }
-.flip-card {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 50%;
-overflow: hidden;
-transform-style: preserve-3d;
-transform-origin: bottom;
-z-index: 10;
-will-change: transform;
-background-color: inherit;
-background-image: inherit;
-}
-.flip-card .card-face.top {
-position: absolute;
-width: 100%;
-height: 100%;
-top: 0;
-left: 0;
-}
-.unit-label {
-position: absolute;
-bottom: 2px;
-left: 3px;
-font-size: 7px;
-font-weight: 800;
-color: var(--flip-subtext);
-letter-spacing: 0.2px;
-z-index: 15;
-pointer-events: none;
-}
-/* 分類頁籤按鈕 */
-.category-scroll {
-display: flex;
-gap: 8px;
-overflow-x: auto;
-padding-bottom: 10px;
-margin-bottom: 12px;
-scrollbar-width: none;
-}
-.category-scroll::-webkit-scrollbar {
-display: none;
-}
-.cat-btn {
-white-space: nowrap;
-padding: 6px 14px;
-border-radius: 20px;
-background: var(--card-bg);
-border: 1px solid var(--border-color);
-font-size: 13px;
-color: var(--text-sub);
-cursor: pointer;
-}
-.cat-btn.active {
-background: var(--accent-wood);
-color: white;
-border-color: var(--accent-wood);
-}
-/* 景點與美食卡片 */
-.item-card {
-background: var(--card-bg);
-border-radius: 14px;
-padding: 16px;
-margin-bottom: 12px;
-border: 1px solid var(--border-color);
-position: relative;
-}
-.card-top {
-display: flex;
-justify-content: space-between;
-align-items: flex-start;
-margin-bottom: 6px;
-}
-.item-title {
-font-size: 16px;
-font-weight: 600;
-color: var(--text-main);
-}
-.card-actions {
-display: flex;
-gap: 10px;
-}
-.icon-btn {
-background: none;
-border: none;
-font-size: 16px;
-color: #C5C5C0;
-cursor: pointer;
-}
-.icon-btn.active-heart {
-color: #E07A5F;
-}
-.tag-container {
-display: flex;
-flex-wrap: wrap;
-gap: 6px;
-margin: 8px 0;
-}
-.tag {
-font-size: 11px;
-padding: 3px 8px;
-border-radius: 6px;
-font-weight: 500;
-}
-.tag-food { background: #FDE8E2; color: var(--tag-food); }
-.tag-spot { background: #E8EBF0; color: var(--tag-spot); }
-.tag-buy  { background: #E8F3EE; color: #2D6A4F; }
-.tag-story { background: #FEF5E7; color: #B57A12; }
-.story-box {
-font-size: 13px;
-color: var(--text-sub);
-line-height: 1.5;
-margin-top: 6px;
-background: var(--bg-color);
-padding: 8px 10px;
-border-radius: 8px;
-}
-.map-btn {
-display: inline-flex;
-align-items: center;
-gap: 5px;
-margin-top: 10px;
-padding: 6px 12px;
-background: #F0EDE6;
-color: var(--accent-wood);
-text-decoration: none;
-border-radius: 8px;
-font-size: 12px;
-font-weight: 600;
-}
-.add-form {
-background: var(--card-bg);
-border-radius: 14px;
-padding: 16px;
-margin-bottom: 16px;
-border: 1px solid var(--border-color);
-}
-.add-form input {
-width: 100%;
-padding: 10px 12px;
-margin-bottom: 8px;
-border: 1px solid var(--border-color);
-border-radius: 8px;
-font-size: 14px;
-background: var(--bg-color);
-}
-.btn-submit {
-width: 100%;
-background: var(--accent-wood);
-color: white;
-border: none;
-padding: 10px;
-border-radius: 8px;
-font-size: 14px;
-font-weight: 600;
-cursor: pointer;
-}
-.account-summary {
-background: var(--accent-wood);
-color: white;
-border-radius: 14px;
-padding: 18px;
-margin-bottom: 16px;
-}
-nav {
-position: fixed;
-bottom: 0;
-left: 0;
-right: 0;
-background: rgba(255, 255, 255, 0.95);
-backdrop-filter: blur(10px);
-display: flex;
-justify-content: space-around;
-padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
-border-top: 1px solid var(--border-color);
-z-index: 100;
-}
-.nav-item {
-display: flex;
-flex-direction: column;
-align-items: center;
-color: var(--text-sub);
-text-decoration: none;
-font-size: 11px;
-border: none;
-background: none;
-cursor: pointer;
-}
-.nav-item i {
-font-size: 18px;
-margin-bottom: 3px;
-}
-.nav-item.active {
-color: var(--accent-wood);
-font-weight: 600;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>釜山自由行手冊 | Busan Travel Guide</title>
+  
+  <!-- iOS PWA 設定 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="釜山之旅">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/0ppX3mmH/IMG-6699.jpg">
+  
+  <!-- FontAwesome 標誌庫 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #F7F6F2;
+      --card-bg: #FFFFFF;
+      --text-main: #2C2C2A;
+      --text-sub: #787774;
+      --accent-wood: #8C7A6B;
+      --accent-soft-blue: #5B8296;
+      --tag-food: #E07A5F;
+      --tag-spot: #3D405B;
+      --tag-buy: #81B29A;
+      --tag-story: #F2CC8F;
+      --border-color: #E8E6E1;
+
+      /* 莫蘭迪大地色系翻頁鐘變數 */
+      --flip-bg: #C58C80;
+      --flip-stripe: rgba(0, 0, 0, 0.08);
+      --flip-text: #222222;
+      --flip-subtext: #111111;
+      --flip-divider: rgba(0, 0, 0, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding-bottom: 95px;
+      padding-top: env(safe-area-inset-top);
+      letter-spacing: 0.3px;
+    }
+
+    header {
+      background-color: var(--card-bg);
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .container {
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* 天氣與倒數卡片 (日式簡約風格) */
+    .hero-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .weather-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .weather-temp {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--accent-soft-blue);
+    }
+
+    /* 3D 翻頁倒數計時器 (雙欄併排) */
+    .teams-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .team-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 12px 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .team-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .team-title {
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-main);
+    }
+
+    .arrival-date {
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    .flip-clock {
+      display: flex;
+      gap: 4px;
+      justify-content: space-between;
+    }
+
+    .flip-unit {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .flip-card-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 0.85;
+      perspective: 300px;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      background-color: var(--flip-bg);
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 4px,
+        var(--flip-stripe) 4px,
+        var(--flip-stripe) 6px
+      );
+    }
+
+    .flip-card-wrapper::before,
+    .flip-card-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 2.5px;
+      height: 7px;
+      background-color: #111;
+      transform: translateY(-50%);
+      z-index: 10;
+      border-radius: 1px;
+    }
+    .flip-card-wrapper::before { left: 0; }
+    .flip-card-wrapper::after { right: 0; }
+
+    .card-face {
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 50%;
+      overflow: hidden;
+      background-color: inherit;
+      background-image: inherit;
+      color: var(--flip-text);
+      font-weight: 700;
+      font-size: min(5vw, 20px);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+      display: flex;
+      justify-content: center;
+    }
+
+    .card-face.top {
+      top: 0;
+      align-items: flex-end;
+      border-bottom: 0.5px solid var(--flip-divider);
+    }
+
+    .card-face.bottom {
+      bottom: 0;
+      align-items: flex-start;
+      border-top: 0.5px solid var(--flip-divider);
+    }
+
+    .card-face.top span { transform: translateY(50%); }
+    .card-face.bottom span { transform: translateY(-50%); }
+
+    .flip-leaf {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 50%;
+      overflow: hidden;
+      background-color: inherit;
+      background-image: inherit;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      z-index: 4;
+    }
+
+    .flip-leaf.top {
+      top: 0;
+      transform-origin: bottom;
+      border-bottom: 0.5px solid var(--flip-divider);
+    }
+
+    .flip-leaf.bottom {
+      bottom: 0;
+      transform-origin: top;
+      border-top: 0.5px solid var(--flip-divider);
+      transform: rotateX(180deg);
+    }
+
+    .unit-label {
+      position: absolute;
+      bottom: 2px;
+      left: 3px;
+      font-size: 7px;
+      font-weight: 800;
+      color: var(--flip-subtext);
+      letter-spacing: 0.2px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    @keyframes flipTop {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(-90deg); }
+    }
+
+    @keyframes flipBottom {
+      0% { transform: rotateX(90deg); }
+      100% { transform: rotateX(0deg); }
+    }
+
+    .animate-top { animation: flipTop 0.25s ease-in forwards; }
+    .animate-bottom { animation: flipBottom 0.25s ease-out 0.25s forwards; }
+
+    /* 分類頁籤按鈕 */
+    .category-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      scrollbar-width: none;
+    }
+
+    .category-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-btn {
+      white-space: nowrap;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      font-size: 13px;
+      color: var(--text-sub);
+      cursor: pointer;
+    }
+
+    .cat-btn.active {
+      background: var(--accent-wood);
+      color: white;
+      border-color: var(--accent-wood);
+    }
+
+    /* 景點與美食卡片 */
+    .item-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .item-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: #C5C5C0;
+      cursor: pointer;
+    }
+
+    .icon-btn.active-heart {
+      color: #E07A5F;
+    }
+
+    /* 標籤 Tag 風格 */
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .tag-food { background: #FDE8E2; color: var(--tag-food); }
+    .tag-spot { background: #E8EBF0; color: var(--tag-spot); }
+    .tag-buy  { background: #E8F3EE; color: #2D6A4F; }
+    .tag-story { background: #FEF5E7; color: #B57A12; }
+
+    .story-box {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.5;
+      margin-top: 6px;
+      background: var(--bg-color);
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+
+    .map-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: #F0EDE6;
+      color: var(--accent-wood);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* 記帳與表單簡約化 */
+    .add-form {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .add-form input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 14px;
+      background: var(--bg-color);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent-wood);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .account-summary {
+      background: var(--accent-wood);
+      color: white;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    /* 底部導覽列 */
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--border-color);
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 11px;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .nav-item i {
+      font-size: 18px;
+      margin-bottom: 3px;
+    }
+
+    .nav-item.active {
+      color: var(--accent-wood);
+      font-weight: 600;
+    }
+  </style>
 </head>
 <body>
-<header>
-<h1 id="page-title">釜山旅覽 | BUSAN</h1>
-<span style="font-size: 12px; color: var(--text-sub);">2026 WINTER</span>
-</header>
-<div class="container">
-<div class="hero-card">
-<div class="weather-box">
-<div>
-<div style="font-size: 12px; color: var(--text-sub);">🇰🇷 釜山當前天氣</div>
-<div style="font-size: 14px; font-weight: 500; margin-top:2px;">多雲晴朗 🌤️</div>
-</div>
-<div class="weather-temp">12°C</div>
-</div>
-<!-- 3D 擬真絲滑翻頁倒數區塊 -->
-<div class="teams-container">
-<!-- Team 1 -->
-<div class="team-card">
-<div class="team-header">
-<span class="team-title">Team 1</span>
-<span class="arrival-date">12/27到達</span>
-</div>
-<div class="flip-clock" id="clock-team1">
-<div class="flip-unit" data-unit="days">
-<div class="flip-card-wrapper">
-<div class="card-face top"><span>00</span></div>
-<div class="card-face bottom"><span>00</span></div>
-<span class="unit-label">DAY</span>
-</div>
-</div>
-<div class="flip-unit" data-unit="hours">
-<div class="flip-card-wrapper">
-<div class="card-face top"><span>00</span></div>
-<div class="card-face bottom"><span>00</span></div>
-<span class="unit-label">HR</span>
-</div>
-</div>
-<div class="flip-unit" data-unit="minutes">
-<div class="flip-card-wrapper">
-<div class="card-face top"><span>00</span></div>
-<div class="card-face bottom"><span>00</span></div>
-<span class="unit-label">MIN</span>
-</div>
-</div>
-<div class="flip-unit" data-unit="seconds">
-<div class="flip-card-wrapper">
-<div class="card-face top"><span>00</span></div>
-<div class="card-face bottom"><span>00</span></div>
-<span class="unit-label">SEC</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Team 2 -->
-<div class="team-card">
-<div class="team-header">
-<span class="team-title">Team 2</span>
-<span class="arrival-date">12/31到達</span>
-</div>
-<div class="flip-clock" id="clock-team2">
-<div class="flip-unit" data-unit="days">
-<div class="flip-card-wrapper">
-<div class="card-face top"><span>00</span></div>
-<div class="card-face bottom"><span>00</span></div>
-<span class="unit-label">DAY</span>
-</div>
-</div>
-<div class="flip-unit" data-unit="hours">
-<div class="flip-card-wrapper">
-<div class="card-face top"><span>00</span></div>
-<div class="card-face bottom"><span>00</span></div>
-<span class="unit-label">HR</span>
-</div>
-</div>
-<div class="flip-unit" data-unit="minutes">
-<div class="flip-card-wrapper">
-<div class="card-face top"><span>00</span></div>
-<div class="card-face bottom"><span>00</span></div>
-<span class="unit-label">MIN</span>
-</div>
-</div>
-<div class="flip-unit" data-unit="seconds">
-<div class="flip-card-wrapper">
-<div class="card-face top"><span>00</span></div>
-<div class="card-face bottom"><span>00</span></div>
-<span class="unit-label">SEC</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- 頁籤一：完整行程/景點總覽 -->
-<div id="tab-schedule" class="tab-content active">
-<div class="category-scroll">
-<button class="cat-btn active" onclick="filterCategory('ALL', this)">全部區塊</button>
-<button class="cat-btn" onclick="filterCategory('A', this)">A. 松島 / 影島</button>
-<button class="cat-btn" onclick="filterCategory('B', this)">B. 市場 / 南浦</button>
-<button class="cat-btn" onclick="filterCategory('C', this)">C. 西面 / 田浦</button>
-<button class="cat-btn" onclick="filterCategory('D', this)">D. 廣安里</button>
-<button class="cat-btn" onclick="filterCategory('E', this)">E. 海雲台</button>
-<button class="cat-btn" onclick="filterCategory('F', this)">F. 天空膠囊列車 & 海岸列車</button>
-</div>
-<div class="add-form">
-<h3 style="font-size: 14px; margin-bottom: 8px;">＋ 新增自訂景點或筆記</h3>
-<input type="text" id="schedule-title" placeholder="地點或名稱（例：甘川洞彩虹階梯）">
-<input type="text" id="schedule-time" placeholder="預計時間或類別">
-<input type="text" id="schedule-note" placeholder="備註筆記">
-<button class="btn-submit" onclick="addSchedule()">加入行程清單</button>
-</div>
-<div id="schedule-list"></div>
-</div>
-<!-- 頁籤二：愛心收藏 -->
-<div id="tab-favorites" class="tab-content">
-<div id="favorites-list"></div>
-</div>
-<!-- 頁籤三：共用記帳 -->
-<div id="tab-expenses" class="tab-content">
-<div class="account-summary">
-<div style="font-size: 12px; opacity: 0.8;">旅程總公款花費 (KRW 韓元)</div>
-<div style="font-size: 26px; font-weight: 700; margin-top: 4px;" id="total-expense">₩ 0</div>
-</div>
-<div class="add-form">
-<h3 style="font-size: 14px; margin-bottom: 8px;">新增消費紀錄</h3>
-<input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
-<input type="number" id="expense-amount" placeholder="金額 (KRW)">
-<input type="text" id="expense-payer" placeholder="付款人（例：Jessie）">
-<button class="btn-submit" onclick="addExpense()">記一筆</button>
-</div>
-<div id="expenses-list"></div>
-</div>
-</div>
-<!-- 底部導覽列 -->
-<nav>
-<button class="nav-item active" onclick="switchTab('schedule', '釜山旅覽 | BUSAN', this)">
-<i class="fa-solid fa-compass"></i>
-行程導覽
-</button>
-<button class="nav-item" onclick="switchTab('favorites', '❤️ 愛心收藏', this)">
-<i class="fa-solid fa-heart"></i>
-愛心收藏
-</button>
-<button class="nav-item" onclick="switchTab('expenses', '💰 共用記帳', this)">
-<i class="fa-solid fa-wallet"></i>
-旅伴記帳
-</button>
-</nav>
-<!-- 邏輯與完美遮罩翻頁 JS -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-const firebaseConfig = {
-apiKey: "AIzaSyArSoZq0ZMYSrt5oqb_E3uxP2iC...",
-authDomain: "busan-app-1a910.firebaseapp.com",
-projectId: "busan-app-1a910",
-storageBucket: "busan-app-1a910.firebasestorage.app",
-messagingSenderId: "48335271845",
-appId: "1:48335271845:web:9aca079ac5943ff...",
-measurementId: "G-7HBZZ7H72Z"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const presetData = [
-// A 松島 / 影島
-{ cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', tag: 'A. 松島 / 影島', story: '跨越海港的水晶纜車，飽覽松島海灣景色。' },
-{ cat: 'A', name: 'Songdo Sky Park', type: 'spot', tag: 'A. 松島 / 影島', story: '纜車終點站，內有小王子雕像與松島龍宮雲橋。' },
-{ cat: 'A', name: '影島海女村', type: 'food', tag: 'A. 松島 / 影島', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯，坐在海邊享用現採海鮮。' },
-{ cat: 'A', name: 'Having moment', type: 'food', tag: 'A. 松島 / 影島', story: '位於影島白淺灘文化村的海景第一排質感咖啡廳。' },
-{ cat: 'A', name: 'Burger Yo Busan', type: 'food', tag: 'A. 松島 / 影島', story: '手工巨無霸漢堡，露天高層海景極佳。' },
-{ cat: 'A', name: 'THRILL ON THE MUG 海景咖啡', type: 'food', tag: 'A. 松島 / 影島', story: '擁有階梯式海景座位與壯觀海景窗戶。' },
-{ cat: 'A', name: 'ATRE Museum Busan', type: 'spot', tag: 'A. 松島 / 影島', story: '光影藝術沉浸式展覽，拍照質感極高。' },
-{ cat: 'A', name: '甘川文化村', type: 'spot', tag: 'A. 松島 / 影島', story: '釜山馬丘比丘，必拍小王子與沙漠狐狸。' },
-// B 市場 / 南浦
-{ cat: 'B', name: '山青豬肉湯飯', type: 'food', tag: 'B. 市場 / 南浦', story: '在地老字號湯飯，湯頭濃郁無腥味。' },
-{ cat: 'B', name: '富平罐頭市場', type: 'spot', tag: 'B. 市場 / 南浦', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞。' },
-{ cat: 'B', name: '愉快的生拌牛肉', type: 'food', tag: 'B. 市場 / 南浦', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵。' },
-{ cat: 'B', name: '國際市場', type: 'spot', tag: 'B. 市場 / 南浦', story: '歷史悠久的大型傳統市場，購買雜貨與伴手禮好去處。' },
-{ cat: 'B', name: 'BIFF 廣場', type: 'spot', tag: 'B. 市場 / 南浦', story: '必吃：黑糖餅（堅果黑糖餡）。' },
-{ cat: 'B', name: 'Olive Young gwangbok town', type: 'spot', tag: 'B. 市場 / 南浦', story: '光復路旗艦店，品項最齊全的美妝護膚天堂。' },
-{ cat: 'B', name: '札嘎其市場', type: 'spot', tag: 'B. 市場 / 南浦', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理。' },
-{ cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', tag: 'B. 市場 / 南浦', story: '在地人偏愛的海鮮綜合市場，價格實惠。' },
-// C 西面 / 田浦
-{ cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', tag: 'C. 西面 / 田浦', story: '廣安里名店分店，薄切豬肉片湯飯極讚。' },
-{ cat: 'C', name: '安木 西面店', type: 'food', tag: 'C. 西面 / 田浦', story: '精緻韓定食與特色熟成肉料理。' },
-{ cat: 'C', name: '세든 365약국 藥局', type: 'spot', tag: 'C. 西面 / 田浦', story: '西面鬧區便利藥局。' },
-{ cat: 'C', name: '돼지나무 사랑엄청난 서면 본점 燒肉', type: 'food', tag: 'C. 西面 / 田浦', story: '西面人氣黑豬肉專賣店。' },
-{ cat: 'C', name: '烤肉的男子 西面店', type: 'food', tag: 'C. 西面 / 田浦', story: '桌邊專人幫烤，五花肉與豬頸肉極度優質。' },
-{ cat: 'C', name: 'Poset Jeonpo 明信片', type: 'spot', tag: 'C. 西面 / 田浦', story: '田浦咖啡街必逛質感明信片文創選物店。' },
-{ cat: 'C', name: '老宅邸 燒肉', type: 'food', tag: 'C. 西面 / 田浦', story: '復古老宅氛圍的特色美味燒肉店。' },
-{ cat: 'C', name: 'Solsot 西面店 燒肉', type: 'food', tag: 'C. 西面 / 田浦', story: '精緻釜飯與烤肉定食。' },
-{ cat: 'C', name: 'PURADAK炸雞', type: 'food', tag: 'C. 西面 / 田浦', story: '精品級黑色包裝炸雞，必點青辣椒蛋黃醬炸雞。' },
-{ cat: 'C', name: 'moody bread market 咖啡&麵包', type: 'food', tag: 'C. 西面 / 田浦', story: '田浦質感手作烘焙咖啡廳。' },
-{ cat: 'C', name: 'Pot of busan 甜點', type: 'food', tag: 'C. 西面 / 田浦', story: '精緻精美下午茶甜點店。' },
-{ cat: 'C', name: 'Strut Coffee', type: 'food', tag: 'C. 西面 / 田浦', story: '田浦高質感手沖咖啡名店。' },
-{ cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', tag: 'C. 西面 / 田浦', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖。' },
-// D 廣安里
-{ cat: 'D', name: '五六島天空步道', type: 'spot', tag: 'D. 廣安里', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖。' },
-{ cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', tag: 'D. 廣安里', story: '米其林推薦高質感湯飯，清爽極致。' },
-{ cat: 'D', name: 'Momos Coffee - Dorunheon', type: 'food', tag: 'D. 廣安里', story: 'Momos Coffee 質感分店。' },
-{ cat: 'D', name: '烤肉的男子 廣安里店', type: 'food', tag: 'D. 廣安里', story: '享有廣安里海景或便利位置的桌邊代烤燒肉。' },
-{ cat: 'D', name: '釜飯', type: 'food', tag: 'D. 廣安里', story: '美味精緻的韓式釜飯料理。' },
-{ cat: 'D', name: 'Ancien 咖啡&麵包', type: 'food', tag: 'D. 廣安里', story: '廣安里質感烘焙咖啡甜點店。' },
-{ cat: 'D', name: 'La Mia Estate 義式冰淇淋', type: 'food', tag: 'D. 廣安里', story: '手工義式冰淇淋 gelato。' },
-{ cat: 'D', name: 'All Sunday', type: 'food', tag: 'D. 廣安里', story: '廣安里人氣早午餐與咖啡店。' },
-{ cat: 'D', name: '廣安里 M 無人機燈光秀', type: 'spot', tag: 'D. 廣安里', story: '每週六晚上限定的廣安大橋無人機燈光演出。' },
-{ cat: 'D', name: '고하순 광안직영점 燒肉', type: 'food', tag: 'D. 廣安里', story: '廣安里人氣美味黑豬肉燒肉直營店。' },
-{ cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', tag: 'D. 廣安里', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕。' },
-// E 海雲台
-{ cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', tag: 'E. 海雲台', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳。' },
-{ cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', tag: 'E. 海雲台', story: '分為釜山式濃湯與密陽式清湯兩種風格。' },
-{ cat: 'E', name: 'Busandang 紅豆麵包', type: 'food', tag: 'E. 海雲台', story: '人氣紅豆麵包點心。' },
-{ cat: 'E', name: '螞蟻家辣炒章魚', type: 'food', tag: 'E. 海雲台', story: '招牌牛腸炒章魚（낙곱새），配飯絕佳。' },
-{ cat: 'E', name: '海雲台傳統市場', type: 'spot', tag: 'E. 海雲台', story: '海雲台海灘旁熱鬧小吃與海鮮傳統市場。' },
-{ cat: 'E', name: 'Haeundae 31cm Haemul(seafood) Kalguksu 貝類湯麵', type: 'food', tag: 'E. 海雲台', story: '超澎湃 31 公分巨大貝類海鮮刀削麵。' },
-{ cat: 'E', name: 'Jayeondo Sogeumppang (Salt Bread) & Jayeondohae', type: 'food', tag: 'E. 海雲台', story: '自然島鹽可頌，每日現烤出爐排隊名店。' },
-{ cat: 'E', name: '오브봔 ovone水果蛋糕', type: 'food', tag: 'E. 海雲台', story: '精緻美味的水果蛋糕甜點店。' },
-{ cat: 'E', name: 'Miffy 專門店', type: 'spot', tag: 'E. 海雲台', story: '可愛米飛兔周邊專賣店。' },
-{ cat: 'E', name: '水邊豬肉湯飯', type: 'food', tag: 'E. 海雲台', story: '知名豬肉湯飯分店。' },
-// F 天空膠囊列車 & 海岸列車
-{ cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', tag: 'F. 天空膠囊列車 & 海岸列車', story: '天空膠囊列車搭乘區間，預約號碼請提早確認。' },
-{ cat: 'F', name: 'TIDE Coffee Roasters', type: 'food', tag: 'F. 天空膠囊列車 & 海岸列車', story: '青沙浦質感海景咖啡烘焙工作室。' },
-{ cat: 'F', name: 'Edge 993', type: 'food', tag: 'F. 天空膠囊列車 & 海岸列車', story: '尾浦港旁坐擁無敵海景的高空咖啡與酒吧。' },
-{ cat: 'F', name: 'CHU PLUS 松亭店', type: 'food', tag: 'F. 天空膠囊列車 & 海岸列車', story: '松亭人氣吉拿棒甜點店。' },
-{ cat: 'F', name: 'Sky Capsule 青沙浦站', type: 'spot', tag: 'F. 天空膠囊列車 & 海岸列車', story: '天空膠囊列車青沙浦站搭乘點。' },
-{ cat: 'F', name: 'Blue line park 青沙浦站', type: 'spot', tag: 'F. 天空膠囊列車 & 海岸列車', story: '藍線公園海岸列車青沙浦站。' },
-{ cat: 'F', name: '青沙浦紅白雙燈塔', type: 'spot', tag: 'F. 天空膠囊列車 & 海岸列車', story: '經典打卡造景，紅白燈塔映襯蔚藍海景。' },
-{ cat: 'F', name: '青沙浦踏石瞭望臺', type: 'spot', tag: 'F. 天空膠囊列車 & 海岸列車', story: '透明玻璃天空步道，眺望青沙浦海景。' },
-{ cat: 'F', name: 'Chuplus 松亭店 吉拿棒', type: 'food', tag: 'F. 天空膠囊列車 & 海岸列車', story: '現炸香酥吉拿棒佐濃郁冰淇淋。' },
-{ cat: 'F', name: 'Skyline Luge Busan', type: 'spot', tag: 'F. 天空膠囊列車 & 海岸列車', story: '釜山斜坡滑車，刺激好玩的戶外極速體驗。' }
-];
-// 3D 翻頁核心
-function updateFlipCard(unitElem, newValue) {
-const formattedValue = String(newValue).padStart(2, '0');
-const topFace = unitElem.querySelector('.card-face.top span');
-const bottomFace = unitElem.querySelector('.card-face.bottom span');
-const wrapper = unitElem.querySelector('.flip-card-wrapper');
-const currentVal = topFace.textContent;
-if (currentVal === formattedValue) return;
-const flipCard = document.createElement('div');
-flipCard.className = 'flip-card';
-flipCard.innerHTML = ⁠<div class="card-face top"> <span>${currentVal}</span> </div>⁠;
-wrapper.appendChild(flipCard);
-topFace.textContent = formattedValue;
-bottomFace.textContent = currentVal;
-flipCard.style.transition = 'transform 0.25s ease-in';
-requestAnimationFrame(() => {
-flipCard.style.transform = 'rotateX(-90deg)';
-});
-setTimeout(() => {
-bottomFace.textContent = formattedValue;
-flipCard.remove();
-}, 250);
-}
-function startCountdowns() {
-const year = 2026;
-const t1Date = new Date(⁠${year}-12-27T00:00:00⁠);
-const t2Date = new Date(⁠${year}-12-31T00:00:00⁠);
-function updateTeam(clockId, targetDate) {
-const now = new Date();
-const diff = targetDate - now;
-if (diff <= 0) return;
-const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
-const mins = Math.floor((diff / 1000 / 60) % 60);
-const secs = Math.floor((diff / 1000) % 60);
-const clockElem = document.getElementById(clockId);
-if (clockElem) {
-updateFlipCard(clockElem.querySelector('[data-unit="days"]'), days);
-updateFlipCard(clockElem.querySelector('[data-unit="hours"]'), hrs);
-updateFlipCard(clockElem.querySelector('[data-unit="minutes"]'), mins);
-updateFlipCard(clockElem.querySelector('[data-unit="seconds"]'), secs);
-}
-}
-function tick() {
-updateTeam('clock-team1', t1Date);
-updateTeam('clock-team2', t2Date);
-}
-setInterval(tick, 1000);
-tick();
-}
-startCountdowns();
-window.switchTab = function(tabId, title, btnElement) {
-document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-document.getElementById('tab-' + tabId).classList.add('active');
-document.getElementById('page-title').innerText = title;
-btnElement.classList.add('active');
-};
-let currentFilter = 'ALL';
-window.filterCategory = function(cat, btn) {
-document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-btn.classList.add('active');
-currentFilter = cat;
-renderScheduleList();
-};
-function renderScheduleList() {
-const scheduleList = document.getElementById('schedule-list');
-scheduleList.innerHTML = '';
-const filtered = currentFilter === 'ALL'
-? presetData
-: presetData.filter(i => i.cat === currentFilter);
-filtered.forEach((item, index) => {
-const card = document.createElement('div');
-card.className = 'item-card';
-const mapUrl = ⁠https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}⁠;
-card.innerHTML = ⁠<div class="card-top"> <div class="item-title">${item.name}</div> <div class="card-actions"> <button class="icon-btn" onclick="toggleLocalFavorite(${index}, this)"> <i class="fa-regular fa-heart"></i> </button> </div> </div> <div class="tag-container"> <span class="tag ${item.type === 'food' ? 'tag-food' : 'tag-spot'}">${item.tag}</span> </div> <div class="story-box">${item.story}</div> <a href="${mapUrl}" target="_blank" class="map-btn"> <i class="fa-solid fa-location-dot"></i> Google Maps 導航 </a>⁠;
-scheduleList.appendChild(card);
-});
-}
-renderScheduleList();
-window.addSchedule = async function() {
-const title = document.getElementById('schedule-title').value;
-const time = document.getElementById('schedule-time').value;
-const note = document.getElementById('schedule-note').value;
-if (!title) return alert('請輸入景點名稱！');
-await addDoc(collection(db, "schedules"), {
-title, time, note, isFavorite: false, createdAt: Date.now()
-});
-document.getElementById('schedule-title').value = '';
-document.getElementById('schedule-time').value = '';
-document.getElementById('schedule-note').value = '';
-};
-window.addExpense = async function() {
-const item = document.getElementById('expense-item').value;
-const amount = Number(document.getElementById('expense-amount').value);
-const payer = document.getElementById('expense-payer').value;
-if (!item || !amount) return alert('請填寫品項與金額！');
-await addDoc(collection(db, "expenses"), {
-item, amount, payer: payer || '公款', createdAt: Date.now()
-});
-document.getElementById('expense-item').value = '';
-document.getElementById('expense-amount').value = '';
-document.getElementById('expense-payer').value = '';
-};
-onSnapshot(collection(db, "expenses"), (snapshot) => {
-const expensesList = document.getElementById('expenses-list');
-const totalElement = document.getElementById('total-expense');
-expensesList.innerHTML = '';
-let total = 0;
-snapshot.forEach((docSnap) => {
-const data = docSnap.data();
-total += data.amount;
-const card = document.createElement('div');
-card.className = 'item-card';
-card.innerHTML = ⁠<div class="card-top"> <div class="item-title">${data.item}</div> <span style="color:var(--tag-food); font-weight:700;">₩ ${data.amount.toLocaleString()}</span> </div> <div style="font-size:12px; color:var(--text-sub); margin-top:4px;">💳 付款人：${data.payer}</div>⁠;
-expensesList.appendChild(card);
-});
-totalElement.innerText = ⁠₩ ${total.toLocaleString()}⁠;
-});
-</script>
+
+  <header>
+    <h1 id="page-title">釜山旅覽 | BUSAN</h1>
+    <span style="font-size: 12px; color: var(--text-sub);">2026 WINTER</span>
+  </header>
+
+  <div class="container">
+    <!-- 頂部資訊卡：天氣與雙團隊 3D 翻頁倒數 -->
+    <div class="hero-card">
+      <div class="weather-box">
+        <div>
+          <div style="font-size: 12px; color: var(--text-sub);">🇰🇷 釜山當前天氣</div>
+          <div style="font-size: 14px; font-weight: 500; margin-top:2px;">多雲晴朗 🌤️</div>
+        </div>
+        <div class="weather-temp">12°C</div>
+      </div>
+
+      <!-- 3D 擬真翻頁倒數區塊 (雙欄併排) -->
+      <div class="teams-container">
+        <!-- Team 1 -->
+        <div class="team-card">
+          <div class="team-header">
+            <span class="team-title">Team 1</span>
+            <span class="arrival-date">12/27到達</span>
+          </div>
+          <div class="flip-clock" id="clock-team1">
+            <div class="flip-unit" data-unit="days">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">DAY</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="hours">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">HR</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="minutes">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">MIN</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="seconds">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">SEC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team 2 -->
+        <div class="team-card">
+          <div class="team-header">
+            <span class="team-title">Team 2</span>
+            <span class="arrival-date">12/31到達</span>
+          </div>
+          <div class="flip-clock" id="clock-team2">
+            <div class="flip-unit" data-unit="days">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">DAY</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="hours">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">HR</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="minutes">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">MIN</span>
+              </div>
+            </div>
+            <div class="flip-unit" data-unit="seconds">
+              <div class="flip-card-wrapper">
+                <div class="card-face top"><span>00</span></div>
+                <div class="card-face bottom"><span>00</span></div>
+                <span class="unit-label">SEC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 頁籤一：完整行程/景點總覽 -->
+    <div id="tab-schedule" class="tab-content active">
+      
+      <!-- 區域過濾按鈕 -->
+      <div class="category-scroll">
+        <button class="cat-btn active" onclick="filterCategory('ALL', this)">全部區塊</button>
+        <button class="cat-btn" onclick="filterCategory('A', this)">A. 松島/影島</button>
+        <button class="cat-btn" onclick="filterCategory('B', this)">B. 市場/南浦</button>
+        <button class="cat-btn" onclick="filterCategory('C', this)">C. 西面/田浦</button>
+        <button class="cat-btn" onclick="filterCategory('D', this)">D. 廣安里</button>
+        <button class="cat-btn" onclick="filterCategory('E', this)">E. 海雲台</button>
+        <button class="cat-btn" onclick="filterCategory('F', this)">F. 藍線海岸列車</button>
+      </div>
+
+      <!-- 新增自訂景點表單 -->
+      <div class="add-form">
+        <h3 style="font-size: 14px; margin-bottom: 8px;">＋ 新增自訂景點或筆記</h3>
+        <input type="text" id="schedule-title" placeholder="地點或名稱（例：甘川洞彩虹階梯）">
+        <input type="text" id="schedule-time" placeholder="預計時間或類別">
+        <input type="text" id="schedule-note" placeholder="備註筆記">
+        <button class="btn-submit" onclick="addSchedule()">加入行程清單</button>
+      </div>
+
+      <!-- 景點與美食列表 -->
+      <div id="schedule-list">
+        <!-- 系統自動渲染景點列表 -->
+      </div>
+    </div>
+
+    <!-- 頁籤二：愛心收藏 -->
+    <div id="tab-favorites" class="tab-content">
+      <div id="favorites-list">
+        <!-- 愛心收藏載入區 -->
+      </div>
+    </div>
+
+    <!-- 頁籤三：共用記帳 -->
+    <div id="tab-expenses" class="tab-content">
+      <div class="account-summary">
+        <div style="font-size: 12px; opacity: 0.8;">旅程總公款花費 (KRW 韓元)</div>
+        <div style="font-size: 26px; font-weight: 700; margin-top: 4px;" id="total-expense">₩ 0</div>
+      </div>
+
+      <div class="add-form">
+        <h3 style="font-size: 14px; margin-bottom: 8px;">新增消費紀錄</h3>
+        <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
+        <input type="number" id="expense-amount" placeholder="金額 (KRW)">
+        <input type="text" id="expense-payer" placeholder="付款人（例：Jessie）">
+        <button class="btn-submit" onclick="addExpense()">記一筆</button>
+      </div>
+
+      <div id="expenses-list">
+        <!-- 記帳載入區 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部導覽列 -->
+  <nav>
+    <button class="nav-item active" onclick="switchTab('schedule', '釜山旅覽 | BUSAN', this)">
+      <i class="fa-solid fa-compass"></i>
+      行程導覽
+    </button>
+    <button class="nav-item" onclick="switchTab('favorites', '❤️ 愛心收藏', this)">
+      <i class="fa-solid fa-heart"></i>
+      愛心收藏
+    </button>
+    <button class="nav-item" onclick="switchTab('expenses', '💰 共用記帳', this)">
+      <i class="fa-solid fa-wallet"></i>
+      旅伴記帳
+    </button>
+  </nav>
+
+  <!-- 景點資料資料庫與 Firebase 邏輯 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // 完整的 Firebase 金鑰
+    const firebaseConfig = {
+      apiKey: "AIzaSyArSoZq0ZMYSrt5oqb_E3uxP2iC...",
+      authDomain: "busan-app-1a910.firebaseapp.com",
+      projectId: "busan-app-1a910",
+      storageBucket: "busan-app-1a910.firebasestorage.app",
+      messagingSenderId: "48335271845",
+      appId: "1:48335271845:web:9aca079ac5943ff...",
+      measurementId: "G-7HBZZ7H72Z"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // A~F 區塊內建豐富景點庫
+    const presetData = [
+      // A 松島.影島
+      { cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', tag: '必去景點', story: '跨越海港的透明水晶纜車，飽覽松島海灣景色。' },
+      { cat: 'A', name: 'Songdo Sky Park', type: 'spot', tag: '景點故事', story: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋。' },
+      { cat: 'A', name: '影島海女村', type: 'food', tag: '必吃美食', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯。坐在海邊大圓桶上享用現採海鮮。' },
+      { cat: 'A', name: 'Having moment', type: 'food', tag: '海景咖啡', story: '位於影島白淺灘文化村的海景第一排質感咖啡廳。' },
+      { cat: 'A', name: 'Burger Yo Busan', type: 'food', tag: '必吃美食', story: '必點：手工巨無霸漢堡，露天高層海景極佳。' },
+      { cat: 'A', name: 'THRILL ON THE MUG 海景咖啡', type: 'food', tag: '必去咖啡', story: '擁有階梯式海景座位與壯觀海景窗戶。' },
+      { cat: 'A', name: 'ATRE Museum Busan', type: 'spot', tag: '藝術展館', story: '光影藝術沉浸式展覽，拍照質感極高。' },
+      { cat: 'A', name: '甘川文化村', type: 'spot', tag: '必去景點', story: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸。' },
+
+      // B 市集.市場
+      { cat: 'B', name: '山青豬肉湯飯', type: 'food', tag: '必吃美食', story: '在地老字號湯飯，湯頭濃郁無腥味。' },
+      { cat: 'B', name: '富平罐頭市場', type: 'spot', tag: '特色夜市', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞。' },
+      { cat: 'B', name: '愉快的生拌牛肉', type: 'food', tag: '必點菜單', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵。' },
+      { cat: 'B', name: '國際市場', type: 'spot', tag: '伴手禮', story: '歷史悠久的大型傳統市場，購買雜貨與伴手禮好去處。' },
+      { cat: 'B', name: 'BIFF 廣場', type: 'spot', tag: '必吃小吃', story: '必吃：黑糖餅（堅果黑糖餡）。' },
+      { cat: 'B', name: 'Olive Young gwangbok town', type: 'spot', tag: '必買彩妝', story: '光復路旗艦店，品項最齊全的美妝護膚天堂。' },
+      { cat: 'B', name: '札嘎其市場', type: 'spot', tag: '海鮮市場', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理。' },
+      { cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', tag: '在地市場', story: '在地人偏愛的海鮮綜合市場，價格實惠。' },
+
+      // C 西面.田浦
+      { cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', tag: '必吃美食', story: '廣安里名店分店，薄切豬肉片湯飯極讚。' },
+      { cat: 'C', name: '安木 西面店', type: 'food', tag: '必點菜單', story: '精緻韓定食與特色熟成肉料理。' },
+      { cat: 'C', name: '돼지나무 사랑엄청난 서면 본점 燒肉', type: 'food', tag: '必吃燒肉', story: '西面人氣黑豬肉專賣店。' },
+      { cat: 'C', name: '烤肉的男子 西面店', type: 'food', tag: '必點菜單', story: '桌邊專人幫烤，五花肉與豬頸肉極度優質。' },
+      { cat: 'C', name: 'Poset Jeonpo 明信片', type: 'spot', tag: '文具文創', story: '田浦咖啡街必逛質感明信片文創選物店。' },
+      { cat: 'C', name: 'PURADAK炸雞', type: 'food', tag: '必點菜單', story: '精品級黑色包裝炸雞，必點：青辣椒蛋黃醬炸雞。' },
+      { cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', tag: '世界冠軍', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖。' },
+
+      // D 廣安里
+      { cat: 'D', name: '五六島天空步道', type: 'spot', tag: '絕景步道', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖。' },
+      { cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', tag: '米其林必比登', story: '米其林推薦高質感湯飯，清爽極致。' },
+      { cat: 'D', name: '廣安里 M 無人機燈光秀', type: 'spot', tag: '重要時刻', story: '每週六晚上限定的廣安大橋無人機燈光演出。' },
+      { cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', tag: '必去汗蒸幕', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕。' },
+
+      // E 海雲台
+      { cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', tag: '必吃燒肉', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳。' },
+      { cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', tag: '排隊名店', story: '分為釜山式濃湯與密陽式清湯兩種風格。' },
+      { cat: 'E', name: 'Jayeondo Sogeumppang 鹽可頌', type: 'food', tag: '必買伴手禮', story: '自然島鹽可頌，每天出爐四次排隊名店。' },
+
+      // F 海雲台 天空膠囊列車 & 海岸列車
+      { cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', tag: '重要預約', story: '天空膠囊列車搭乘區間，預約號碼請提早確認。' },
+      { cat: 'F', name: '青沙浦紅白雙燈塔', type: 'spot', tag: '打卡景點', story: '經典韓劇經典造景，紅白燈塔映襯海景。' },
+      { cat: 'F', name: 'Chuplus 松亭店 吉拿棒', type: 'food', tag: '必吃甜點', story: '現炸香酥吉拿棒佐濃郁冰淇淋。' }
+    ];
+
+    // --- 3D Split-Flap 翻頁動畫的核心邏輯 ---
+    function updateFlipCard(unitElem, newValue) {
+      const formattedValue = String(newValue).padStart(2, '0');
+      const topFace = unitElem.querySelector('.card-face.top span');
+      const bottomFace = unitElem.querySelector('.card-face.bottom span');
+      const wrapper = unitElem.querySelector('.flip-card-wrapper');
+
+      if (topFace.textContent === formattedValue) return;
+
+      const currentVal = topFace.textContent;
+
+      const leafTop = document.createElement('div');
+      leafTop.className = 'flip-leaf top';
+      leafTop.innerHTML = `<div class="card-face top"><span>${currentVal}</span></div>`;
+
+      const leafBottom = document.createElement('div');
+      leafBottom.className = 'flip-leaf bottom';
+      leafBottom.innerHTML = `<div class="card-face bottom"><span>${formattedValue}</span></div>`;
+
+      wrapper.appendChild(leafTop);
+      wrapper.appendChild(leafBottom);
+
+      topFace.textContent = formattedValue;
+
+      leafTop.classList.add('animate-top');
+      leafBottom.classList.add('animate-bottom');
+
+      leafBottom.addEventListener('animationend', () => {
+        bottomFace.textContent = formattedValue;
+        leafTop.remove();
+        leafBottom.remove();
+      });
+    }
+
+    // 倒數計時器邏輯 (Team1: 12/27, Team2: 12/31)
+    function startCountdowns() {
+      const year = 2026;
+      const t1Date = new Date(`${year}-12-27T00:00:00`);
+      const t2Date = new Date(`${year}-12-31T00:00:00`);
+
+      function updateTeam(clockId, targetDate) {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+          ['days', 'hours', 'minutes', 'seconds'].forEach(u => {
+            const unitElem = document.querySelector(`#${clockId} [data-unit="${u}"]`);
+            if (unitElem) updateFlipCard(unitElem, 0);
+          });
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / 1000 / 60) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+
+        const clockElem = document.getElementById(clockId);
+        if (clockElem) {
+          updateFlipCard(clockElem.querySelector('[data-unit="days"]'), days);
+          updateFlipCard(clockElem.querySelector('[data-unit="hours"]'), hrs);
+          updateFlipCard(clockElem.querySelector('[data-unit="minutes"]'), mins);
+          updateFlipCard(clockElem.querySelector('[data-unit="seconds"]'), secs);
+        }
+      }
+
+      function tick() {
+        updateTeam('clock-team1', t1Date);
+        updateTeam('clock-team2', t2Date);
+      }
+
+      setInterval(tick, 1000);
+      tick();
+    }
+    startCountdowns();
+
+    // 分頁切換
+    window.switchTab = function(tabId, title, btnElement) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      document.getElementById('page-title').innerText = title;
+      btnElement.classList.add('active');
+    };
+
+    // 類別過濾
+    let currentFilter = 'ALL';
+    window.filterCategory = function(cat, btn) {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = cat;
+      renderScheduleList();
+    };
+
+    // 渲染景點列表
+    function renderScheduleList() {
+      const scheduleList = document.getElementById('schedule-list');
+      scheduleList.innerHTML = '';
+
+      const filtered = currentFilter === 'ALL' 
+        ? presetData 
+        : presetData.filter(i => i.cat === currentFilter);
+
+      filtered.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}`;
+        
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="item-title">${item.name}</div>
+            <div class="card-actions">
+              <button class="icon-btn" onclick="toggleLocalFavorite(${index}, this)">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+          </div>
+          <div class="tag-container">
+            <span class="tag ${item.type === 'food' ? 'tag-food' : 'tag-spot'}">${item.tag}</span>
+          </div>
+          <div class="story-box">${item.story}</div>
+          <a href="${mapUrl}" target="_blank" class="map-btn">
+            <i class="fa-solid fa-location-dot"></i> Google Maps 導航
+          </a>
+        `;
+        scheduleList.appendChild(card);
+      });
+    }
+
+    renderScheduleList();
+
+    // 愛心與記帳雲端連動 (Firebase Firestore)
+    window.addSchedule = async function() {
+      const title = document.getElementById('schedule-title').value;
+      const time = document.getElementById('schedule-time').value;
+      const note = document.getElementById('schedule-note').value;
+      if (!title) return alert('請輸入景點名稱！');
+
+      await addDoc(collection(db, "schedules"), {
+        title, time, note, isFavorite: false, createdAt: Date.now()
+      });
+
+      document.getElementById('schedule-title').value = '';
+      document.getElementById('schedule-time').value = '';
+      document.getElementById('schedule-note').value = '';
+    };
+
+    // 記帳邏輯
+    window.addExpense = async function() {
+      const item = document.getElementById('expense-item').value;
+      const amount = Number(document.getElementById('expense-amount').value);
+      const payer = document.getElementById('expense-payer').value;
+      if (!item || !amount) return alert('請填寫品項與金額！');
+
+      await addDoc(collection(db, "expenses"), {
+        item, amount, payer: payer || '公款', createdAt: Date.now()
+      });
+
+      document.getElementById('expense-item').value = '';
+      document.getElementById('expense-amount').value = '';
+      document.getElementById('expense-payer').value = '';
+    };
+
+    // 實時連動記帳
+    onSnapshot(collection(db, "expenses"), (snapshot) => {
+      const expensesList = document.getElementById('expenses-list');
+      const totalElement = document.getElementById('total-expense');
+      expensesList.innerHTML = '';
+      let total = 0;
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        total += data.amount;
+
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="item-title">${data.item}</div>
+            <span style="color:var(--tag-food); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-sub); margin-top:4px;">💳 付款人：${data.payer}</div>
+        `;
+        expensesList.appendChild(card);
+      });
+
+      totalElement.innerText = `₩ ${total.toLocaleString()}`;
+    });
+  </script>
 </body>
 </html>
