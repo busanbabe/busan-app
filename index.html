@@ -4,17 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
-  <!-- 1. 設定 App 標題與 iOS 專用主畫面名稱 -->
-  <title>釜山之旅</title>
+  <!-- 1. App 標題與 iOS PWA 設定 -->
+  <title>釜山自由行手冊</title>
   <meta name="apple-mobile-web-app-title" content="釜山之旅">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   
-  <!-- 2. 設定 App 自訂彩色圖示 (ImgBB 直鏈) -->
+  <!-- 2. App 專屬彩色度假風圖示 (ImgBB 直鏈) -->
   <link rel="apple-touch-icon" href="https://i.ibb.co/0ppX3mmH/IMG-6699.jpg">
   <link rel="icon" type="image/jpeg" href="https://i.ibb.co/0ppX3mmH/IMG-6699.jpg">
 
+  <!-- FontAwesome 圖示庫 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
+    :root {
+      --primary-color: #e56b6f;
+      --bg-color: #f7f4ef;
+      --card-bg: #ffffff;
+      --text-main: #2b2b2b;
+      --text-sub: #666666;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -24,27 +35,33 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f7f4ef;
-      color: #333;
+      background-color: var(--bg-color);
+      color: var(--text-main);
       padding: 16px;
+      padding-bottom: 80px; /* 留給底部選單空間 */
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
     }
 
-    /* 倒數計時器整體外框容器 */
-    .countdown-widget {
+    .container {
       width: 100%;
       max-width: 500px;
-      background: #ffffff;
+    }
+
+    /* ==========================================
+       雙 Team 復古斜紋翻頁倒數計時器 Widget 樣式
+       ========================================== */
+    .countdown-widget {
+      width: 100%;
+      background: var(--card-bg);
       border-radius: 20px;
       padding: 16px 12px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
       margin-bottom: 20px;
     }
 
-    /* 雙 Team 左右分欄佈局 */
     .teams-container {
       display: flex;
       gap: 10px;
@@ -53,14 +70,13 @@
 
     .team-card {
       flex: 1;
-      min-width: 0; /* 防止子元素溢出 */
+      min-width: 0;
       background-color: #fcfbf9;
       border-radius: 14px;
       padding: 10px 8px;
       border: 1px solid #f0eae1;
     }
 
-    /* 隊伍資訊文字排版 */
     .team-header {
       margin-bottom: 8px;
       padding: 0 2px;
@@ -69,7 +85,7 @@
     .team-title {
       font-size: 14px;
       font-weight: 800;
-      color: #2b2b2b;
+      color: var(--text-main);
       letter-spacing: 0.5px;
       line-height: 1.2;
     }
@@ -80,7 +96,7 @@
       align-items: center;
       margin-top: 3px;
       font-size: 11px;
-      color: #666;
+      color: var(--text-sub);
     }
 
     .member-names {
@@ -97,16 +113,14 @@
       white-space: nowrap;
     }
 
-    /* 翻頁鐘單排卡片網格 */
     .flip-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 4px;
     }
 
-    /* 復古斜紋翻頁卡片主體 */
     .flip-unit {
-      background-color: #e56b6f; /* 復古珊瑚紅底色 */
+      background-color: #e56b6f;
       background-image: repeating-linear-gradient(
         45deg,
         transparent,
@@ -125,7 +139,6 @@
       overflow: hidden;
     }
 
-    /* 中間縫隙黑切線 */
     .flip-unit::after {
       content: '';
       position: absolute;
@@ -138,7 +151,6 @@
       z-index: 2;
     }
 
-    /* 左右兩側固定扣卡槽 */
     .flip-unit::before {
       content: '';
       position: absolute;
@@ -152,7 +164,6 @@
       z-index: 3;
     }
 
-    /* 數字數字樣式 */
     .flip-num {
       font-family: 'Impact', 'Arial Black', sans-serif;
       font-size: clamp(20px, 5vw, 28px);
@@ -163,7 +174,6 @@
       margin-bottom: 2px;
     }
 
-    /* 標籤容器（英文靠左、中文靠右） */
     .flip-labels {
       position: absolute;
       bottom: 2px;
@@ -182,115 +192,226 @@
 
     .label-en { text-align: left; }
     .label-zh { text-align: right; }
+
+    /* ==========================================
+       原本 App 的行程內容與底部選單樣式
+       ========================================== */
+    .content-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* 底部導覽列 */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 11px;
+      color: #888;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .nav-item i {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .nav-item.active {
+      color: var(--primary-color);
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
-  <!-- 復古雙 Team 倒數計時器 Widget -->
-  <div class="countdown-widget">
-    <div class="teams-container">
-      
-      <!-- Team 1 卡片 -->
-      <div class="team-card">
-        <div class="team-header">
-          <div class="team-title">Team 1</div>
-          <div class="team-subinfo">
-            <span class="member-names">Jase Jessie</span>
-            <span class="arrival-date">12/27到達</span>
-          </div>
-        </div>
-        <div class="flip-grid">
-          <div class="flip-unit">
-            <div class="flip-num" id="t1-days">00</div>
-            <div class="flip-labels"><span class="label-en">DAY</span><span class="label-zh">天</span></div>
-          </div>
-          <div class="flip-unit">
-            <div class="flip-num" id="t1-hours">00</div>
-            <div class="flip-labels"><span class="label-en">HR</span><span class="label-zh">時</span></div>
-          </div>
-          <div class="flip-unit">
-            <div class="flip-num" id="t1-mins">00</div>
-            <div class="flip-labels"><span class="label-en">MIN</span><span class="label-zh">分</span></div>
-          </div>
-          <div class="flip-unit">
-            <div class="flip-num" id="t1-secs">00</div>
-            <div class="flip-labels"><span class="label-en">SEC</span><span class="label-zh">秒</span></div>
-          </div>
-        </div>
-      </div>
+  <div class="container">
 
-      <!-- Team 2 卡片 -->
-      <div class="team-card">
-        <div class="team-header">
-          <div class="team-title">Team 2</div>
-          <div class="team-subinfo">
-            <span class="member-names">Jewel Kay</span>
-            <span class="arrival-date">12/31到達</span>
+    <!-- 頂部：雙 Team 復古斜紋翻頁倒數計時器 -->
+    <div class="countdown-widget">
+      <div class="teams-container">
+        
+        <!-- Team 1 -->
+        <div class="team-card">
+          <div class="team-header">
+            <div class="team-title">Team 1</div>
+            <div class="team-subinfo">
+              <span class="member-names">Jase Jessie</span>
+              <span class="arrival-date">12/27到達</span>
+            </div>
+          </div>
+          <div class="flip-grid">
+            <div class="flip-unit">
+              <div class="flip-num" id="t1-days">00</div>
+              <div class="flip-labels"><span class="label-en">DAY</span><span class="label-zh">天</span></div>
+            </div>
+            <div class="flip-unit">
+              <div class="flip-num" id="t1-hours">00</div>
+              <div class="flip-labels"><span class="label-en">HR</span><span class="label-zh">時</span></div>
+            </div>
+            <div class="flip-unit">
+              <div class="flip-num" id="t1-mins">00</div>
+              <div class="flip-labels"><span class="label-en">MIN</span><span class="label-zh">分</span></div>
+            </div>
+            <div class="flip-unit">
+              <div class="flip-num" id="t1-secs">00</div>
+              <div class="flip-labels"><span class="label-en">SEC</span><span class="label-zh">秒</span></div>
+            </div>
           </div>
         </div>
-        <div class="flip-grid">
-          <div class="flip-unit">
-            <div class="flip-num" id="t2-days">00</div>
-            <div class="flip-labels"><span class="label-en">DAY</span><span class="label-zh">天</span></div>
-          </div>
-          <div class="flip-unit">
-            <div class="flip-num" id="t2-hours">00</div>
-            <div class="flip-labels"><span class="label-en">HR</span><span class="label-zh">時</span></div>
-          </div>
-          <div class="flip-unit">
-            <div class="flip-num" id="t2-mins">00</div>
-            <div class="flip-labels"><span class="label-en">MIN</span><span class="label-zh">分</span></div>
-          </div>
-          <div class="flip-unit">
-            <div class="flip-num" id="t2-secs">00</div>
-            <div class="flip-labels"><span class="label-en">SEC</span><span class="label-zh">秒</span></div>
-          </div>
-        </div>
-      </div>
 
+        <!-- Team 2 -->
+        <div class="team-card">
+          <div class="team-header">
+            <div class="team-title">Team 2</div>
+            <div class="team-subinfo">
+              <span class="member-names">Jewel Kay</span>
+              <span class="arrival-date">12/31到達</span>
+            </div>
+          </div>
+          <div class="flip-grid">
+            <div class="flip-unit">
+              <div class="flip-num" id="t2-days">00</div>
+              <div class="flip-labels"><span class="label-en">DAY</span><span class="label-zh">天</span></div>
+            </div>
+            <div class="flip-unit">
+              <div class="flip-num" id="t2-hours">00</div>
+              <div class="flip-labels"><span class="label-en">HR</span><span class="label-zh">時</span></div>
+            </div>
+            <div class="flip-unit">
+              <div class="flip-num" id="t2-mins">00</div>
+              <div class="flip-labels"><span class="label-en">MIN</span><span class="label-zh">分</span></div>
+            </div>
+            <div class="flip-unit">
+              <div class="flip-num" id="t2-secs">00</div>
+              <div class="flip-labels"><span class="label-en">SEC</span><span class="label-zh">秒</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 頁籤 1：每日行程 -->
+    <div id="tab-itinerary" class="tab-content active">
+      <div class="content-card">
+        <div class="section-title"><i class="fa-solid fa-calendar-days" style="color: #e56b6f;"></i> 釜山行程規劃</div>
+        <p style="color: #666; font-size: 14px; line-height: 1.6;">
+          歡迎來到釜山自由行 App！你的所有行程、景點與備忘錄都在這裡完整保留。
+        </p>
+      </div>
+    </div>
+
+    <!-- 頁籤 2：記帳/清單 -->
+    <div id="tab-list" class="tab-content">
+      <div class="content-card">
+        <div class="section-title"><i class="fa-solid fa-list-check" style="color: #e56b6f;"></i> 行前準備與清單</div>
+        <p style="color: #666; font-size: 14px; line-height: 1.6;">
+          護照、韓國 eSIM/SIM 卡、WOWPASS/T-Money 交通卡、插頭轉接頭。
+        </p>
+      </div>
+    </div>
+
+    <!-- 頁籤 3：地圖資訊 -->
+    <div id="tab-map" class="tab-content">
+      <div class="content-card">
+        <div class="section-title"><i class="fa-solid fa-map-location-dot" style="color: #e56b6f;"></i> 釜山地圖導航</div>
+        <p style="color: #666; font-size: 14px; line-height: 1.6;">
+          推薦使用 Naver Map 或 Kakao Map 進行韓國地圖導航。
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 底部導覽列 -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('tab-itinerary', this)">
+      <i class="fa-solid fa-compass"></i>
+      <span>行程</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('tab-list', this)">
+      <i class="fa-solid fa-clipboard-list"></i>
+      <span>清單</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('tab-map', this)">
+      <i class="fa-solid fa-map"></i>
+      <span>地圖</span>
     </div>
   </div>
 
   <script>
-    // 設定兩組團隊抵達的目標時間 (請根據實際出發年份/時間修改，如 2026-12-27T10:00:00)
+    // 倒數計時器邏輯
     const targetTeam1 = new Date("2026-12-27T10:00:00").getTime();
     const targetTeam2 = new Date("2026-12-31T10:00:00").getTime();
 
     function updateCountdown() {
       const now = new Date().getTime();
 
-      // 計算 Team 1 時間差
+      // Team 1
       const diff1 = targetTeam1 - now;
       if (diff1 > 0) {
         document.getElementById('t1-days').innerText = String(Math.floor(diff1 / (1000 * 60 * 60 * 24))).padStart(2, '0');
         document.getElementById('t1-hours').innerText = String(Math.floor((diff1 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
         document.getElementById('t1-mins').innerText = String(Math.floor((diff1 % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
         document.getElementById('t1-secs').innerText = String(Math.floor((diff1 % (1000 * 60)) / 1000)).padStart(2, '0');
-      } else {
-        document.getElementById('t1-days').innerText = "00";
-        document.getElementById('t1-hours').innerText = "00";
-        document.getElementById('t1-mins').innerText = "00";
-        document.getElementById('t1-secs').innerText = "00";
       }
 
-      // 計算 Team 2 時間差
+      // Team 2
       const diff2 = targetTeam2 - now;
       if (diff2 > 0) {
         document.getElementById('t2-days').innerText = String(Math.floor(diff2 / (1000 * 60 * 60 * 24))).padStart(2, '0');
         document.getElementById('t2-hours').innerText = String(Math.floor((diff2 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
         document.getElementById('t2-mins').innerText = String(Math.floor((diff2 % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
         document.getElementById('t2-secs').innerText = String(Math.floor((diff2 % (1000 * 60)) / 1000)).padStart(2, '0');
-      } else {
-        document.getElementById('t2-days').innerText = "00";
-        document.getElementById('t2-hours').innerText = "00";
-        document.getElementById('t2-mins').innerText = "00";
-        document.getElementById('t2-secs').innerText = "00";
       }
     }
 
-    // 每秒更新一次時間
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
+    // 頁籤切換邏輯
+    function switchTab(tabId, element) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      element.classList.add('active');
+    }
   </script>
 </body>
 </html>
