@@ -171,6 +171,7 @@
       );
     }
 
+    /* 兩側轉軸小卡榫 */
     .flip-card-wrapper::before,
     .flip-card-wrapper::after {
       content: '';
@@ -180,12 +181,13 @@
       height: 7px;
       background-color: #111;
       transform: translateY(-50%);
-      z-index: 10;
+      z-index: 20;
       border-radius: 1px;
     }
     .flip-card-wrapper::before { left: 0; }
     .flip-card-wrapper::after { right: 0; }
 
+    /* 上下固定面與動態葉片共同樣式 */
     .card-face {
       position: absolute;
       left: 0;
@@ -219,15 +221,28 @@
     .card-face.top span { transform: translateY(50%); }
     .card-face.bottom span { transform: translateY(-50%); }
 
-    /* 翻頁動態葉片 */
+    /* 翻頁中的動態葉片 (完美解決多餘數字跑出問題) */
     .flip-card {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
+      height: 50%;
+      overflow: hidden;
       transform-style: preserve-3d;
+      transform-origin: bottom;
+      z-index: 10;
       will-change: transform;
+      background-color: inherit;
+      background-image: inherit;
+    }
+
+    .flip-card .card-face.top {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
     }
 
     .unit-label {
@@ -238,7 +253,7 @@
       font-weight: 800;
       color: var(--flip-subtext);
       letter-spacing: 0.2px;
-      z-index: 5;
+      z-index: 15;
       pointer-events: none;
     }
 
@@ -448,7 +463,7 @@
         <div class="weather-temp">12°C</div>
       </div>
 
-      <!-- 3D 擬真絲滑翻頁倒數區塊 -->
+      <!-- 3D 擬真絲滑翻頁倒數區塊 (已修復殘影) -->
       <div class="teams-container">
         <!-- Team 1 -->
         <div class="team-card">
@@ -591,7 +606,7 @@
     </button>
   </nav>
 
-  <!-- 邏輯與絲滑翻頁 JS -->
+  <!-- 邏輯與完美遮罩翻頁 JS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -650,7 +665,7 @@
       { cat: 'F', name: 'Chuplus 松亭店 吉拿棒', type: 'food', tag: '必吃甜點', story: '現炸香酥吉拿棒佐濃郁冰淇淋。' }
     ];
 
-    // --- 極速絲滑 3D 翻頁核心 ---
+    // --- 完美遮罩的 3D 翻頁核心 ---
     function updateFlipCard(unitElem, newValue) {
       const formattedValue = String(newValue).padStart(2, '0');
       const topFace = unitElem.querySelector('.card-face.top span');
@@ -663,8 +678,8 @@
       const flipCard = document.createElement('div');
       flipCard.className = 'flip-card';
       flipCard.innerHTML = `
-        <div class="card-face top" style="height:100%; align-items:flex-end; border-bottom:0.5px solid var(--flip-divider);">
-          <span style="transform:translateY(50%);">${currentVal}</span>
+        <div class="card-face top">
+          <span>${currentVal}</span>
         </div>
       `;
       wrapper.appendChild(flipCard);
@@ -673,7 +688,6 @@
       bottomFace.textContent = currentVal;
 
       flipCard.style.transition = 'transform 0.25s ease-in';
-      flipCard.style.transformOrigin = 'bottom';
       
       requestAnimationFrame(() => {
         flipCard.style.transform = 'rotateX(-90deg)';
