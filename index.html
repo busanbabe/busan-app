@@ -553,7 +553,7 @@ measurementId: "G-7HBZZ7H72Z"
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const presetData = [
-// A. 松島 / 影島
+// A 松島 / 影島
 { cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', tag: 'A. 松島 / 影島', story: '跨越海港的水晶纜車，飽覽松島海灣景色。' },
 { cat: 'A', name: 'Songdo Sky Park', type: 'spot', tag: 'A. 松島 / 影島', story: '纜車終點站，內有小王子雕像與松島龍宮雲橋。' },
 { cat: 'A', name: '影島海女村', type: 'food', tag: 'A. 松島 / 影島', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯，坐在海邊享用現採海鮮。' },
@@ -562,7 +562,7 @@ const presetData = [
 { cat: 'A', name: 'THRILL ON THE MUG 海景咖啡', type: 'food', tag: 'A. 松島 / 影島', story: '擁有階梯式海景座位與壯觀海景窗戶。' },
 { cat: 'A', name: 'ATRE Museum Busan', type: 'spot', tag: 'A. 松島 / 影島', story: '光影藝術沉浸式展覽，拍照質感極高。' },
 { cat: 'A', name: '甘川文化村', type: 'spot', tag: 'A. 松島 / 影島', story: '釜山馬丘比丘，必拍小王子與沙漠狐狸。' },
-// B. 市場 / 南浦
+// B 市場 / 南浦
 { cat: 'B', name: '山青豬肉湯飯', type: 'food', tag: 'B. 市場 / 南浦', story: '在地老字號湯飯，湯頭濃郁無腥味。' },
 { cat: 'B', name: '富平罐頭市場', type: 'spot', tag: 'B. 市場 / 南浦', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞。' },
 { cat: 'B', name: '愉快的生拌牛肉', type: 'food', tag: 'B. 市場 / 南浦', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵。' },
@@ -571,7 +571,7 @@ const presetData = [
 { cat: 'B', name: 'Olive Young gwangbok town', type: 'spot', tag: 'B. 市場 / 南浦', story: '光復路旗艦店，品項最齊全的美妝護膚天堂。' },
 { cat: 'B', name: '札嘎其市場', type: 'spot', tag: 'B. 市場 / 南浦', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理。' },
 { cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', tag: 'B. 市場 / 南浦', story: '在地人偏愛的海鮮綜合市場，價格實惠。' },
-// C. 西面 / 田浦
+// C 西面 / 田浦
 { cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', tag: 'C. 西面 / 田浦', story: '廣安里名店分店，薄切豬肉片湯飯極讚。' },
 { cat: 'C', name: '安木 西面店', type: 'food', tag: 'C. 西面 / 田浦', story: '精緻韓定食與特色熟成肉料理。' },
 { cat: 'C', name: '세든 365약국 藥局', type: 'spot', tag: 'C. 西面 / 田浦', story: '西面鬧區便利藥局。' },
@@ -585,7 +585,7 @@ const presetData = [
 { cat: 'C', name: 'Pot of busan 甜點', type: 'food', tag: 'C. 西面 / 田浦', story: '精緻精美下午茶甜點店。' },
 { cat: 'C', name: 'Strut Coffee', type: 'food', tag: 'C. 西面 / 田浦', story: '田浦高質感手沖咖啡名店。' },
 { cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', tag: 'C. 西面 / 田浦', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖。' },
-// D. 廣安里
+// D 廣安里
 { cat: 'D', name: '五六島天空步道', type: 'spot', tag: 'D. 廣安里', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖。' },
 { cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', tag: 'D. 廣安里', story: '米其林推薦高質感湯飯，清爽極致。' },
 { cat: 'D', name: 'Momos Coffee - Dorunheon', type: 'food', tag: 'D. 廣安里', story: 'Momos Coffee 質感分店。' },
@@ -597,7 +597,7 @@ const presetData = [
 { cat: 'D', name: '廣安里 M 無人機燈光秀', type: 'spot', tag: 'D. 廣安里', story: '每週六晚上限定的廣安大橋無人機燈光演出。' },
 { cat: 'D', name: '고하순 광안직영점 燒肉', type: 'food', tag: 'D. 廣安里', story: '廣安里人氣美味黑豬肉燒肉直營店。' },
 { cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', tag: 'D. 廣安里', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕。' },
-// E. 海雲台
+// E 海雲台
 { cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', tag: 'E. 海雲台', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳。' },
 { cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', tag: 'E. 海雲台', story: '分為釜山式濃湯與密陽式清湯兩種風格。' },
 { cat: 'E', name: 'Busandang 紅豆麵包', type: 'food', tag: 'E. 海雲台', story: '人氣紅豆麵包點心。' },
@@ -608,7 +608,7 @@ const presetData = [
 { cat: 'E', name: '오브봔 ovone水果蛋糕', type: 'food', tag: 'E. 海雲台', story: '精緻美味的水果蛋糕甜點店。' },
 { cat: 'E', name: 'Miffy 專門店', type: 'spot', tag: 'E. 海雲台', story: '可愛米飛兔周邊專賣店。' },
 { cat: 'E', name: '水邊豬肉湯飯', type: 'food', tag: 'E. 海雲台', story: '知名豬肉湯飯分店。' },
-// F. 天空膠囊列車 & 海岸列車
+// F 天空膠囊列車 & 海岸列車
 { cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', tag: 'F. 天空膠囊列車 & 海岸列車', story: '天空膠囊列車搭乘區間，預約號碼請提早確認。' },
 { cat: 'F', name: 'TIDE Coffee Roasters', type: 'food', tag: 'F. 天空膠囊列車 & 海岸列車', story: '青沙浦質感海景咖啡烘焙工作室。' },
 { cat: 'F', name: 'Edge 993', type: 'food', tag: 'F. 天空膠囊列車 & 海岸列車', story: '尾浦港旁坐擁無敵海景的高空咖啡與酒吧。' },
