@@ -205,7 +205,6 @@
       background-image: inherit;
       color: var(--flip-text);
       font-weight: 700;
-      /* 使用 clamp 確保各裝置自動完美縮放 */
       font-size: clamp(14px, 4.2vw, 24px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
@@ -289,7 +288,6 @@
       transition: all 0.2s ease;
     }
 
-    /* 各區塊按鈕莫蘭迪專屬配色 */
     .cat-btn[data-cat="ALL"].active { background: var(--accent-wood); color: #FFF; border-color: var(--accent-wood); }
     .cat-btn[data-cat="A"].active { background: var(--color-cat-a); color: #FFF; border-color: var(--color-cat-a); }
     .cat-btn[data-cat="B"].active { background: var(--color-cat-b); color: #FFF; border-color: var(--color-cat-b); }
@@ -414,12 +412,96 @@
       cursor: pointer;
     }
 
+    /* 記帳小幫手看板 (整合建議2) */
     .account-summary {
       background: var(--accent-wood);
       color: white;
       border-radius: 14px;
       padding: 18px;
       margin-bottom: 16px;
+    }
+
+    .account-summary .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .payer-breakdown {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.3);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 8px;
+    }
+
+    .payer-item {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+
+    .payer-name {
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .payer-amount {
+      font-weight: 700;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    /* 韓國消費小撇步 (建議4) */
+    .tips-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .tips-header {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .korean-phrase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .phrase-item {
+      background: var(--bg-color);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .phrase-zh { color: var(--text-sub); font-size: 11px; }
+    .phrase-kr { font-weight: 700; color: var(--text-main); margin: 2px 0; }
+    .phrase-roma { font-size: 10px; color: var(--accent-wood); }
+
+    .copy-btn {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      font-size: 11px;
+      cursor: pointer;
+      margin-top: 4px;
     }
 
     .expense-actions {
@@ -513,7 +595,7 @@
         <div class="team-card">
           <div class="team-header">
             <span class="team-title">Team 1</span>
-            <span class="arrival-date">12/27到達</span>
+            <span class="arrival-date">12/29到達</span>
           </div>
           <div class="flip-clock" id="clock-team1">
             <div class="flip-unit" data-unit="days">
@@ -607,20 +689,60 @@
       <div id="favorites-list"></div>
     </div>
 
-    <!-- 頁籤三：旅費管家 -->
+    <!-- 頁籤三：記帳小幫手 -->
     <div id="tab-expenses" class="tab-content">
+      <!-- 記帳小幫手 + AA分攤看板 -->
       <div class="account-summary">
-        <div style="font-size: 12px; opacity: 0.8;">旅程總公款花費</div>
-        <div style="font-size: 26px; font-weight: 700; margin-top: 4px;" id="total-expense">₩ 0</div>
-        <div style="font-size: 14px; opacity: 0.9; margin-top: 2px;" id="total-expense-twd">≈ NT$ 0</div>
+        <div class="title-row">
+          <div style="font-size: 13px; font-weight: 600; opacity: 0.95;">記帳小幫手</div>
+          <div style="font-size: 11px; opacity: 0.8;">AA分攤統計</div>
+        </div>
+        <div style="font-size: 26px; font-weight: 700; margin-top: 2px;" id="total-expense">₩ 0</div>
+        <div style="font-size: 13px; opacity: 0.9;" id="total-expense-twd">≈ NT$ 0</div>
+
+        <!-- 各成員墊付明細 (自動算) -->
+        <div class="payer-breakdown" id="payer-breakdown-list">
+          <div style="font-size: 11px; opacity: 0.8;">尚無墊付紀錄</div>
+        </div>
       </div>
 
+      <!-- 韓國消費小撇步 / 實用韓文小卡 (建議 4) -->
+      <div class="tips-card">
+        <div class="tips-header">
+          <i class="fa-solid fa-lightbulb" style="color:var(--accent-wood);"></i> 韓國結算與消費小卡
+        </div>
+        <div class="korean-phrase-grid">
+          <div class="phrase-item">
+            <div>
+              <div class="phrase-zh">請分開刷卡/付帳</div>
+              <div class="phrase-kr">따로 계산해 주세요</div>
+              <div class="phrase-roma">Ttaro gyesan-hae juseyo</div>
+            </div>
+            <button class="copy-btn" onclick="copyText('따로 계산해 주세요')"><i class="fa-regular fa-copy"></i> 複製</button>
+          </div>
+          <div class="phrase-item">
+            <div>
+              <div class="phrase-zh">請給我收據 (退稅用)</div>
+              <div class="phrase-kr">영수증 주세요</div>
+              <div class="phrase-roma">Yeongsujeung juseyo</div>
+            </div>
+            <button class="copy-btn" onclick="copyText('영수증 주세요')"><i class="fa-regular fa-copy"></i> 複製</button>
+          </div>
+          <div class="phrase-item" style="grid-column: span 2;">
+            <div style="font-size: 11px; color: var(--text-sub);">
+              💡 <b>退稅小提醒：</b>單筆消費滿 <b>₩15,000</b> 即可現場或機場退稅，結帳時請出示護照！
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 新增消費紀錄 -->
       <div class="add-form">
         <h3 style="font-size: 14px; margin-bottom: 8px;">新增消費紀錄</h3>
         <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
         <input type="number" id="expense-amount" placeholder="金額 (KRW)" oninput="updateTwdHint(this.value)">
         <div class="twd-hint" id="twd-conversion-hint">台幣試算：≈ NT$ 0</div>
-        <input type="text" id="expense-payer" placeholder="付款人（例：Jessie）">
+        <input type="text" id="expense-payer" placeholder="付款人（例：Jessie / Jase）">
         <button class="btn-submit" onclick="addExpense()">帳單確認</button>
       </div>
 
@@ -642,7 +764,7 @@
       <i class="fa-solid fa-house"></i>
       HOME
     </button>
-    <button class="nav-item" id="nav-expenses" onclick="switchTab('expenses', '💰 旅費管家', this)">
+    <button class="nav-item" id="nav-expenses" onclick="switchTab('expenses', '💰 記帳小幫手', this)">
       <i class="fa-solid fa-wallet"></i>
       記帳小幫手
     </button>
@@ -666,7 +788,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 匯率設定：1 台幣約合 42.5 韓元 (可依實際需求微調)
+    // 匯率設定：1 台幣約合 42.5 韓元
     const EXCHANGE_RATE = 42.5;
 
     window.updateTwdHint = function(val) {
@@ -678,6 +800,13 @@
       }
       const twd = Math.round(num / EXCHANGE_RATE);
       hintElem.innerText = `台幣試算：≈ NT$ ${twd.toLocaleString()}`;
+    };
+
+    // 複製韓文文字
+    window.copyText = function(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('已複製到剪貼簿：' + text);
+      });
     };
 
     const presetData = [
@@ -753,7 +882,7 @@
       { id: 'F9', cat: 'F', name: 'Skyline Luge Busan', type: 'spot', story: '釜山斜坡滑車，驚險刺激適合結伴同遊' }
     ];
 
-    // 收藏資料本地快取 (存取 id 陣列)
+    // 收藏資料本地快取
     let favorites = JSON.parse(localStorage.getItem('busan_favs') || '[]');
 
     function saveFavorites() {
@@ -796,7 +925,7 @@
 
     function startCountdowns() {
       const year = 2026;
-      const t1Date = new Date(`${year}-12-27T00:00:00`);
+      const t1Date = new Date(`${year}-12-29T00:00:00`);
       const t2Date = new Date(`${year}-12-31T00:00:00`);
 
       function updateTeam(clockId, targetDate) {
@@ -838,7 +967,6 @@
 
       if(btnElement) btnElement.classList.add('active');
 
-      // 倒數時鐘僅在首頁 (schedule) 顯示
       const heroCard = document.getElementById('hero-countdown-card');
       if (tabId === 'schedule') {
         heroCard.style.display = 'block';
@@ -851,10 +979,9 @@
       }
     };
 
-    // HOME 按鈕事件
     window.goHome = function() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      switchTab('schedule', '釜山旅覽 | BUSAN', document.getElementById('nav-schedule'));
+      switchTab('schedule', '釜山安妞   |   Hi BUSAN', document.getElementById('nav-schedule'));
     };
 
     let currentFilter = 'ALL';
@@ -865,16 +992,12 @@
       renderScheduleList();
     };
 
-    // 渲染景點列表
     function renderScheduleList() {
       const scheduleList = document.getElementById('schedule-list');
       scheduleList.innerHTML = '';
 
-      let filteredData = [];
-
-      if (currentFilter === 'ALL') {
-        filteredData = presetData;
-      } else {
+      let filteredData = presetData;
+      if (currentFilter !== 'ALL') {
         filteredData = presetData.filter(i => i.cat === currentFilter);
       }
 
@@ -883,11 +1006,10 @@
         const card = document.createElement('div');
         card.className = `item-card cat-${item.cat}`;
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}`;
-        const numberIndex = index + 1;
 
         card.innerHTML = `
           <div class="card-top">
-            <div class="item-title">${numberIndex}. ${item.name}</div>
+            <div class="item-title">${index + 1}. ${item.name}</div>
             <div class="card-actions">
               <button class="icon-btn ${isFav ? 'active-heart' : ''}" onclick="toggleFavorite('${item.id}')">
                 <i class="fa-${isFav ? 'solid' : 'regular'} fa-heart"></i>
@@ -903,7 +1025,6 @@
       });
     }
 
-    // 渲染愛心收藏頁面
     function renderFavoritesList() {
       const favList = document.getElementById('favorites-list');
       favList.innerHTML = '';
@@ -943,7 +1064,6 @@
       });
     }
 
-    // 愛心切換邏輯
     window.toggleFavorite = function(itemId) {
       const idx = favorites.indexOf(itemId);
       if (idx > -1) {
@@ -964,11 +1084,11 @@
     window.addExpense = async function() {
       const item = document.getElementById('expense-item').value;
       const amount = Number(document.getElementById('expense-amount').value);
-      const payer = document.getElementById('expense-payer').value;
+      const payer = document.getElementById('expense-payer').value.trim() || '公款';
       if (!item || !amount) return alert('請填寫品項與金額！');
 
       await addDoc(collection(db, "expenses"), {
-        item, amount, payer: payer || '公款', createdAt: Date.now()
+        item, amount, payer, createdAt: Date.now()
       });
 
       document.getElementById('expense-item').value = '';
@@ -998,18 +1118,25 @@
       }
     };
 
-    // Firebase 記帳即時監聽
+    // Firebase 記帳即時監聽與 AA 分攤計算
     onSnapshot(collection(db, "expenses"), (snapshot) => {
       const expensesList = document.getElementById('expenses-list');
       const totalElement = document.getElementById('total-expense');
       const totalTwdElement = document.getElementById('total-expense-twd');
+      const payerBreakdownList = document.getElementById('payer-breakdown-list');
+
       expensesList.innerHTML = '';
       let total = 0;
+      let payerTotals = {}; // 用於統計每個人墊付的金額
 
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const docId = docSnap.id;
         total += data.amount;
+
+        // 統計各人總支出
+        const pName = data.payer || '公款';
+        payerTotals[pName] = (payerTotals[pName] || 0) + data.amount;
 
         const itemTwd = Math.round(data.amount / EXCHANGE_RATE);
 
@@ -1024,7 +1151,7 @@
               <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${itemTwd.toLocaleString()}</div>
             </div>
           </div>
-          <div style="font-size:12px; color:var(--text-sub); margin-top:4px;">💳 付款人：${data.payer}</div>
+          <div style="font-size:12px; color:var(--text-sub); margin-top:4px;">💳 付款人：${pName}</div>
           <div class="expense-actions">
             <button class="expense-btn" onclick="editExpenseAmount('${docId}', ${data.amount})"><i class="fa-solid fa-pen"></i> 修改金額</button>
             <button class="expense-btn delete" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
@@ -1033,9 +1160,30 @@
         expensesList.appendChild(card);
       });
 
+      // 更新總計
       const totalTwd = Math.round(total / EXCHANGE_RATE);
       totalElement.innerText = `₩ ${total.toLocaleString()}`;
       totalTwdElement.innerText = `≈ NT$ ${totalTwd.toLocaleString()}`;
+
+      // 更新付款人 AA 統計看板
+      payerBreakdownList.innerHTML = '';
+      const payerKeys = Object.keys(payerTotals);
+      if (payerKeys.length === 0) {
+        payerBreakdownList.innerHTML = `<div style="font-size: 11px; opacity: 0.8;">尚無墊付紀錄</div>`;
+      } else {
+        payerKeys.forEach(name => {
+          const pAmount = payerTotals[name];
+          const pTwd = Math.round(pAmount / EXCHANGE_RATE);
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'payer-item';
+          itemDiv.innerHTML = `
+            <div class="payer-name">${name} 已墊付</div>
+            <div class="payer-amount">₩ ${pAmount.toLocaleString()}</div>
+            <div style="font-size: 10px; opacity: 0.85;">≈ NT$ ${pTwd.toLocaleString()}</div>
+          `;
+          payerBreakdownList.appendChild(itemDiv);
+        });
+      }
     });
   </script>
 </body>
