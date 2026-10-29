@@ -1,5 +1,3 @@
-NEW3
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -354,28 +352,11 @@ NEW3
       color: #E07A5F;
     }
 
-    .tag-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin: 8px 0;
-    }
-
-    .tag {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-weight: 500;
-    }
-
-    .tag-food { background: #FDE8E2; color: var(--tag-food); }
-    .tag-spot { background: #E8EBF0; color: var(--tag-spot); }
-
     .story-box {
       font-size: 13px;
       color: var(--text-sub);
       line-height: 1.5;
-      margin-top: 6px;
+      margin-top: 4px;
       background: var(--bg-color);
       padding: 8px 10px;
       border-radius: 8px;
@@ -861,7 +842,7 @@ NEW3
       renderScheduleList();
     };
 
-    // 渲染景點列表 (含自動編號與莫蘭迪左邊框)
+    // 渲染景點列表 (已刪除標籤小字)
     function renderScheduleList() {
       const scheduleList = document.getElementById('schedule-list');
       scheduleList.innerHTML = '';
@@ -890,9 +871,6 @@ NEW3
               </button>
             </div>
           </div>
-          <div class="tag-container">
-            <span class="tag ${item.type === 'food' ? 'tag-food' : 'tag-spot'}">${item.tag}</span>
-          </div>
           <div class="story-box">${item.story}</div>
           <a href="${mapUrl}" target="_blank" class="map-btn">
             <i class="fa-solid fa-location-dot"></i> Google Map
@@ -902,7 +880,7 @@ NEW3
       });
     }
 
-    // 渲染愛心收藏頁面 (乾淨版無倒數鐘)
+    // 渲染愛心收藏頁面 (已刪除標籤小字)
     function renderFavoritesList() {
       const favList = document.getElementById('favorites-list');
       favList.innerHTML = '';
@@ -932,9 +910,6 @@ NEW3
                 <i class="fa-solid fa-heart"></i>
               </button>
             </div>
-          </div>
-          <div class="tag-container">
-            <span class="tag ${item.type === 'food' ? 'tag-food' : 'tag-spot'}">${item.tag}</span>
           </div>
           <div class="story-box">${item.story}</div>
           <a href="${mapUrl}" target="_blank" class="map-btn">
