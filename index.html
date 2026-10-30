@@ -17,7 +17,8 @@
 
   <style>
             /* 讓所有包含 2027 或副標題的文字，通通套用質感香檳金與呼吸特效 */
-    .new-year-subtitle, [data-subtitle], .header-subtitle, div:has-text("2027"), div[class*="subtitle"], p[class*="subtitle"] {
+        .new-year-subtitle, [data-subtitle], .header-subtitle, .subtitle {
+
       white-space: nowrap !important; /* 強制保持單行不換行 */
       display: inline-block !important;
       background: linear-gradient(135deg, #a39685 0%, #d4b886 50%, #b89778 100%) !important;
