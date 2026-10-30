@@ -41,8 +41,8 @@
       --flip-subtext: #F4EBE1;
       --flip-divider: rgba(0, 0, 0, 0.15);
 
-      /* 導覽列高度 */
-      --nav-height: calc(56px + env(safe-area-inset-bottom));
+      /* 精準對齊底部 Nav Bar 的實體高度（計算 SafeArea） */
+      --nav-height: calc(52px + env(safe-area-inset-bottom));
     }
 
     * {
@@ -63,7 +63,7 @@
         radial-gradient(circle at 90% 90%, rgba(163, 133, 117, 0.18) 0%, transparent 50%);
       background-attachment: fixed;
       color: var(--text-main);
-      padding-bottom: calc(70px + env(safe-area-inset-bottom));
+      padding-bottom: calc(65px + env(safe-area-inset-bottom));
       padding-top: env(safe-area-inset-top);
       letter-spacing: 0.3px;
     }
@@ -562,14 +562,14 @@
       font-size: 14px;
     }
 
-    /* --- 底部彈出卡片 (Bottom Sheet) 樣式：精準定位於導覽列上方 --- */
+    /* --- 底部彈出卡片 (Bottom Sheet) 樣式：無縫緊貼導覽列頂端 --- */
     .sheet-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: var(--nav-height);
-      background: rgba(0, 0, 0, 0.25);
+      background: rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(2px);
       -webkit-backdrop-filter: blur(2px);
       z-index: 150;
@@ -587,15 +587,17 @@
       position: fixed;
       left: 0;
       right: 0;
-      bottom: var(--nav-height); /* 起始定位緊貼導覽列上方 */
+      bottom: var(--nav-height); /* 無縫緊貼底部 Nav Bar 最頂端 */
       max-width: 600px;
       margin: 0 auto;
-      max-height: calc(85vh - 60px);
+      max-height: calc(85vh - var(--nav-height));
       height: 75vh;
       background: #FAF7F2;
       border-top-left-radius: 24px;
       border-top-right-radius: 24px;
-      box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.12);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.12);
       z-index: 200;
       transform: translateY(105%);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -619,8 +621,8 @@
       -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border-color);
       position: relative;
-      touch-action: none; /* 讓 drag handle 專注接收拖曳手勢 */
       cursor: grab;
+      user-select: none;
     }
 
     /* 頂部短橫線拉桿 DragHandle */
@@ -653,13 +655,13 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* 底部導覽列：提高 z-index 確保最上層並可直接點擊 */
+    /* 底部導覽列：z-index 300 始終置頂且無邊距 */
     nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(250, 247, 242, 0.95);
+      background: rgba(250, 247, 242, 0.96);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       display: flex;
@@ -815,7 +817,7 @@
   <!-- 半透明背景遮罩（位於導覽列上方） -->
   <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
 
-  <!-- 下方往上彈出式頁面卡片（無「X」，支援滑動拉桿關閉） -->
+  <!-- 下方往上彈出式頁面卡片（支援卡片上半部 2/3 下滑收合） -->
   <div class="bottom-sheet" id="bottom-sheet">
     <div class="sheet-header" id="sheet-header">
       <div class="sheet-handle"></div>
@@ -1350,40 +1352,47 @@
       }
     });
 
-    // --- 下拉 DragHandle 滑動收合邏輯 ---
+    // --- 擴大下拉觸碰區域：整張卡片上半部 2/3 皆可接收下滑手勢 ---
     const sheet = document.getElementById('bottom-sheet');
-    const sheetHeader = document.getElementById('sheet-header');
+    const sheetBody = document.getElementById('sheet-body');
 
     let startY = 0;
     let currentY = 0;
     let isDragging = false;
 
-    sheetHeader.addEventListener('touchstart', (e) => {
-      startY = e.touches[0].clientY;
-      isDragging = true;
-      sheet.style.transition = 'none'; // 拖曳時關閉動畫，維持即時跟手感
-    });
+    sheet.addEventListener('touchstart', (e) => {
+      const touchY = e.touches[0].clientY;
+      const sheetRect = sheet.getBoundingClientRect();
+      const relativeTouchY = touchY - sheetRect.top;
 
-    sheetHeader.addEventListener('touchmove', (e) => {
+      // 當點擊位置在卡片頂端起算的上半部 2/3 區域內（或內部未處於向下滾動狀態）
+      if (relativeTouchY <= sheetRect.height * 0.67 && sheetBody.scrollTop <= 0) {
+        startY = touchY;
+        isDragging = true;
+        sheet.style.transition = 'none'; // 取消延遲動畫，保持流暢跟手
+      }
+    }, { passive: true });
+
+    sheet.addEventListener('touchmove', (e) => {
       if (!isDragging) return;
       currentY = e.touches[0].clientY;
       const deltaY = currentY - startY;
 
-      // 僅允許向下拖曳
+      // 僅向上/向下拖動時響應向下移動
       if (deltaY > 0) {
         sheet.style.transform = `translateY(${deltaY}px)`;
       }
-    });
+    }, { passive: true });
 
-    sheetHeader.addEventListener('touchend', () => {
+    sheet.addEventListener('touchend', () => {
       if (!isDragging) return;
       isDragging = false;
       const deltaY = currentY - startY;
 
       sheet.style.transition = 'transform 0.3s ease-out';
 
-      // 下滑超過 80px 時觸發關閉，否則還原
-      if (deltaY > 80) {
+      // 下滑超過 70px 即自動觸發收合關閉，否則復原彈回
+      if (deltaY > 70) {
         closeSheet();
       } else {
         sheet.style.transform = 'translateY(0)';
