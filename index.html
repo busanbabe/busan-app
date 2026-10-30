@@ -1135,6 +1135,26 @@
       latestExpensesData = snapshot.docs;
       renderExpensesUI();
     });
+      });
+
+  // 點擊 ✨ 觸發煙火效果
+  document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
+    e.stopPropagation();
+    const rect = e.target.getBoundingClientRect();
+    const x = (rect.left + rect.width / 2) / window.innerWidth;
+    const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+    if (typeof confetti === 'function') {
+      confetti({
+        particleCount: 75,
+        spread: 80,
+        origin: { x: x, y: y },
+        colors: ['#e5c158', '#d4a373', '#faedcd', '#ffb5a7', '#fcd5ce']
+      });
+    }
+  });
+</script>
+
   </script>
 </body>
 </html>
