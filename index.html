@@ -1136,68 +1136,100 @@
     renderExpensesUI();
   });
 
-      // 點擊 ✨ 觸發畫面中上方大範圍、色彩繽紛的連續煙火秀
+        // 點擊 ✨ 觸發插畫風線條煙火與星星光點秀
   document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
     e.stopPropagation();
 
+    // 在畫面上半部多點綻放
     const fireworkSpots = [
-      { x: window.innerWidth * 0.5, y: window.innerHeight * 0.22 }, // 正中間上方
-      { x: window.innerWidth * 0.25, y: window.innerHeight * 0.18 }, // 左上方
-      { x: window.innerWidth * 0.75, y: window.innerHeight * 0.18 }, // 右上方
-      { x: window.innerWidth * 0.35, y: window.innerHeight * 0.32 }, // 中左
-      { x: window.innerWidth * 0.65, y: window.innerHeight * 0.32 }  // 中右
+      { x: window.innerWidth * 0.5, y: window.innerHeight * 0.25 }, // 正中間上方
+      { x: window.innerWidth * 0.28, y: window.innerHeight * 0.2 }, // 左上方
+      { x: window.innerWidth * 0.72, y: window.innerHeight * 0.2 }, // 右上方
+      { x: window.innerWidth * 0.4, y: window.innerHeight * 0.35 },  // 中左
+      { x: window.innerWidth * 0.6, y: window.innerHeight * 0.35 }   // 中右
     ];
 
     fireworkSpots.forEach((spot, index) => {
       setTimeout(() => {
-        createFireworkBurst(spot.x, spot.y);
-      }, index * 140);
+        createIllustrationFirework(spot.x, spot.y);
+      }, index * 160);
     });
   });
 
-  // 超繽紛色彩與發光特效的煙火函式
-  window.fn_burst = function(x, y) {
-    const particleCount = 45; // 粒子數量再增加，更飽滿
-    // 繽紛多彩的霓虹與亮色系組合
-    const colors = ['#ff5964', '#35a7ff', '#fdca40', '#9bf6ff', '#ffadad', '#ffd6a5', '#caffbf', '#ffc6ff', '#ffffff'];
+  // 仿插畫風線條煙火與小星星的函式
+  window.createIllustrationFirework = function(x, y) {
+    const rayCount = 24; // 煙火放射線條數量
+    const colors = ['#e5c158', '#d4a373', '#ffb5a7', '#faedcd', '#ffcad4', '#ffffff'];
 
-    for (let i = 0; i < particleCount; i++) {
-      const p = document.createElement('div');
-      p.className = 'firework-particle';
+    // 1. 產生放射狀的優雅線條光芒
+    for (let i = 0; i < rayCount; i++) {
+      const ray = document.createElement('div');
+      const color = colors[Math.floor(Math.random() * colors.length)];
       
-      p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      const size = 8 + Math.random() * 8; 
-      p.style.width = `${size}px`;
-      p.style.height = `${size}px`;
-      p.style.position = 'fixed';
-      p.style.borderRadius = '50%';
-      p.style.left = `${x}px`;
-      p.style.top = `${y}px`;
-      p.style.pointerEvents = 'none';
-      p.style.zIndex = '99999';
-      // 加上彩色的發光特效
-      p.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.9)';
+      ray.style.position = 'fixed';
+      ray.style.left = `${x}px`;
+      ray.style.top = `${y}px`;
+      ray.style.width = '2.5px'; // 細緻的手繪線條感
+      ray.style.height = `${30 + Math.random() * 35}px`;
+      ray.style.backgroundColor = color;
+      ray.style.borderRadius = '2px';
+      ray.style.pointerEvents = 'none';
+      ray.style.zIndex = '99999';
+      ray.style.transformOrigin = 'top center';
+      ray.style.opacity = '1';
 
-      const angle = (Math.PI * 2 / particleCount) * i + (Math.random() * 0.3);
-      const velocity = 75 + Math.random() * 95; 
-      const tx = Math.cos(angle) * velocity;
-      const ty = Math.sin(angle) * velocity;
-
-      p.style.transition = 'all 0.9s cubic-bezier(0, 0.7, 0.1, 1)';
-      document.body.appendChild(p);
+      const angle = (360 / rayCount) * i + (Math.random() * 8 - 4);
+      const distance = 50 + Math.random() * 50;
+      
+      ray.style.transform = `rotate(${angle}deg) scaleY(0.2)`;
+      ray.style.transition = 'all 0.8s cubic-bezier(0.1, 0.8, 0.3, 1)';
+      document.body.appendChild(ray);
 
       requestAnimationFrame(() => {
-        p.style.transform = `translate(${tx}px, ${ty}px) scale(0.2)`;
-        p.style.opacity = '0';
+        ray.style.transform = `rotate(${angle}deg) translateY(${distance}px) scaleY(1.2)`;
+        ray.style.opacity = '0';
       });
 
-      setTimeout(() => p.remove(), 900);
+      setTimeout(() => ray.remove(), 800);
+    }
+
+    // 2. 在周圍點綴圖片中那種可愛的小星星與小光點
+    const starCount = 18;
+    const starSymbols = ['✨', '✦', '·', '˚'];
+
+    for (let j = 0; j < starCount; j++) {
+      const star = document.createElement('div');
+      star.innerText = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+      
+      star.style.position = 'fixed';
+      star.style.left = `${x}px`;
+      star.style.top = `${y}px`;
+      star.style.fontSize = `${10 + Math.random() * 12}px`;
+      star.style.color = colors[Math.floor(Math.random() * colors.length)];
+      star.style.pointerEvents = 'none';
+      star.style.zIndex = '99999';
+      star.style.opacity = '1';
+
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 40 + Math.random() * 80;
+      const tx = Math.cos(angle) * speed;
+      const ty = Math.sin(angle) * speed;
+
+      star.style.transition = 'all 0.9s ease-out';
+      document.body.appendChild(star);
+
+      requestAnimationFrame(() => {
+        star.style.transform = `translate(${tx}px, ${ty}px) scale(1.3) rotate(${Math.random() * 180}deg)`;
+        star.style.opacity = '0';
+      });
+
+      setTimeout(() => star.remove(), 900);
     }
   };
+</script>
+</body>
+</html>
 
-  function createFireworkBurst(x, y) {
-    window.fn_burst(x, y);
-  }
 
 </script>
 </body>
