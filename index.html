@@ -16,19 +16,31 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-            /* 讓所有包含 2027 或副標題的文字，通通套用質感香檳金與呼吸特效 */
-        .new-year-subtitle, [data-subtitle], .header-subtitle, .subtitle {
-
-      white-space: nowrap !important; /* 強制保持單行不換行 */
+                /* 2027 專屬優雅呼吸特效 */
+    #new-year-title {
+      white-space: nowrap !important;
       display: inline-block !important;
       background: linear-gradient(135deg, #a39685 0%, #d4b886 50%, #b89778 100%) !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
-      /* 4秒超平滑慢速呼吸循環 */
       animation: softBreath 4s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
       font-weight: 600 !important;
       letter-spacing: 0.8px !important;
     }
+
+    @keyframes softBreath {
+      0%, 100% {
+        opacity: 0.55;
+        filter: drop-shadow(0 0 2px rgba(184, 151, 120, 0.15));
+        transform: scale(0.99);
+      }
+      50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 8px rgba(212, 184, 134, 0.65));
+        transform: scale(1.025);
+      }
+    }
+
 
     @keyframes softBreath {
       0%, 100% {
