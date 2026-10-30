@@ -23,6 +23,7 @@
       --text-sub: #8C837B;
       --accent-wood: #A3705C; /* 溫潤栗茶色 */
       --accent-soft-blue: #6A8E9AE0;
+      --border-color: #EFECE6;
       --header-title-color: #9E5A5A; /* 陶土暖紅 Header 專用色 */
 
       /* 莫蘭迪大地分區專屬色彩 */
@@ -78,10 +79,11 @@
       align-items: center;
     }
 
+    /* 頂部左側標題專屬陶土暖紅 */
     header h1 {
       font-size: 17px;
       font-weight: 600;
-      color: var(--text-main);
+      color: var(--header-title-color) !important;
     }
 
     /* 右上角 2027 Happy New Year ✨ 無底色 & 常駐金屬流光 */
@@ -93,18 +95,19 @@
       user-select: none;
     }
 
+    /* 頂部右側文字專屬陶土暖紅基礎疊加流光 */
     .new-year-text {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.3px;
 
-      /* 深奶茶底色 (#3D3832) 疊加淡香檳金流光微燈 */
+      /* 陶土暖紅 (#9E5A5A) 疊加淡香檳金流光 */
       background: linear-gradient(
         110deg, 
-        #3D3832 35%, 
-        #D4B595 50%, 
-        #3D3832 65%
+        #9E5A5A 35%, 
+        #E8C8AA 50%, 
+        #9E5A5A 65%
       );
       background-size: 200% 100%;
       -webkit-background-clip: text;
