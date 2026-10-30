@@ -1130,12 +1130,11 @@
       totalTwdElement.innerText = `≈ NT$ ${totalTwd.toLocaleString()}`;
     }
 
-    // Firebase 記帳即時監聽
-    onSnapshot(collection(db, "expenses"), (snapshot) => {
-      latestExpensesData = snapshot.docs;
-      renderExpensesUI();
-    });
-      });
+      // Firebase 記帳即時監聽
+  onSnapshot(collection(db, "expenses"), (snapshot) => {
+    latestExpensesData = snapshot.docs;
+    renderExpensesUI();
+  });
 
   // 點擊 ✨ 觸發煙火效果
   document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
@@ -1154,7 +1153,6 @@
     }
   });
 </script>
-
-  </script>
 </body>
 </html>
+
