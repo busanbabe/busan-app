@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>釜山自由行手冊 | Busan Travel Guide</title>
@@ -17,32 +17,28 @@
 
   <style>
     :root {
-      --bg-color: #F7F6F2;
+      --bg-color: #FAF7F2; /* 軟萌溫暖奶茶底色 */
       --card-bg: #FFFFFF;
-      --text-main: #2C2C2A;
-      --text-sub: #787774;
-      --accent-wood: #C58C80;
-      --accent-soft-blue: #5B8296;
-      --tag-food: #E07A5F;
-      --tag-spot: #3D405B;
-      --tag-buy: #81B29A;
-      --tag-story: #F2CC8F;
-      --border-color: #E8E6E1;
+      --text-main: #3D3832;
+      --text-sub: #8C837B;
+      --accent-wood: #A3705C; /* 溫潤栗茶色 */
+      --accent-soft-blue: #6A8E9AE0;
+      --border-color: #EFECE6;
 
       /* 莫蘭迪大地分區專屬色彩 */
-      --color-cat-a: #A38575; /* 松島影島：陶土奶茶 */
-      --color-cat-b: #7A8B7B; /* 市集市場：鼠尾草綠 */
-      --color-cat-c: #9C8392; /* 西面田浦：莫蘭迪紫棕 */
-      --color-cat-d: #6B8292; /* 廣安里：灰藍煙波 */
-      --color-cat-e: #C29B7F; /* 海雲台：暖沙金赭 */
-      --color-cat-f: #889C9B; /* 藍線列車：霧青暖藍 */
+      --color-cat-a: #9E7B6C; /* 松島影島：陶土奶茶 */
+      --color-cat-b: #738474; /* 市集市場：鼠尾草綠 */
+      --color-cat-c: #8D7684; /* 西面田浦：莫蘭迪紫棕 */
+      --color-cat-d: #647B89; /* 廣安里：灰藍煙波 */
+      --color-cat-e: #B3886B; /* 海雲台：暖沙金赭 */
+      --color-cat-f: #7D9291; /* 藍線列車：霧青暖藍 */
 
       /* 莫蘭迪大地色系翻頁鐘變數 */
-      --flip-bg: #C58C80;
-      --flip-stripe: rgba(0, 0, 0, 0.08);
-      --flip-text: #222222;
-      --flip-subtext: #111111;
-      --flip-divider: rgba(0, 0, 0, 0.25);
+      --flip-bg: #A3705C;
+      --flip-stripe: rgba(255, 255, 255, 0.1);
+      --flip-text: #FFFFFF;
+      --flip-subtext: #F4EBE1;
+      --flip-divider: rgba(0, 0, 0, 0.15);
     }
 
     * {
@@ -62,7 +58,8 @@
     }
 
     header {
-      background-color: var(--card-bg);
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
       padding: 16px 20px;
       position: sticky;
       top: 0;
@@ -74,7 +71,7 @@
     }
 
     header h1 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 600;
       color: var(--text-main);
     }
@@ -93,13 +90,28 @@
       display: block;
     }
 
-    /* 天氣與倒數卡片 (僅首頁顯示) */
+    /* 天氣與倒數卡片 (僅淺色卡片套用右上方夢幻微暈染) */
     .hero-card {
       background: var(--card-bg);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 18px;
       margin-bottom: 16px;
       border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(163, 112, 92, 0.05);
+    }
+
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      top: -35px;
+      right: -35px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(229, 193, 168, 0.35) 0%, rgba(255, 181, 167, 0.15) 45%, rgba(255,255,255,0) 75%);
+      pointer-events: none;
+      z-index: 1;
     }
 
     .weather-box {
@@ -109,12 +121,14 @@
       padding-bottom: 14px;
       margin-bottom: 14px;
       border-bottom: 1px dashed var(--border-color);
+      position: relative;
+      z-index: 2;
     }
 
     .weather-temp {
       font-size: 22px;
       font-weight: 600;
-      color: var(--accent-soft-blue);
+      color: var(--accent-wood);
     }
 
     /* 3D 擬真絲滑翻頁倒數區塊 */
@@ -122,10 +136,12 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+      position: relative;
+      z-index: 2;
     }
 
     .team-card {
-      background: var(--card-bg);
+      background: #FAF7F4;
       border-radius: 14px;
       padding: 12px 10px;
       border: 1px solid var(--border-color);
@@ -169,7 +185,7 @@
       perspective: 300px;
       border-radius: 6px;
       overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 6px rgba(163, 112, 92, 0.12);
       background-color: var(--flip-bg);
       background-image: repeating-linear-gradient(
         -45deg,
@@ -185,9 +201,9 @@
       content: '';
       position: absolute;
       top: 50%;
-      width: 2.5px;
-      height: 7px;
-      background-color: #111;
+      width: 2px;
+      height: 6px;
+      background-color: rgba(0,0,0,0.2);
       transform: translateY(-50%);
       z-index: 20;
       border-radius: 1px;
@@ -206,7 +222,7 @@
       background-image: inherit;
       color: var(--flip-text);
       font-weight: 700;
-      font-size: clamp(14px, 4.2vw, 24px);
+      font-size: clamp(14px, 4.2vw, 22px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
       justify-content: center;
@@ -279,7 +295,7 @@
 
     .cat-btn {
       white-space: nowrap;
-      padding: 6px 14px;
+      padding: 7px 14px;
       border-radius: 20px;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -287,6 +303,7 @@
       color: var(--text-sub);
       cursor: pointer;
       transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
 
     .cat-btn[data-cat="ALL"].active { background: var(--accent-wood); color: #FFF; border-color: var(--accent-wood); }
@@ -297,15 +314,28 @@
     .cat-btn[data-cat="E"].active { background: var(--color-cat-e); color: #FFF; border-color: var(--color-cat-e); }
     .cat-btn[data-cat="F"].active { background: var(--color-cat-f); color: #FFF; border-color: var(--color-cat-f); }
 
-    /* 景點與美食卡片 */
+    /* 景點與美食卡片 (僅淺色卡片右下角加入柔和夢幻暈染) */
     .item-card {
       background: var(--card-bg);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 16px;
       margin-bottom: 12px;
       border: 1px solid var(--border-color);
-      border-left: 6px solid var(--accent-wood);
+      border-left: 5px solid var(--accent-wood);
       position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(163, 112, 92, 0.03);
+    }
+
+    .item-card::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      width: 110px;
+      height: 110px;
+      background: radial-gradient(circle, rgba(229, 193, 168, 0.28) 0%, rgba(255, 181, 167, 0.12) 50%, rgba(255,255,255,0) 80%);
+      pointer-events: none;
     }
 
     .item-card.cat-A { border-left-color: var(--color-cat-a); }
@@ -320,13 +350,15 @@
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 6px;
+      position: relative;
+      z-index: 2;
     }
 
     .item-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--text-main);
-      line-height: 1.3;
+      line-height: 1.35;
     }
 
     .card-actions {
@@ -338,7 +370,7 @@
       background: none;
       border: none;
       font-size: 18px;
-      color: #C5C5C0;
+      color: #D5CEC7;
       cursor: pointer;
       transition: transform 0.2s;
     }
@@ -348,17 +380,19 @@
     }
 
     .icon-btn.active-heart {
-      color: #E07A5F;
+      color: #D97762;
     }
 
     .story-box {
       font-size: 13px;
       color: var(--text-sub);
       line-height: 1.5;
-      margin-top: 4px;
-      background: var(--bg-color);
-      padding: 8px 10px;
-      border-radius: 8px;
+      margin-top: 6px;
+      background: #FAF7F4;
+      padding: 9px 11px;
+      border-radius: 10px;
+      position: relative;
+      z-index: 2;
     }
 
     .map-btn {
@@ -367,20 +401,42 @@
       gap: 5px;
       margin-top: 10px;
       padding: 6px 12px;
-      background: #F0EDE6;
+      background: #F4EFEA;
       color: var(--accent-wood);
       text-decoration: none;
       border-radius: 8px;
       font-size: 12px;
       font-weight: 600;
+      position: relative;
+      z-index: 2;
+      transition: background 0.2s;
     }
 
+    .map-btn:hover {
+      background: #EBE4DD;
+    }
+
+    /* 新增消費紀錄表單 (淺色卡片，套用角落暈染) */
     .add-form {
       background: var(--card-bg);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 16px;
       margin-bottom: 16px;
       border: 1px solid var(--border-color);
+      box-shadow: 0 2px 12px rgba(163, 112, 92, 0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .add-form::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      width: 110px;
+      height: 110px;
+      background: radial-gradient(circle, rgba(229, 193, 168, 0.28) 0%, rgba(255, 181, 167, 0.12) 50%, rgba(255,255,255,0) 80%);
+      pointer-events: none;
     }
 
     .add-form input {
@@ -388,17 +444,27 @@
       padding: 10px 12px;
       margin-bottom: 8px;
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 14px;
-      background: var(--bg-color);
+      background: #FAF7F4;
+      color: var(--text-main);
+      outline: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    .add-form input:focus {
+      border-color: var(--accent-wood);
     }
 
     .twd-hint {
       font-size: 12px;
       color: var(--accent-wood);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       font-weight: 500;
       padding-left: 2px;
+      position: relative;
+      z-index: 2;
     }
 
     .btn-submit {
@@ -406,14 +472,22 @@
       background: var(--accent-wood);
       color: white;
       border: none;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 11px;
+      border-radius: 10px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(163, 112, 92, 0.2);
+      transition: opacity 0.2s;
+      position: relative;
+      z-index: 2;
     }
 
-    /* 左右雙欄對稱頂部看板 */
+    .btn-submit:active {
+      opacity: 0.9;
+    }
+
+    /* 左右雙欄對稱頂部看板 (深色卡片：維持純淨俐落，不加暈染) */
     .dashboard-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -422,14 +496,17 @@
     }
 
     .dash-box {
-      background: var(--accent-wood);
+      background: linear-gradient(135deg, #A3705C 0%, #8C5D4B 100%);
       color: white;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 16px 14px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-height: 105px;
+      box-shadow: 0 4px 15px rgba(163, 112, 92, 0.2);
+      position: relative;
+      overflow: hidden;
     }
 
     .dash-title {
@@ -442,14 +519,14 @@
     }
 
     .dash-main-val {
-      font-size: clamp(20px, 5.5vw, 24px);
+      font-size: clamp(19px, 5.2vw, 23px);
       font-weight: 700;
       margin-top: 4px;
       line-height: 1.2;
     }
 
     .dash-sub-val {
-      font-size: 12px;
+      font-size: 11px;
       opacity: 0.9;
       margin-top: 2px;
     }
@@ -457,28 +534,30 @@
     .expense-actions {
       display: flex;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 10px;
       justify-content: flex-end;
     }
 
     .expense-btn {
-      padding: 4px 10px;
+      padding: 5px 10px;
       font-size: 11px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 1px solid var(--border-color);
-      background: var(--bg-color);
+      background: #FAF7F4;
       cursor: pointer;
       color: var(--text-sub);
+      transition: all 0.2s;
     }
 
     .expense-btn.delete {
-      color: #E07A5F;
-      border-color: #FDE8E2;
+      color: #D97762;
+      border-color: #FCE8E2;
+      background: #FFF9F8;
     }
 
     .empty-fav-msg {
       text-align: center;
-      padding: 40px 20px;
+      padding: 50px 20px;
       color: var(--text-sub);
       font-size: 14px;
     }
@@ -488,8 +567,8 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
+      background: rgba(250, 247, 242, 0.9);
+      backdrop-filter: blur(12px);
       display: flex;
       justify-content: space-around;
       padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
@@ -508,6 +587,7 @@
       background: none;
       cursor: pointer;
       flex: 1;
+      transition: color 0.2s;
     }
 
     .nav-item i {
@@ -525,12 +605,11 @@
 
   <header>
     <h1 id="page-title">釜山安妞  |  Hi BUSAN</h1>
-    <span style="font-size: 12px; color: var(--text-sub);">2027 Happy New Year <span id="sparkle-btn" style="cursor: pointer; display: inline-block;">✨</span></span>
-
+    <span style="font-size: 12px; color: var(--text-sub);">2027 Happy New Year <span id="sparkle-btn" style="cursor: pointer; display: inline-block; padding: 2px 4px;">✨</span></span>
   </header>
 
   <div class="container">
-    <!-- 僅首頁顯示的天氣與倒數卡片 -->
+    <!-- 僅首頁顯示的天氣與倒數卡片 (淺色卡片，帶有角落夢幻暈染) -->
     <div class="hero-card" id="hero-countdown-card">
       <div class="weather-box">
         <div>
@@ -642,7 +721,7 @@
 
     <!-- 頁籤三：記帳小幫手 -->
     <div id="tab-expenses" class="tab-content">
-      <!-- 左右對稱雙欄看板 -->
+      <!-- 左右對稱雙欄看板 (深色卡片：保持純淨，不加暈染) -->
       <div class="dashboard-grid">
         <!-- 左側：消費總金額 -->
         <div class="dash-box">
@@ -663,9 +742,9 @@
         </div>
       </div>
 
-      <!-- 新增消費紀錄 -->
+      <!-- 新增消費紀錄 (淺色卡片，套用角落暈染) -->
       <div class="add-form">
-        <h3 style="font-size: 14px; margin-bottom: 8px;">新增消費紀錄</h3>
+        <h3 style="font-size: 14px; margin-bottom: 8px; color: var(--text-main); position:relative; z-index:2;">新增消費紀錄</h3>
         <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
         <input type="number" id="expense-amount" placeholder="金額 (KRW)" oninput="updateTwdHint(this.value)">
         <div class="twd-hint" id="twd-conversion-hint">台幣試算：≈ NT$ 0</div>
@@ -715,9 +794,8 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 預設匯率 (備用)：1 台幣約合 41.5 韓元
     let EXCHANGE_RATE = 41.5;
-    let latestExpensesData = []; // 暫存 Firebase 快照
+    let latestExpensesData = [];
 
     // 1. 自動連動最新台幣對韓元匯率 API
     async function fetchLiveExchangeRate() {
@@ -728,7 +806,7 @@
           EXCHANGE_RATE = data.rates.KRW;
           document.getElementById('rate-main-val').innerText = EXCHANGE_RATE.toFixed(2);
           document.getElementById('rate-sub-val').innerText = `1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW`;
-          renderExpensesUI(); // 重新依照即時匯率計算總額
+          renderExpensesUI();
         }
       } catch (err) {
         document.getElementById('rate-main-val').innerText = EXCHANGE_RATE.toFixed(2);
@@ -737,7 +815,7 @@
     }
     fetchLiveExchangeRate();
 
-    // 2. 自動連動釜山 (Busan) 當日氣象 API
+    // 2. 自動連動釜山當日氣象 API
     async function fetchBusanWeather() {
       try {
         const busanLat = 35.1796;
@@ -850,14 +928,12 @@
       { id: 'F9', cat: 'F', name: 'Skyline Luge Busan', type: 'spot', story: '釜山斜坡滑車，驚險刺激適合結伴同遊' }
     ];
 
-    // 收藏資料本地快取
     let favorites = JSON.parse(localStorage.getItem('busan_favs') || '[]');
 
     function saveFavorites() {
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
-    // 翻頁鐘邏輯
     function updateFlipCard(unitElem, newValue) {
       const formattedValue = String(newValue).padStart(2, '0');
       const topFace = unitElem.querySelector('.card-face.top span');
@@ -926,7 +1002,6 @@
     }
     startCountdowns();
 
-    // 頁籤切換邏輯
     window.switchTab = function(tabId, title, btnElement) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -1002,7 +1077,7 @@
       if (favItems.length === 0) {
         favList.innerHTML = `
           <div class="empty-fav-msg">
-            <i class="fa-regular fa-heart" style="font-size:32px; margin-bottom:10px; color:#ccc;"></i><br>
+            <i class="fa-regular fa-heart" style="font-size:32px; margin-bottom:10px; color:#D5CEC7;"></i><br>
             目前還沒有收藏的景點喔！<br>點擊景點卡片上的愛心即可新增至此。
           </div>
         `;
@@ -1048,7 +1123,6 @@
 
     renderScheduleList();
 
-    // 新增記帳
     window.addExpense = async function() {
       const item = document.getElementById('expense-item').value;
       const amount = Number(document.getElementById('expense-amount').value);
@@ -1065,14 +1139,12 @@
       document.getElementById('twd-conversion-hint').innerText = '台幣試算：≈ NT$ 0';
     };
 
-    // 刪除記帳
     window.deleteExpense = async function(docId) {
       if (confirm('確定要刪除這筆帳單嗎？')) {
         await deleteDoc(doc(db, "expenses", docId));
       }
     };
 
-    // 修改記帳金額
     window.editExpenseAmount = async function(docId, currentAmount) {
       const newAmountStr = prompt('請輸入修改後的金額 (KRW):', currentAmount);
       if (newAmountStr !== null) {
@@ -1086,7 +1158,6 @@
       }
     };
 
-    // 渲染記帳清單與計算總額
     function renderExpensesUI() {
       const expensesList = document.getElementById('expenses-list');
       const totalElement = document.getElementById('total-expense');
@@ -1110,13 +1181,13 @@
         card.innerHTML = `
           <div class="card-top">
             <div class="item-title">${data.item}</div>
-            <div style="text-align: right;">
-              <span style="color:var(--tag-food); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+            <div style="text-align: right; position:relative; z-index:2;">
+              <span style="color:var(--accent-wood); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
               <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${itemTwd.toLocaleString()}</div>
             </div>
           </div>
-          <div style="font-size:12px; color:var(--text-sub); margin-top:4px;">💳 付款人：${pName}</div>
-          <div class="expense-actions">
+          <div style="font-size:12px; color:var(--text-sub); margin-top:6px; position:relative; z-index:2;">💳 付款人：${pName}</div>
+          <div class="expense-actions" style="position:relative; z-index:2;">
             <button class="expense-btn" onclick="editExpenseAmount('${docId}', ${data.amount})"><i class="fa-solid fa-pen"></i> 修改金額</button>
             <button class="expense-btn delete" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
           </div>
@@ -1124,113 +1195,100 @@
         expensesList.appendChild(card);
       });
 
-      // 更新總計
       const totalTwd = Math.round(total / EXCHANGE_RATE);
       totalElement.innerText = `₩ ${total.toLocaleString()}`;
       totalTwdElement.innerText = `≈ NT$ ${totalTwd.toLocaleString()}`;
     }
 
-      // Firebase 記帳即時監聽
-  onSnapshot(collection(db, "expenses"), (snapshot) => {
-    latestExpensesData = snapshot.docs;
-    renderExpensesUI();
-  });
-
-        // 點擊 ✨ 觸發插畫風線條煙火與星星光點秀
-  document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
-    e.stopPropagation();
-
-    // 在畫面上半部多點綻放
-    const fireworkSpots = [
-      { x: window.innerWidth * 0.5, y: window.innerHeight * 0.25 }, // 正中間上方
-      { x: window.innerWidth * 0.28, y: window.innerHeight * 0.2 }, // 左上方
-      { x: window.innerWidth * 0.72, y: window.innerHeight * 0.2 }, // 右上方
-      { x: window.innerWidth * 0.4, y: window.innerHeight * 0.35 },  // 中左
-      { x: window.innerWidth * 0.6, y: window.innerHeight * 0.35 }   // 中右
-    ];
-
-    fireworkSpots.forEach((spot, index) => {
-      setTimeout(() => {
-        createIllustrationFirework(spot.x, spot.y);
-      }, index * 160);
+    onSnapshot(collection(db, "expenses"), (snapshot) => {
+      latestExpensesData = snapshot.docs;
+      renderExpensesUI();
     });
-  });
 
-  // 仿插畫風線條煙火與小星星的函式
-  window.createIllustrationFirework = function(x, y) {
-    const rayCount = 24; // 煙火放射線條數量
-    const colors = ['#e5c158', '#d4a373', '#ffb5a7', '#faedcd', '#ffcad4', '#ffffff'];
+    document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const fireworkSpots = [
+        { x: window.innerWidth * 0.5, y: window.innerHeight * 0.25 },
+        { x: window.innerWidth * 0.28, y: window.innerHeight * 0.2 },
+        { x: window.innerWidth * 0.72, y: window.innerHeight * 0.2 },
+        { x: window.innerWidth * 0.4, y: window.innerHeight * 0.35 },
+        { x: window.innerWidth * 0.6, y: window.innerHeight * 0.35 }
+      ];
 
-    // 1. 產生放射狀的優雅線條光芒
-    for (let i = 0; i < rayCount; i++) {
-      const ray = document.createElement('div');
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      
-      ray.style.position = 'fixed';
-      ray.style.left = `${x}px`;
-      ray.style.top = `${y}px`;
-      ray.style.width = '2.5px'; // 細緻的手繪線條感
-      ray.style.height = `${30 + Math.random() * 35}px`;
-      ray.style.backgroundColor = color;
-      ray.style.borderRadius = '2px';
-      ray.style.pointerEvents = 'none';
-      ray.style.zIndex = '99999';
-      ray.style.transformOrigin = 'top center';
-      ray.style.opacity = '1';
-
-      const angle = (360 / rayCount) * i + (Math.random() * 8 - 4);
-      const distance = 50 + Math.random() * 50;
-      
-      ray.style.transform = `rotate(${angle}deg) scaleY(0.2)`;
-      ray.style.transition = 'all 0.8s cubic-bezier(0.1, 0.8, 0.3, 1)';
-      document.body.appendChild(ray);
-
-      requestAnimationFrame(() => {
-        ray.style.transform = `rotate(${angle}deg) translateY(${distance}px) scaleY(1.2)`;
-        ray.style.opacity = '0';
+      fireworkSpots.forEach((spot, index) => {
+        setTimeout(() => {
+          createIllustrationFirework(spot.x, spot.y);
+        }, index * 160);
       });
+    });
 
-      setTimeout(() => ray.remove(), 800);
-    }
+    window.createIllustrationFirework = function(x, y) {
+      const rayCount = 24;
+      const colors = ['#e5c158', '#d4a373', '#ffb5a7', '#faedcd', '#ffcad4', '#ffffff'];
 
-    // 2. 在周圍點綴圖片中那種可愛的小星星與小光點
-    const starCount = 18;
-    const starSymbols = ['✨', '✦', '·', '˚'];
+      for (let i = 0; i < rayCount; i++) {
+        const ray = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        ray.style.position = 'fixed';
+        ray.style.left = `${x}px`;
+        ray.style.top = `${y}px`;
+        ray.style.width = '2.5px';
+        ray.style.height = `${30 + Math.random() * 35}px`;
+        ray.style.backgroundColor = color;
+        ray.style.borderRadius = '2px';
+        ray.style.pointerEvents = 'none';
+        ray.style.zIndex = '99999';
+        ray.style.transformOrigin = 'top center';
+        ray.style.opacity = '1';
 
-    for (let j = 0; j < starCount; j++) {
-      const star = document.createElement('div');
-      star.innerText = starSymbols[Math.floor(Math.random() * starSymbols.length)];
-      
-      star.style.position = 'fixed';
-      star.style.left = `${x}px`;
-      star.style.top = `${y}px`;
-      star.style.fontSize = `${10 + Math.random() * 12}px`;
-      star.style.color = colors[Math.floor(Math.random() * colors.length)];
-      star.style.pointerEvents = 'none';
-      star.style.zIndex = '99999';
-      star.style.opacity = '1';
+        const angle = (360 / rayCount) * i + (Math.random() * 8 - 4);
+        const distance = 50 + Math.random() * 50;
+        
+        ray.style.transform = `rotate(${angle}deg) scaleY(0.2)`;
+        ray.style.transition = 'all 0.8s cubic-bezier(0.1, 0.8, 0.3, 1)';
+        document.body.appendChild(ray);
 
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 40 + Math.random() * 80;
-      const tx = Math.cos(angle) * speed;
-      const ty = Math.sin(angle) * speed;
+        requestAnimationFrame(() => {
+          ray.style.transform = `rotate(${angle}deg) translateY(${distance}px) scaleY(1.2)`;
+          ray.style.opacity = '0';
+        });
 
-      star.style.transition = 'all 0.9s ease-out';
-      document.body.appendChild(star);
+        setTimeout(() => ray.remove(), 800);
+      }
 
-      requestAnimationFrame(() => {
-        star.style.transform = `translate(${tx}px, ${ty}px) scale(1.3) rotate(${Math.random() * 180}deg)`;
-        star.style.opacity = '0';
-      });
+      const starCount = 18;
+      const starSymbols = ['✨', '✦', '·', '˚'];
 
-      setTimeout(() => star.remove(), 900);
-    }
-  };
-</script>
-</body>
-</html>
+      for (let j = 0; j < starCount; j++) {
+        const star = document.createElement('div');
+        star.innerText = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+        
+        star.style.position = 'fixed';
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+        star.style.fontSize = `${10 + Math.random() * 12}px`;
+        star.style.color = colors[Math.floor(Math.random() * colors.length)];
+        star.style.pointerEvents = 'none';
+        star.style.zIndex = '99999';
+        star.style.opacity = '1';
 
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 40 + Math.random() * 80;
+        const tx = Math.cos(angle) * speed;
+        const ty = Math.sin(angle) * speed;
 
-</script>
+        star.style.transition = 'all 0.9s ease-out';
+        document.body.appendChild(star);
+
+        requestAnimationFrame(() => {
+          star.style.transform = `translate(${tx}px, ${ty}px) scale(1.3) rotate(${Math.random() * 180}deg)`;
+          star.style.opacity = '0';
+        });
+
+        setTimeout(() => star.remove(), 900);
+      }
+    };
+  </script>
 </body>
 </html>
