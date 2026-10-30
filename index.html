@@ -817,7 +817,7 @@
   <!-- 半透明背景遮罩（位於導覽列上方） -->
   <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
 
-  <!-- 下方往上彈出式頁面卡片（支援卡片上半部 2/3 下滑收合） -->
+  <!-- 下方往上彈出式頁面卡片（支援卡片上半部 2/3 下滑收合，背景不晃動） -->
   <div class="bottom-sheet" id="bottom-sheet">
     <div class="sheet-header" id="sheet-header">
       <div class="sheet-handle"></div>
@@ -1352,7 +1352,7 @@
       }
     });
 
-    // --- 擴大下拉觸碰區域：整張卡片上半部 2/3 皆可接收下滑手勢 ---
+    // --- 擴大下拉觸碰區域，並使用 preventDefault 防止背景頁面跟著晃動 ---
     const sheet = document.getElementById('bottom-sheet');
     const sheetBody = document.getElementById('sheet-body');
 
@@ -1365,11 +1365,11 @@
       const sheetRect = sheet.getBoundingClientRect();
       const relativeTouchY = touchY - sheetRect.top;
 
-      // 當點擊位置在卡片頂端起算的上半部 2/3 區域內（或內部未處於向下滾動狀態）
+      // 點擊位置在卡片上半部 2/3 區域內且內部未在往下滾動
       if (relativeTouchY <= sheetRect.height * 0.67 && sheetBody.scrollTop <= 0) {
         startY = touchY;
         isDragging = true;
-        sheet.style.transition = 'none'; // 取消延遲動畫，保持流暢跟手
+        sheet.style.transition = 'none'; 
       }
     }, { passive: true });
 
@@ -1378,11 +1378,11 @@
       currentY = e.touches[0].clientY;
       const deltaY = currentY - startY;
 
-      // 僅向上/向下拖動時響應向下移動
       if (deltaY > 0) {
+        e.preventDefault(); // 關鍵：阻止背景頁面跟著位移或產生預設捲動
         sheet.style.transform = `translateY(${deltaY}px)`;
       }
-    }, { passive: true });
+    }, { passive: false }); // 必須設為 false 才能生效 preventDefault
 
     sheet.addEventListener('touchend', () => {
       if (!isDragging) return;
@@ -1391,7 +1391,6 @@
 
       sheet.style.transition = 'transform 0.3s ease-out';
 
-      // 下滑超過 70px 即自動觸發收合關閉，否則復原彈回
       if (deltaY > 70) {
         closeSheet();
       } else {
