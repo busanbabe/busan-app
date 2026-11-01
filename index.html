@@ -161,7 +161,6 @@
       color: var(--color-sky);
     }
 
-    /* 單一「歐巴歐尼集合倒數」卡片 - Butter 黃色背景 */
     .reunion-countdown-card {
       background: rgba(244, 215, 122, 0.28);
       border-radius: 16px;
@@ -196,7 +195,7 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
 
-    /* 3D 翻頁鐘強效優化 CSS */
+    /* 3D Flip Clock 翻頁鐘精緻樣式 */
     .flip-clock {
       display: flex;
       gap: 8px;
@@ -214,9 +213,8 @@
       position: relative;
       width: 100%;
       aspect-ratio: 0.85;
-      perspective: 400px;
+      perspective: 300px;
       border-radius: 8px;
-      overflow: hidden;
       box-shadow: 0 4px 10px rgba(127, 185, 230, 0.3);
       background-color: var(--flip-bg);
       background-image: repeating-linear-gradient(
@@ -271,40 +269,47 @@
     .card-face.top {
       top: 0;
       align-items: flex-end;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
       border-bottom: 0.5px solid var(--flip-divider);
     }
 
     .card-face.bottom {
       bottom: 0;
       align-items: flex-start;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
       border-top: 0.5px solid var(--flip-divider);
     }
 
     .card-face.top span { transform: translateY(50%); }
     .card-face.bottom span { transform: translateY(-50%); }
 
-    /* 動態翻轉半頁卡片 */
     .flip-leaf {
       position: absolute;
       left: 0;
       width: 100%;
       height: 50%;
       overflow: hidden;
-      transform-style: preserve-3d;
       z-index: 20;
-      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
     .flip-leaf.flip-top {
       top: 0;
       transform-origin: bottom;
-      animation: flipTopAnim 0.3s ease-in forwards;
+      animation: flipTopAnim 0.25s ease-in forwards;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
     }
 
     .flip-leaf.flip-bottom {
       bottom: 0;
       transform-origin: top;
-      animation: flipBottomAnim 0.3s ease-out forwards;
+      animation: flipBottomAnim 0.25s ease-out forwards;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
 
     @keyframes flipTopAnim {
@@ -329,7 +334,7 @@
       pointer-events: none;
     }
 
-    /* 成員名單小卡（Matcha 歐尼 x3 & Lavender 歐巴 x1） */
+    /* 成員名單小卡 */
     .members-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -463,7 +468,6 @@
       border-radius: 10px;
     }
 
-    /* Tangerine 橘色地圖按鈕 */
     .map-btn {
       display: inline-flex;
       align-items: center;
@@ -529,7 +533,6 @@
 
     .btn-submit:active { opacity: 0.9; }
 
-    /* 左右對稱雙欄看板 */
     .dashboard-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -602,7 +605,7 @@
       font-size: 14px;
     }
 
-    /* 下方彈出卡片 (Bottom Sheet) */
+    /* Bottom Sheet */
     .sheet-overlay {
       position: fixed;
       top: 0;
@@ -690,7 +693,6 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* 底部導覽列 */
     nav {
       position: fixed;
       bottom: 0;
@@ -752,7 +754,7 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 單一「歐巴歐尼集合倒數」flip clock (Butter 黃卡片底色) -->
+      <!-- 單一「歐巴歐尼集合倒數」flip clock -->
       <div class="reunion-countdown-card">
         <div class="countdown-header">
           <span class="countdown-title">
@@ -793,7 +795,7 @@
         </div>
       </div>
 
-      <!-- 成員卡片（Matcha 歐尼 x3 & Lavender 歐巴 x1） -->
+      <!-- 成員卡片 -->
       <div class="members-container">
         <div class="member-card">
           <span class="member-name">成員陣容</span>
@@ -834,9 +836,7 @@
       </div>
     </div>
     
-    <div class="sheet-body" id="sheet-body">
-      <!-- 彈出卡片內容區塊 -->
-    </div>
+    <div class="sheet-body" id="sheet-body"></div>
   </div>
 
   <!-- 底部導覽列 -->
@@ -859,7 +859,7 @@
     </button>
   </nav>
 
-  <!-- 邏輯與 Firebase 整合 JS -->
+  <!-- JS 邏輯 -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -1021,7 +1021,7 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
-    // 重構強效版 3D 翻頁鐘 JS 邏輯
+    /* 翻頁鐘強效修復與優化 JS 邏輯 */
     function updateFlipCard(unitElem, newValue) {
       const formattedValue = String(newValue).padStart(2, '0');
       const wrapper = unitElem.querySelector('.flip-card-wrapper');
@@ -1031,32 +1031,34 @@
       const currentValue = topFace.textContent;
       if (currentValue === formattedValue) return;
 
-      // 建立向下翻動的上層舊頁面
+      // 清理前一次殘留動畫節點
+      wrapper.querySelectorAll('.flip-leaf').forEach(el => el.remove());
+
+      // 建立翻轉頂部舊半面
       const flipTop = document.createElement('div');
       flipTop.className = 'flip-leaf flip-top';
       flipTop.innerHTML = `<div class="card-face top"><span>${currentValue}</span></div>`;
 
-      // 建立翻到底部蓋上的新頁面
+      // 建立翻轉底部新半面
       const flipBottom = document.createElement('div');
       flipBottom.className = 'flip-leaf flip-bottom';
       flipBottom.innerHTML = `<div class="card-face bottom"><span>${formattedValue}</span></div>`;
 
-      // 設定靜態底層內容
+      // 預先更新底層靜態視圖
       topFace.textContent = formattedValue;
-      bottomFace.textContent = currentValue;
 
       wrapper.appendChild(flipTop);
       wrapper.appendChild(flipBottom);
 
-      // 動態動畫完成後更新底頁並清理 DOM
+      // 動畫結束後更新底頁並刪除臨時節點
       setTimeout(() => {
         bottomFace.textContent = formattedValue;
         flipTop.remove();
         flipBottom.remove();
-      }, 300);
+      }, 250);
     }
 
-    // 單一倒數功能：設定為 2026/12/31 18:00
+    // 倒數目標：2026/12/31 18:00
     function startSingleCountdown() {
       const targetDate = new Date(`2026-12-31T18:00:00`);
 
