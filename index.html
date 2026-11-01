@@ -292,16 +292,16 @@
     .card-face.top span {
       display: block;
       height: 200%;
-      line-height: 100%;
-      transform: translateY(25%);
+      line-height: 200%;
+      transform: translateY(0);
       text-align: center;
     }
 
     .card-face.bottom span {
       display: block;
       height: 200%;
-      line-height: 100%;
-      transform: translateY(-75%);
+      line-height: 200%;
+      transform: translateY(-50%);
       text-align: center;
     }
 
@@ -1046,7 +1046,7 @@
       const currentValue = topFace.textContent;
       if (currentValue === formattedValue) return;
 
-      // 1. 清理過往葉片節點，防範殘影
+      // 1. 清理過往節點
       wrapper.querySelectorAll('.flip-leaf').forEach(el => el.remove());
 
       // 2. 建立動態翻轉葉片 (舊上半部向下翻轉)
