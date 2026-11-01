@@ -274,9 +274,7 @@
       border-bottom: 1px solid var(--flip-divider);
     }
 
-    .card-face.top span {
-      transform: translateY(50%);
-    }
+    .card-face.top span { transform: translateY(50%); }
 
     .card-face.bottom {
       bottom: 0;
@@ -286,11 +284,8 @@
       border-top: 1px solid rgba(255, 255, 255, 0.25);
     }
 
-    .card-face.bottom span {
-      transform: translateY(-50%);
-    }
+    .card-face.bottom span { transform: translateY(-50%); }
 
-    /* 翻頁動畫專用面板 (Card Flipper) */
     .card-card-flipper {
       position: absolute;
       top: 0;
@@ -368,42 +363,35 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
-    /* 歐巴&歐尼們可點擊 Bar 樣式 */
+    /* 歐巴&歐尼們按鈕：可愛粉色愛心 + 極簡風格 */
     .members-bar-btn {
       width: 100%;
       background: #FFFFFF;
-      border: 1.5px solid rgba(183, 201, 106, 0.5);
+      border: 1.5px solid rgba(249, 139, 169, 0.35);
       border-radius: 14px;
       padding: 12px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(183, 201, 106, 0.15);
+      box-shadow: 0 3px 10px rgba(249, 139, 169, 0.12);
       transition: all 0.2s ease;
     }
 
     .members-bar-btn:active {
       transform: scale(0.98);
-      background: #F9FCF3;
+      background: #FFF9FA;
     }
 
     .members-bar-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .members-bar-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(183, 201, 106, 0.2);
-      color: #789012;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
+    .members-heart-icon {
+      font-size: 16px;
+      line-height: 1;
     }
 
     .members-bar-title {
@@ -415,13 +403,100 @@
     .members-bar-right {
       display: flex;
       align-items: center;
-      gap: 6px;
+      color: #C0B7B1;
       font-size: 13px;
-      color: var(--text-sub);
-      font-weight: 600;
     }
 
-    /* 成員彈出視窗內部卡片樣式 */
+    /* 7 大分區大方塊網格 (Grid Layout) */
+    .section-title-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .cat-card-btn {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 16px 14px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 96px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.02);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .cat-card-btn:active {
+      transform: scale(0.97);
+    }
+
+    .cat-card-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background: var(--color-sky);
+    }
+
+    .cat-card-btn[data-cat="ALL"]::before { background: var(--color-sky); }
+    .cat-card-btn[data-cat="A"]::before { background: var(--color-cat-a); }
+    .cat-card-btn[data-cat="B"]::before { background: var(--color-cat-b); }
+    .cat-card-btn[data-cat="C"]::before { background: var(--color-cat-c); }
+    .cat-card-btn[data-cat="D"]::before { background: var(--color-cat-d); }
+    .cat-card-btn[data-cat="E"]::before { background: var(--color-cat-e); }
+    .cat-card-btn[data-cat="F"]::before { background: var(--color-cat-f); }
+
+    .cat-card-btn.full-width {
+      grid-column: span 2;
+      min-height: 75px;
+      flex-direction: row;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(127, 185, 230, 0.12) 0%, rgba(214, 190, 234, 0.12) 100%);
+      border: 1.5px solid rgba(127, 185, 230, 0.35);
+    }
+
+    .cat-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .cat-card-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-sub);
+      background: rgba(0,0,0,0.04);
+      padding: 3px 8px;
+      border-radius: 10px;
+      width: fit-content;
+      margin-top: 6px;
+    }
+
+    .cat-card-arrow {
+      font-size: 14px;
+      color: #A09890;
+    }
+
+    /* 成員彈出視窗內部卡片 */
     .members-container-modal {
       display: flex;
       flex-direction: column;
@@ -440,9 +515,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     }
 
-    .member-card.oppa {
-      border-left-color: var(--color-lavender);
-    }
+    .member-card.oppa { border-left-color: var(--color-lavender); }
 
     .member-tag {
       font-size: 12px;
@@ -453,9 +526,7 @@
       background: var(--color-matcha);
     }
 
-    .member-card.oppa .member-tag {
-      background: var(--color-lavender);
-    }
+    .member-card.oppa .member-tag { background: var(--color-lavender); }
 
     .member-name {
       font-size: 14px;
@@ -463,41 +534,7 @@
       color: var(--text-main);
     }
 
-    /* 分類頁籤按鈕 */
-    .category-scroll {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 12px;
-      scrollbar-width: none;
-    }
-
-    .category-scroll::-webkit-scrollbar { display: none; }
-
-    .cat-btn {
-      white-space: nowrap;
-      padding: 7px 14px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 1px solid var(--border-color);
-      font-size: 13px;
-      color: var(--text-sub);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .cat-btn[data-cat="ALL"].active { background: var(--color-sky); color: #FFF; border-color: var(--color-sky); }
-    .cat-btn[data-cat="A"].active { background: var(--color-cat-a); color: #FFF; border-color: var(--color-cat-a); }
-    .cat-btn[data-cat="B"].active { background: var(--color-cat-b); color: #FFF; border-color: var(--color-cat-b); }
-    .cat-btn[data-cat="C"].active { background: var(--color-cat-c); color: #FFF; border-color: var(--color-cat-c); }
-    .cat-btn[data-cat="D"].active { background: var(--color-cat-d); color: #FFF; border-color: var(--color-cat-d); }
-    .cat-btn[data-cat="E"].active { background: var(--color-cat-e); color: #FFF; border-color: var(--color-cat-e); }
-    .cat-btn[data-cat="F"].active { background: var(--color-cat-f); color: #FFF; border-color: var(--color-cat-f); }
-
-    /* 景點卡片與按鈕 */
+    /* 景點卡片與按鈕 (彈出視窗內) */
     .item-card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(6px);
@@ -893,34 +930,64 @@
         </div>
       </div>
 
-      <!-- 歐巴&歐尼們可點擊按鈕 Bar -->
+      <!-- 歐巴&歐尼們：極簡質感可愛愛心按鈕 Bar -->
       <button class="members-bar-btn" onclick="openMembersSheet()">
         <div class="members-bar-left">
-          <div class="members-bar-icon">
-            <i class="fa-solid fa-users"></i>
-          </div>
+          <span class="members-heart-icon">💖</span>
           <span class="members-bar-title">歐巴 & 歐尼們</span>
         </div>
         <div class="members-bar-right">
-          <span>查看成員</span>
-          <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+          <i class="fa-solid fa-chevron-right"></i>
         </div>
       </button>
     </div>
 
-    <!-- 行程導覽/景點總覽 -->
-    <div id="tab-schedule">
-      <div class="category-scroll">
-        <button class="cat-btn active" data-cat="ALL" onclick="filterCategory('ALL', this)">全部景點</button>
-        <button class="cat-btn" data-cat="A" onclick="filterCategory('A', this)">A. 松島.影島</button>
-        <button class="cat-btn" data-cat="B" onclick="filterCategory('B', this)">B. 市集.市場</button>
-        <button class="cat-btn" data-cat="C" onclick="filterCategory('C', this)">C. 西面.田浦</button>
-        <button class="cat-btn" data-cat="D" onclick="filterCategory('D', this)">D. 廣安里</button>
-        <button class="cat-btn" data-cat="E" onclick="filterCategory('E', this)">E. 海雲台</button>
-        <button class="cat-btn" data-cat="F" onclick="filterCategory('F', this)">F. 天空膠囊列車 & 海岸列車</button>
-      </div>
+    <!-- 行程分區導覽 (7 個顯眼大方塊網格) -->
+    <div class="section-title-label">
+      <i class="fa-solid fa-map-location-dot" style="color: var(--color-sky);"></i>
+      景點行程分區導覽
+    </div>
 
-      <div id="schedule-list"></div>
+    <div class="category-grid">
+      <!-- 全幅跨頁大按鈕 -->
+      <button class="cat-card-btn full-width" data-cat="ALL" onclick="openCategorySheet('ALL', '全部景點行程')">
+        <div>
+          <div class="cat-card-title">✨ 全部景點行程總覽</div>
+          <div class="cat-card-badge">收錄全釜山精選景點 (54)</div>
+        </div>
+        <div class="cat-card-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+      </button>
+
+      <!-- 分區大卡片 A-F -->
+      <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')">
+        <div class="cat-card-title">A. 松島 . 影島</div>
+        <div class="cat-card-badge">8 個景點</div>
+      </button>
+
+      <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')">
+        <div class="cat-card-title">B. 市集 . 市場</div>
+        <div class="cat-card-badge">8 個景點</div>
+      </button>
+
+      <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')">
+        <div class="cat-card-title">C. 西面 . 田浦</div>
+        <div class="cat-card-badge">13 個景點</div>
+      </button>
+
+      <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')">
+        <div class="cat-card-title">D. 廣安里</div>
+        <div class="cat-card-badge">11 個景點</div>
+      </button>
+
+      <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')">
+        <div class="cat-card-title">E. 海雲台</div>
+        <div class="cat-card-badge">10 個景點</div>
+      </button>
+
+      <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')">
+        <div class="cat-card-title">F. 膠囊 & 海岸列車</div>
+        <div class="cat-card-badge">9 個景點</div>
+      </button>
     </div>
   </div>
 
@@ -980,6 +1047,7 @@
     let EXCHANGE_RATE = 41.5;
     let latestExpensesData = [];
     let currentSheetType = null;
+    let currentActiveCat = null;
 
     async function fetchLiveExchangeRate() {
       try {
@@ -1121,9 +1189,7 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
-    /* ==========================================
-       支援實際翻頁機械動畫的倒數計時邏輯
-       ========================================== */
+    /* 機械翻頁鐘動畫邏輯 */
     function updateClockUnit(unitName, value) {
       const formatted = String(value).padStart(2, '0');
       const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
@@ -1142,7 +1208,7 @@
         backSpan.textContent = formatted;
         
         flipper.classList.remove('flipping');
-        void flipper.offsetWidth; // 觸發重繪
+        void flipper.offsetWidth;
         flipper.classList.add('flipping');
 
         topSpan.textContent = formatted;
@@ -1195,6 +1261,7 @@
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       document.getElementById('nav-schedule').classList.add('active');
       currentSheetType = null;
+      currentActiveCat = null;
     };
 
     /* 開啟成員彈出視窗 */
@@ -1216,66 +1283,29 @@
         </div>
       `;
 
-      const sheet = document.getElementById('bottom-sheet');
-      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-      sheet.style.transform = 'translateY(0)';
-      document.getElementById('sheet-overlay').classList.add('active');
-      sheet.classList.add('active');
+      showSheet();
     };
 
-    window.openFavoritesSheet = function() {
-      currentSheetType = 'favorites';
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      document.getElementById('nav-favorites').classList.add('active');
+    /* 點擊分區大方塊彈出景點列表 */
+    window.openCategorySheet = function(catCode, titleName) {
+      currentSheetType = 'category';
+      currentActiveCat = catCode;
+      document.getElementById('sheet-title').innerText = titleName;
 
-      document.getElementById('sheet-title').innerText = `收藏 (${favorites.length})`;
-      renderFavoritesSheetContent();
-
-      const sheet = document.getElementById('bottom-sheet');
-      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-      sheet.style.transform = 'translateY(0)';
-      document.getElementById('sheet-overlay').classList.add('active');
-      sheet.classList.add('active');
+      renderCategorySheetContent(catCode);
+      showSheet();
     };
 
-    window.openExpensesSheet = function() {
-      currentSheetType = 'expenses';
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      document.getElementById('nav-expenses').classList.add('active');
+    function renderCategorySheetContent(catCode) {
+      const sheetBody = document.getElementById('sheet-body');
+      sheetBody.innerHTML = '';
 
-      document.getElementById('sheet-title').innerText = `💰 記帳小幫手`;
-      renderExpensesSheetContent();
-
-      const sheet = document.getElementById('bottom-sheet');
-      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-      sheet.style.transform = 'translateY(0)';
-      document.getElementById('sheet-overlay').classList.add('active');
-      sheet.classList.add('active');
-    };
-
-    window.goHome = function() {
-      closeSheet();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    let currentFilter = 'ALL';
-    window.filterCategory = function(cat, btn) {
-      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentFilter = cat;
-      renderScheduleList();
-    };
-
-    function renderScheduleList() {
-      const scheduleList = document.getElementById('schedule-list');
-      scheduleList.innerHTML = '';
-
-      let filteredData = presetData;
-      if (currentFilter !== 'ALL') {
-        filteredData = presetData.filter(i => i.cat === currentFilter);
+      let listData = presetData;
+      if (catCode !== 'ALL') {
+        listData = presetData.filter(item => item.cat === catCode);
       }
 
-      filteredData.forEach((item, index) => {
+      listData.forEach((item, index) => {
         const isFav = favorites.includes(item.id);
         const card = document.createElement('div');
         card.className = `item-card cat-${item.cat}`;
@@ -1295,9 +1325,44 @@
             <i class="fa-solid fa-location-dot"></i> Google Map
           </a>
         `;
-        scheduleList.appendChild(card);
+        sheetBody.appendChild(card);
       });
     }
+
+    window.openFavoritesSheet = function() {
+      currentSheetType = 'favorites';
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('nav-favorites').classList.add('active');
+
+      document.getElementById('sheet-title').innerText = `收藏 (${favorites.length})`;
+      renderFavoritesSheetContent();
+
+      showSheet();
+    };
+
+    window.openExpensesSheet = function() {
+      currentSheetType = 'expenses';
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('nav-expenses').classList.add('active');
+
+      document.getElementById('sheet-title').innerText = `💰 記帳小幫手`;
+      renderExpensesSheetContent();
+
+      showSheet();
+    };
+
+    function showSheet() {
+      const sheet = document.getElementById('bottom-sheet');
+      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+      sheet.style.transform = 'translateY(0)';
+      document.getElementById('sheet-overlay').classList.add('active');
+      sheet.classList.add('active');
+    }
+
+    window.goHome = function() {
+      closeSheet();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     function renderFavoritesSheetContent() {
       const sheetBody = document.getElementById('sheet-body');
@@ -1309,7 +1374,7 @@
         sheetBody.innerHTML = `
           <div class="empty-fav-msg">
             <i class="fa-regular fa-heart" style="font-size:36px; margin-bottom:12px; color:var(--color-pink);"></i><br>
-            還沒有收藏的景點喔！<br>快去行程導覽點擊愛心加入收藏吧～
+            還沒有收藏的景點喔！<br>點擊分區卡片點擊愛心加入收藏吧～
           </div>
         `;
         return;
@@ -1382,14 +1447,14 @@
         favorites.push(itemId);
       }
       saveFavorites();
-      renderScheduleList();
-      if (currentSheetType === 'favorites') {
+
+      if (currentSheetType === 'category' && currentActiveCat) {
+        renderCategorySheetContent(currentActiveCat);
+      } else if (currentSheetType === 'favorites') {
         document.getElementById('sheet-title').innerText = `收藏 (${favorites.length})`;
         renderFavoritesSheetContent();
       }
     };
-
-    renderScheduleList();
 
     window.addExpense = async function() {
       const item = document.getElementById('expense-item').value;
