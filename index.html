@@ -159,11 +159,12 @@
       color: var(--color-sky);
     }
 
+    /* 集合倒數卡片：底色改為 #74B9AF */
     .reunion-countdown-card {
-      background: rgba(244, 215, 122, 0.28);
+      background: #74B9AF;
       border-radius: 16px;
       padding: 16px 12px;
-      border: 1.5px solid rgba(244, 215, 122, 0.6);
+      border: 1.5px solid rgba(116, 185, 175, 0.8);
       margin-bottom: 14px;
     }
 
@@ -174,22 +175,14 @@
       margin-bottom: 12px;
     }
 
+    /* 左上標題：文字改為白色 */
     .countdown-title {
       font-weight: 700;
       font-size: 15px;
-      color: var(--text-main);
+      color: #FFFFFF;
       display: flex;
       align-items: center;
       gap: 6px;
-    }
-
-    .arrival-date {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--color-tangerine);
-      background: #FFFFFF;
-      padding: 3px 8px;
-      border-radius: 12px;
     }
 
     /* 翻頁鐘樣式設定 */
@@ -221,7 +214,7 @@
       );
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 0 4px 10px rgba(127, 185, 230, 0.25);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
       display: flex;
       flex-direction: column;
       perspective: 160px;
@@ -887,7 +880,6 @@
             <i class="fa-solid fa-heart-pulse" style="color: var(--color-pink);"></i>
             集合倒數
           </span>
-          <span class="arrival-date">12/31 18:00 集合</span>
         </div>
         <div class="flip-clock" id="clock-reunion">
           <div class="flip-unit" data-unit="days">
