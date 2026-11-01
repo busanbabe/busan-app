@@ -1050,13 +1050,13 @@
 
     /* 色彩映射字典：控制彈出視窗標題與 Google Map 按鈕同色系樣式 */
     const categoryThemeMap = {
-      'A': { main: '#7FB9E6', bgLight: 'rgba(127, 185, 230, 0.15)', name: 'A. 松島 . 影島', code: 'A. SONGDO & YEONGDO' },
-      'B': { main: '#FF8F45', bgLight: 'rgba(255, 143, 69, 0.15)', name: 'B. 市集 . 市場', code: 'B. MARKETS' },
-      'C': { main: '#D4B830', bgLight: 'rgba(244, 215, 122, 0.25)', name: 'C. 西面 . 田浦', code: 'C. SEOMYEON & JEONPO' },
-      'D': { main: '#B392DC', bgLight: 'rgba(214, 190, 234, 0.2)', name: 'D. 廣安里', code: 'D. GWANGANLI' },
-      'E': { main: '#F76B90', bgLight: 'rgba(249, 139, 169, 0.2)', name: 'E. 海雲台', code: 'E. HAEUNDAE' },
-      'F': { main: '#9DB347', bgLight: 'rgba(183, 201, 106, 0.2)', name: 'F. 天空膠囊 & 海岸列車', code: 'F. SKY CAPSULE & TRAIN' },
-      'ALL': { main: '#2C3E50', bgLight: 'rgba(44, 62, 80, 0.08)', name: '全部景點總覽', code: 'ALL BUSAN SPOTS' }
+      'A': { main: '#7FB9E6', bgLight: 'rgba(127, 185, 230, 0.15)', name: 'A. 松島 . 影島', code: 'SONGDO & YEONGDO' },
+      'B': { main: '#FF8F45', bgLight: 'rgba(255, 143, 69, 0.15)', name: 'B. 市集 . 市場', code: 'MARKETS' },
+      'C': { main: '#D4B830', bgLight: 'rgba(244, 215, 122, 0.25)', name: 'C. 西面 . 田浦', code: 'SEOMYEON & JEONPO' },
+      'D': { main: '#B392DC', bgLight: 'rgba(214, 190, 234, 0.2)', name: 'D. 廣安里', code: 'GWANGANLI' },
+      'E': { main: '#F76B90', bgLight: 'rgba(249, 139, 169, 0.2)', name: 'E. 海雲台', code: 'HAEUNDAE' },
+      'F': { main: '#9DB347', bgLight: 'rgba(183, 201, 106, 0.2)', name: 'F. 天空膠囊 & 海岸列車', code: 'SKY CAPSULE & TRAIN' },
+      'ALL': { main: '#2C3E50', bgLight: 'rgba(44, 62, 80, 0.08)', name: 'ALL SPOTS' }
     };
 
     async function fetchLiveExchangeRate() {
@@ -1278,20 +1278,16 @@
     window.openMembersSheet = function() {
       currentSheetType = 'members';
       const titleElem = document.getElementById('sheet-title');
-      titleElem.innerText = '歐巴 & 歐尼們成員陣容';
+      titleElem.innerText = '明星級成員';
       titleElem.style.color = 'var(--color-sky)';
       
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = `
         <div class="members-container-modal">
           <div class="member-card">
-            <span class="member-name">成員陣容</span>
-            <span class="member-tag">歐尼 x 3</span>
-          </div>
-          <div class="member-card oppa">
-            <span class="member-name">成員陣容</span>
-            <span class="member-tag">歐巴 x 1</span>
-          </div>
+
+            <span class="member-tag">Jewel / 蘆洲宋慧喬、Kay / 古亭孫藝珍、Jessie / 高雄全智賢、Jase / 高雄馬東石</span>
+
         </div>
       `;
 
