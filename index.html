@@ -47,7 +47,6 @@
       --flip-subtext: #EBF5FB;
       --flip-divider: rgba(0, 0, 0, 0.15);
 
-      /* 底部 Nav Bar 高度計算 */
       --nav-height: calc(52px + env(safe-area-inset-bottom));
     }
 
@@ -194,7 +193,7 @@
     }
 
     /* ==========================================
-       3D 翻頁鐘 - 極致修正版 (確保數字不消失)
+       全新超穩定 3D 翻頁鐘排版
        ========================================== */
     .flip-clock {
       display: flex;
@@ -261,14 +260,15 @@
       );
       color: var(--flip-text);
       font-weight: 800;
-      font-size: clamp(32px, 9vw, 48px);
+      font-size: clamp(28px, 8vw, 42px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
     }
 
     .card-face.top {
       top: 0;
+      align-items: flex-end;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
       border-bottom: 0.5px solid var(--flip-divider);
@@ -276,70 +276,10 @@
 
     .card-face.bottom {
       bottom: 0;
+      align-items: flex-start;
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
       border-top: 0.5px solid var(--flip-divider);
-    }
-
-    /* 修正 span 定位，確保手機瀏覽器渲染時高度穩定不歸零 */
-    .card-face span {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      height: 200%;
-      line-height: 100%;
-    }
-
-    .card-face.top span {
-      top: 0;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .card-face.bottom span {
-      top: -100%;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-    }
-
-    .flip-leaf {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 50%;
-      overflow: hidden;
-      z-index: 20;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-    }
-
-    .flip-leaf.flip-top {
-      top: 0;
-      transform-origin: bottom;
-      animation: flipTopAnim 0.2s ease-in forwards;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-    }
-
-    .flip-leaf.flip-bottom {
-      bottom: 0;
-      transform-origin: top;
-      animation: flipBottomAnim 0.2s ease-out forwards;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-    }
-
-    @keyframes flipTopAnim {
-      0% { transform: rotateX(0deg); }
-      100% { transform: rotateX(-90deg); }
-    }
-
-    @keyframes flipBottomAnim {
-      0% { transform: rotateX(90deg); }
-      100% { transform: rotateX(0deg); }
     }
 
     .unit-label {
@@ -356,7 +296,7 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
-    /* 成員名單小卡 */
+    /* 成員卡片 */
     .members-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -769,7 +709,7 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 單一「歐巴歐尼集合倒數」Flip Clock -->
+      <!-- 歐巴歐尼集合倒數 -->
       <div class="reunion-countdown-card">
         <div class="countdown-header">
           <span class="countdown-title">
@@ -781,29 +721,29 @@
         <div class="flip-clock" id="clock-reunion">
           <div class="flip-unit" data-unit="days">
             <div class="flip-card-wrapper">
-              <div class="card-face top"><span>00</span></div>
-              <div class="card-face bottom"><span>00</span></div>
+              <div class="card-face top">00</div>
+              <div class="card-face bottom">00</div>
               <span class="unit-label">DAY</span>
             </div>
           </div>
           <div class="flip-unit" data-unit="hours">
             <div class="flip-card-wrapper">
-              <div class="card-face top"><span>00</span></div>
-              <div class="card-face bottom"><span>00</span></div>
+              <div class="card-face top">00</div>
+              <div class="card-face bottom">00</div>
               <span class="unit-label">HR</span>
             </div>
           </div>
           <div class="flip-unit" data-unit="minutes">
             <div class="flip-card-wrapper">
-              <div class="card-face top"><span>00</span></div>
-              <div class="card-face bottom"><span>00</span></div>
+              <div class="card-face top">00</div>
+              <div class="card-face bottom">00</div>
               <span class="unit-label">MIN</span>
             </div>
           </div>
           <div class="flip-unit" data-unit="seconds">
             <div class="flip-card-wrapper">
-              <div class="card-face top"><span>00</span></div>
-              <div class="card-face bottom"><span>00</span></div>
+              <div class="card-face top">00</div>
+              <div class="card-face bottom">00</div>
               <span class="unit-label">SEC</span>
             </div>
           </div>
@@ -1036,41 +976,21 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
-    /* 完美滿版無殘影 3D 翻頁動態與 DOM 清理 logic */
-    function updateFlipCard(unitElem, newValue) {
-      const formattedValue = String(newValue).padStart(2, '0');
-      const wrapper = unitElem.querySelector('.flip-card-wrapper');
-      const topFace = wrapper.querySelector('.card-face.top span');
-      const bottomFace = wrapper.querySelector('.card-face.bottom span');
+    /* ==========================================
+       全新超穩定乾淨的倒數計時與時鐘更新邏輯
+       ========================================== */
+    function updateClockUnit(unitName, value) {
+      const formatted = String(value).padStart(2, '0');
+      const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
+      if (!unitElem) return;
 
-      const currentValue = topFace.textContent;
-      if (currentValue === formattedValue) return;
+      const topFace = unitElem.querySelector('.card-face.top');
+      const bottomFace = unitElem.querySelector('.card-face.bottom');
 
-      // 1. 清理過往節點
-      wrapper.querySelectorAll('.flip-leaf').forEach(el => el.remove());
-
-      // 2. 建立動態翻轉葉片 (舊上半部向下翻轉)
-      const flipTop = document.createElement('div');
-      flipTop.className = 'flip-leaf flip-top';
-      flipTop.innerHTML = `<div class="card-face top"><span>${currentValue}</span></div>`;
-
-      // 3. 建立動態翻轉葉片 (新下半部蓋上)
-      const flipBottom = document.createElement('div');
-      flipBottom.className = 'flip-leaf flip-bottom';
-      flipBottom.innerHTML = `<div class="card-face bottom"><span>${formattedValue}</span></div>`;
-
-      // 預先寫入底層靜態視圖
-      topFace.textContent = formattedValue;
-
-      wrapper.appendChild(flipTop);
-      wrapper.appendChild(flipBottom);
-
-      // 4. 動畫完成時同步更新底層並立刻刪除葉片，徹底摒除視覺殘影
-      setTimeout(() => {
-        bottomFace.textContent = formattedValue;
-        flipTop.remove();
-        flipBottom.remove();
-      }, 200);
+      if (topFace.textContent !== formatted) {
+        topFace.textContent = formatted;
+        bottomFace.textContent = formatted;
+      }
     }
 
     // 倒數目標：2026/12/31 18:00
@@ -1081,20 +1001,23 @@
         const now = new Date();
         const diff = targetDate - now;
 
-        if (diff <= 0) return;
+        if (diff <= 0) {
+          updateClockUnit('days', 0);
+          updateClockUnit('hours', 0);
+          updateClockUnit('minutes', 0);
+          updateClockUnit('seconds', 0);
+          return;
+        }
 
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const mins = Math.floor((diff / 1000 / 60) % 60);
         const secs = Math.floor((diff / 1000) % 60);
 
-        const clockElem = document.getElementById('clock-reunion');
-        if (clockElem) {
-          updateFlipCard(clockElem.querySelector('[data-unit="days"]'), days);
-          updateFlipCard(clockElem.querySelector('[data-unit="hours"]'), hrs);
-          updateFlipCard(clockElem.querySelector('[data-unit="minutes"]'), mins);
-          updateFlipCard(clockElem.querySelector('[data-unit="seconds"]'), secs);
-        }
+        updateClockUnit('days', days);
+        updateClockUnit('hours', hrs);
+        updateClockUnit('minutes', mins);
+        updateClockUnit('seconds', secs);
       }
 
       setInterval(tick, 1000);
