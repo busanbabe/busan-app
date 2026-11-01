@@ -194,7 +194,7 @@
     }
 
     /* ==========================================
-       3D 翻頁鐘 - 置中滿版與無殘影修正
+       3D 翻頁鐘 - 極致修正版 (確保數字不消失)
        ========================================== */
     .flip-clock {
       display: flex;
@@ -244,7 +244,6 @@
     .flip-card-wrapper::before { left: 0; }
     .flip-card-wrapper::after { right: 0; }
 
-    /* 半面基礎容器 (絕對定位各佔 50% 高度，並嚴格隱藏超出範圍內容) */
     .card-face {
       position: absolute;
       left: 0;
@@ -262,47 +261,48 @@
       );
       color: var(--flip-text);
       font-weight: 800;
-      font-size: clamp(36px, 10vw, 56px);
+      font-size: clamp(32px, 9vw, 48px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
-      display: flex;
-      justify-content: center;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
     }
 
-    /* 上半面：貼齊頂部 */
     .card-face.top {
       top: 0;
-      align-items: flex-end;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
       border-bottom: 0.5px solid var(--flip-divider);
     }
 
-    /* 下半面：貼齊底部 */
     .card-face.bottom {
       bottom: 0;
-      align-items: flex-start;
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
       border-top: 0.5px solid var(--flip-divider);
     }
 
-    /* 數字滿版撐開與精準置中定位 */
-    .card-face.top span {
-      display: block;
-      height: 200%;
-      line-height: 200%;
-      transform: translateY(0);
+    /* 修正 span 定位，確保手機瀏覽器渲染時高度穩定不歸零 */
+    .card-face span {
+      position: absolute;
+      left: 0;
+      width: 100%;
       text-align: center;
+      height: 200%;
+      line-height: 100%;
+    }
+
+    .card-face.top span {
+      top: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
     }
 
     .card-face.bottom span {
-      display: block;
-      height: 200%;
-      line-height: 200%;
-      transform: translateY(-50%);
-      text-align: center;
+      top: -100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
     }
 
     .flip-leaf {
