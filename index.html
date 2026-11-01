@@ -4,12 +4,12 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>釜山自由行手冊 | Busan Travel Guide</title>
+  <title>佛山安妞 | 釜山自由行手冊</title>
   
   <!-- iOS PWA 設定 -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="釜山安妞">
+  <meta name="apple-mobile-web-app-title" content="佛山安妞">
   <link rel="apple-touch-icon" href="https://i.ibb.co/0ppX3mmH/IMG-6699.jpg">
   
   <!-- FontAwesome 標誌庫 -->
@@ -17,31 +17,37 @@
 
   <style>
     :root {
-      --bg-color: #FAF7F2;
+      /* 六大主色調定義 */
+      --color-sky: #7FB9E6;
+      --color-lavender: #D6BEEA;
+      --color-butter: #F4D77A;
+      --color-matcha: #B7C96A;
+      --color-pink: #F98BA9;
+      --color-tangerine: #FF8F45;
+
+      /* 基礎 UI 風格 */
+      --bg-color: #FAF9F6;
       --card-bg: #FFFFFF;
-      --text-main: #3D3832;
-      --text-sub: #8C837B;
-      --accent-wood: #A3705C; /* 溫潤栗茶色 */
-      --accent-soft-blue: #6A8E9AE0;
+      --text-main: #2C3E50;
+      --text-sub: #7F8C8D;
       --border-color: #EFECE6;
-      --header-title-color: #9E5A5A; /* 陶土暖紅 Header 專用色 */
 
       /* 莫蘭迪大地分區專屬色彩 */
-      --color-cat-a: #9E7B6C; /* 松島影島：陶土奶茶 */
-      --color-cat-b: #738474; /* 市集市場：鼠尾草綠 */
-      --color-cat-c: #8D7684; /* 西面田浦：莫蘭迪紫棕 */
-      --color-cat-d: #647B89; /* 廣安里：灰藍煙波 */
-      --color-cat-e: #B3886B; /* 海雲台：暖沙金赭 */
-      --color-cat-f: #7D9291; /* 藍線列車：霧青暖藍 */
+      --color-cat-a: #9E7B6C;
+      --color-cat-b: #738474;
+      --color-cat-c: #8D7684;
+      --color-cat-d: #647B89;
+      --color-cat-e: #B3886B;
+      --color-cat-f: #7D9291;
 
       /* 翻頁鐘變數 */
-      --flip-bg: #A3705C;
-      --flip-stripe: rgba(255, 255, 255, 0.1);
+      --flip-bg: #7FB9E6;
+      --flip-stripe: rgba(255, 255, 255, 0.15);
       --flip-text: #FFFFFF;
-      --flip-subtext: #F4EBE1;
-      --flip-divider: rgba(0, 0, 0, 0.15);
+      --flip-subtext: #EBF5FB;
+      --flip-divider: rgba(0, 0, 0, 0.12);
 
-      /* 精準對齊底部 Nav Bar 的實體高度（計算 SafeArea） */
+      /* 底部 Nav Bar 高度計算 */
       --nav-height: calc(52px + env(safe-area-inset-bottom));
     }
 
@@ -53,14 +59,13 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* 頁面整體底色 */
     body {
       background-color: var(--bg-color);
       background-image: 
-        radial-gradient(circle at 15% 10%, rgba(242, 204, 143, 0.35) 0%, transparent 45%),
-        radial-gradient(circle at 85% 25%, rgba(255, 181, 167, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 50% 70%, rgba(212, 165, 165, 0.22) 0%, transparent 60%),
-        radial-gradient(circle at 90% 90%, rgba(163, 133, 117, 0.18) 0%, transparent 50%);
+        radial-gradient(circle at 15% 10%, rgba(127, 185, 230, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 25%, rgba(249, 139, 169, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 70%, rgba(244, 215, 122, 0.18) 0%, transparent 60%),
+        radial-gradient(circle at 90% 90%, rgba(214, 190, 234, 0.18) 0%, transparent 50%);
       background-attachment: fixed;
       color: var(--text-main);
       padding-bottom: calc(65px + env(safe-area-inset-bottom));
@@ -69,7 +74,7 @@
     }
 
     header {
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       padding: 16px 20px;
@@ -82,14 +87,12 @@
       align-items: center;
     }
 
-    /* 頂部左側標題專屬陶土暖紅 */
     header h1 {
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--header-title-color) !important;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-sky);
     }
 
-    /* 右上角 2027 Happy New Year ✨ 無底色 & 常駐金屬流光 */
     .new-year-badge {
       display: inline-flex;
       align-items: center;
@@ -98,19 +101,11 @@
       user-select: none;
     }
 
-    /* 頂部右側文字專屬陶土暖紅基礎疊加流光 */
     .new-year-text {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.3px;
-
-      background: linear-gradient(
-        110deg, 
-        #9E5A5A 35%, 
-        #E8C8AA 50%, 
-        #9E5A5A 65%
-      );
+      background: linear-gradient(110deg, var(--color-tangerine) 30%, var(--color-pink) 50%, var(--color-tangerine) 70%);
       background-size: 200% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -140,16 +135,15 @@
       margin: 0 auto;
     }
 
-    /* 天氣與倒數卡片 */
     .hero-card {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border-radius: 20px;
       padding: 18px;
       margin-bottom: 16px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 4px 20px rgba(163, 112, 92, 0.05);
+      box-shadow: 0 4px 20px rgba(127, 185, 230, 0.1);
     }
 
     .weather-box {
@@ -163,45 +157,49 @@
 
     .weather-temp {
       font-size: 22px;
-      font-weight: 600;
-      color: var(--accent-wood);
+      font-weight: 700;
+      color: var(--color-sky);
     }
 
-    /* 3D 翻頁倒數區塊 */
-    .teams-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    /* 單一「歐巴歐尼集合倒數」卡片 - Butter 黃色背景 */
+    .reunion-countdown-card {
+      background: rgba(244, 215, 122, 0.28);
+      border-radius: 16px;
+      padding: 16px 14px;
+      border: 1.5px solid rgba(244, 215, 122, 0.6);
+      margin-bottom: 14px;
     }
 
-    .team-card {
-      background: rgba(250, 247, 244, 0.9);
-      border-radius: 14px;
-      padding: 12px 10px;
-      border: 1px solid var(--border-color);
-    }
-
-    .team-header {
+    .countdown-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
-    .team-title {
+    .countdown-title {
       font-weight: 700;
-      font-size: 13px;
+      font-size: 15px;
       color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .arrival-date {
-      font-size: 11px;
-      color: var(--text-sub);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-tangerine);
+      background: #FFFFFF;
+      padding: 3px 8px;
+      border-radius: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
 
+    /* 3D 翻頁鐘組件 */
     .flip-clock {
       display: flex;
-      gap: 4px;
+      gap: 8px;
       justify-content: space-between;
     }
 
@@ -217,9 +215,9 @@
       width: 100%;
       aspect-ratio: 0.85;
       perspective: 300px;
-      border-radius: 6px;
+      border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 2px 6px rgba(163, 112, 92, 0.12);
+      box-shadow: 0 3px 8px rgba(127, 185, 230, 0.25);
       background-color: var(--flip-bg);
       background-image: repeating-linear-gradient(
         -45deg,
@@ -255,8 +253,8 @@
       background-color: inherit;
       background-image: inherit;
       color: var(--flip-text);
-      font-weight: 700;
-      font-size: clamp(14px, 4.2vw, 22px);
+      font-weight: 800;
+      font-size: clamp(16px, 5vw, 24px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
       justify-content: center;
@@ -293,24 +291,57 @@
       background-image: inherit;
     }
 
-    .flip-card .card-face.top {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-    }
-
     .unit-label {
       position: absolute;
       bottom: 2px;
-      left: 3px;
-      font-size: 7px;
+      left: 4px;
+      font-size: 8px;
       font-weight: 800;
       color: var(--flip-subtext);
-      letter-spacing: 0.2px;
+      letter-spacing: 0.3px;
       z-index: 15;
       pointer-events: none;
+    }
+
+    /* 成員名單小卡（抹茶綠 Matcha 與 薰衣草紫 Lavender） */
+    .members-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .member-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 4px solid var(--color-matcha);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    .member-card.oppa {
+      border-left-color: var(--color-lavender);
+    }
+
+    .member-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      color: #FFFFFF;
+      background: var(--color-matcha);
+    }
+
+    .member-card.oppa .member-tag {
+      background: var(--color-lavender);
+    }
+
+    .member-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
     }
 
     /* 分類頁籤按鈕 */
@@ -323,9 +354,7 @@
       scrollbar-width: none;
     }
 
-    .category-scroll::-webkit-scrollbar {
-      display: none;
-    }
+    .category-scroll::-webkit-scrollbar { display: none; }
 
     .cat-btn {
       white-space: nowrap;
@@ -342,7 +371,7 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
 
-    .cat-btn[data-cat="ALL"].active { background: var(--accent-wood); color: #FFF; border-color: var(--accent-wood); }
+    .cat-btn[data-cat="ALL"].active { background: var(--color-sky); color: #FFF; border-color: var(--color-sky); }
     .cat-btn[data-cat="A"].active { background: var(--color-cat-a); color: #FFF; border-color: var(--color-cat-a); }
     .cat-btn[data-cat="B"].active { background: var(--color-cat-b); color: #FFF; border-color: var(--color-cat-b); }
     .cat-btn[data-cat="C"].active { background: var(--color-cat-c); color: #FFF; border-color: var(--color-cat-c); }
@@ -350,17 +379,17 @@
     .cat-btn[data-cat="E"].active { background: var(--color-cat-e); color: #FFF; border-color: var(--color-cat-e); }
     .cat-btn[data-cat="F"].active { background: var(--color-cat-f); color: #FFF; border-color: var(--color-cat-f); }
 
-    /* 景點與美食卡片 */
+    /* 景點卡片與按鈕 */
     .item-card {
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
       border-radius: 16px;
       padding: 16px;
       margin-bottom: 12px;
       border: 1px solid var(--border-color);
-      border-left: 5px solid var(--accent-wood);
-      box-shadow: 0 2px 12px rgba(163, 112, 92, 0.03);
+      border-left: 5px solid var(--color-sky);
+      box-shadow: 0 2px 12px rgba(127, 185, 230, 0.05);
     }
 
     .item-card.cat-A { border-left-color: var(--color-cat-a); }
@@ -384,10 +413,7 @@
       line-height: 1.35;
     }
 
-    .card-actions {
-      display: flex;
-      gap: 10px;
-    }
+    .card-actions { display: flex; gap: 10px; }
 
     .icon-btn {
       background: none;
@@ -398,13 +424,8 @@
       transition: transform 0.2s;
     }
 
-    .icon-btn:active {
-      transform: scale(1.2);
-    }
-
-    .icon-btn.active-heart {
-      color: #D97762;
-    }
+    .icon-btn:active { transform: scale(1.2); }
+    .icon-btn.active-heart { color: var(--color-pink); }
 
     .story-box {
       font-size: 13px;
@@ -416,35 +437,32 @@
       border-radius: 10px;
     }
 
+    /* Tangerine 橘色地圖按鈕 */
     .map-btn {
       display: inline-flex;
       align-items: center;
       gap: 5px;
       margin-top: 10px;
       padding: 6px 12px;
-      background: rgba(244, 239, 234, 0.9);
-      color: var(--accent-wood);
+      background: rgba(255, 143, 69, 0.12);
+      color: var(--color-tangerine);
       text-decoration: none;
       border-radius: 8px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       transition: background 0.2s;
     }
 
-    .map-btn:hover {
-      background: #EBE4DD;
-    }
+    .map-btn:hover { background: rgba(255, 143, 69, 0.22); }
 
-    /* 新增消費紀錄表單 */
+    /* 消費表單與按鈕 */
     .add-form {
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 16px;
       padding: 16px;
       margin-bottom: 16px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 2px 12px rgba(163, 112, 92, 0.03);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.02);
     }
 
     .add-form input {
@@ -459,35 +477,31 @@
       outline: none;
     }
 
-    .add-form input:focus {
-      border-color: var(--accent-wood);
-    }
+    .add-form input:focus { border-color: var(--color-sky); }
 
     .twd-hint {
       font-size: 12px;
-      color: var(--accent-wood);
+      color: var(--color-sky);
       margin-bottom: 10px;
-      font-weight: 500;
+      font-weight: 600;
       padding-left: 2px;
     }
 
     .btn-submit {
       width: 100%;
-      background: var(--accent-wood);
+      background: var(--color-sky);
       color: white;
       border: none;
       padding: 11px;
       border-radius: 10px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(163, 112, 92, 0.2);
+      box-shadow: 0 4px 12px rgba(127, 185, 230, 0.3);
       transition: opacity 0.2s;
     }
 
-    .btn-submit:active {
-      opacity: 0.9;
-    }
+    .btn-submit:active { opacity: 0.9; }
 
     /* 左右對稱雙欄看板 */
     .dashboard-grid {
@@ -498,7 +512,7 @@
     }
 
     .dash-box {
-      background: linear-gradient(135deg, #A3705C 0%, #8C5D4B 100%);
+      background: linear-gradient(135deg, var(--color-sky) 0%, #68A0D0 100%);
       color: white;
       border-radius: 16px;
       padding: 16px 14px;
@@ -506,7 +520,7 @@
       flex-direction: column;
       justify-content: space-between;
       min-height: 105px;
-      box-shadow: 0 4px 15px rgba(163, 112, 92, 0.2);
+      box-shadow: 0 4px 15px rgba(127, 185, 230, 0.25);
     }
 
     .dash-title {
@@ -520,7 +534,7 @@
 
     .dash-main-val {
       font-size: clamp(19px, 5.2vw, 23px);
-      font-weight: 700;
+      font-weight: 800;
       margin-top: 4px;
       line-height: 1.2;
     }
@@ -550,8 +564,8 @@
     }
 
     .expense-btn.delete {
-      color: #D97762;
-      border-color: #FCE8E2;
+      color: var(--color-pink);
+      border-color: rgba(249, 139, 169, 0.3);
       background: #FFF9F8;
     }
 
@@ -562,7 +576,7 @@
       font-size: 14px;
     }
 
-    /* --- 底部彈出卡片 (Bottom Sheet) 樣式：無縫緊貼導覽列頂端 --- */
+    /* 下方彈出卡片 (Bottom Sheet) */
     .sheet-overlay {
       position: fixed;
       top: 0;
@@ -587,16 +601,14 @@
       position: fixed;
       left: 0;
       right: 0;
-      bottom: var(--nav-height); /* 無縫緊貼底部 Nav Bar 最頂端 */
+      bottom: var(--nav-height);
       max-width: 600px;
       margin: 0 auto;
       max-height: calc(85vh - var(--nav-height));
       height: 75vh;
-      background: #FAF7F2;
+      background: #FAF9F6;
       border-top-left-radius: 24px;
       border-top-right-radius: 24px;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
       box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.12);
       z-index: 200;
       transform: translateY(105%);
@@ -608,9 +620,7 @@
       border-bottom: none;
     }
 
-    .bottom-sheet.active {
-      transform: translateY(0);
-    }
+    .bottom-sheet.active { transform: translateY(0); }
 
     .sheet-header {
       padding: 10px 20px 14px;
@@ -625,7 +635,6 @@
       user-select: none;
     }
 
-    /* 頂部短橫線拉桿 DragHandle */
     .sheet-handle {
       width: 38px;
       height: 5px;
@@ -644,7 +653,7 @@
     .sheet-title {
       font-size: 16px;
       font-weight: 700;
-      color: var(--accent-wood);
+      color: var(--color-sky);
       letter-spacing: 0.5px;
     }
 
@@ -655,13 +664,13 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* 底部導覽列：z-index 300 始終置頂且無邊距 */
+    /* 底部導覽列 */
     nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(250, 247, 242, 0.96);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       display: flex;
@@ -691,16 +700,15 @@
     }
 
     .nav-item.active {
-      color: var(--accent-wood);
-      font-weight: 600;
+      color: var(--color-sky);
+      font-weight: 700;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1 id="page-title">釜山安妞  |  Hi BUSAN</h1>
-    <!-- 右上角 2027 Happy New Year ✨ (無底色 + 金屬波浪流光 + 點擊煙火) -->
+    <h1 id="page-title">佛山安妞</h1>
     <div class="new-year-badge">
       <span class="new-year-text">2027 Happy New Year</span>
       <span class="sparkle-icon" id="sparkle-btn">✨</span>
@@ -708,7 +716,7 @@
   </header>
 
   <div class="container">
-    <!-- 僅首頁顯示的天氣與倒數卡片 -->
+    <!-- 天氣與合體倒數 Hero 卡片 -->
     <div class="hero-card" id="hero-countdown-card">
       <div class="weather-box">
         <div>
@@ -718,82 +726,56 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 3D 擬真絲滑翻頁倒數區塊 -->
-      <div class="teams-container">
-        <!-- Team 1 -->
-        <div class="team-card">
-          <div class="team-header">
-            <span class="team-title">Team 1</span>
-            <span class="arrival-date">12/29到達</span>
+      <!-- 單一「歐巴歐尼集合倒數」flip clock (Butter 黃卡片底色) -->
+      <div class="reunion-countdown-card">
+        <div class="countdown-header">
+          <span class="countdown-title">
+            <i class="fa-solid fa-heart-pulse" style="color: var(--color-pink);"></i>
+            歐巴歐尼集合倒數
+          </span>
+          <span class="arrival-date">12/31 18:00 團圓</span>
+        </div>
+        <div class="flip-clock" id="clock-reunion">
+          <div class="flip-unit" data-unit="days">
+            <div class="flip-card-wrapper">
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
+              <span class="unit-label">DAY</span>
+            </div>
           </div>
-          <div class="flip-clock" id="clock-team1">
-            <div class="flip-unit" data-unit="days">
-              <div class="flip-card-wrapper">
-                <div class="card-face top"><span>00</span></div>
-                <div class="card-face bottom"><span>00</span></div>
-                <span class="unit-label">DAY</span>
-              </div>
+          <div class="flip-unit" data-unit="hours">
+            <div class="flip-card-wrapper">
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
+              <span class="unit-label">HR</span>
             </div>
-            <div class="flip-unit" data-unit="hours">
-              <div class="flip-card-wrapper">
-                <div class="card-face top"><span>00</span></div>
-                <div class="card-face bottom"><span>00</span></div>
-                <span class="unit-label">HR</span>
-              </div>
+          </div>
+          <div class="flip-unit" data-unit="minutes">
+            <div class="flip-card-wrapper">
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
+              <span class="unit-label">MIN</span>
             </div>
-            <div class="flip-unit" data-unit="minutes">
-              <div class="flip-card-wrapper">
-                <div class="card-face top"><span>00</span></div>
-                <div class="card-face bottom"><span>00</span></div>
-                <span class="unit-label">MIN</span>
-              </div>
-            </div>
-            <div class="flip-unit" data-unit="seconds">
-              <div class="flip-card-wrapper">
-                <div class="card-face top"><span>00</span></div>
-                <div class="card-face bottom"><span>00</span></div>
-                <span class="unit-label">SEC</span>
-              </div>
+          </div>
+          <div class="flip-unit" data-unit="seconds">
+            <div class="flip-card-wrapper">
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
+              <span class="unit-label">SEC</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Team 2 -->
-        <div class="team-card">
-          <div class="team-header">
-            <span class="team-title">Team 2</span>
-            <span class="arrival-date">12/31到達</span>
-          </div>
-          <div class="flip-clock" id="clock-team2">
-            <div class="flip-unit" data-unit="days">
-              <div class="flip-card-wrapper">
-                <div class="card-face top"><span>00</span></div>
-                <div class="card-face bottom"><span>00</span></div>
-                <span class="unit-label">DAY</span>
-              </div>
-            </div>
-            <div class="flip-unit" data-unit="hours">
-              <div class="flip-card-wrapper">
-                <div class="card-face top"><span>00</span></div>
-                <div class="card-face bottom"><span>00</span></div>
-                <span class="unit-label">HR</span>
-              </div>
-            </div>
-            <div class="flip-unit" data-unit="minutes">
-              <div class="flip-card-wrapper">
-                <div class="card-face top"><span>00</span></div>
-                <div class="card-face bottom"><span>00</span></div>
-                <span class="unit-label">MIN</span>
-              </div>
-            </div>
-            <div class="flip-unit" data-unit="seconds">
-              <div class="flip-card-wrapper">
-                <div class="card-face top"><span>00</span></div>
-                <div class="card-face bottom"><span>00</span></div>
-                <span class="unit-label">SEC</span>
-              </div>
-            </div>
-          </div>
+      <!-- 成員卡片（Matcha 歐尼 x3 & Lavender 歐巴 x1） -->
+      <div class="members-container">
+        <div class="member-card">
+          <span class="member-name">成員陣容</span>
+          <span class="member-tag">歐尼 x 3</span>
+        </div>
+        <div class="member-card oppa">
+          <span class="member-name">成員陣容</span>
+          <span class="member-tag">歐巴 x 1</span>
         </div>
       </div>
     </div>
@@ -814,10 +796,10 @@
     </div>
   </div>
 
-  <!-- 半透明背景遮罩（位於導覽列上方） -->
+  <!-- 半透明背景遮罩 -->
   <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
 
-  <!-- 下方往上彈出式頁面卡片（支援卡片上半部 2/3 下滑收合，背景不晃動） -->
+  <!-- 底部彈出式頁面卡片 -->
   <div class="bottom-sheet" id="bottom-sheet">
     <div class="sheet-header" id="sheet-header">
       <div class="sheet-handle"></div>
@@ -827,7 +809,7 @@
     </div>
     
     <div class="sheet-body" id="sheet-body">
-      <!-- 彈出卡片動態內容區塊 -->
+      <!-- 彈出卡片內容區塊 -->
     </div>
   </div>
 
@@ -871,9 +853,8 @@
 
     let EXCHANGE_RATE = 41.5;
     let latestExpensesData = [];
-    let currentSheetType = null; // 'favorites' 或 'expenses'
+    let currentSheetType = null;
 
-    // 1. 自動連動最新台幣對韓元匯率 API
     async function fetchLiveExchangeRate() {
       try {
         const res = await fetch('https://open.er-api.com/v6/latest/TWD');
@@ -895,7 +876,6 @@
     }
     fetchLiveExchangeRate();
 
-    // 2. 自動連動釜山當日氣象 API
     async function fetchBusanWeather() {
       try {
         const busanLat = 35.1796;
@@ -1048,12 +1028,11 @@
       }, 250);
     }
 
-    function startCountdowns() {
-      const year = 2026;
-      const t1Date = new Date(`${year}-12-29T00:00:00`);
-      const t2Date = new Date(`${year}-12-31T00:00:00`);
+    // 單一倒數功能：設定為 2026/12/31 18:00
+    function startSingleCountdown() {
+      const targetDate = new Date(`2026-12-31T18:00:00`);
 
-      function updateTeam(clockId, targetDate) {
+      function tick() {
         const now = new Date();
         const diff = targetDate - now;
 
@@ -1064,7 +1043,7 @@
         const mins = Math.floor((diff / 1000 / 60) % 60);
         const secs = Math.floor((diff / 1000) % 60);
 
-        const clockElem = document.getElementById(clockId);
+        const clockElem = document.getElementById('clock-reunion');
         if (clockElem) {
           updateFlipCard(clockElem.querySelector('[data-unit="days"]'), days);
           updateFlipCard(clockElem.querySelector('[data-unit="hours"]'), hrs);
@@ -1073,17 +1052,11 @@
         }
       }
 
-      function tick() {
-        updateTeam('clock-team1', t1Date);
-        updateTeam('clock-team2', t2Date);
-      }
-
       setInterval(tick, 1000);
       tick();
     }
-    startCountdowns();
+    startSingleCountdown();
 
-    // 關閉彈出卡片
     window.closeSheet = function() {
       const sheet = document.getElementById('bottom-sheet');
       sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
@@ -1096,7 +1069,6 @@
       currentSheetType = null;
     };
 
-    // 打開「收藏」彈出卡片
     window.openFavoritesSheet = function() {
       currentSheetType = 'favorites';
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -1112,7 +1084,6 @@
       sheet.classList.add('active');
     };
 
-    // 打開「記帳小幫手」彈出卡片
     window.openExpensesSheet = function() {
       currentSheetType = 'expenses';
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
@@ -1174,7 +1145,6 @@
       });
     }
 
-    // 渲染彈出面板內的「收藏」清單
     function renderFavoritesSheetContent() {
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = '';
@@ -1184,7 +1154,7 @@
       if (favItems.length === 0) {
         sheetBody.innerHTML = `
           <div class="empty-fav-msg">
-            <i class="fa-regular fa-heart" style="font-size:36px; margin-bottom:12px; color:#D5CEC7;"></i><br>
+            <i class="fa-regular fa-heart" style="font-size:36px; margin-bottom:12px; color:var(--color-pink);"></i><br>
             還沒有收藏的景點喔！<br>快去行程導覽點擊愛心加入收藏吧～
           </div>
         `;
@@ -1214,7 +1184,6 @@
       });
     }
 
-    // 渲染彈出面板內的「記帳小幫手」完整結構
     function renderExpensesSheetContent() {
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = `
@@ -1322,12 +1291,12 @@
 
         const card = document.createElement('div');
         card.className = 'item-card';
-        card.style.borderLeftColor = 'var(--accent-wood)';
+        card.style.borderLeftColor = 'var(--color-sky)';
         card.innerHTML = `
           <div class="card-top">
             <div class="item-title">${data.item}</div>
             <div style="text-align: right;">
-              <span style="color:var(--accent-wood); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+              <span style="color:var(--color-sky); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
               <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${itemTwd.toLocaleString()}</div>
             </div>
           </div>
@@ -1352,7 +1321,6 @@
       }
     });
 
-    // --- 擴大下拉觸碰區域，並使用 preventDefault 防止背景頁面跟著晃動 ---
     const sheet = document.getElementById('bottom-sheet');
     const sheetBody = document.getElementById('sheet-body');
 
@@ -1365,7 +1333,6 @@
       const sheetRect = sheet.getBoundingClientRect();
       const relativeTouchY = touchY - sheetRect.top;
 
-      // 點擊位置在卡片上半部 2/3 區域內且內部未在往下滾動
       if (relativeTouchY <= sheetRect.height * 0.67 && sheetBody.scrollTop <= 0) {
         startY = touchY;
         isDragging = true;
@@ -1379,10 +1346,10 @@
       const deltaY = currentY - startY;
 
       if (deltaY > 0) {
-        e.preventDefault(); // 關鍵：阻止背景頁面跟著位移或產生預設捲動
+        e.preventDefault();
         sheet.style.transform = `translateY(${deltaY}px)`;
       }
-    }, { passive: false }); // 必須設為 false 才能生效 preventDefault
+    }, { passive: false });
 
     sheet.addEventListener('touchend', () => {
       if (!isDragging) return;
@@ -1419,7 +1386,7 @@
 
     window.createIllustrationFirework = function(x, y) {
       const rayCount = 24;
-      const colors = ['#e5c158', '#d4a373', '#ffb5a7', '#faedcd', '#ffcad4', '#ffffff'];
+      const colors = ['#7FB9E6', '#D6BEEA', '#F4D77A', '#B7C96A', '#F98BA9', '#FF8F45'];
 
       for (let i = 0; i < rayCount; i++) {
         const ray = document.createElement('div');
