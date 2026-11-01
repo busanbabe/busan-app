@@ -40,7 +40,7 @@
       --color-cat-e: #B3886B;
       --color-cat-f: #7D9291;
 
-      /* 翻頁鐘變數（保留右圖的高質感藍色斜紋風格） */
+      /* 翻頁鐘變數 */
       --flip-bg: #7FB9E6;
       --flip-stripe: rgba(255, 255, 255, 0.22);
       --flip-text: #FFFFFF;
@@ -192,9 +192,7 @@
       border-radius: 12px;
     }
 
-    /* ==========================================
-       全新重寫：完美對齊左圖排版風格的俐落翻頁鐘
-       ========================================== */
+    /* 翻頁鐘樣式設定 */
     .flip-clock {
       display: flex;
       gap: 8px;
@@ -226,9 +224,9 @@
       box-shadow: 0 4px 10px rgba(127, 185, 230, 0.25);
       display: flex;
       flex-direction: column;
+      perspective: 160px;
     }
 
-    /* 左右兩側精緻黑色扣針（完全對齊左圖） */
     .flip-card-wrapper::before,
     .flip-card-wrapper::after {
       content: '';
@@ -245,7 +243,6 @@
     .flip-card-wrapper::before { left: 0; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
     .flip-card-wrapper::after { right: 0; border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
 
-    /* 上半部與下半部面版 */
     .card-face {
       position: absolute;
       left: 0;
@@ -293,7 +290,70 @@
       transform: translateY(-50%);
     }
 
-    /* 底部標籤 (DAY / HR / MIN / SEC) 精確置於下方底部中央 */
+    /* 翻頁動畫專用面板 (Card Flipper) */
+    .card-card-flipper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      transform-origin: bottom center;
+      transform-style: preserve-3d;
+      z-index: 25;
+      display: none;
+    }
+
+    .card-card-flipper.flipping {
+      display: block;
+      animation: foldFlip 0.5s cubic-bezier(0.3, 0.7, 0.1, 1) forwards;
+    }
+
+    @keyframes foldFlip {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(-180deg); }
+    }
+
+    .flipper-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      background-color: var(--flip-bg);
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 5px,
+        var(--flip-stripe) 5px,
+        var(--flip-stripe) 8px
+      );
+      color: var(--flip-text);
+      font-weight: 800;
+      font-size: clamp(26px, 7.5vw, 38px);
+    }
+
+    .flipper-face.front {
+      align-items: flex-end;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-bottom: 1px solid var(--flip-divider);
+    }
+    .flipper-face.front span { transform: translateY(50%); }
+
+    .flipper-face.back {
+      align-items: flex-start;
+      transform: rotateX(180deg);
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+    }
+    .flipper-face.back span { transform: translateY(-50%); }
+
     .unit-label {
       position: absolute;
       bottom: 3px;
@@ -308,21 +368,76 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
-    /* 成員卡片 */
-    .members-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    /* 歐巴&歐尼們可點擊 Bar 樣式 */
+    .members-bar-btn {
+      width: 100%;
+      background: #FFFFFF;
+      border: 1.5px solid rgba(183, 201, 106, 0.5);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(183, 201, 106, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .members-bar-btn:active {
+      transform: scale(0.98);
+      background: #F9FCF3;
+    }
+
+    .members-bar-left {
+      display: flex;
+      align-items: center;
       gap: 10px;
+    }
+
+    .members-bar-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(183, 201, 106, 0.2);
+      color: #789012;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .members-bar-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .members-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+
+    /* 成員彈出視窗內部卡片樣式 */
+    .members-container-modal {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 4px;
     }
 
     .member-card {
       background: #FFFFFF;
-      border-radius: 12px;
-      padding: 10px 12px;
+      border-radius: 14px;
+      padding: 14px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-left: 4px solid var(--color-matcha);
+      border-left: 5px solid var(--color-matcha);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
     }
 
     .member-card.oppa {
@@ -330,9 +445,9 @@
     }
 
     .member-tag {
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
-      padding: 2px 8px;
+      padding: 4px 10px;
       border-radius: 10px;
       color: #FFFFFF;
       background: var(--color-matcha);
@@ -343,8 +458,8 @@
     }
 
     .member-name {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 700;
       color: var(--text-main);
     }
 
@@ -721,7 +836,7 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 歐巴歐尼集合倒數（完美對齊左圖風格之俐落翻頁鐘） -->
+      <!-- 歐巴歐尼集合倒數（具備實際機械翻頁動畫效果） -->
       <div class="reunion-countdown-card">
         <div class="countdown-header">
           <span class="countdown-title">
@@ -735,6 +850,10 @@
             <div class="flip-card-wrapper">
               <div class="card-face top"><span>00</span></div>
               <div class="card-face bottom"><span>00</span></div>
+              <div class="card-card-flipper">
+                <div class="flipper-face front"><span>00</span></div>
+                <div class="flipper-face back"><span>00</span></div>
+              </div>
               <span class="unit-label">DAY</span>
             </div>
           </div>
@@ -742,6 +861,10 @@
             <div class="flip-card-wrapper">
               <div class="card-face top"><span>00</span></div>
               <div class="card-face bottom"><span>00</span></div>
+              <div class="card-card-flipper">
+                <div class="flipper-face front"><span>00</span></div>
+                <div class="flipper-face back"><span>00</span></div>
+              </div>
               <span class="unit-label">HR</span>
             </div>
           </div>
@@ -749,6 +872,10 @@
             <div class="flip-card-wrapper">
               <div class="card-face top"><span>00</span></div>
               <div class="card-face bottom"><span>00</span></div>
+              <div class="card-card-flipper">
+                <div class="flipper-face front"><span>00</span></div>
+                <div class="flipper-face back"><span>00</span></div>
+              </div>
               <span class="unit-label">MIN</span>
             </div>
           </div>
@@ -756,23 +883,29 @@
             <div class="flip-card-wrapper">
               <div class="card-face top"><span>00</span></div>
               <div class="card-face bottom"><span>00</span></div>
+              <div class="card-card-flipper">
+                <div class="flipper-face front"><span>00</span></div>
+                <div class="flipper-face back"><span>00</span></div>
+              </div>
               <span class="unit-label">SEC</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 成員卡片 -->
-      <div class="members-container">
-        <div class="member-card">
-          <span class="member-name">成員陣容</span>
-          <span class="member-tag">歐尼 x 3</span>
+      <!-- 歐巴&歐尼們可點擊按鈕 Bar -->
+      <button class="members-bar-btn" onclick="openMembersSheet()">
+        <div class="members-bar-left">
+          <div class="members-bar-icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <span class="members-bar-title">歐巴 & 歐尼們</span>
         </div>
-        <div class="member-card oppa">
-          <span class="member-name">成員陣容</span>
-          <span class="member-tag">歐巴 x 1</span>
+        <div class="members-bar-right">
+          <span>查看成員</span>
+          <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
         </div>
-      </div>
+      </button>
     </div>
 
     <!-- 行程導覽/景點總覽 -->
@@ -989,7 +1122,7 @@
     }
 
     /* ==========================================
-       全新超穩定乾淨的倒數計時與時鐘更新邏輯
+       支援實際翻頁機械動畫的倒數計時邏輯
        ========================================== */
     function updateClockUnit(unitName, value) {
       const formatted = String(value).padStart(2, '0');
@@ -998,10 +1131,25 @@
 
       const topSpan = unitElem.querySelector('.card-face.top span');
       const bottomSpan = unitElem.querySelector('.card-face.bottom span');
+      const flipper = unitElem.querySelector('.card-card-flipper');
+      const frontSpan = flipper.querySelector('.flipper-face.front span');
+      const backSpan = flipper.querySelector('.flipper-face.back span');
 
-      if (topSpan.textContent !== formatted) {
+      const currentText = topSpan.textContent;
+
+      if (currentText !== formatted) {
+        frontSpan.textContent = currentText;
+        backSpan.textContent = formatted;
+        
+        flipper.classList.remove('flipping');
+        void flipper.offsetWidth; // 觸發重繪
+        flipper.classList.add('flipping');
+
         topSpan.textContent = formatted;
-        bottomSpan.textContent = formatted;
+        setTimeout(() => {
+          bottomSpan.textContent = formatted;
+          flipper.classList.remove('flipping');
+        }, 500);
       }
     }
 
@@ -1047,6 +1195,32 @@
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       document.getElementById('nav-schedule').classList.add('active');
       currentSheetType = null;
+    };
+
+    /* 開啟成員彈出視窗 */
+    window.openMembersSheet = function() {
+      currentSheetType = 'members';
+      document.getElementById('sheet-title').innerText = '歐巴 & 歐尼們成員陣容';
+      
+      const sheetBody = document.getElementById('sheet-body');
+      sheetBody.innerHTML = `
+        <div class="members-container-modal">
+          <div class="member-card">
+            <span class="member-name">成員陣容</span>
+            <span class="member-tag">歐尼 x 3</span>
+          </div>
+          <div class="member-card oppa">
+            <span class="member-name">成員陣容</span>
+            <span class="member-tag">歐巴 x 1</span>
+          </div>
+        </div>
+      `;
+
+      const sheet = document.getElementById('bottom-sheet');
+      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+      sheet.style.transform = 'translateY(0)';
+      document.getElementById('sheet-overlay').classList.add('active');
+      sheet.classList.add('active');
     };
 
     window.openFavoritesSheet = function() {
