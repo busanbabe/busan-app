@@ -193,7 +193,9 @@
       border-radius: 12px;
     }
 
-    /* 3D Flip Clock 無殘影/完全剪裁滿版樣式 */
+    /* ==========================================
+       3D 翻頁鐘 - 滿版與無干擾殘影修正
+       ========================================== */
     .flip-clock {
       display: flex;
       gap: 6px;
@@ -205,12 +207,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
     }
 
     .flip-card-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 0.82;
+      aspect-ratio: 0.85;
       perspective: 400px;
       border-radius: 8px;
       background-color: var(--flip-bg);
@@ -241,7 +244,7 @@
     .flip-card-wrapper::before { left: 0; }
     .flip-card-wrapper::after { right: 0; }
 
-    /* 半面基礎容器 */
+    /* 半面基礎容器 (絕對定位各佔 50% 高度，並嚴格隱藏超出範圍內容) */
     .card-face {
       position: absolute;
       left: 0;
@@ -259,7 +262,7 @@
       );
       color: var(--flip-text);
       font-weight: 800;
-      font-size: clamp(28px, 8.5vw, 46px);
+      font-size: clamp(32px, 9vw, 52px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
       justify-content: center;
@@ -267,36 +270,37 @@
       -webkit-backface-visibility: hidden;
     }
 
-    /* 上半面：嚴格剪裁只留上半數字 */
+    /* 上半面：貼齊頂部 */
     .card-face.top {
       top: 0;
-      align-items: flex-start;
+      align-items: flex-end;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
       border-bottom: 0.5px solid var(--flip-divider);
     }
 
-    /* 下半面：嚴格剪裁只留下半數字 */
+    /* 下半面：貼齊底部 */
     .card-face.bottom {
       bottom: 0;
-      align-items: flex-end;
+      align-items: flex-start;
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
       border-top: 0.5px solid var(--flip-divider);
     }
 
-    /* 透過容器高度 line-height 精準置中與裁切，絕不產生上下殘影 */
+    /* 讓數字滿版撐開並精準對齊上下半框 */
     .card-face.top span {
       display: block;
       height: 200%;
-      line-height: calc(100% * 2);
+      line-height: 100%;
+      transform: translateY(25%);
     }
 
     .card-face.bottom span {
       display: block;
       height: 200%;
-      line-height: calc(100% * 2);
-      margin-top: -100%;
+      line-height: 100%;
+      transform: translateY(-75%);
     }
 
     .flip-leaf {
@@ -1030,7 +1034,7 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
-    /* 無殘影 3D 翻頁動態與 DOM 清理 logic */
+    /* 完美滿版無殘影 3D 翻頁動態與 DOM 清理 logic */
     function updateFlipCard(unitElem, newValue) {
       const formattedValue = String(newValue).padStart(2, '0');
       const wrapper = unitElem.querySelector('.flip-card-wrapper');
