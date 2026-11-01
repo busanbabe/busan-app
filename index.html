@@ -194,7 +194,7 @@
     }
 
     /* ==========================================
-       3D 翻頁鐘 - 滿版與無干擾殘影修正
+       3D 翻頁鐘 - 置中滿版與無殘影修正
        ========================================== */
     .flip-clock {
       display: flex;
@@ -262,7 +262,7 @@
       );
       color: var(--flip-text);
       font-weight: 800;
-      font-size: clamp(32px, 9vw, 52px);
+      font-size: clamp(36px, 10vw, 56px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
       justify-content: center;
@@ -288,12 +288,13 @@
       border-top: 0.5px solid var(--flip-divider);
     }
 
-    /* 讓數字滿版撐開並精準對齊上下半框 */
+    /* 數字滿版撐開與精準置中定位 */
     .card-face.top span {
       display: block;
       height: 200%;
       line-height: 100%;
       transform: translateY(25%);
+      text-align: center;
     }
 
     .card-face.bottom span {
@@ -301,6 +302,7 @@
       height: 200%;
       line-height: 100%;
       transform: translateY(-75%);
+      text-align: center;
     }
 
     .flip-leaf {
@@ -1044,7 +1046,7 @@
       const currentValue = topFace.textContent;
       if (currentValue === formattedValue) return;
 
-      // 1. 清理過往節點
+      // 1. 清理過往葉片節點，防範殘影
       wrapper.querySelectorAll('.flip-leaf').forEach(el => el.remove());
 
       // 2. 建立動態翻轉葉片 (舊上半部向下翻轉)
