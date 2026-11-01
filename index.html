@@ -42,9 +42,10 @@
 
       /* 翻頁鐘變數 */
       --flip-bg: #7FB9E6;
+      --flip-stripe: rgba(255, 255, 255, 0.22);
       --flip-text: #FFFFFF;
       --flip-subtext: #EBF5FB;
-      --flip-divider: rgba(255, 255, 255, 0.4);
+      --flip-divider: rgba(0, 0, 0, 0.15);
 
       /* 底部 Nav Bar 高度計算 */
       --nav-height: calc(52px + env(safe-area-inset-bottom));
@@ -130,7 +131,7 @@
 
     .container {
       padding: 16px;
-      max-width: 600px;
+      max-width: 680px;
       margin: 0 auto;
     }
 
@@ -162,7 +163,7 @@
     .reunion-countdown-card {
       background: rgba(244, 215, 122, 0.28);
       border-radius: 16px;
-      padding: 16px 14px;
+      padding: 16px 12px;
       border: 1.5px solid rgba(244, 215, 122, 0.6);
       margin-bottom: 14px;
     }
@@ -192,10 +193,10 @@
       border-radius: 12px;
     }
 
-    /* 極簡無暈影 Flip Clock 樣式 */
+    /* 3D Flip Clock 滿版俐落無暈影樣式 */
     .flip-clock {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       justify-content: space-between;
     }
 
@@ -204,45 +205,122 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
     }
 
     .flip-card-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 0.85;
+      aspect-ratio: 0.82;
+      perspective: 400px;
       border-radius: 8px;
       background-color: var(--flip-bg);
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 5px,
+        var(--flip-stripe) 5px,
+        var(--flip-stripe) 8px
+      );
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
-    /* 乾淨俐落的中線分隔 */
+    /* 邊界俐落扣環中針 */
+    .flip-card-wrapper::before,
     .flip-card-wrapper::after {
       content: '';
       position: absolute;
       top: 50%;
+      width: 3px;
+      height: 6px;
+      background-color: rgba(0,0,0,0.25);
+      transform: translateY(-50%);
+      z-index: 35;
+      border-radius: 1px;
+    }
+    .flip-card-wrapper::before { left: 0; }
+    .flip-card-wrapper::after { right: 0; }
+
+    .card-face {
+      position: absolute;
       left: 0;
       right: 0;
-      height: 1px;
-      background-color: var(--flip-divider);
-      z-index: 5;
-      transform: translateY(-50%);
-    }
-
-    .flip-digit {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 50%;
+      overflow: hidden;
+      background-color: var(--flip-bg);
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 5px,
+        var(--flip-stripe) 5px,
+        var(--flip-stripe) 8px
+      );
       color: var(--flip-text);
       font-weight: 800;
-      font-size: clamp(20px, 6vw, 28px);
+      /* 數字極致接近滿版 (適用 iPad / iOS / Android) */
+      font-size: clamp(28px, 8.5vw, 46px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+      display: flex;
+      justify-content: center;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .card-face.top {
+      top: 0;
+      align-items: flex-end;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom: 0.5px solid var(--flip-divider);
+    }
+
+    .card-face.bottom {
+      bottom: 0;
+      align-items: flex-start;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      border-top: 0.5px solid var(--flip-divider);
+    }
+
+    .card-face.top span { transform: translateY(52%); }
+    .card-face.bottom span { transform: translateY(-48%); }
+
+    .flip-leaf {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      overflow: hidden;
+      z-index: 20;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .flip-leaf.flip-top {
+      top: 0;
+      transform-origin: bottom;
+      animation: flipTopAnim 0.22s ease-in forwards;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+
+    .flip-leaf.flip-bottom {
+      bottom: 0;
+      transform-origin: top;
+      animation: flipBottomAnim 0.22s ease-out forwards;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    @keyframes flipTopAnim {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(-90deg); }
+    }
+
+    @keyframes flipBottomAnim {
+      0% { transform: rotateX(90deg); }
+      100% { transform: rotateX(0deg); }
     }
 
     .unit-label {
@@ -250,12 +328,13 @@
       bottom: 2px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 8px;
+      font-size: clamp(8px, 2.2vw, 11px);
       font-weight: 800;
       color: var(--flip-subtext);
       letter-spacing: 0.5px;
-      z-index: 6;
+      z-index: 30;
       pointer-events: none;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
     /* 成員名單小卡 */
@@ -549,7 +628,7 @@
       left: 0;
       right: 0;
       bottom: var(--nav-height);
-      max-width: 600px;
+      max-width: 680px;
       margin: 0 auto;
       max-height: calc(85vh - var(--nav-height));
       height: 75vh;
@@ -671,7 +750,7 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 單一「歐巴歐尼集合倒數」flip clock -->
+      <!-- 單一「歐巴歐尼集合倒數」Flip Clock -->
       <div class="reunion-countdown-card">
         <div class="countdown-header">
           <span class="countdown-title">
@@ -683,27 +762,31 @@
         <div class="flip-clock" id="clock-reunion">
           <div class="flip-unit" data-unit="days">
             <div class="flip-card-wrapper">
-              <div class="flip-digit">00</div>
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
+              <span class="unit-label">DAY</span>
             </div>
-            <span class="unit-label">DAY</span>
           </div>
           <div class="flip-unit" data-unit="hours">
             <div class="flip-card-wrapper">
-              <div class="flip-digit">00</div>
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
+              <span class="unit-label">HR</span>
             </div>
-            <span class="unit-label">HR</span>
           </div>
           <div class="flip-unit" data-unit="minutes">
             <div class="flip-card-wrapper">
-              <div class="flip-digit">00</div>
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
+              <span class="unit-label">MIN</span>
             </div>
-            <span class="unit-label">MIN</span>
           </div>
           <div class="flip-unit" data-unit="seconds">
             <div class="flip-card-wrapper">
-              <div class="flip-digit">00</div>
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
+              <span class="unit-label">SEC</span>
             </div>
-            <span class="unit-label">SEC</span>
           </div>
         </div>
       </div>
@@ -934,13 +1017,41 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
-    /* 精簡極速 Flip Clock 邏輯（無殘影） */
+    /* 3D 翻頁動態與自動清理殘影 JS 邏輯 */
     function updateFlipCard(unitElem, newValue) {
       const formattedValue = String(newValue).padStart(2, '0');
-      const digitElem = unitElem.querySelector('.flip-digit');
-      if (digitElem && digitElem.textContent !== formattedValue) {
-        digitElem.textContent = formattedValue;
-      }
+      const wrapper = unitElem.querySelector('.flip-card-wrapper');
+      const topFace = wrapper.querySelector('.card-face.top span');
+      const bottomFace = wrapper.querySelector('.card-face.bottom span');
+
+      const currentValue = topFace.textContent;
+      if (currentValue === formattedValue) return;
+
+      // 1. 先清除前一次殘留動態節點，確保無圖層重疊
+      wrapper.querySelectorAll('.flip-leaf').forEach(el => el.remove());
+
+      // 2. 建立動態翻轉葉片 (上半部舊數字向下翻)
+      const flipTop = document.createElement('div');
+      flipTop.className = 'flip-leaf flip-top';
+      flipTop.innerHTML = `<div class="card-face top"><span>${currentValue}</span></div>`;
+
+      // 3. 建立動態翻轉葉片 (下半部新數字蓋下)
+      const flipBottom = document.createElement('div');
+      flipBottom.className = 'flip-leaf flip-bottom';
+      flipBottom.innerHTML = `<div class="card-face bottom"><span>${formattedValue}</span></div>`;
+
+      // 預先更新底層靜態頂部視圖
+      topFace.textContent = formattedValue;
+
+      wrapper.appendChild(flipTop);
+      wrapper.appendChild(flipBottom);
+
+      // 動畫結束後更新底頁並即刻清理動態葉片，防止殘影
+      setTimeout(() => {
+        bottomFace.textContent = formattedValue;
+        flipTop.remove();
+        flipBottom.remove();
+      }, 220);
     }
 
     // 倒數目標：2026/12/31 18:00
