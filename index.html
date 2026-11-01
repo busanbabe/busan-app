@@ -45,7 +45,7 @@
       --flip-stripe: rgba(255, 255, 255, 0.15);
       --flip-text: #FFFFFF;
       --flip-subtext: #EBF5FB;
-      --flip-divider: rgba(0, 0, 0, 0.12);
+      --flip-divider: rgba(0, 0, 0, 0.15);
 
       /* 底部 Nav Bar 高度計算 */
       --nav-height: calc(52px + env(safe-area-inset-bottom));
@@ -196,7 +196,7 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
 
-    /* 3D 翻頁鐘組件 */
+    /* 3D 翻頁鐘強效優化 CSS */
     .flip-clock {
       display: flex;
       gap: 8px;
@@ -214,10 +214,10 @@
       position: relative;
       width: 100%;
       aspect-ratio: 0.85;
-      perspective: 300px;
+      perspective: 400px;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 3px 8px rgba(127, 185, 230, 0.25);
+      box-shadow: 0 4px 10px rgba(127, 185, 230, 0.3);
       background-color: var(--flip-bg);
       background-image: repeating-linear-gradient(
         -45deg,
@@ -233,11 +233,11 @@
       content: '';
       position: absolute;
       top: 50%;
-      width: 2px;
+      width: 3px;
       height: 6px;
-      background-color: rgba(0,0,0,0.2);
+      background-color: rgba(0,0,0,0.25);
       transform: translateY(-50%);
-      z-index: 20;
+      z-index: 30;
       border-radius: 1px;
     }
     .flip-card-wrapper::before { left: 0; }
@@ -250,15 +250,22 @@
       width: 100%;
       height: 50%;
       overflow: hidden;
-      background-color: inherit;
-      background-image: inherit;
+      background-color: var(--flip-bg);
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 4px,
+        var(--flip-stripe) 4px,
+        var(--flip-stripe) 6px
+      );
       color: var(--flip-text);
       font-weight: 800;
-      font-size: clamp(16px, 5vw, 24px);
+      font-size: clamp(18px, 5.5vw, 26px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
       justify-content: center;
       backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
     .card-face.top {
@@ -276,19 +283,38 @@
     .card-face.top span { transform: translateY(50%); }
     .card-face.bottom span { transform: translateY(-50%); }
 
-    .flip-card {
+    /* 動態翻轉半頁卡片 */
+    .flip-leaf {
       position: absolute;
-      top: 0;
       left: 0;
       width: 100%;
       height: 50%;
       overflow: hidden;
       transform-style: preserve-3d;
-      transform-origin: bottom;
-      z-index: 10;
+      z-index: 20;
       will-change: transform;
-      background-color: inherit;
-      background-image: inherit;
+    }
+
+    .flip-leaf.flip-top {
+      top: 0;
+      transform-origin: bottom;
+      animation: flipTopAnim 0.3s ease-in forwards;
+    }
+
+    .flip-leaf.flip-bottom {
+      bottom: 0;
+      transform-origin: top;
+      animation: flipBottomAnim 0.3s ease-out forwards;
+    }
+
+    @keyframes flipTopAnim {
+      0% { transform: rotateX(0deg); }
+      100% { transform: rotateX(-90deg); }
+    }
+
+    @keyframes flipBottomAnim {
+      0% { transform: rotateX(90deg); }
+      100% { transform: rotateX(0deg); }
     }
 
     .unit-label {
@@ -299,11 +325,11 @@
       font-weight: 800;
       color: var(--flip-subtext);
       letter-spacing: 0.3px;
-      z-index: 15;
+      z-index: 25;
       pointer-events: none;
     }
 
-    /* 成員名單小卡（抹茶綠 Matcha 與 薰衣草紫 Lavender） */
+    /* 成員名單小卡（Matcha 歐尼 x3 & Lavender 歐巴 x1） */
     .members-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -995,37 +1021,39 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
+    // 重構強效版 3D 翻頁鐘 JS 邏輯
     function updateFlipCard(unitElem, newValue) {
       const formattedValue = String(newValue).padStart(2, '0');
-      const topFace = unitElem.querySelector('.card-face.top span');
-      const bottomFace = unitElem.querySelector('.card-face.bottom span');
       const wrapper = unitElem.querySelector('.flip-card-wrapper');
+      const topFace = wrapper.querySelector('.card-face.top span');
+      const bottomFace = wrapper.querySelector('.card-face.bottom span');
 
-      const currentVal = topFace.textContent;
-      if (currentVal === formattedValue) return;
+      const currentValue = topFace.textContent;
+      if (currentValue === formattedValue) return;
 
-      const flipCard = document.createElement('div');
-      flipCard.className = 'flip-card';
-      flipCard.innerHTML = `
-        <div class="card-face top">
-          <span>${currentVal}</span>
-        </div>
-      `;
-      wrapper.appendChild(flipCard);
+      // 建立向下翻動的上層舊頁面
+      const flipTop = document.createElement('div');
+      flipTop.className = 'flip-leaf flip-top';
+      flipTop.innerHTML = `<div class="card-face top"><span>${currentValue}</span></div>`;
 
+      // 建立翻到底部蓋上的新頁面
+      const flipBottom = document.createElement('div');
+      flipBottom.className = 'flip-leaf flip-bottom';
+      flipBottom.innerHTML = `<div class="card-face bottom"><span>${formattedValue}</span></div>`;
+
+      // 設定靜態底層內容
       topFace.textContent = formattedValue;
-      bottomFace.textContent = currentVal;
+      bottomFace.textContent = currentValue;
 
-      flipCard.style.transition = 'transform 0.25s ease-in';
-      
-      requestAnimationFrame(() => {
-        flipCard.style.transform = 'rotateX(-90deg)';
-      });
+      wrapper.appendChild(flipTop);
+      wrapper.appendChild(flipBottom);
 
+      // 動態動畫完成後更新底頁並清理 DOM
       setTimeout(() => {
         bottomFace.textContent = formattedValue;
-        flipCard.remove();
-      }, 250);
+        flipTop.remove();
+        flipBottom.remove();
+      }, 300);
     }
 
     // 單一倒數功能：設定為 2026/12/31 18:00
