@@ -40,12 +40,12 @@
       --color-cat-e: #B3886B;
       --color-cat-f: #7D9291;
 
-      /* 翻頁鐘變數 */
+      /* 翻頁鐘變數（保留右圖的高質感藍色斜紋風格） */
       --flip-bg: #7FB9E6;
       --flip-stripe: rgba(255, 255, 255, 0.22);
       --flip-text: #FFFFFF;
       --flip-subtext: #EBF5FB;
-      --flip-divider: rgba(0, 0, 0, 0.15);
+      --flip-divider: rgba(0, 0, 0, 0.2);
 
       --nav-height: calc(52px + env(safe-area-inset-bottom));
     }
@@ -193,11 +193,11 @@
     }
 
     /* ==========================================
-       全新超穩定 3D 翻頁鐘排版
+       全新重寫：完美對齊左圖排版風格的俐落翻頁鐘
        ========================================== */
     .flip-clock {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       justify-content: space-between;
     }
 
@@ -206,15 +206,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
     }
 
     .flip-card-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 0.85;
-      perspective: 400px;
-      border-radius: 8px;
+      aspect-ratio: 0.82;
+      border-radius: 10px;
       background-color: var(--flip-bg);
       background-image: repeating-linear-gradient(
         -45deg,
@@ -224,25 +222,30 @@
         var(--flip-stripe) 8px
       );
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 4px 10px rgba(127, 185, 230, 0.25);
+      display: flex;
+      flex-direction: column;
     }
 
-    /* 左右中扣針 */
+    /* 左右兩側精緻黑色扣針（完全對齊左圖） */
     .flip-card-wrapper::before,
     .flip-card-wrapper::after {
       content: '';
       position: absolute;
       top: 50%;
-      width: 3px;
-      height: 6px;
-      background-color: rgba(0,0,0,0.25);
       transform: translateY(-50%);
-      z-index: 35;
-      border-radius: 1px;
+      width: 4px;
+      height: 10px;
+      background-color: #2C3E50;
+      z-index: 30;
+      border-radius: 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
-    .flip-card-wrapper::before { left: 0; }
-    .flip-card-wrapper::after { right: 0; }
+    .flip-card-wrapper::before { left: 0; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
+    .flip-card-wrapper::after { right: 0; border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
 
+    /* 上半部與下半部面版 */
     .card-face {
       position: absolute;
       left: 0;
@@ -250,6 +253,12 @@
       width: 100%;
       height: 50%;
       overflow: hidden;
+      color: var(--flip-text);
+      font-weight: 800;
+      font-size: clamp(26px, 7.5vw, 38px);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+      display: flex;
+      justify-content: center;
       background-color: var(--flip-bg);
       background-image: repeating-linear-gradient(
         -45deg,
@@ -258,40 +267,43 @@
         var(--flip-stripe) 5px,
         var(--flip-stripe) 8px
       );
-      color: var(--flip-text);
-      font-weight: 800;
-      font-size: clamp(28px, 8vw, 42px);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
-      display: flex;
-      justify-content: center;
     }
 
     .card-face.top {
       top: 0;
       align-items: flex-end;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      border-bottom: 0.5px solid var(--flip-divider);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      border-bottom: 1px solid var(--flip-divider);
+    }
+
+    .card-face.top span {
+      transform: translateY(50%);
     }
 
     .card-face.bottom {
       bottom: 0;
       align-items: flex-start;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-      border-top: 0.5px solid var(--flip-divider);
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
     }
 
+    .card-face.bottom span {
+      transform: translateY(-50%);
+    }
+
+    /* 底部標籤 (DAY / HR / MIN / SEC) 精確置於下方底部中央 */
     .unit-label {
       position: absolute;
-      bottom: 2px;
+      bottom: 3px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: clamp(8px, 2.2vw, 11px);
+      font-size: clamp(9px, 2.3vw, 11px);
       font-weight: 800;
       color: var(--flip-subtext);
-      letter-spacing: 0.5px;
-      z-index: 30;
+      letter-spacing: 0.8px;
+      z-index: 35;
       pointer-events: none;
       text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
@@ -709,7 +721,7 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 歐巴歐尼集合倒數 -->
+      <!-- 歐巴歐尼集合倒數（完美對齊左圖風格之俐落翻頁鐘） -->
       <div class="reunion-countdown-card">
         <div class="countdown-header">
           <span class="countdown-title">
@@ -721,29 +733,29 @@
         <div class="flip-clock" id="clock-reunion">
           <div class="flip-unit" data-unit="days">
             <div class="flip-card-wrapper">
-              <div class="card-face top">00</div>
-              <div class="card-face bottom">00</div>
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
               <span class="unit-label">DAY</span>
             </div>
           </div>
           <div class="flip-unit" data-unit="hours">
             <div class="flip-card-wrapper">
-              <div class="card-face top">00</div>
-              <div class="card-face bottom">00</div>
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
               <span class="unit-label">HR</span>
             </div>
           </div>
           <div class="flip-unit" data-unit="minutes">
             <div class="flip-card-wrapper">
-              <div class="card-face top">00</div>
-              <div class="card-face bottom">00</div>
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
               <span class="unit-label">MIN</span>
             </div>
           </div>
           <div class="flip-unit" data-unit="seconds">
             <div class="flip-card-wrapper">
-              <div class="card-face top">00</div>
-              <div class="card-face bottom">00</div>
+              <div class="card-face top"><span>00</span></div>
+              <div class="card-face bottom"><span>00</span></div>
               <span class="unit-label">SEC</span>
             </div>
           </div>
@@ -984,12 +996,12 @@
       const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
       if (!unitElem) return;
 
-      const topFace = unitElem.querySelector('.card-face.top');
-      const bottomFace = unitElem.querySelector('.card-face.bottom');
+      const topSpan = unitElem.querySelector('.card-face.top span');
+      const bottomSpan = unitElem.querySelector('.card-face.bottom span');
 
-      if (topFace.textContent !== formatted) {
-        topFace.textContent = formatted;
-        bottomFace.textContent = formatted;
+      if (topSpan.textContent !== formatted) {
+        topSpan.textContent = formatted;
+        bottomSpan.textContent = formatted;
       }
     }
 
