@@ -193,7 +193,7 @@
       border-radius: 12px;
     }
 
-    /* 3D Flip Clock 滿版俐落無暈影樣式 */
+    /* 3D Flip Clock 無殘影/完全剪裁滿版樣式 */
     .flip-clock {
       display: flex;
       gap: 6px;
@@ -225,7 +225,7 @@
       border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
-    /* 邊界俐落扣環中針 */
+    /* 左右中扣針 */
     .flip-card-wrapper::before,
     .flip-card-wrapper::after {
       content: '';
@@ -241,6 +241,7 @@
     .flip-card-wrapper::before { left: 0; }
     .flip-card-wrapper::after { right: 0; }
 
+    /* 半面基礎容器 */
     .card-face {
       position: absolute;
       left: 0;
@@ -258,7 +259,6 @@
       );
       color: var(--flip-text);
       font-weight: 800;
-      /* 數字極致接近滿版 (適用 iPad / iOS / Android) */
       font-size: clamp(28px, 8.5vw, 46px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
@@ -267,24 +267,37 @@
       -webkit-backface-visibility: hidden;
     }
 
+    /* 上半面：嚴格剪裁只留上半數字 */
     .card-face.top {
       top: 0;
-      align-items: flex-end;
+      align-items: flex-start;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
       border-bottom: 0.5px solid var(--flip-divider);
     }
 
+    /* 下半面：嚴格剪裁只留下半數字 */
     .card-face.bottom {
       bottom: 0;
-      align-items: flex-start;
+      align-items: flex-end;
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
       border-top: 0.5px solid var(--flip-divider);
     }
 
-    .card-face.top span { transform: translateY(52%); }
-    .card-face.bottom span { transform: translateY(-48%); }
+    /* 透過容器高度 line-height 精準置中與裁切，絕不產生上下殘影 */
+    .card-face.top span {
+      display: block;
+      height: 200%;
+      line-height: calc(100% * 2);
+    }
+
+    .card-face.bottom span {
+      display: block;
+      height: 200%;
+      line-height: calc(100% * 2);
+      margin-top: -100%;
+    }
 
     .flip-leaf {
       position: absolute;
@@ -300,7 +313,7 @@
     .flip-leaf.flip-top {
       top: 0;
       transform-origin: bottom;
-      animation: flipTopAnim 0.22s ease-in forwards;
+      animation: flipTopAnim 0.2s ease-in forwards;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
     }
@@ -308,7 +321,7 @@
     .flip-leaf.flip-bottom {
       bottom: 0;
       transform-origin: top;
-      animation: flipBottomAnim 0.22s ease-out forwards;
+      animation: flipBottomAnim 0.2s ease-out forwards;
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
     }
@@ -1017,7 +1030,7 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
-    /* 3D 翻頁動態與自動清理殘影 JS 邏輯 */
+    /* 無殘影 3D 翻頁動態與 DOM 清理 logic */
     function updateFlipCard(unitElem, newValue) {
       const formattedValue = String(newValue).padStart(2, '0');
       const wrapper = unitElem.querySelector('.flip-card-wrapper');
@@ -1027,31 +1040,31 @@
       const currentValue = topFace.textContent;
       if (currentValue === formattedValue) return;
 
-      // 1. 先清除前一次殘留動態節點，確保無圖層重疊
+      // 1. 清理過往節點
       wrapper.querySelectorAll('.flip-leaf').forEach(el => el.remove());
 
-      // 2. 建立動態翻轉葉片 (上半部舊數字向下翻)
+      // 2. 建立動態翻轉葉片 (舊上半部向下翻轉)
       const flipTop = document.createElement('div');
       flipTop.className = 'flip-leaf flip-top';
       flipTop.innerHTML = `<div class="card-face top"><span>${currentValue}</span></div>`;
 
-      // 3. 建立動態翻轉葉片 (下半部新數字蓋下)
+      // 3. 建立動態翻轉葉片 (新下半部蓋上)
       const flipBottom = document.createElement('div');
       flipBottom.className = 'flip-leaf flip-bottom';
       flipBottom.innerHTML = `<div class="card-face bottom"><span>${formattedValue}</span></div>`;
 
-      // 預先更新底層靜態頂部視圖
+      // 預先寫入底層靜態視圖
       topFace.textContent = formattedValue;
 
       wrapper.appendChild(flipTop);
       wrapper.appendChild(flipBottom);
 
-      // 動畫結束後更新底頁並即刻清理動態葉片，防止殘影
+      // 4. 動畫完成時同步更新底層並立刻刪除葉片，徹底摒除視覺殘影
       setTimeout(() => {
         bottomFace.textContent = formattedValue;
         flipTop.remove();
         flipBottom.remove();
-      }, 220);
+      }, 200);
     }
 
     // 倒數目標：2026/12/31 18:00
