@@ -495,27 +495,13 @@
       color: rgba(255, 255, 255, 0.9);
     }
 
-    /* 4張堆疊小卡片 Modal 專屬樣式 */
+    /* 4張無框堆疊小卡片 Modal 專屬樣式 */
     .crew-section-wrapper {
       padding: 10px 4px 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
       user-select: none;
-    }
-
-    .crew-subtitle-badge {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: #2C3E50;
-      background: #FFFFFF;
-      border: 2.5px solid #2C3E50;
-      padding: 4px 14px;
-      border-radius: 20px;
-      margin-bottom: 24px;
-      box-shadow: 2px 2px 0px #2C3E50;
     }
 
     .stacked-cards-container {
@@ -533,9 +519,9 @@
       width: 100%;
       height: 180px;
       border-radius: 24px;
-      border: 3px solid #2C3E50;
-      padding: 16px 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      border: none; /* 移除黑框 */
+      padding: 18px 22px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -544,13 +530,13 @@
       transform-origin: center center;
     }
 
-    /* 卡片配色組合 */
-    .stacked-crew-card.card-1 { background-color: #C1E1C1; } /* 嫩白綠 */
+    /* 純色色卡組合 */
+    .stacked-crew-card.card-1 { background-color: #C1E1C1; } /* 嫩草綠 */
     .stacked-crew-card.card-2 { background-color: #F8B4C9; } /* 甜心粉 */
     .stacked-crew-card.card-3 { background-color: #A3C9F8; } /* 柔粉藍 */
     .stacked-crew-card.card-4 { background-color: #FEE49A; } /* 奶油黃 */
 
-    /* 預設堆疊位置 (層層重疊效果) */
+    /* 預設堆疊位置 */
     .stacked-cards-container:not(.expanded) .card-1 {
       top: 0px;
       z-index: 4;
@@ -587,7 +573,7 @@
       transform: scale(1.03) rotate(0deg) !important;
       z-index: 10 !important;
       opacity: 1 !important;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.14);
     }
 
     .crew-card-header {
@@ -613,20 +599,20 @@
       font-weight: 700;
       color: #2C3E50;
       margin-top: 2px;
-      opacity: 0.9;
+      opacity: 0.85;
     }
 
     .crew-avatar-doodle {
-      width: 64px;
-      height: 64px;
-      background: rgba(255, 255, 255, 0.7);
-      border: 2.5px solid #2C3E50;
+      width: 58px;
+      height: 58px;
+      background: rgba(255, 255, 255, 0.65);
+      border: none;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
-      box-shadow: 2px 2px 0px #2C3E50;
+      font-size: 30px;
+      backdrop-filter: blur(4px);
     }
 
     .crew-card-footer {
@@ -639,10 +625,16 @@
       font-size: 10px;
       font-weight: 800;
       color: #2C3E50;
-      background: #FFFFFF;
-      border: 1.5px solid #2C3E50;
-      padding: 3px 8px;
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 4px 10px;
+      border-radius: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .crew-corner-icon {
+      font-size: 14px;
+      color: #2C3E50;
+      opacity: 0.85;
     }
 
     .reset-stack-hint {
@@ -1389,7 +1381,7 @@
       currentActiveCat = null;
     };
 
-    /* 4 張小卡堆疊與點擊散開邏輯 */
+    /* 4 張無框小卡直接由底部彈出與點擊散開 */
     window.openMembersSheet = function() {
       currentSheetType = 'members';
       const titleElem = document.getElementById('sheet-title');
@@ -1399,8 +1391,6 @@
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = `
         <div class="crew-section-wrapper">
-          <div class="crew-subtitle-badge">OUR CREW</div>
-
           <div class="stacked-cards-container" id="crew-stack">
             <!-- 卡片 1: Jewel -->
             <div class="stacked-crew-card card-1" onclick="handleCrewCardClick(this)">
@@ -1412,8 +1402,8 @@
                 <div class="crew-avatar-doodle">💖</div>
               </div>
               <div class="crew-card-footer">
-                <span class="crew-card-tag">VIP CREW</span>
-                <i class="fa-solid fa-sparkles" style="color:#2C3E50; font-size:12px;"></i>
+                <span class="crew-card-tag">our crew</span>
+                <i class="fa-solid fa-wand-magic-sparkles crew-corner-icon"></i>
               </div>
             </div>
 
@@ -1427,8 +1417,8 @@
                 <div class="crew-avatar-doodle">🎀</div>
               </div>
               <div class="crew-card-footer">
-                <span class="crew-card-tag">VIP CREW</span>
-                <i class="fa-solid fa-star" style="color:#2C3E50; font-size:12px;"></i>
+                <span class="crew-card-tag">our crew</span>
+                <i class="fa-solid fa-clover crew-corner-icon"></i>
               </div>
             </div>
 
@@ -1442,8 +1432,8 @@
                 <div class="crew-avatar-doodle">✨</div>
               </div>
               <div class="crew-card-footer">
-                <span class="crew-card-tag">VIP CREW</span>
-                <i class="fa-solid fa-heart" style="color:#2C3E50; font-size:12px;"></i>
+                <span class="crew-card-tag">our crew</span>
+                <i class="fa-solid fa-heart crew-corner-icon"></i>
               </div>
             </div>
 
@@ -1457,8 +1447,8 @@
                 <div class="crew-avatar-doodle">🕶️</div>
               </div>
               <div class="crew-card-footer">
-                <span class="crew-card-tag">PROTECTOR</span>
-                <i class="fa-solid fa-shield-halved" style="color:#2C3E50; font-size:12px;"></i>
+                <span class="crew-card-tag">our crew</span>
+                <i class="fa-solid fa-shield-halved crew-corner-icon"></i>
               </div>
             </div>
           </div>
