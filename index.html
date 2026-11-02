@@ -35,6 +35,12 @@
       --color-cat-e: #F98BA9;
       --color-cat-f: #B7C96A;
 
+      /* 記帳小幫手改為與廣安里相同的紫色系 */
+      --expense-theme: #B392DC;
+      --expense-bg-light: rgba(214, 190, 234, 0.2);
+      /* 按鈕與台幣試算改為與膠囊海岸列車相同的綠色 */
+      --expense-btn-color: #9DB347;
+
       --flip-bg: #826DEE;
       --flip-stripe: rgba(255, 255, 255, 0.22);
       --flip-text: #FFFFFF;
@@ -505,11 +511,11 @@
       outline: none;
     }
 
-    .add-form input:focus { border-color: var(--color-sky); }
+    .add-form input:focus { border-color: var(--expense-theme); }
 
     .twd-hint {
       font-size: 12px;
-      color: var(--color-sky);
+      color: var(--expense-btn-color);
       margin-bottom: 10px;
       font-weight: 600;
       padding-left: 2px;
@@ -517,7 +523,7 @@
 
     .btn-submit {
       width: 100%;
-      background: var(--color-sky);
+      background: var(--expense-btn-color);
       color: white;
       border: none;
       padding: 11px;
@@ -538,7 +544,7 @@
     }
 
     .dash-box {
-      background: linear-gradient(135deg, var(--color-sky) 0%, #68A0D0 100%);
+      background: linear-gradient(135deg, var(--expense-theme) 0%, #9F75D3 100%);
       color: white;
       border-radius: 16px;
       padding: 16px 14px;
@@ -721,8 +727,16 @@
       margin-bottom: 3px;
     }
 
-    .nav-item.active {
+    .nav-item.active-schedule {
       color: var(--color-sky);
+      font-weight: 700;
+    }
+    .nav-item.active-favorites {
+      color: var(--color-pink);
+      font-weight: 700;
+    }
+    .nav-item.active-expenses {
+      color: var(--expense-theme);
       font-weight: 700;
     }
   </style>
@@ -857,7 +871,7 @@
   </div>
 
   <nav>
-    <button class="nav-item active" id="nav-schedule" onclick="toggleNav('schedule')">
+    <button class="nav-item active-schedule" id="nav-schedule" onclick="toggleNav('schedule')">
       <i class="fa-solid fa-compass"></i>
       行程導覽
     </button>
@@ -926,15 +940,11 @@
 
     async function fetchBusanWeather() {
       try {
-        const busanLat = 35.1796;
-        const busanLon = 129.0756;
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${busanLat}&longitude=${busanLon}&current_weather=true`);
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=35.1796&longitude=129.0756&current_weather=true`);
         const data = await res.json();
-        
         if (data && data.current_weather) {
           const temp = Math.round(data.current_weather.temperature);
           const code = data.current_weather.weathercode;
-          
           let weatherDesc = "晴朗 ☀️";
           if (code === 1 || code === 2) weatherDesc = "多雲晴朗 🌤️";
           else if (code === 3) weatherDesc = "陰天 ☁️";
@@ -1104,13 +1114,14 @@
       document.getElementById('sheet-overlay').classList.remove('active');
       sheet.classList.remove('active');
       
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      document.getElementById('nav-schedule').classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(el => {
+        el.className = 'nav-item';
+      });
+      document.getElementById('nav-schedule').classList.add('active-schedule');
       currentSheetType = null;
       currentActiveCat = null;
     };
 
-    /* 底部導覽列 Toggle 互動邏輯 */
     window.toggleNav = function(type) {
       if (type === 'schedule') {
         if (currentSheetType !== null) {
@@ -1133,9 +1144,21 @@
       }
     };
 
+    function updateNavActiveState(activeType) {
+      document.querySelectorAll('.nav-item').forEach(el => el.className = 'nav-item');
+      if (activeType === 'schedule') {
+        document.getElementById('nav-schedule').classList.add('active-schedule');
+      } else if (activeType === 'favorites') {
+        document.getElementById('nav-favorites').classList.add('active-favorites');
+      } else if (activeType === 'expenses') {
+        document.getElementById('nav-expenses').classList.add('active-expenses');
+      }
+    }
+
     window.openCategorySheet = function(catCode, titleName) {
       currentSheetType = 'category';
       currentActiveCat = catCode;
+      updateNavActiveState('schedule');
       
       const theme = categoryThemeMap[catCode] || categoryThemeMap['ALL'];
       const titleElem = document.getElementById('sheet-title');
@@ -1187,8 +1210,7 @@
 
     function openFavoritesSheet() {
       currentSheetType = 'favorites';
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      document.getElementById('nav-favorites').classList.add('active');
+      updateNavActiveState('favorites');
 
       const titleElem = document.getElementById('sheet-title');
       titleElem.innerText = `收藏 (${favorites.length})`;
@@ -1200,12 +1222,11 @@
 
     function openExpensesSheet() {
       currentSheetType = 'expenses';
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      document.getElementById('nav-expenses').classList.add('active');
+      updateNavActiveState('expenses');
 
       const titleElem = document.getElementById('sheet-title');
-      titleElem.innerText = `💰 記帳小幫手`;
-      titleElem.style.color = 'var(--color-sky)';
+      titleElem.innerText = `記帳小幫手`;
+      titleElem.style.color = 'var(--expense-theme)';
 
       renderExpensesSheetContent();
       showSheet();
@@ -1367,12 +1388,12 @@
 
         const card = document.createElement('div');
         card.className = 'item-card';
-        card.style.borderLeftColor = 'var(--color-sky)';
+        card.style.borderLeftColor = 'var(--expense-theme)';
         card.innerHTML = `
           <div class="card-top">
             <div class="item-title">${data.item}</div>
             <div style="text-align: right;">
-              <span style="color:var(--color-sky); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+              <span style="color:var(--expense-theme); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
               <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${itemTwd.toLocaleString()}</div>
             </div>
           </div>
