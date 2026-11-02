@@ -539,13 +539,14 @@
 
     .payer-select-container {
       display: flex;
-      flex-wrap: wrap;
       gap: 6px;
       margin-bottom: 12px;
+      width: 100%;
     }
 
     .payer-chip {
-      padding: 6px 12px;
+      flex: 1;
+      padding: 6px 4px;
       font-size: 12px;
       font-weight: 600;
       border-radius: 20px;
@@ -554,6 +555,14 @@
       color: var(--text-sub);
       cursor: pointer;
       transition: all 0.2s;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
     }
 
     .payer-chip.selected {
@@ -1340,23 +1349,21 @@
       });
     }
 
-    // 產生預設日期選項（包含今天及前後幾天，含 12/29 星期二等彈性選擇）
-    function generateDateOptions() {
-      const options = [];
-      const today = new Date();
-      for (let i = -3; i <= 30; i++) {
-        const d = new Date(today);
-        d.setDate(today.getDate() + i);
-        const m = d.getMonth() + 1;
-        const day = d.getDate();
-        const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
-        const w = weekdays[d.getDay()];
-        const dateStr = `${m}/${day} (週${w})`;
-        const valStr = `${m}/${day}`;
-        const isToday = i === 0 ? 'selected' : '';
-        options.push(`<option value="${valStr}" ${isToday}>${dateStr}</option>`);
-      }
-      return options.join('');
+    // 嚴格限定日期範圍：12/29 (週二) 至 2027/1/3 (週日)
+    function generateDateOptions(selectedVal) {
+      const tripDates = [
+        { val: '12/29', text: '12/29 (週二)' },
+        { val: '12/30', text: '12/30 (週三)' },
+        { val: '12/31', text: '12/31 (週四)' },
+        { val: '1/1', text: '1/1 (週五)' },
+        { val: '1/2', text: '1/2 (週六)' },
+        { val: '1/3', text: '1/3 (週日)' }
+      ];
+      
+      return tripDates.map(d => {
+        const isSelected = (d.val === selectedVal || (!selectedVal && d.val === '12/29')) ? 'selected' : '';
+        return `<option value="${d.val}" ${isSelected}>${d.text}</option>`;
+      }).join('');
     }
 
     function renderExpensesSheetContent() {
@@ -1398,11 +1405,11 @@
             <button class="select-all-btn" onclick="toggleSelectAllPayers()">全選 / 清除</button>
           </div>
           <div class="payer-select-container" id="payer-chips-container">
-            <div class="payer-chip selected" data-payer="All" onclick="selectPayerChip('All')">All</div>
-            <div class="payer-chip" data-payer="Jase" onclick="selectPayerChip('Jase')">Jase</div>
-            <div class="payer-chip" data-payer="Jessie" onclick="selectPayerChip('Jessie')">Jessie</div>
-            <div class="payer-chip" data-payer="Jewel" onclick="selectPayerChip('Jewel')">Jewel</div>
-            <div class="payer-chip" data-payer="Kay" onclick="selectPayerChip('Kay')">Kay</div>
+            <div class="payer-chip selected" data-payer="All" onclick="selectPayerChip('All')"><i class="fa-solid fa-users" style="font-size:10px;"></i> All</div>
+            <div class="payer-chip" data-payer="Jase" onclick="selectPayerChip('Jase')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jase</div>
+            <div class="payer-chip" data-payer="Jessie" onclick="selectPayerChip('Jessie')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jessie</div>
+            <div class="payer-chip" data-payer="Jewel" onclick="selectPayerChip('Jewel')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jewel</div>
+            <div class="payer-chip" data-payer="Kay" onclick="selectPayerChip('Kay')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Kay</div>
           </div>
 
           <button class="btn-submit" onclick="addExpense()">帳單確認</button>
@@ -1520,17 +1527,62 @@
       }
     };
 
-    window.editExpenseAmount = async function(docId, currentAmount) {
-      const newAmountStr = prompt('請輸入修改後的金額 (KRW):', currentAmount);
-      if (newAmountStr !== null) {
-        const newAmount = Number(newAmountStr);
-        if (isNaN(newAmount) || newAmount <= 0) {
-          return alert('請輸入有效的數字金額！');
+    // 完整的修改視窗（可修改日期、品項、金額）
+    window.editExpense = async function(docId, currentDate, currentItem, currentAmount) {
+      const newDateOptions = generateDateOptions(currentDate);
+      
+      const modalBg = document.createElement('div');
+      modalBg.style.position = 'fixed';
+      modalBg.style.top = '0';
+      modalBg.style.left = '0';
+      modalBg.style.right = '0';
+      modalBg.style.bottom = '0';
+      modalBg.style.background = 'rgba(0,0,0,0.4)';
+      modalBg.style.zIndex = '9999';
+      modalBg.style.display = 'flex';
+      modalBg.style.alignItems = 'center';
+      modalBg.style.justifyContent = 'center';
+      modalBg.style.padding = '16px';
+
+      modalBg.innerHTML = `
+        <div style="background:#FAF9F6; border-radius:20px; padding:20px; width:100%; max-width:340px; border:1px solid var(--border-color); box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+          <h3 style="font-size:15px; font-weight:700; margin-bottom:12px; color:var(--text-main);">修改消費紀錄</h3>
+          <label style="font-size:12px; color:var(--text-sub);">日期</label>
+          <select id="edit-date" style="width:100%; padding:10px 12px; margin:4px 0 10px 0; border:1px solid var(--border-color); border-radius:10px; background:#FAF7F4; font-size:14px; outline:none;">
+            ${newDateOptions}
+          </select>
+          <label style="font-size:12px; color:var(--text-sub);">品項</label>
+          <input type="text" id="edit-item" value="${currentItem}" style="width:100%; padding:10px 12px; margin:4px 0 10px 0; border:1px solid var(--border-color); border-radius:10px; background:#FAF7F4; font-size:14px; outline:none;">
+          <label style="font-size:12px; color:var(--text-sub);">金額 (KRW)</label>
+          <input type="number" id="edit-amount" value="${currentAmount}" style="width:100%; padding:10px 12px; margin:4px 0 16px 0; border:1px solid var(--border-color); border-radius:10px; background:#FAF7F4; font-size:14px; outline:none;">
+          <div style="display:flex; gap:8px;">
+            <button id="edit-cancel" style="flex:1; padding:10px; border-radius:10px; border:1px solid var(--border-color); background:#FAF7F4; font-weight:600; cursor:pointer;">取消</button>
+            <button id="edit-confirm" style="flex:1; padding:10px; border-radius:10px; border:none; background:var(--expense-btn-color); color:#FFF; font-weight:700; cursor:pointer;">儲存修改</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modalBg);
+
+      modalBg.querySelector('#edit-cancel').onclick = () => modalBg.remove();
+      modalBg.querySelector('#edit-confirm').onclick = async () => {
+        const newDate = modalBg.querySelector('#edit-date').value;
+        const newItem = modalBg.querySelector('#edit-item').value.trim();
+        const newAmount = Number(modalBg.querySelector('#edit-amount').value);
+
+        if (!newItem || isNaN(newAmount) || newAmount <= 0) {
+          alert('請填寫有效的品項與金額！');
+          return;
         }
+
         await updateDoc(doc(db, "expenses", docId), {
+          date: newDate,
+          item: newItem,
           amount: newAmount
         });
-      }
+
+        modalBg.remove();
+      };
     };
 
     function renderExpensesUI() {
@@ -1565,7 +1617,7 @@
             <i class="fa-solid fa-credit-card" style="font-size:11px;"></i> ${pName}
           </div>
           <div class="expense-actions">
-            <button class="expense-btn" onclick="editExpenseAmount('${docId}', ${data.amount})"><i class="fa-solid fa-pen"></i> 修改金額</button>
+            <button class="expense-btn" onclick="editExpense('${docId}', '${data.date || ''}', '${data.item.replace(/'/g, "\\'")}', ${data.amount})"><i class="fa-solid fa-pen"></i> 修改</button>
             <button class="expense-btn delete" style="color: var(--color-pink); border-color: rgba(249, 139, 169, 0.3); background: #FFF9F8;" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
           </div>
         `;
