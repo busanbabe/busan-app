@@ -159,9 +159,9 @@
       color: var(--color-sky);
     }
 
-    /* 集合倒數區塊：移除綠底，改為獨立區塊 */
+    /* 集合倒數區塊 */
     .reunion-countdown-section {
-      margin-bottom: 14px;
+      margin-bottom: 0;
     }
 
     .countdown-header {
@@ -357,52 +357,7 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
-    /* 明星級成員按鈕 */
-    .members-bar-btn {
-      width: 100%;
-      background: #FFFFFF;
-      border: 1.5px solid rgba(249, 139, 169, 0.35);
-      border-radius: 14px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      box-shadow: 0 3px 10px rgba(249, 139, 169, 0.12);
-      transition: all 0.2s ease;
-    }
-
-    .members-bar-btn:active {
-      transform: scale(0.98);
-      background: #FFF9FA;
-    }
-
-    .members-bar-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .members-heart-icon {
-      font-size: 16px;
-      line-height: 1;
-      color: var(--color-pink);
-    }
-
-    .members-bar-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .members-bar-right {
-      display: flex;
-      align-items: center;
-      color: #C0B7B1;
-      font-size: 13px;
-    }
-
-    /* 分區導覽大方塊網格 (純色滿版填滿 + 純白字) */
+    /* 分區導覽大方塊網格 */
     .section-title-label {
       font-size: 14px;
       font-weight: 700;
@@ -417,7 +372,6 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      margin-bottom: 16px;
     }
 
     .cat-card-btn {
@@ -434,28 +388,11 @@
       position: relative;
       overflow: hidden;
       text-align: left;
-      color: #FFFFFF; /* 景點文字統一純白字 */
+      color: #FFFFFF;
     }
 
     .cat-card-btn:active {
       transform: scale(0.97);
-    }
-
-    /* 方案一：夢幻珍珠白銀（微透奢華感）整合修改 */
-    .cat-card-btn[data-cat="ALL"] { 
-      background: linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%); 
-      border: 1.5px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-    .cat-card-btn[data-cat="ALL"] .cat-card-title {
-      color: #2C3E50;
-    }
-    .cat-card-btn[data-cat="ALL"] .cat-card-badge {
-      color: #2C3E50;
-      background: rgba(44, 62, 80, 0.08);
-    }
-    .cat-card-btn[data-cat="ALL"] .cat-card-arrow {
-      color: #2C3E50;
     }
 
     /* 各分區方塊滿版填滿底色 */
@@ -465,13 +402,6 @@
     .cat-card-btn[data-cat="D"] { background: var(--color-cat-d); }
     .cat-card-btn[data-cat="E"] { background: var(--color-cat-e); }
     .cat-card-btn[data-cat="F"] { background: var(--color-cat-f); }
-
-    .cat-card-btn.full-width {
-      grid-column: span 2;
-      min-height: 75px;
-      flex-direction: row;
-      align-items: center;
-    }
 
     .cat-card-title {
       font-size: 15px;
@@ -490,49 +420,6 @@
       width: fit-content;
       margin-top: 6px;
       backdrop-filter: blur(4px);
-    }
-
-    .cat-card-arrow {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    /* 成員彈出視窗內部卡片 */
-    .members-container-modal {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding-top: 4px;
-    }
-
-    .member-card {
-      background: #FFFFFF;
-      border-radius: 14px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-left: 5px solid var(--color-matcha);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-    }
-
-    .member-card.oppa { border-left-color: var(--color-lavender); }
-
-    .member-tag {
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 10px;
-      color: #FFFFFF;
-      background: var(--color-matcha);
-    }
-
-    .member-card.oppa .member-tag { background: var(--color-lavender); }
-
-    .member-name {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-main);
     }
 
     /* 景點卡片與按鈕 (彈出視窗內) */
@@ -592,7 +479,7 @@
       border-radius: 10px;
     }
 
-    /* Google Maps 按鈕方案 B（淺色底 + 同色系主色字） */
+    /* Google Maps 按鈕 */
     .map-btn {
       display: inline-flex;
       align-items: center;
@@ -823,7 +710,7 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       display: flex;
-      justify-style: space-around;
+      justify-space: space-around;
       padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
       border-top: 1px solid var(--border-color);
       z-index: 300;
@@ -875,7 +762,7 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 集合倒數區塊（移除大綠底，保留對齊與等比放大倒數方塊） -->
+      <!-- 集合倒數區塊 -->
       <div class="reunion-countdown-section">
         <div class="countdown-header">
           <span class="countdown-title">
@@ -930,65 +817,47 @@
           </div>
         </div>
       </div>
-
-      <!-- 明星級成員按鈕 Bar -->
-      <button class="members-bar-btn" onclick="openMembersSheet()">
-        <div class="members-bar-left">
-          <i class="fa-solid fa-heart members-heart-icon"></i>
-          <span class="members-bar-title">明星級成員</span>
-        </div>
-        <div class="members-bar-right">
-          <i class="fa-solid fa-chevron-right"></i>
-        </div>
-      </button>
     </div>
 
-    <!-- 行程分區導覽 (7 個顯眼大方塊網格) -->
-    <div class="section-title-label">
-      <i class="fa-solid fa-map-location-dot" style="color: var(--color-sky);"></i>
-      景點行程分區導覽
-    </div>
+    <!-- 行程分區導覽 (與上方同款大白卡片包覆) -->
+    <div class="hero-card">
+      <div class="section-title-label">
+        <i class="fa-solid fa-map-location-dot" style="color: var(--color-sky);"></i>
+        景點行程分區導覽
+      </div>
 
-    <div class="category-grid">
-      <!-- 全幅跨頁大按鈕（套用方案一：珍珠白銀奢華質感） -->
-      <button class="cat-card-btn full-width" data-cat="ALL" onclick="openCategorySheet('ALL', '全部景點總覽')">
-        <div>
-          <div class="cat-card-title">全部景點總覽</div>
-          <div class="cat-card-badge">收錄全釜山精選景點 (54)</div>
-        </div>
-        <div class="cat-card-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-      </button>
+      <div class="category-grid">
+        <!-- 分區大卡片 A-F -->
+        <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')">
+          <div class="cat-card-title">A. 松島 . 影島</div>
+          <div class="cat-card-badge">8 個景點</div>
+        </button>
 
-      <!-- 分區大卡片 A-F（純色滿版填滿 + 純白字） -->
-      <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')">
-        <div class="cat-card-title">A. 松島 . 影島</div>
-        <div class="cat-card-badge">8 個景點</div>
-      </button>
+        <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')">
+          <div class="cat-card-title">B. 市集 . 市場</div>
+          <div class="cat-card-badge">8 個景點</div>
+        </button>
 
-      <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')">
-        <div class="cat-card-title">B. 市集 . 市場</div>
-        <div class="cat-card-badge">8 個景點</div>
-      </button>
+        <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')">
+          <div class="cat-card-title">C. 西面 . 田浦</div>
+          <div class="cat-card-badge">13 個景點</div>
+        </button>
 
-      <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')">
-        <div class="cat-card-title">C. 西面 . 田浦</div>
-        <div class="cat-card-badge">13 個景點</div>
-      </button>
+        <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')">
+          <div class="cat-card-title">D. 廣安里</div>
+          <div class="cat-card-badge">11 個景點</div>
+        </button>
 
-      <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')">
-        <div class="cat-card-title">D. 廣安里</div>
-        <div class="cat-card-badge">11 個景點</div>
-      </button>
+        <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')">
+          <div class="cat-card-title">E. 海雲台</div>
+          <div class="cat-card-badge">10 個景點</div>
+        </button>
 
-      <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')">
-        <div class="cat-card-title">E. 海雲台</div>
-        <div class="cat-card-badge">10 個景點</div>
-      </button>
-
-      <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')">
-        <div class="cat-card-title">F. 膠囊 & 海岸列車</div>
-        <div class="cat-card-badge">9 個景點</div>
-      </button>
+        <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')">
+          <div class="cat-card-title">F. 膠囊 & 海岸列車</div>
+          <div class="cat-card-badge">9 個景點</div>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1276,29 +1145,7 @@
       currentActiveCat = null;
     };
 
-    /* 開啟成員彈出視窗 */
-    window.openMembersSheet = function() {
-      currentSheetType = 'members';
-      const titleElem = document.getElementById('sheet-title');
-      titleElem.innerText = '明星級成員';
-      titleElem.style.color = 'var(--color-sky)';
-      
-      const sheetBody = document.getElementById('sheet-body');
-      sheetBody.innerHTML = `
-        <div class="members-container-modal">
-          <div class="member-card">
-            <span class="member-tag">Jewel / 蘆洲宋慧喬</span>
-            <span class="member-tag">Kay / 古亭孫藝珍</span>
-            <span class="member-tag">Jessie / 高雄全智賢</span>
-            <span class="member-tag">Jase / 高雄馬東石</span>
-          </div>
-        </div>
-      `;
-
-      showSheet();
-    };
-
-    /* 點擊分區大方塊彈出景點列表 (套用同色系標題與按鈕配色) */
+    /* 點擊分區大方塊彈出景點列表 */
     window.openCategorySheet = function(catCode, titleName) {
       currentSheetType = 'category';
       currentActiveCat = catCode;
@@ -1306,7 +1153,6 @@
       const theme = categoryThemeMap[catCode] || categoryThemeMap['ALL'];
       const titleElem = document.getElementById('sheet-title');
       
-      // 標題與英文副標同色系
       titleElem.innerHTML = `
         <div style="text-align: center; color: ${theme.main};">
           <div style="font-size: 16px; font-weight: 700;">${titleName}</div>
@@ -1332,8 +1178,6 @@
         const card = document.createElement('div');
         card.className = `item-card cat-${item.cat}`;
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}`;
-
-        // 取得景點所屬的同色系配色方案 (方案 B: 淺底 + 同色字)
         const spotTheme = categoryThemeMap[item.cat] || categoryThemeMap['ALL'];
 
         card.innerHTML = `
@@ -1703,3 +1547,4 @@
     };
   </script>
 </body>
+</html>
