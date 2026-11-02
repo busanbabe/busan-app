@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" style="background-color: #FAF9F6;">
 <head>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Hello Busan | Hi 2027</title>
   
+  <meta name="theme-color" content="#FAF9F6">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Hello Busan">
@@ -15,9 +16,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
 
   <style>
+    html, body {
+      background-color: #FAF9F6 !important;
+    }
+
     :root {
       --color-sky: #7FB9E6;
       --color-lavender: #D6BEEA;
@@ -1463,7 +1468,6 @@
       currentY = 0;
     });
 
-    // 已還原第二個程式碼的繪圖風多點煙火與星星特效
     document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
       e.stopPropagation();
       const fireworkSpots = [
