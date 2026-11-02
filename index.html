@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-TW" style="background-color: #FAF9F6;">
+<html lang="zh-TW" style="background-color: #FAF9F6; background: #FAF9F6;">
 <head>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Hello Busan | Hi 2027</title>
   
+  <!-- 避免 iOS / PWA 啟動瞬間黑屏的關鍵設定 -->
   <meta name="theme-color" content="#FAF9F6">
+  <meta name="msapplication-TileColor" content="#FAF9F6">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Hello Busan">
@@ -19,8 +21,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
 
   <style>
-    html, body {
+    /* 強制在瀏覽器計算任何樣式與漸層前，將視窗底色與背景死鎖為紙白色 */
+    :root, html, body {
       background-color: #FAF9F6 !important;
+      background: #FAF9F6;
     }
 
     :root {
@@ -66,7 +70,7 @@
     }
 
     body {
-      background-color: var(--bg-color);
+      background-color: #FAF9F6 !important;
       background-image: 
         radial-gradient(circle at 15% 10%, rgba(127, 185, 230, 0.18) 0%, transparent 45%),
         radial-gradient(circle at 85% 25%, rgba(249, 139, 169, 0.15) 0%, transparent 50%),
