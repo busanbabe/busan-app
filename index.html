@@ -4,21 +4,20 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Hello Busan | Hi 2027</title>
+  <title>釜山安妞 | Hello BUSAN</title>
   
+  <!-- iOS PWA 設定 -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Hello Busan">
+  <meta name="apple-mobile-web-app-title" content="釜山安妞">
   <link rel="apple-touch-icon" href="https://i.ibb.co/0ppX3mmH/IMG-6699.jpg">
   
-  <!-- 引進 Google Fonts Noto Serif -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap" rel="stylesheet">
+  <!-- FontAwesome 標誌庫 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
+      /* 六大主色調定義 */
       --color-sky: #7FB9E6;
       --color-lavender: #D6BEEA;
       --color-butter: #F4D77A;
@@ -26,23 +25,22 @@
       --color-pink: #F98BA9;
       --color-tangerine: #FF8F45;
 
+      /* 基礎 UI 風格 */
       --bg-color: #FAF9F6;
       --card-bg: #FFFFFF;
       --text-main: #2C3E50;
       --text-sub: #7F8C8D;
       --border-color: #EFECE6;
 
-      --color-cat-a: #7FB9E6;
-      --color-cat-b: #FF8F45;
-      --color-cat-c: #F4D77A;
-      --color-cat-d: #D6BEEA;
-      --color-cat-e: #F98BA9;
-      --color-cat-f: #B7C96A;
+      /* 分區專屬色彩 (意象對應配色) */
+      --color-cat-a: #7FB9E6;    /* 松島.影島 -> Sky */
+      --color-cat-b: #FF8F45;    /* 市集.市場 -> Tangerine */
+      --color-cat-c: #F4D77A;    /* 西面.田浦 -> Butter */
+      --color-cat-d: #D6BEEA;    /* 廣安里 -> Lavender */
+      --color-cat-e: #F98BA9;    /* 海雲台 -> Pink */
+      --color-cat-f: #B7C96A;    /* 膠囊&海岸列車 -> Matcha */
 
-      --expense-theme: #B392DC;
-      --expense-bg-light: rgba(214, 190, 234, 0.2);
-      --expense-btn-color: #9DB347;
-
+      /* 翻頁鐘變數 */
       --flip-bg: #826DEE;
       --flip-stripe: rgba(255, 255, 255, 0.22);
       --flip-text: #FFFFFF;
@@ -74,38 +72,50 @@
       letter-spacing: 0.3px;
     }
 
-    /* 頂部 Header：拿掉色塊背景與邊框 */
     header {
-      background: transparent;
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       padding: 16px 20px;
       position: sticky;
       top: 0;
       z-index: 100;
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .header-title-text {
-      font-family: 'Noto Serif', serif;
-      font-size: clamp(32px, 8vw, 42px);
+    header h1 {
+      font-size: 18px;
       font-weight: 700;
-      color: var(--color-pink);
+      color: var(--color-sky);
     }
 
     .new-year-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      background: transparent;
       user-select: none;
     }
 
+    .new-year-text {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      background: linear-gradient(110deg, var(--color-tangerine) 30%, var(--color-pink) 50%, var(--color-tangerine) 70%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: metallicShine 3s infinite ease-in-out;
+    }
+
     .sparkle-icon {
-      font-size: clamp(32px, 8vw, 42px);
+      font-size: 13px;
       cursor: pointer;
       display: inline-block;
-      line-height: 1;
-      animation: breathePulse 2.5s infinite ease-in-out;
+      padding: 2px;
       transition: transform 0.1s ease;
     }
 
@@ -113,15 +123,9 @@
       transform: scale(0.85);
     }
 
-    @keyframes breathePulse {
-      0%, 100% {
-        opacity: 0.75;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.08);
-      }
+    @keyframes metallicShine {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
 
     .container {
@@ -155,8 +159,9 @@
       color: var(--color-sky);
     }
 
+    /* 集合倒數區塊：移除綠底，改為獨立區塊 */
     .reunion-countdown-section {
-      margin-bottom: 0;
+      margin-bottom: 14px;
     }
 
     .countdown-header {
@@ -180,6 +185,7 @@
       font-size: 16px;
     }
 
+    /* 翻頁鐘樣式設定 */
     .flip-clock {
       display: flex;
       gap: 8px;
@@ -351,6 +357,52 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
+    /* 明星級成員按鈕 */
+    .members-bar-btn {
+      width: 100%;
+      background: #FFFFFF;
+      border: 1.5px solid rgba(249, 139, 169, 0.35);
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(249, 139, 169, 0.12);
+      transition: all 0.2s ease;
+    }
+
+    .members-bar-btn:active {
+      transform: scale(0.98);
+      background: #FFF9FA;
+    }
+
+    .members-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .members-heart-icon {
+      font-size: 16px;
+      line-height: 1;
+      color: var(--color-pink);
+    }
+
+    .members-bar-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .members-bar-right {
+      display: flex;
+      align-items: center;
+      color: #C0B7B1;
+      font-size: 13px;
+    }
+
+    /* 分區導覽大方塊網格 (純色滿版填滿 + 純白字) */
     .section-title-label {
       font-size: 14px;
       font-weight: 700;
@@ -365,6 +417,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
+      margin-bottom: 16px;
     }
 
     .cat-card-btn {
@@ -381,19 +434,44 @@
       position: relative;
       overflow: hidden;
       text-align: left;
-      color: #FFFFFF;
+      color: #FFFFFF; /* 景點文字統一純白字 */
     }
 
     .cat-card-btn:active {
       transform: scale(0.97);
     }
 
+    /* 方案一：夢幻珍珠白銀（微透奢華感）整合修改 */
+    .cat-card-btn[data-cat="ALL"] { 
+      background: linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%); 
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    .cat-card-btn[data-cat="ALL"] .cat-card-title {
+      color: #2C3E50;
+    }
+    .cat-card-btn[data-cat="ALL"] .cat-card-badge {
+      color: #2C3E50;
+      background: rgba(44, 62, 80, 0.08);
+    }
+    .cat-card-btn[data-cat="ALL"] .cat-card-arrow {
+      color: #2C3E50;
+    }
+
+    /* 各分區方塊滿版填滿底色 */
     .cat-card-btn[data-cat="A"] { background: var(--color-cat-a); }
     .cat-card-btn[data-cat="B"] { background: var(--color-cat-b); }
     .cat-card-btn[data-cat="C"] { background: var(--color-cat-c); }
     .cat-card-btn[data-cat="D"] { background: var(--color-cat-d); }
     .cat-card-btn[data-cat="E"] { background: var(--color-cat-e); }
     .cat-card-btn[data-cat="F"] { background: var(--color-cat-f); }
+
+    .cat-card-btn.full-width {
+      grid-column: span 2;
+      min-height: 75px;
+      flex-direction: row;
+      align-items: center;
+    }
 
     .cat-card-title {
       font-size: 15px;
@@ -414,6 +492,50 @@
       backdrop-filter: blur(4px);
     }
 
+    .cat-card-arrow {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* 成員彈出視窗內部卡片 */
+    .members-container-modal {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-top: 4px;
+    }
+
+    .member-card {
+      background: #FFFFFF;
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 5px solid var(--color-matcha);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    .member-card.oppa { border-left-color: var(--color-lavender); }
+
+    .member-tag {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 10px;
+      color: #FFFFFF;
+      background: var(--color-matcha);
+    }
+
+    .member-card.oppa .member-tag { background: var(--color-lavender); }
+
+    .member-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* 景點卡片與按鈕 (彈出視窗內) */
     .item-card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(6px);
@@ -470,6 +592,7 @@
       border-radius: 10px;
     }
 
+    /* Google Maps 按鈕方案 B（淺色底 + 同色系主色字） */
     .map-btn {
       display: inline-flex;
       align-items: center;
@@ -487,6 +610,7 @@
 
     .map-btn:active { opacity: 0.8; transform: scale(0.98); }
 
+    /* 消費表單與按鈕 */
     .add-form {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 16px;
@@ -507,11 +631,11 @@
       outline: none;
     }
 
-    .add-form input:focus { border-color: var(--expense-theme); }
+    .add-form input:focus { border-color: var(--color-sky); }
 
     .twd-hint {
       font-size: 12px;
-      color: var(--expense-btn-color);
+      color: var(--color-sky);
       margin-bottom: 10px;
       font-weight: 600;
       padding-left: 2px;
@@ -519,7 +643,7 @@
 
     .btn-submit {
       width: 100%;
-      background: var(--expense-btn-color);
+      background: var(--color-sky);
       color: white;
       border: none;
       padding: 11px;
@@ -540,7 +664,7 @@
     }
 
     .dash-box {
-      background: linear-gradient(135deg, var(--expense-theme) 0%, #9F75D3 100%);
+      background: linear-gradient(135deg, var(--color-sky) 0%, #68A0D0 100%);
       color: white;
       border-radius: 16px;
       padding: 16px 14px;
@@ -603,6 +727,7 @@
       font-size: 14px;
     }
 
+    /* Bottom Sheet */
     .sheet-overlay {
       position: fixed;
       top: 0;
@@ -698,7 +823,7 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       display: flex;
-      justify-content: space-around;
+      justify-style: space-around;
       padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
       border-top: 1px solid var(--border-color);
       z-index: 300;
@@ -723,32 +848,24 @@
       margin-bottom: 3px;
     }
 
-    .nav-item.active-schedule {
+    .nav-item.active {
       color: var(--color-sky);
-      font-weight: 700;
-    }
-    .nav-item.active-favorites {
-      color: var(--color-pink);
-      font-weight: 700;
-    }
-    .nav-item.active-expenses {
-      color: var(--expense-theme);
       font-weight: 700;
     }
   </style>
 </head>
 <body>
 
-  <!-- 頂部 Header：無背景色塊，純文字風格 -->
   <header>
-    <div class="header-title-text">Hello Busan</div>
+    <h1 id="page-title">釜山安妞</h1>
     <div class="new-year-badge">
-      <span class="header-title-text">Hi 2027</span>
+      <span class="new-year-text">2027 Happy New Year</span>
       <span class="sparkle-icon" id="sparkle-btn">✨</span>
     </div>
   </header>
 
   <div class="container">
+    <!-- 天氣與合體倒數 Hero 卡片 -->
     <div class="hero-card" id="hero-countdown-card">
       <div class="weather-box">
         <div>
@@ -758,6 +875,7 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
+      <!-- 集合倒數區塊（移除大綠底，保留對齊與等比放大倒數方塊） -->
       <div class="reunion-countdown-section">
         <div class="countdown-header">
           <span class="countdown-title">
@@ -812,50 +930,72 @@
           </div>
         </div>
       </div>
+
+      <!-- 明星級成員按鈕 Bar -->
+      <button class="members-bar-btn" onclick="openMembersSheet()">
+        <div class="members-bar-left">
+          <i class="fa-solid fa-heart members-heart-icon"></i>
+          <span class="members-bar-title">明星級成員</span>
+        </div>
+        <div class="members-bar-right">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+      </button>
     </div>
 
-    <div class="hero-card">
-      <div class="section-title-label">
-        <i class="fa-solid fa-map-location-dot" style="color: var(--color-sky);"></i>
-        探索景點
-      </div>
+    <!-- 行程分區導覽 (7 個顯眼大方塊網格) -->
+    <div class="section-title-label">
+      <i class="fa-solid fa-map-location-dot" style="color: var(--color-sky);"></i>
+      景點行程分區導覽
+    </div>
 
-      <div class="category-grid">
-        <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')">
-          <div class="cat-card-title">A. 松島 . 影島</div>
-          <div class="cat-card-badge">8 個景點</div>
-        </button>
+    <div class="category-grid">
+      <!-- 全幅跨頁大按鈕（套用方案一：珍珠白銀奢華質感） -->
+      <button class="cat-card-btn full-width" data-cat="ALL" onclick="openCategorySheet('ALL', '全部景點總覽')">
+        <div>
+          <div class="cat-card-title">全部景點總覽</div>
+          <div class="cat-card-badge">收錄全釜山精選景點 (54)</div>
+        </div>
+        <div class="cat-card-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+      </button>
 
-        <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')">
-          <div class="cat-card-title">B. 市集 . 市場</div>
-          <div class="cat-card-badge">8 個景點</div>
-        </button>
+      <!-- 分區大卡片 A-F（純色滿版填滿 + 純白字） -->
+      <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')">
+        <div class="cat-card-title">A. 松島 . 影島</div>
+        <div class="cat-card-badge">8 個景點</div>
+      </button>
 
-        <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')">
-          <div class="cat-card-title">C. 西面 . 田浦</div>
-          <div class="cat-card-badge">13 個景點</div>
-        </button>
+      <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')">
+        <div class="cat-card-title">B. 市集 . 市場</div>
+        <div class="cat-card-badge">8 個景點</div>
+      </button>
 
-        <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')">
-          <div class="cat-card-title">D. 廣安里</div>
-          <div class="cat-card-badge">11 個景點</div>
-        </button>
+      <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')">
+        <div class="cat-card-title">C. 西面 . 田浦</div>
+        <div class="cat-card-badge">13 個景點</div>
+      </button>
 
-        <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')">
-          <div class="cat-card-title">E. 海雲台</div>
-          <div class="cat-card-badge">10 個景點</div>
-        </button>
+      <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')">
+        <div class="cat-card-title">D. 廣安里</div>
+        <div class="cat-card-badge">11 個景點</div>
+      </button>
 
-        <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')">
-          <div class="cat-card-title">F. 膠囊 & 海岸列車</div>
-          <div class="cat-card-badge">9 個景點</div>
-        </button>
-      </div>
+      <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')">
+        <div class="cat-card-title">E. 海雲台</div>
+        <div class="cat-card-badge">10 個景點</div>
+      </button>
+
+      <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')">
+        <div class="cat-card-title">F. 膠囊 & 海岸列車</div>
+        <div class="cat-card-badge">9 個景點</div>
+      </button>
     </div>
   </div>
 
+  <!-- 半透明背景遮罩 -->
   <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
 
+  <!-- 底部彈出式頁面卡片 -->
   <div class="bottom-sheet" id="bottom-sheet">
     <div class="sheet-header" id="sheet-header">
       <div class="sheet-handle"></div>
@@ -867,21 +1007,27 @@
     <div class="sheet-body" id="sheet-body"></div>
   </div>
 
+  <!-- 底部導覽列 -->
   <nav>
-    <button class="nav-item active-schedule" id="nav-schedule" onclick="toggleNav('schedule')">
+    <button class="nav-item active" id="nav-schedule" onclick="goHome()">
       <i class="fa-solid fa-compass"></i>
       行程導覽
     </button>
-    <button class="nav-item" id="nav-favorites" onclick="toggleNav('favorites')">
+    <button class="nav-item" id="nav-favorites" onclick="openFavoritesSheet()">
       <i class="fa-solid fa-heart"></i>
       收藏
     </button>
-    <button class="nav-item" id="nav-expenses" onclick="toggleNav('expenses')">
+    <button class="nav-item" onclick="goHome()">
+      <i class="fa-solid fa-house"></i>
+      HOME
+    </button>
+    <button class="nav-item" id="nav-expenses" onclick="openExpensesSheet()">
       <i class="fa-solid fa-wallet"></i>
       記帳小幫手
     </button>
   </nav>
 
+  <!-- JS 邏輯 -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -904,6 +1050,7 @@
     let currentSheetType = null;
     let currentActiveCat = null;
 
+    /* 色彩映射字典：控制彈出視窗標題與 Google Map 按鈕同色系樣式 */
     const categoryThemeMap = {
       'A': { main: '#7FB9E6', bgLight: 'rgba(127, 185, 230, 0.15)', name: 'A. 松島 . 影島', code: 'SONGDO & YEONGDO' },
       'B': { main: '#FF8F45', bgLight: 'rgba(255, 143, 69, 0.15)', name: 'B. 市集 . 市場', code: 'MARKETS' },
@@ -937,11 +1084,15 @@
 
     async function fetchBusanWeather() {
       try {
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=35.1796&longitude=129.0756&current_weather=true`);
+        const busanLat = 35.1796;
+        const busanLon = 129.0756;
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${busanLat}&longitude=${busanLon}&current_weather=true`);
         const data = await res.json();
+        
         if (data && data.current_weather) {
           const temp = Math.round(data.current_weather.temperature);
           const code = data.current_weather.weathercode;
+          
           let weatherDesc = "晴朗 ☀️";
           if (code === 1 || code === 2) weatherDesc = "多雲晴朗 🌤️";
           else if (code === 3) weatherDesc = "陰天 ☁️";
@@ -972,6 +1123,7 @@
     };
 
     const presetData = [
+      // A 松島.影島
       { id: 'A1', cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', story: '跨越海港的透明水晶纜車，飽覽松島海灣景色' },
       { id: 'A2', cat: 'A', name: 'Songdo Sky Park', type: 'spot', story: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋' },
       { id: 'A3', cat: 'A', name: '影島海女村', type: 'food', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯，坐在海邊大圓桶上享用現採海鮮' },
@@ -981,6 +1133,7 @@
       { id: 'A7', cat: 'A', name: 'ATRE Museum Busan', type: 'spot', story: '光影藝術沉浸式展覽，拍照質感極高' },
       { id: 'A8', cat: 'A', name: '甘川文化村', type: 'spot', story: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸' },
 
+      // B 市集.市場
       { id: 'B1', cat: 'B', name: '山青豬肉湯飯', type: 'food', story: '在地老字號湯飯，湯頭濃郁無腥味' },
       { id: 'B2', cat: 'B', name: '富平罐頭市場', type: 'spot', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞' },
       { id: 'B3', cat: 'B', name: '愉快的生拌牛肉', type: 'food', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵' },
@@ -990,6 +1143,7 @@
       { id: 'B7', cat: 'B', name: '札嘎其市場', type: 'spot', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理' },
       { id: 'B8', cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', story: '在地人偏愛的海鮮綜合市場，價格實惠' },
 
+      // C 西面.田浦
       { id: 'C1', cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', story: '廣安里名店分店，薄切豬肉片湯飯極讚' },
       { id: 'C2', cat: 'C', name: '安木 西面店', type: 'food', story: '精緻韓定食與特色熟成肉料理' },
       { id: 'C3', cat: 'C', name: '세든 365약국 藥局', type: 'spot', story: '西面便利藥局，常備藥與保健品採買好去處' },
@@ -1004,6 +1158,7 @@
       { id: 'C12', cat: 'C', name: 'Strut Coffee', type: 'food', story: '極簡工業風咖啡廳，手沖與拿鐵表現極佳' },
       { id: 'C13', cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖' },
 
+      // D 廣安里
       { id: 'D1', cat: 'D', name: '五六島天空步道', type: 'spot', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖' },
       { id: 'D2', cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', story: '米其林推薦高質感湯飯，清爽極致' },
       { id: 'D3', cat: 'D', name: 'Momos Coffee - Dorunheon', type: 'food', story: '環境清幽雅緻' },
@@ -1016,6 +1171,7 @@
       { id: 'D10', cat: 'D', name: '고하순 광안직영점 燒肉', type: 'food', story: '廣安里直營極品熟成烤肉專賣店' },
       { id: 'D11', cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕' },
 
+      // E 海雲台
       { id: 'E1', cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳' },
       { id: 'E2', cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', story: '排隊名店：分為釜山式濃湯與密陽式清湯兩種風格' },
       { id: 'E3', cat: 'E', name: 'Busandang 紅豆麵包', type: 'food', story: '香甜濃郁的經典紅豆麵包' },
@@ -1027,6 +1183,7 @@
       { id: 'E9', cat: 'E', name: 'Miffy 專門店', type: 'spot', story: '可愛的米飛兔官方授權專賣店與選物' },
       { id: 'E10', cat: 'E', name: '水邊豬肉湯飯', type: 'food', story: '海雲台分店，濃郁順口的在地好滋味' },
 
+      // F 天空膠囊列車 & 海岸列車
       { id: 'F1', cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', story: '天空膠囊列車搭乘區間' },
       { id: 'F2', cat: 'F', name: 'TIDE Coffee Roasters', type: 'food', story: '青沙浦海景第一排的烘焙咖啡館' },
       { id: 'F3', cat: 'F', name: 'Edge 993', type: 'food', story: '擁有超棒頂樓露台，眺望海岸列車與海景' },
@@ -1044,6 +1201,7 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
+    /* 機械翻頁鐘動畫邏輯 */
     function updateClockUnit(unitName, value) {
       const formatted = String(value).padStart(2, '0');
       const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
@@ -1073,6 +1231,7 @@
       }
     }
 
+    // 倒數目標：2026/12/31 18:00
     function startSingleCountdown() {
       const targetDate = new Date(`2026-12-31T18:00:00`);
 
@@ -1111,55 +1270,43 @@
       document.getElementById('sheet-overlay').classList.remove('active');
       sheet.classList.remove('active');
       
-      document.querySelectorAll('.nav-item').forEach(el => {
-        el.className = 'nav-item';
-      });
-      document.getElementById('nav-schedule').classList.add('active-schedule');
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('nav-schedule').classList.add('active');
       currentSheetType = null;
       currentActiveCat = null;
     };
 
-    window.toggleNav = function(type) {
-      if (type === 'schedule') {
-        if (currentSheetType !== null) {
-          closeSheet();
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      } else if (type === 'favorites') {
-        if (currentSheetType === 'favorites') {
-          closeSheet();
-        } else {
-          openFavoritesSheet();
-        }
-      } else if (type === 'expenses') {
-        if (currentSheetType === 'expenses') {
-          closeSheet();
-        } else {
-          openExpensesSheet();
-        }
-      }
+    /* 開啟成員彈出視窗 */
+    window.openMembersSheet = function() {
+      currentSheetType = 'members';
+      const titleElem = document.getElementById('sheet-title');
+      titleElem.innerText = '明星級成員';
+      titleElem.style.color = 'var(--color-sky)';
+      
+      const sheetBody = document.getElementById('sheet-body');
+      sheetBody.innerHTML = `
+        <div class="members-container-modal">
+          <div class="member-card">
+            <span class="member-tag">Jewel / 蘆洲宋慧喬</span>
+            <span class="member-tag">Kay / 古亭孫藝珍</span>
+            <span class="member-tag">Jessie / 高雄全智賢</span>
+            <span class="member-tag">Jase / 高雄馬東石</span>
+          </div>
+        </div>
+      `;
+
+      showSheet();
     };
 
-    function updateNavActiveState(activeType) {
-      document.querySelectorAll('.nav-item').forEach(el => el.className = 'nav-item');
-      if (activeType === 'schedule') {
-        document.getElementById('nav-schedule').classList.add('active-schedule');
-      } else if (activeType === 'favorites') {
-        document.getElementById('nav-favorites').classList.add('active-favorites');
-      } else if (activeType === 'expenses') {
-        document.getElementById('nav-expenses').classList.add('active-expenses');
-      }
-    }
-
+    /* 點擊分區大方塊彈出景點列表 (套用同色系標題與按鈕配色) */
     window.openCategorySheet = function(catCode, titleName) {
       currentSheetType = 'category';
       currentActiveCat = catCode;
-      updateNavActiveState('schedule');
       
       const theme = categoryThemeMap[catCode] || categoryThemeMap['ALL'];
       const titleElem = document.getElementById('sheet-title');
       
+      // 標題與英文副標同色系
       titleElem.innerHTML = `
         <div style="text-align: center; color: ${theme.main};">
           <div style="font-size: 16px; font-weight: 700;">${titleName}</div>
@@ -1185,6 +1332,8 @@
         const card = document.createElement('div');
         card.className = `item-card cat-${item.cat}`;
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}`;
+
+        // 取得景點所屬的同色系配色方案 (方案 B: 淺底 + 同色字)
         const spotTheme = categoryThemeMap[item.cat] || categoryThemeMap['ALL'];
 
         card.innerHTML = `
@@ -1205,9 +1354,10 @@
       });
     }
 
-    function openFavoritesSheet() {
+    window.openFavoritesSheet = function() {
       currentSheetType = 'favorites';
-      updateNavActiveState('favorites');
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('nav-favorites').classList.add('active');
 
       const titleElem = document.getElementById('sheet-title');
       titleElem.innerText = `收藏 (${favorites.length})`;
@@ -1215,19 +1365,20 @@
 
       renderFavoritesSheetContent();
       showSheet();
-    }
+    };
 
-    function openExpensesSheet() {
+    window.openExpensesSheet = function() {
       currentSheetType = 'expenses';
-      updateNavActiveState('expenses');
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('nav-expenses').classList.add('active');
 
       const titleElem = document.getElementById('sheet-title');
-      titleElem.innerText = `記帳小幫手`;
-      titleElem.style.color = 'var(--expense-theme)';
+      titleElem.innerText = `💰 記帳小幫手`;
+      titleElem.style.color = 'var(--color-sky)';
 
       renderExpensesSheetContent();
       showSheet();
-    }
+    };
 
     function showSheet() {
       const sheet = document.getElementById('bottom-sheet');
@@ -1236,6 +1387,11 @@
       document.getElementById('sheet-overlay').classList.add('active');
       sheet.classList.add('active');
     }
+
+    window.goHome = function() {
+      closeSheet();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     function renderFavoritesSheetContent() {
       const sheetBody = document.getElementById('sheet-body');
@@ -1385,12 +1541,12 @@
 
         const card = document.createElement('div');
         card.className = 'item-card';
-        card.style.borderLeftColor = 'var(--expense-theme)';
+        card.style.borderLeftColor = 'var(--color-sky)';
         card.innerHTML = `
           <div class="card-top">
             <div class="item-title">${data.item}</div>
             <div style="text-align: right;">
-              <span style="color:var(--expense-theme); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+              <span style="color:var(--color-sky); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
               <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${itemTwd.toLocaleString()}</div>
             </div>
           </div>
@@ -1461,18 +1617,89 @@
       currentY = 0;
     });
 
-    // 煙火特效事件綁定
     document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
       e.stopPropagation();
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.2 },
-          colors: ['#7FB9E6', '#D6BEEA', '#F4D77A', '#B7C96A', '#F98BA9', '#FF8F45']
-        });
-      }
+      const fireworkSpots = [
+        { x: window.innerWidth * 0.5, y: window.innerHeight * 0.25 },
+        { x: window.innerWidth * 0.28, y: window.innerHeight * 0.2 },
+        { x: window.innerWidth * 0.72, y: window.innerHeight * 0.2 },
+        { x: window.innerWidth * 0.4, y: window.innerHeight * 0.35 },
+        { x: window.innerWidth * 0.6, y: window.innerHeight * 0.35 }
+      ];
+
+      fireworkSpots.forEach((spot, index) => {
+        setTimeout(() => {
+          createIllustrationFirework(spot.x, spot.y);
+        }, index * 160);
+      });
     });
+
+    window.createIllustrationFirework = function(x, y) {
+      const rayCount = 24;
+      const colors = ['#7FB9E6', '#D6BEEA', '#F4D77A', '#B7C96A', '#F98BA9', '#FF8F45'];
+
+      for (let i = 0; i < rayCount; i++) {
+        const ray = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        ray.style.position = 'fixed';
+        ray.style.left = `${x}px`;
+        ray.style.top = `${y}px`;
+        ray.style.width = '2.5px';
+        ray.style.height = `${30 + Math.random() * 35}px`;
+        ray.style.backgroundColor = color;
+        ray.style.borderRadius = '2px';
+        ray.style.pointerEvents = 'none';
+        ray.style.zIndex = '99999';
+        ray.style.transformOrigin = 'top center';
+        ray.style.opacity = '1';
+
+        const angle = (360 / rayCount) * i + (Math.random() * 8 - 4);
+        const distance = 50 + Math.random() * 50;
+        
+        ray.style.transform = `rotate(${angle}deg) scaleY(0.2)`;
+        ray.style.transition = 'all 0.8s cubic-bezier(0.1, 0.8, 0.3, 1)';
+        document.body.appendChild(ray);
+
+        requestAnimationFrame(() => {
+          ray.style.transform = `rotate(${angle}deg) translateY(${distance}px) scaleY(1.2)`;
+          ray.style.opacity = '0';
+        });
+
+        setTimeout(() => ray.remove(), 800);
+      }
+
+      const starCount = 18;
+      const starSymbols = ['✨', '✦', '·', '˚'];
+
+      for (let j = 0; j < starCount; j++) {
+        const star = document.createElement('div');
+        star.innerText = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+        
+        star.style.position = 'fixed';
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+        star.style.fontSize = `${10 + Math.random() * 12}px`;
+        star.style.color = colors[Math.floor(Math.random() * colors.length)];
+        star.style.pointerEvents = 'none';
+        star.style.zIndex = '99999';
+        star.style.opacity = '1';
+
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 40 + Math.random() * 80;
+        const tx = Math.cos(angle) * speed;
+        const ty = Math.sin(angle) * speed;
+
+        star.style.transition = 'all 0.9s ease-out';
+        document.body.appendChild(star);
+
+        requestAnimationFrame(() => {
+          star.style.transform = `translate(${tx}px, ${ty}px) scale(1.3) rotate(${Math.random() * 180}deg)`;
+          star.style.opacity = '0';
+        });
+
+        setTimeout(() => star.remove(), 900);
+      }
+    };
   </script>
 </body>
-</html>
