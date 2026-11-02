@@ -4,7 +4,7 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Hello Busan | Hi 2027</title>
+  <title>Hello Busan | Hi</title>
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -74,7 +74,6 @@
       letter-spacing: 0.3px;
     }
 
-    /* 頂部 Header：無背景色塊，純文字風格 */
     header {
       background: transparent;
       max-width: 680px;
@@ -138,8 +137,8 @@
       margin-bottom: 16px;
       border: 1px solid var(--border-color);
     }
-      #hero-countdown-card {
-        margin-top: -15px;
+    #hero-countdown-card {
+      margin-top: -15px;
     }
 
     .weather-box {
@@ -424,7 +423,7 @@
       padding: 16px;
       margin-bottom: 12px;
       border: 1px solid var(--border-color);
-      border-left: 5px solid var(--color-sky);
+      border-left: 5px solid var(--expense-btn-color);
     }
 
     .item-card.cat-A { border-left-color: var(--color-cat-a); }
@@ -433,6 +432,7 @@
     .item-card.cat-D { border-left-color: var(--color-cat-d); }
     .item-card.cat-E { border-left-color: var(--color-cat-e); }
     .item-card.cat-F { border-left-color: var(--color-cat-f); }
+    .item-card.expense-item-card { border-left-color: var(--expense-btn-color); }
 
     .card-top {
       display: flex;
@@ -497,7 +497,7 @@
       border: 1px solid var(--border-color);
     }
 
-    .add-form input {
+    .add-form input, .add-form select {
       width: 100%;
       padding: 10px 12px;
       margin-bottom: 8px;
@@ -509,7 +509,68 @@
       outline: none;
     }
 
-    .add-form input:focus { border-color: var(--expense-theme); }
+    .add-form input:focus, .add-form select:focus { border-color: var(--expense-theme); }
+
+    .form-row-inline {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .form-row-inline select {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .form-row-inline input {
+      flex: 2;
+      margin-bottom: 0;
+    }
+
+    .payer-section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .payer-select-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .payer-chip {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: #FAF7F4;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .payer-chip.selected {
+      background: var(--expense-theme);
+      color: #FFFFFF;
+      border-color: var(--expense-theme);
+    }
+
+    .select-all-btn {
+      font-size: 11px;
+      color: var(--expense-theme);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      padding: 2px 4px;
+    }
 
     .twd-hint {
       font-size: 12px;
@@ -745,7 +806,7 @@
   <header>
     <div class="header-title-text">Hello Busan</div>
     <div class="new-year-badge">
-      <span class="header-title-text">Hi 2027</span>
+      <span class="header-title-text">Hi</span>
       <span class="sparkle-icon" id="sparkle-btn">✨</span>
     </div>
   </header>
@@ -1279,11 +1340,30 @@
       });
     }
 
+    // 產生預設日期選項（包含今天及前後幾天，含 12/29 星期二等彈性選擇）
+    function generateDateOptions() {
+      const options = [];
+      const today = new Date();
+      for (let i = -3; i <= 30; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() + i);
+        const m = d.getMonth() + 1;
+        const day = d.getDate();
+        const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+        const w = weekdays[d.getDay()];
+        const dateStr = `${m}/${day} (週${w})`;
+        const valStr = `${m}/${day}`;
+        const isToday = i === 0 ? 'selected' : '';
+        options.push(`<option value="${valStr}" ${isToday}>${dateStr}</option>`);
+      }
+      return options.join('');
+    }
+
     function renderExpensesSheetContent() {
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = `
         <div class="dashboard-grid">
-          <div class="dash-box">
+          <div class="dash-box" style="background: linear-gradient(135deg, var(--expense-theme) 0%, #9F75D3 100%);">
             <div class="dash-title">消費總金額</div>
             <div>
               <div class="dash-main-val" id="total-expense">₩ 0</div>
@@ -1291,7 +1371,7 @@
             </div>
           </div>
 
-          <div class="dash-box">
+          <div class="dash-box" style="background: linear-gradient(135deg, var(--expense-theme) 0%, #9F75D3 100%);">
             <div class="dash-title">當日即時匯率</div>
             <div>
               <div class="dash-main-val" id="rate-main-val">${EXCHANGE_RATE.toFixed(2)}</div>
@@ -1302,10 +1382,29 @@
 
         <div class="add-form">
           <h3 style="font-size: 14px; margin-bottom: 8px; color: var(--text-main);">新增消費紀錄</h3>
-          <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
+          
+          <div class="form-row-inline">
+            <select id="expense-date">
+              ${generateDateOptions()}
+            </select>
+            <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
+          </div>
+
           <input type="number" id="expense-amount" placeholder="金額 (KRW)" oninput="updateTwdHint(this.value)">
           <div class="twd-hint" id="twd-conversion-hint">台幣試算：≈ NT$ 0</div>
-          <input type="text" id="expense-payer" placeholder="付款人（例：Jessie / Jase）">
+          
+          <div class="payer-section-label">
+            <span>付款人</span>
+            <button class="select-all-btn" onclick="toggleSelectAllPayers()">全選 / 清除</button>
+          </div>
+          <div class="payer-select-container" id="payer-chips-container">
+            <div class="payer-chip selected" data-payer="All" onclick="selectPayerChip('All')">All</div>
+            <div class="payer-chip" data-payer="Jase" onclick="selectPayerChip('Jase')">Jase</div>
+            <div class="payer-chip" data-payer="Jessie" onclick="selectPayerChip('Jessie')">Jessie</div>
+            <div class="payer-chip" data-payer="Jewel" onclick="selectPayerChip('Jewel')">Jewel</div>
+            <div class="payer-chip" data-payer="Kay" onclick="selectPayerChip('Kay')">Kay</div>
+          </div>
+
           <button class="btn-submit" onclick="addExpense()">帳單確認</button>
         </div>
 
@@ -1314,6 +1413,63 @@
 
       renderExpensesUI();
     }
+
+    let selectedPayers = ['All'];
+
+    window.selectPayerChip = function(payerName) {
+      const chips = document.querySelectorAll('.payer-chip');
+      if (payerName === 'All') {
+        selectedPayers = ['All'];
+      } else {
+        if (selectedPayers.includes('All')) {
+          selectedPayers = [];
+        }
+        const idx = selectedPayers.indexOf(payerName);
+        if (idx > -1) {
+          selectedPayers.splice(idx, 1);
+        } else {
+          selectedPayers.push(payerName);
+        }
+        if (selectedPayers.length === 0) {
+          selectedPayers = ['All'];
+        }
+      }
+      
+      chips.forEach(chip => {
+        const p = chip.getAttribute('data-payer');
+        if (selectedPayers.includes(p)) {
+          chip.classList.add('selected');
+        } else {
+          chip.classList.remove('selected');
+        }
+      });
+    };
+
+    let allSelectedState = false;
+    window.toggleSelectAllPayers = function() {
+      const chips = document.querySelectorAll('.payer-chip');
+      allSelectedState = !allSelectedState;
+      if (allSelectedState) {
+        selectedPayers = ['Jase', 'Jessie', 'Jewel', 'Kay'];
+      } else {
+        selectedPayers = ['All'];
+      }
+      chips.forEach(chip => {
+        const p = chip.getAttribute('data-payer');
+        if (selectedPayers.includes(p) || (allSelectedState && p !== 'All')) {
+          if(p !== 'All' || !allSelectedState) {
+            chip.classList.add('selected');
+          }
+        } else {
+          chip.classList.remove('selected');
+        }
+        if(!allSelectedState && p === 'All') {
+          chip.classList.add('selected');
+        } else if(allSelectedState && p === 'All') {
+          chip.classList.remove('selected');
+        }
+      });
+    };
 
     window.toggleFavorite = function(itemId) {
       const idx = favorites.indexOf(itemId);
@@ -1334,18 +1490,27 @@
     };
 
     window.addExpense = async function() {
+      const dateVal = document.getElementById('expense-date').value;
       const item = document.getElementById('expense-item').value;
       const amount = Number(document.getElementById('expense-amount').value);
-      const payer = document.getElementById('expense-payer').value.trim() || '公款';
+      
+      let payerStr = selectedPayers.join(', ');
+      if (selectedPayers.includes('All')) {
+        payerStr = 'All (Jase, Jessie, Jewel, Kay)';
+      }
+
       if (!item || !amount) return alert('請填寫品項與金額！');
 
       await addDoc(collection(db, "expenses"), {
-        item, amount, payer, createdAt: Date.now()
+        date: dateVal,
+        item, 
+        amount, 
+        payer: payerStr, 
+        createdAt: Date.now()
       });
 
       document.getElementById('expense-item').value = '';
       document.getElementById('expense-amount').value = '';
-      document.getElementById('expense-payer').value = '';
       document.getElementById('twd-conversion-hint').innerText = '台幣試算：≈ NT$ 0';
     };
 
@@ -1382,24 +1547,26 @@
         const docId = docSnap.id;
         total += data.amount;
 
-        const pName = data.payer || '公款';
+        const dateTag = data.date ? `${data.date} ｜ ` : '';
+        const pName = data.payer || 'All';
         const itemTwd = Math.round(data.amount / EXCHANGE_RATE);
 
         const card = document.createElement('div');
-        card.className = 'item-card';
-        card.style.borderLeftColor = 'var(--expense-theme)';
+        card.className = 'item-card expense-item-card';
         card.innerHTML = `
           <div class="card-top">
-            <div class="item-title">${data.item}</div>
+            <div class="item-title">${dateTag}${data.item}</div>
             <div style="text-align: right;">
-              <span style="color:var(--expense-theme); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+              <span style="color:var(--expense-btn-color); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
               <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${itemTwd.toLocaleString()}</div>
             </div>
           </div>
-          <div style="font-size:12px; color:var(--text-sub); margin-top:6px;">💳 付款人：${pName}</div>
+          <div style="font-size:12px; color:var(--text-sub); margin-top:6px; display:flex; align-items:center; gap:5px;">
+            <i class="fa-solid fa-credit-card" style="font-size:11px;"></i> ${pName}
+          </div>
           <div class="expense-actions">
             <button class="expense-btn" onclick="editExpenseAmount('${docId}', ${data.amount})"><i class="fa-solid fa-pen"></i> 修改金額</button>
-            <button class="expense-btn delete" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
+            <button class="expense-btn delete" style="color: var(--color-pink); border-color: rgba(249, 139, 169, 0.3); background: #FFF9F8;" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
           </div>
         `;
         expensesList.appendChild(card);
@@ -1463,7 +1630,6 @@
       currentY = 0;
     });
 
-    // 已還原第二個程式碼的繪圖風多點煙火與星星特效
     document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
       e.stopPropagation();
       const fireworkSpots = [
