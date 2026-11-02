@@ -6,18 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>釜山安妞 | Hello BUSAN</title>
   
-  <!-- iOS PWA 設定 -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="釜山安妞">
   <link rel="apple-touch-icon" href="https://i.ibb.co/0ppX3mmH/IMG-6699.jpg">
   
-  <!-- FontAwesome 標誌庫 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
-      /* 六大主色調定義 */
       --color-sky: #7FB9E6;
       --color-lavender: #D6BEEA;
       --color-butter: #F4D77A;
@@ -25,22 +22,19 @@
       --color-pink: #F98BA9;
       --color-tangerine: #FF8F45;
 
-      /* 基礎 UI 風格 */
       --bg-color: #FAF9F6;
       --card-bg: #FFFFFF;
       --text-main: #2C3E50;
       --text-sub: #7F8C8D;
       --border-color: #EFECE6;
 
-      /* 分區專屬色彩 (意象對應配色) */
-      --color-cat-a: #7FB9E6;    /* 松島.影島 -> Sky */
-      --color-cat-b: #FF8F45;    /* 市集.市場 -> Tangerine */
-      --color-cat-c: #F4D77A;    /* 西面.田浦 -> Butter */
-      --color-cat-d: #D6BEEA;    /* 廣安里 -> Lavender */
-      --color-cat-e: #F98BA9;    /* 海雲台 -> Pink */
-      --color-cat-f: #B7C96A;    /* 膠囊&海岸列車 -> Matcha */
+      --color-cat-a: #7FB9E6;
+      --color-cat-b: #FF8F45;
+      --color-cat-c: #F4D77A;
+      --color-cat-d: #D6BEEA;
+      --color-cat-e: #F98BA9;
+      --color-cat-f: #B7C96A;
 
-      /* 翻頁鐘變數 */
       --flip-bg: #826DEE;
       --flip-stripe: rgba(255, 255, 255, 0.22);
       --flip-text: #FFFFFF;
@@ -159,7 +153,6 @@
       color: var(--color-sky);
     }
 
-    /* 集合倒數區塊 */
     .reunion-countdown-section {
       margin-bottom: 0;
     }
@@ -185,7 +178,6 @@
       font-size: 16px;
     }
 
-    /* 翻頁鐘樣式設定 */
     .flip-clock {
       display: flex;
       gap: 8px;
@@ -357,7 +349,6 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
-    /* 分區導覽大方塊網格 */
     .section-title-label {
       font-size: 14px;
       font-weight: 700;
@@ -395,7 +386,6 @@
       transform: scale(0.97);
     }
 
-    /* 各分區方塊滿版填滿底色 */
     .cat-card-btn[data-cat="A"] { background: var(--color-cat-a); }
     .cat-card-btn[data-cat="B"] { background: var(--color-cat-b); }
     .cat-card-btn[data-cat="C"] { background: var(--color-cat-c); }
@@ -422,7 +412,6 @@
       backdrop-filter: blur(4px);
     }
 
-    /* 景點卡片與按鈕 (彈出視窗內) */
     .item-card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(6px);
@@ -479,7 +468,6 @@
       border-radius: 10px;
     }
 
-    /* Google Maps 按鈕 */
     .map-btn {
       display: inline-flex;
       align-items: center;
@@ -497,7 +485,6 @@
 
     .map-btn:active { opacity: 0.8; transform: scale(0.98); }
 
-    /* 消費表單與按鈕 */
     .add-form {
       background: rgba(255, 255, 255, 0.95);
       border-radius: 16px;
@@ -614,7 +601,6 @@
       font-size: 14px;
     }
 
-    /* Bottom Sheet */
     .sheet-overlay {
       position: fixed;
       top: 0;
@@ -710,7 +696,7 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       display: flex;
-      justify-space: space-around;
+      justify-content: space-around;
       padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
       border-top: 1px solid var(--border-color);
       z-index: 300;
@@ -752,7 +738,6 @@
   </header>
 
   <div class="container">
-    <!-- 天氣與合體倒數 Hero 卡片 -->
     <div class="hero-card" id="hero-countdown-card">
       <div class="weather-box">
         <div>
@@ -762,7 +747,6 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 集合倒數區塊 -->
       <div class="reunion-countdown-section">
         <div class="countdown-header">
           <span class="countdown-title">
@@ -819,15 +803,13 @@
       </div>
     </div>
 
-    <!-- 行程分區導覽 (與上方同款大白卡片包覆) -->
     <div class="hero-card">
       <div class="section-title-label">
         <i class="fa-solid fa-map-location-dot" style="color: var(--color-sky);"></i>
-        景點行程分區導覽
+        探索景點
       </div>
 
       <div class="category-grid">
-        <!-- 分區大卡片 A-F -->
         <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')">
           <div class="cat-card-title">A. 松島 . 影島</div>
           <div class="cat-card-badge">8 個景點</div>
@@ -861,10 +843,8 @@
     </div>
   </div>
 
-  <!-- 半透明背景遮罩 -->
   <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
 
-  <!-- 底部彈出式頁面卡片 -->
   <div class="bottom-sheet" id="bottom-sheet">
     <div class="sheet-header" id="sheet-header">
       <div class="sheet-handle"></div>
@@ -876,27 +856,21 @@
     <div class="sheet-body" id="sheet-body"></div>
   </div>
 
-  <!-- 底部導覽列 -->
   <nav>
-    <button class="nav-item active" id="nav-schedule" onclick="goHome()">
+    <button class="nav-item active" id="nav-schedule" onclick="toggleNav('schedule')">
       <i class="fa-solid fa-compass"></i>
       行程導覽
     </button>
-    <button class="nav-item" id="nav-favorites" onclick="openFavoritesSheet()">
+    <button class="nav-item" id="nav-favorites" onclick="toggleNav('favorites')">
       <i class="fa-solid fa-heart"></i>
       收藏
     </button>
-    <button class="nav-item" onclick="goHome()">
-      <i class="fa-solid fa-house"></i>
-      HOME
-    </button>
-    <button class="nav-item" id="nav-expenses" onclick="openExpensesSheet()">
+    <button class="nav-item" id="nav-expenses" onclick="toggleNav('expenses')">
       <i class="fa-solid fa-wallet"></i>
       記帳小幫手
     </button>
   </nav>
 
-  <!-- JS 邏輯 -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -919,7 +893,6 @@
     let currentSheetType = null;
     let currentActiveCat = null;
 
-    /* 色彩映射字典：控制彈出視窗標題與 Google Map 按鈕同色系樣式 */
     const categoryThemeMap = {
       'A': { main: '#7FB9E6', bgLight: 'rgba(127, 185, 230, 0.15)', name: 'A. 松島 . 影島', code: 'SONGDO & YEONGDO' },
       'B': { main: '#FF8F45', bgLight: 'rgba(255, 143, 69, 0.15)', name: 'B. 市集 . 市場', code: 'MARKETS' },
@@ -992,7 +965,6 @@
     };
 
     const presetData = [
-      // A 松島.影島
       { id: 'A1', cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', story: '跨越海港的透明水晶纜車，飽覽松島海灣景色' },
       { id: 'A2', cat: 'A', name: 'Songdo Sky Park', type: 'spot', story: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋' },
       { id: 'A3', cat: 'A', name: '影島海女村', type: 'food', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯，坐在海邊大圓桶上享用現採海鮮' },
@@ -1002,7 +974,6 @@
       { id: 'A7', cat: 'A', name: 'ATRE Museum Busan', type: 'spot', story: '光影藝術沉浸式展覽，拍照質感極高' },
       { id: 'A8', cat: 'A', name: '甘川文化村', type: 'spot', story: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸' },
 
-      // B 市集.市場
       { id: 'B1', cat: 'B', name: '山青豬肉湯飯', type: 'food', story: '在地老字號湯飯，湯頭濃郁無腥味' },
       { id: 'B2', cat: 'B', name: '富平罐頭市場', type: 'spot', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞' },
       { id: 'B3', cat: 'B', name: '愉快的生拌牛肉', type: 'food', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵' },
@@ -1012,7 +983,6 @@
       { id: 'B7', cat: 'B', name: '札嘎其市場', type: 'spot', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理' },
       { id: 'B8', cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', story: '在地人偏愛的海鮮綜合市場，價格實惠' },
 
-      // C 西面.田浦
       { id: 'C1', cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', story: '廣安里名店分店，薄切豬肉片湯飯極讚' },
       { id: 'C2', cat: 'C', name: '安木 西面店', type: 'food', story: '精緻韓定食與特色熟成肉料理' },
       { id: 'C3', cat: 'C', name: '세든 365약국 藥局', type: 'spot', story: '西面便利藥局，常備藥與保健品採買好去處' },
@@ -1027,7 +997,6 @@
       { id: 'C12', cat: 'C', name: 'Strut Coffee', type: 'food', story: '極簡工業風咖啡廳，手沖與拿鐵表現極佳' },
       { id: 'C13', cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖' },
 
-      // D 廣安里
       { id: 'D1', cat: 'D', name: '五六島天空步道', type: 'spot', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖' },
       { id: 'D2', cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', story: '米其林推薦高質感湯飯，清爽極致' },
       { id: 'D3', cat: 'D', name: 'Momos Coffee - Dorunheon', type: 'food', story: '環境清幽雅緻' },
@@ -1040,7 +1009,6 @@
       { id: 'D10', cat: 'D', name: '고하순 광안직영점 燒肉', type: 'food', story: '廣安里直營極品熟成烤肉專賣店' },
       { id: 'D11', cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕' },
 
-      // E 海雲台
       { id: 'E1', cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳' },
       { id: 'E2', cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', story: '排隊名店：分為釜山式濃湯與密陽式清湯兩種風格' },
       { id: 'E3', cat: 'E', name: 'Busandang 紅豆麵包', type: 'food', story: '香甜濃郁的經典紅豆麵包' },
@@ -1052,7 +1020,6 @@
       { id: 'E9', cat: 'E', name: 'Miffy 專門店', type: 'spot', story: '可愛的米飛兔官方授權專賣店與選物' },
       { id: 'E10', cat: 'E', name: '水邊豬肉湯飯', type: 'food', story: '海雲台分店，濃郁順口的在地好滋味' },
 
-      // F 天空膠囊列車 & 海岸列車
       { id: 'F1', cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', story: '天空膠囊列車搭乘區間' },
       { id: 'F2', cat: 'F', name: 'TIDE Coffee Roasters', type: 'food', story: '青沙浦海景第一排的烘焙咖啡館' },
       { id: 'F3', cat: 'F', name: 'Edge 993', type: 'food', story: '擁有超棒頂樓露台，眺望海岸列車與海景' },
@@ -1070,7 +1037,6 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
-    /* 機械翻頁鐘動畫邏輯 */
     function updateClockUnit(unitName, value) {
       const formatted = String(value).padStart(2, '0');
       const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
@@ -1100,7 +1066,6 @@
       }
     }
 
-    // 倒數目標：2026/12/31 18:00
     function startSingleCountdown() {
       const targetDate = new Date(`2026-12-31T18:00:00`);
 
@@ -1145,7 +1110,29 @@
       currentActiveCat = null;
     };
 
-    /* 點擊分區大方塊彈出景點列表 */
+    /* 底部導覽列 Toggle 互動邏輯 */
+    window.toggleNav = function(type) {
+      if (type === 'schedule') {
+        if (currentSheetType !== null) {
+          closeSheet();
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      } else if (type === 'favorites') {
+        if (currentSheetType === 'favorites') {
+          closeSheet();
+        } else {
+          openFavoritesSheet();
+        }
+      } else if (type === 'expenses') {
+        if (currentSheetType === 'expenses') {
+          closeSheet();
+        } else {
+          openExpensesSheet();
+        }
+      }
+    };
+
     window.openCategorySheet = function(catCode, titleName) {
       currentSheetType = 'category';
       currentActiveCat = catCode;
@@ -1198,7 +1185,7 @@
       });
     }
 
-    window.openFavoritesSheet = function() {
+    function openFavoritesSheet() {
       currentSheetType = 'favorites';
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       document.getElementById('nav-favorites').classList.add('active');
@@ -1209,9 +1196,9 @@
 
       renderFavoritesSheetContent();
       showSheet();
-    };
+    }
 
-    window.openExpensesSheet = function() {
+    function openExpensesSheet() {
       currentSheetType = 'expenses';
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       document.getElementById('nav-expenses').classList.add('active');
@@ -1222,7 +1209,7 @@
 
       renderExpensesSheetContent();
       showSheet();
-    };
+    }
 
     function showSheet() {
       const sheet = document.getElementById('bottom-sheet');
@@ -1231,11 +1218,6 @@
       document.getElementById('sheet-overlay').classList.add('active');
       sheet.classList.add('active');
     }
-
-    window.goHome = function() {
-      closeSheet();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
 
     function renderFavoritesSheetContent() {
       const sheetBody = document.getElementById('sheet-body');
