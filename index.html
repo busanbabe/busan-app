@@ -159,12 +159,8 @@
       color: var(--color-sky);
     }
 
-    /* 集合倒數卡片：底色改為 #D8F382 */
-    .reunion-countdown-card {
-      background: #D8F382;
-      border-radius: 16px;
-      padding: 16px 12px;
-      border: 1.5px solid rgba(180, 210, 95, 0.8);
+    /* 集合倒數區塊：移除綠底，改為獨立區塊 */
+    .reunion-countdown-section {
       margin-bottom: 14px;
     }
 
@@ -175,7 +171,6 @@
       margin-bottom: 12px;
     }
 
-    /* 左上標題：文字改為與行程分區導覽標題一致的顏色 (var(--text-main)) */
     .countdown-title {
       font-weight: 700;
       font-size: 15px;
@@ -185,11 +180,17 @@
       gap: 6px;
     }
 
+    .countdown-title .title-heart-icon {
+      color: var(--color-pink);
+      font-size: 16px;
+    }
+
     /* 翻頁鐘樣式設定 */
     .flip-clock {
       display: flex;
       gap: 8px;
       justify-content: space-between;
+      width: 100%;
     }
 
     .flip-unit {
@@ -203,7 +204,7 @@
       position: relative;
       width: 100%;
       aspect-ratio: 0.82;
-      border-radius: 10px;
+      border-radius: 12px;
       background-color: var(--flip-bg);
       background-image: repeating-linear-gradient(
         -45deg,
@@ -245,7 +246,7 @@
       overflow: hidden;
       color: var(--flip-text);
       font-weight: 800;
-      font-size: clamp(26px, 7.5vw, 38px);
+      font-size: clamp(32px, 9vw, 46px);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
       display: flex;
       justify-content: center;
@@ -262,8 +263,8 @@
     .card-face.top {
       top: 0;
       align-items: flex-end;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
       border-bottom: 1px solid var(--flip-divider);
     }
 
@@ -272,8 +273,8 @@
     .card-face.bottom {
       bottom: 0;
       align-items: flex-start;
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
       border-top: 1px solid rgba(255, 255, 255, 0.25);
     }
 
@@ -322,13 +323,13 @@
       );
       color: var(--flip-text);
       font-weight: 800;
-      font-size: clamp(26px, 7.5vw, 38px);
+      font-size: clamp(32px, 9vw, 46px);
     }
 
     .flipper-face.front {
       align-items: flex-end;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
       border-bottom: 1px solid var(--flip-divider);
     }
     .flipper-face.front span { transform: translateY(50%); }
@@ -336,18 +337,18 @@
     .flipper-face.back {
       align-items: flex-start;
       transform: rotateX(180deg);
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
       border-top: 1px solid rgba(255, 255, 255, 0.25);
     }
     .flipper-face.back span { transform: translateY(-50%); }
 
     .unit-label {
       position: absolute;
-      bottom: 3px;
+      bottom: 4px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: clamp(9px, 2.3vw, 11px);
+      font-size: clamp(10px, 2.8vw, 13px);
       font-weight: 800;
       color: var(--flip-subtext);
       letter-spacing: 0.8px;
@@ -356,7 +357,7 @@
       text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
-    /* 歐巴&歐尼們按鈕 */
+    /* 明星級成員按鈕 */
     .members-bar-btn {
       width: 100%;
       background: #FFFFFF;
@@ -385,6 +386,7 @@
     .members-heart-icon {
       font-size: 16px;
       line-height: 1;
+      color: var(--color-pink);
     }
 
     .members-bar-title {
@@ -873,11 +875,11 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 歐巴歐尼集合倒數（翻頁鐘） -->
-      <div class="reunion-countdown-card">
+      <!-- 集合倒數區塊（移除大綠底，保留對齊與等比放大倒數方塊） -->
+      <div class="reunion-countdown-section">
         <div class="countdown-header">
           <span class="countdown-title">
-            <i class="fa-solid fa-heart-pulse" style="color: var(--color-pink);"></i>
+            <i class="fa-solid fa-heart title-heart-icon"></i>
             集合倒數
           </span>
         </div>
@@ -929,10 +931,10 @@
         </div>
       </div>
 
-      <!-- 歐巴&歐尼們按鈕 Bar -->
+      <!-- 明星級成員按鈕 Bar -->
       <button class="members-bar-btn" onclick="openMembersSheet()">
         <div class="members-bar-left">
-          <span class="members-heart-icon">♥</span>
+          <i class="fa-solid fa-heart members-heart-icon"></i>
           <span class="members-bar-title">明星級成員</span>
         </div>
         <div class="members-bar-right">
@@ -1289,6 +1291,7 @@
             <span class="member-tag">Kay / 古亭孫藝珍</span>
             <span class="member-tag">Jessie / 高雄全智賢</span>
             <span class="member-tag">Jase / 高雄馬東石</span>
+          </div>
         </div>
       `;
 
