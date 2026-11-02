@@ -159,7 +159,7 @@
       color: var(--color-sky);
     }
 
-    /* 集合倒數區塊：移除綠底，改為獨立區塊 */
+    /* 集合倒數區塊 */
     .reunion-countdown-section {
       margin-bottom: 14px;
     }
@@ -402,7 +402,7 @@
       font-size: 13px;
     }
 
-    /* 分區導覽大方塊網格 (純色滿版填滿 + 純白字) */
+    /* 分區導覽大方塊網格 */
     .section-title-label {
       font-size: 14px;
       font-weight: 700;
@@ -434,14 +434,13 @@
       position: relative;
       overflow: hidden;
       text-align: left;
-      color: #FFFFFF; /* 景點文字統一純白字 */
+      color: #FFFFFF;
     }
 
     .cat-card-btn:active {
       transform: scale(0.97);
     }
 
-    /* 方案一：夢幻珍珠白銀（微透奢華感）整合修改 */
     .cat-card-btn[data-cat="ALL"] { 
       background: linear-gradient(135deg, #FFFFFF 0%, #F0F4F8 100%); 
       border: 1.5px solid rgba(255, 255, 255, 0.9);
@@ -458,7 +457,6 @@
       color: #2C3E50;
     }
 
-    /* 各分區方塊滿版填滿底色 */
     .cat-card-btn[data-cat="A"] { background: var(--color-cat-a); }
     .cat-card-btn[data-cat="B"] { background: var(--color-cat-b); }
     .cat-card-btn[data-cat="C"] { background: var(--color-cat-c); }
@@ -497,42 +495,169 @@
       color: rgba(255, 255, 255, 0.9);
     }
 
-    /* 成員彈出視窗內部卡片 */
-    .members-container-modal {
+    /* 4張堆疊小卡片 Modal 專屬樣式 */
+    .crew-section-wrapper {
+      padding: 10px 4px 30px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      padding-top: 4px;
+      align-items: center;
+      user-select: none;
     }
 
-    .member-card {
+    .crew-subtitle-badge {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #2C3E50;
       background: #FFFFFF;
-      border-radius: 14px;
-      padding: 14px 16px;
+      border: 2.5px solid #2C3E50;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      box-shadow: 2px 2px 0px #2C3E50;
+    }
+
+    .stacked-cards-container {
+      position: relative;
+      width: 100%;
+      max-width: 330px;
+      height: 380px;
+      margin: 0 auto;
+    }
+
+    .stacked-crew-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 180px;
+      border-radius: 24px;
+      border: 3px solid #2C3E50;
+      padding: 16px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-origin: center center;
+    }
+
+    /* 卡片配色組合 */
+    .stacked-crew-card.card-1 { background-color: #C1E1C1; } /* 嫩白綠 */
+    .stacked-crew-card.card-2 { background-color: #F8B4C9; } /* 甜心粉 */
+    .stacked-crew-card.card-3 { background-color: #A3C9F8; } /* 柔粉藍 */
+    .stacked-crew-card.card-4 { background-color: #FEE49A; } /* 奶油黃 */
+
+    /* 預設堆疊位置 (層層重疊效果) */
+    .stacked-cards-container:not(.expanded) .card-1 {
+      top: 0px;
+      z-index: 4;
+      transform: scale(1) rotate(-1.5deg);
+    }
+    .stacked-cards-container:not(.expanded) .card-2 {
+      top: 55px;
+      z-index: 3;
+      transform: scale(0.97) rotate(1.8deg);
+    }
+    .stacked-cards-container:not(.expanded) .card-3 {
+      top: 110px;
+      z-index: 2;
+      transform: scale(0.94) rotate(-2deg);
+    }
+    .stacked-cards-container:not(.expanded) .card-4 {
+      top: 165px;
+      z-index: 1;
+      transform: scale(0.91) rotate(1.2deg);
+    }
+
+    /* 點擊展開後的散開位置 */
+    .stacked-cards-container.expanded .stacked-crew-card {
+      position: relative;
+      top: 0 !important;
+      margin-bottom: 14px;
+      transform: scale(0.98) rotate(0deg) !important;
+      z-index: 1 !important;
+      opacity: 0.75;
+    }
+
+    /* 被選中的卡片獨立突出展示 */
+    .stacked-cards-container.expanded .stacked-crew-card.active-selected {
+      transform: scale(1.03) rotate(0deg) !important;
+      z-index: 10 !important;
+      opacity: 1 !important;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+    }
+
+    .crew-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .crew-card-title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .crew-name-en {
+      font-size: 16px;
+      font-weight: 800;
+      color: #2C3E50;
+      letter-spacing: 0.5px;
+    }
+
+    .crew-name-cn {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2C3E50;
+      margin-top: 2px;
+      opacity: 0.9;
+    }
+
+    .crew-avatar-doodle {
+      width: 64px;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 2.5px solid #2C3E50;
+      border-radius: 50%;
       display: flex;
       align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 2px 2px 0px #2C3E50;
+    }
+
+    .crew-card-footer {
+      display: flex;
       justify-content: space-between;
-      border-left: 5px solid var(--color-matcha);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      align-items: center;
     }
 
-    .member-card.oppa { border-left-color: var(--color-lavender); }
-
-    .member-tag {
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 10px;
+    .crew-card-tag {
+      font-size: 10px;
+      font-weight: 800;
+      color: #2C3E50;
+      background: #FFFFFF;
+      border: 1.5px solid #2C3E50;
+      padding: 3px 8px;
       border-radius: 10px;
-      color: #FFFFFF;
-      background: var(--color-matcha);
     }
 
-    .member-card.oppa .member-tag { background: var(--color-lavender); }
+    .reset-stack-hint {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 20px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+    }
 
-    .member-name {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-main);
+    .reset-stack-hint.show {
+      display: flex;
     }
 
     /* 景點卡片與按鈕 (彈出視窗內) */
@@ -592,7 +717,6 @@
       border-radius: 10px;
     }
 
-    /* Google Maps 按鈕方案 B（淺色底 + 同色系主色字） */
     .map-btn {
       display: inline-flex;
       align-items: center;
@@ -875,7 +999,7 @@
         <div class="weather-temp" id="weather-temp">--°C</div>
       </div>
 
-      <!-- 集合倒數區塊（移除大綠底，保留對齊與等比放大倒數方塊） -->
+      <!-- 集合倒數區塊 -->
       <div class="reunion-countdown-section">
         <div class="countdown-header">
           <span class="countdown-title">
@@ -950,7 +1074,6 @@
     </div>
 
     <div class="category-grid">
-      <!-- 全幅跨頁大按鈕（套用方案一：珍珠白銀奢華質感） -->
       <button class="cat-card-btn full-width" data-cat="ALL" onclick="openCategorySheet('ALL', '全部景點總覽')">
         <div>
           <div class="cat-card-title">全部景點總覽</div>
@@ -959,7 +1082,6 @@
         <div class="cat-card-arrow"><i class="fa-solid fa-chevron-right"></i></div>
       </button>
 
-      <!-- 分區大卡片 A-F（純色滿版填滿 + 純白字） -->
       <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')">
         <div class="cat-card-title">A. 松島 . 影島</div>
         <div class="cat-card-badge">8 個景點</div>
@@ -1050,7 +1172,6 @@
     let currentSheetType = null;
     let currentActiveCat = null;
 
-    /* 色彩映射字典：控制彈出視窗標題與 Google Map 按鈕同色系樣式 */
     const categoryThemeMap = {
       'A': { main: '#7FB9E6', bgLight: 'rgba(127, 185, 230, 0.15)', name: 'A. 松島 . 影島', code: 'SONGDO & YEONGDO' },
       'B': { main: '#FF8F45', bgLight: 'rgba(255, 143, 69, 0.15)', name: 'B. 市集 . 市場', code: 'MARKETS' },
@@ -1123,7 +1244,6 @@
     };
 
     const presetData = [
-      // A 松島.影島
       { id: 'A1', cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', story: '跨越海港的透明水晶纜車，飽覽松島海灣景色' },
       { id: 'A2', cat: 'A', name: 'Songdo Sky Park', type: 'spot', story: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋' },
       { id: 'A3', cat: 'A', name: '影島海女村', type: 'food', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯，坐在海邊大圓桶上享用現採海鮮' },
@@ -1133,7 +1253,6 @@
       { id: 'A7', cat: 'A', name: 'ATRE Museum Busan', type: 'spot', story: '光影藝術沉浸式展覽，拍照質感極高' },
       { id: 'A8', cat: 'A', name: '甘川文化村', type: 'spot', story: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸' },
 
-      // B 市集.市場
       { id: 'B1', cat: 'B', name: '山青豬肉湯飯', type: 'food', story: '在地老字號湯飯，湯頭濃郁無腥味' },
       { id: 'B2', cat: 'B', name: '富平罐頭市場', type: 'spot', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞' },
       { id: 'B3', cat: 'B', name: '愉快的生拌牛肉', type: 'food', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵' },
@@ -1143,7 +1262,6 @@
       { id: 'B7', cat: 'B', name: '札嘎其市場', type: 'spot', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理' },
       { id: 'B8', cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', story: '在地人偏愛的海鮮綜合市場，價格實惠' },
 
-      // C 西面.田浦
       { id: 'C1', cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', story: '廣安里名店分店，薄切豬肉片湯飯極讚' },
       { id: 'C2', cat: 'C', name: '安木 西面店', type: 'food', story: '精緻韓定食與特色熟成肉料理' },
       { id: 'C3', cat: 'C', name: '세든 365약국 藥局', type: 'spot', story: '西面便利藥局，常備藥與保健品採買好去處' },
@@ -1158,7 +1276,6 @@
       { id: 'C12', cat: 'C', name: 'Strut Coffee', type: 'food', story: '極簡工業風咖啡廳，手沖與拿鐵表現極佳' },
       { id: 'C13', cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖' },
 
-      // D 廣安里
       { id: 'D1', cat: 'D', name: '五六島天空步道', type: 'spot', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖' },
       { id: 'D2', cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', story: '米其林推薦高質感湯飯，清爽極致' },
       { id: 'D3', cat: 'D', name: 'Momos Coffee - Dorunheon', type: 'food', story: '環境清幽雅緻' },
@@ -1171,7 +1288,6 @@
       { id: 'D10', cat: 'D', name: '고하순 광안직영점 燒肉', type: 'food', story: '廣安里直營極品熟成烤肉專賣店' },
       { id: 'D11', cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕' },
 
-      // E 海雲台
       { id: 'E1', cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳' },
       { id: 'E2', cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', story: '排隊名店：分為釜山式濃湯與密陽式清湯兩種風格' },
       { id: 'E3', cat: 'E', name: 'Busandang 紅豆麵包', type: 'food', story: '香甜濃郁的經典紅豆麵包' },
@@ -1183,7 +1299,6 @@
       { id: 'E9', cat: 'E', name: 'Miffy 專門店', type: 'spot', story: '可愛的米飛兔官方授權專賣店與選物' },
       { id: 'E10', cat: 'E', name: '水邊豬肉湯飯', type: 'food', story: '海雲台分店，濃郁順口的在地好滋味' },
 
-      // F 天空膠囊列車 & 海岸列車
       { id: 'F1', cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', story: '天空膠囊列車搭乘區間' },
       { id: 'F2', cat: 'F', name: 'TIDE Coffee Roasters', type: 'food', story: '青沙浦海景第一排的烘焙咖啡館' },
       { id: 'F3', cat: 'F', name: 'Edge 993', type: 'food', story: '擁有超棒頂樓露台，眺望海岸列車與海景' },
@@ -1201,7 +1316,6 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
-    /* 機械翻頁鐘動畫邏輯 */
     function updateClockUnit(unitName, value) {
       const formatted = String(value).padStart(2, '0');
       const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
@@ -1231,7 +1345,6 @@
       }
     }
 
-    // 倒數目標：2026/12/31 18:00
     function startSingleCountdown() {
       const targetDate = new Date(`2026-12-31T18:00:00`);
 
@@ -1276,7 +1389,7 @@
       currentActiveCat = null;
     };
 
-    /* 開啟成員彈出視窗 */
+    /* 4 張小卡堆疊與點擊散開邏輯 */
     window.openMembersSheet = function() {
       currentSheetType = 'members';
       const titleElem = document.getElementById('sheet-title');
@@ -1285,12 +1398,73 @@
       
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = `
-        <div class="members-container-modal">
-          <div class="member-card">
-            <span class="member-tag">Jewel / 蘆洲宋慧喬</span>
-            <span class="member-tag">Kay / 古亭孫藝珍</span>
-            <span class="member-tag">Jessie / 高雄全智賢</span>
-            <span class="member-tag">Jase / 高雄馬東石</span>
+        <div class="crew-section-wrapper">
+          <div class="crew-subtitle-badge">OUR CREW</div>
+
+          <div class="stacked-cards-container" id="crew-stack">
+            <!-- 卡片 1: Jewel -->
+            <div class="stacked-crew-card card-1" onclick="handleCrewCardClick(this)">
+              <div class="crew-card-header">
+                <div class="crew-card-title-group">
+                  <span class="crew-name-en">Jewel</span>
+                  <span class="crew-name-cn">蘆洲宋慧喬</span>
+                </div>
+                <div class="crew-avatar-doodle">💖</div>
+              </div>
+              <div class="crew-card-footer">
+                <span class="crew-card-tag">VIP CREW</span>
+                <i class="fa-solid fa-sparkles" style="color:#2C3E50; font-size:12px;"></i>
+              </div>
+            </div>
+
+            <!-- 卡片 2: Kay -->
+            <div class="stacked-crew-card card-2" onclick="handleCrewCardClick(this)">
+              <div class="crew-card-header">
+                <div class="crew-card-title-group">
+                  <span class="crew-name-en">Kay</span>
+                  <span class="crew-name-cn">古亭孫藝珍</span>
+                </div>
+                <div class="crew-avatar-doodle">🎀</div>
+              </div>
+              <div class="crew-card-footer">
+                <span class="crew-card-tag">VIP CREW</span>
+                <i class="fa-solid fa-star" style="color:#2C3E50; font-size:12px;"></i>
+              </div>
+            </div>
+
+            <!-- 卡片 3: Jessie -->
+            <div class="stacked-crew-card card-3" onclick="handleCrewCardClick(this)">
+              <div class="crew-card-header">
+                <div class="crew-card-title-group">
+                  <span class="crew-name-en">Jessie</span>
+                  <span class="crew-name-cn">高雄全智賢</span>
+                </div>
+                <div class="crew-avatar-doodle">✨</div>
+              </div>
+              <div class="crew-card-footer">
+                <span class="crew-card-tag">VIP CREW</span>
+                <i class="fa-solid fa-heart" style="color:#2C3E50; font-size:12px;"></i>
+              </div>
+            </div>
+
+            <!-- 卡片 4: Jase -->
+            <div class="stacked-crew-card card-4" onclick="handleCrewCardClick(this)">
+              <div class="crew-card-header">
+                <div class="crew-card-title-group">
+                  <span class="crew-name-en">Jase</span>
+                  <span class="crew-name-cn">高雄馬東石</span>
+                </div>
+                <div class="crew-avatar-doodle">🕶️</div>
+              </div>
+              <div class="crew-card-footer">
+                <span class="crew-card-tag">PROTECTOR</span>
+                <i class="fa-solid fa-shield-halved" style="color:#2C3E50; font-size:12px;"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="reset-stack-hint" id="reset-stack-btn" onclick="resetCrewStack()">
+            <i class="fa-solid fa-rotate-left"></i> 重置卡片堆疊
           </div>
         </div>
       `;
@@ -1298,7 +1472,30 @@
       showSheet();
     };
 
-    /* 點擊分區大方塊彈出景點列表 (套用同色系標題與按鈕配色) */
+    window.handleCrewCardClick = function(cardElem) {
+      const container = document.getElementById('crew-stack');
+      const resetBtn = document.getElementById('reset-stack-btn');
+      
+      const isAlreadySelected = cardElem.classList.contains('active-selected');
+
+      if (isAlreadySelected) {
+        resetCrewStack();
+      } else {
+        container.classList.add('expanded');
+        document.querySelectorAll('.stacked-crew-card').forEach(c => c.classList.remove('active-selected'));
+        cardElem.classList.add('active-selected');
+        if (resetBtn) resetBtn.classList.add('show');
+      }
+    };
+
+    window.resetCrewStack = function() {
+      const container = document.getElementById('crew-stack');
+      const resetBtn = document.getElementById('reset-stack-btn');
+      if (container) container.classList.remove('expanded');
+      document.querySelectorAll('.stacked-crew-card').forEach(c => c.classList.remove('active-selected'));
+      if (resetBtn) resetBtn.classList.remove('show');
+    };
+
     window.openCategorySheet = function(catCode, titleName) {
       currentSheetType = 'category';
       currentActiveCat = catCode;
@@ -1306,7 +1503,6 @@
       const theme = categoryThemeMap[catCode] || categoryThemeMap['ALL'];
       const titleElem = document.getElementById('sheet-title');
       
-      // 標題與英文副標同色系
       titleElem.innerHTML = `
         <div style="text-align: center; color: ${theme.main};">
           <div style="font-size: 16px; font-weight: 700;">${titleName}</div>
@@ -1333,7 +1529,6 @@
         card.className = `item-card cat-${item.cat}`;
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}`;
 
-        // 取得景點所屬的同色系配色方案 (方案 B: 淺底 + 同色字)
         const spotTheme = categoryThemeMap[item.cat] || categoryThemeMap['ALL'];
 
         card.innerHTML = `
