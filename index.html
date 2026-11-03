@@ -11,38 +11,11 @@
   <meta name="apple-mobile-web-app-title" content="Hello Busan">
   <link rel="apple-touch-icon" href="cover.PNG">
   
-  <!-- 引進 Google Fonts Noto Serif & Tailwind CSS & FontAwesome & SortableJS -->
+  <!-- 引進 Google Fonts Noto Serif -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/Sortable@1.15.0/Sortable.min.js"></script>
-
-  <script>
-      tailwind.config = {
-          theme: {
-              extend: {
-                  colors: {
-                      cream: '#FBF9F5',
-                      'cream-card': '#FFFFFF',
-                      'warm-bg': '#F3EDE2',
-                      'warm-dark': '#4A3E3D',
-                      'warm-muted': '#8C7A6B',
-                      'warm-border': '#E8DFC8',
-                      'gold-highlight': '#D4A359',
-
-                      'color-a': '#7FB9E6',
-                      'color-b': '#FF8F45',
-                      'color-c': '#F4D77A',
-                      'color-d': '#D6BEEA',
-                      'color-e': '#F98BA9',
-                      'color-f': '#B7C96A',
-                  }
-              }
-          }
-      }
-  </script>
 
   <style>
     :root {
@@ -430,6 +403,18 @@
       line-height: 1.3;
     }
 
+    .cat-card-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.22);
+      padding: 3px 8px;
+      border-radius: 10px;
+      width: fit-content;
+      margin-top: 6px;
+      backdrop-filter: blur(4px);
+    }
+
     .item-card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(6px);
@@ -440,6 +425,14 @@
       border: 1px solid var(--border-color);
       border-left: 5px solid var(--expense-btn-color);
     }
+
+    .item-card.cat-A { border-left-color: var(--color-cat-a); }
+    .item-card.cat-B { border-left-color: var(--color-cat-b); }
+    .item-card.cat-C { border-left-color: var(--color-cat-c); }
+    .item-card.cat-D { border-left-color: var(--color-cat-d); }
+    .item-card.cat-E { border-left-color: var(--color-cat-e); }
+    .item-card.cat-F { border-left-color: var(--color-cat-f); }
+    .item-card.expense-item-card { border-left-color: var(--expense-btn-color); }
 
     .card-top {
       display: flex;
@@ -496,6 +489,121 @@
 
     .map-btn:active { opacity: 0.8; transform: scale(0.98); }
 
+    .add-form {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .add-form input, .add-form select {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 14px;
+      background: #FAF7F4;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .add-form input:focus, .add-form select:focus { border-color: var(--expense-theme); }
+
+    .form-row-inline {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .form-row-inline select {
+      flex: 1;
+      margin-bottom: 0;
+    }
+
+    .form-row-inline input {
+      flex: 2;
+      margin-bottom: 0;
+    }
+
+    .payer-section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .payer-select-container {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      width: 100%;
+    }
+
+    .payer-chip {
+      flex: 1;
+      padding: 6px 4px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: #FAF7F4;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .payer-chip.selected {
+      background: var(--expense-theme);
+      color: #FFFFFF;
+      border-color: var(--expense-theme);
+    }
+
+    .select-all-btn {
+      font-size: 11px;
+      color: var(--expense-theme);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      padding: 2px 4px;
+    }
+
+    .twd-hint {
+      font-size: 12px;
+      color: var(--expense-btn-color);
+      margin-bottom: 10px;
+      font-weight: 600;
+      padding-left: 2px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--expense-btn-color);
+      color: white;
+      border: none;
+      padding: 11px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn-submit:active { opacity: 0.9; }
+
     .dashboard-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -534,6 +642,37 @@
       font-size: 11px;
       opacity: 0.9;
       margin-top: 2px;
+    }
+
+    .expense-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      justify-content: flex-end;
+    }
+
+    .expense-btn {
+      padding: 5px 10px;
+      font-size: 11px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #FAF7F4;
+      cursor: pointer;
+      color: var(--text-sub);
+      transition: all 0.2s;
+    }
+
+    .expense-btn.delete {
+      color: var(--color-pink);
+      border-color: rgba(249, 139, 169, 0.3);
+      background: #FFF9F8;
+    }
+
+    .empty-fav-msg {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--text-sub);
+      font-size: 14px;
     }
 
     .sheet-overlay {
@@ -656,59 +795,23 @@
       margin-bottom: 3px;
     }
 
-    .nav-item.active-schedule { color: var(--color-sky); font-weight: 700; }
-    .nav-item.active-itinerary { color: #D4A359; font-weight: 700; }
-    .nav-item.active-favorites { color: var(--color-pink); font-weight: 700; }
-    .nav-item.active-expenses { color: var(--expense-theme); font-weight: 700; }
-
-    /* ================= 新增：第二個頁面（行程導航）滑動檢視容器樣式 ================= */
-    #itinerary-view-page {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #FBF9F5;
-      z-index: 400;
-      transform: translateX(100%);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
+    .nav-item.active-schedule {
+      color: var(--color-sky);
+      font-weight: 700;
     }
-    #itinerary-view-page.active {
-      transform: translateX(0);
+    .nav-item.active-favorites {
+      color: var(--color-pink);
+      font-weight: 700;
     }
-
-    /* 行程頁面內部的專屬樣式 */
-    .timeline-line {
-        position: absolute;
-        left: 58px;
-        top: 24px;
-        bottom: 24px;
-        width: 2px;
-        background-color: #E8DFC8;
-        z-index: 0;
+    .nav-item.active-expenses {
+      color: var(--expense-theme);
+      font-weight: 700;
     }
-    .highlight-card {
-        border: 2px solid #D4A359 !important;
-        background: linear-gradient(135deg, #FFFDF7 0%, #FFF8EC 100%) !important;
-        box-shadow: 0 4px 15px rgba(212, 163, 89, 0.2);
-    }
-    .category-badge {
-        font-size: 0.65rem;
-        letter-spacing: 0.08em;
-        font-weight: 700;
-    }
-    .drag-handle { touch-action: none; cursor: grab; }
-    .drag-handle:active { cursor: grabbing; }
-    .sortable-ghost { opacity: 0.3; background: #E8DFC8 !important; transform: scale(0.98); }
-    .sortable-chosen { box-shadow: 0 10px 25px rgba(74, 62, 61, 0.2) !important; transform: scale(1.02); z-index: 30; }
   </style>
 </head>
-<body class="max-w-md mx-auto min-h-screen pb-24 relative shadow-2xl bg-cream border-x border-warm-border/40 select-none">
+<body>
 
-  <!-- ================= 主頁面內容 ================= -->
+  <!-- 頂部 Header：無背景色塊，純文字風格 -->
   <header>
     <div class="header-title-text">Hello Busan</div>
     <div class="new-year-badge">
@@ -793,18 +896,23 @@
         <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')">
           <div class="cat-card-title">A. 松島 . 影島</div>
         </button>
+
         <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')">
           <div class="cat-card-title">B. 市集 . 市場</div>
         </button>
+
         <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')">
           <div class="cat-card-title">C. 西面 . 田浦</div>
         </button>
+
         <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')">
           <div class="cat-card-title">D. 廣安里</div>
         </button>
+
         <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')">
           <div class="cat-card-title">E. 海雲台</div>
         </button>
+
         <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')">
           <div class="cat-card-title">F. 膠囊 & 海岸列車</div>
         </button>
@@ -814,7 +922,6 @@
 
   <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
 
-  <!-- 主頁面的 Bottom Sheet -->
   <div class="bottom-sheet" id="bottom-sheet">
     <div class="sheet-header" id="sheet-header">
       <div class="sheet-handle"></div>
@@ -822,134 +929,13 @@
         <div class="sheet-title" id="sheet-title">標題</div>
       </div>
     </div>
+    
     <div class="sheet-body" id="sheet-body"></div>
   </div>
 
-
-  <!-- ================= 第二個新頁面：行程導航 (以向左滑動方式呈現) ================= -->
-  <div id="itinerary-view-page" class="max-w-md mx-auto shadow-2xl">
-    <!-- Header Section -->
-    <header class="sticky top-0 z-20 bg-[#FBF9F5]/95 backdrop-blur-md pt-3 pb-3 px-5 border-b border-[#E8DFC8]/50 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-            <button onclick="closeItineraryPage()" class="w-8 h-8 rounded-full bg-[#F3EDE2] text-[#4A3E3D] flex items-center justify-center hover:bg-[#E8DFC8] transition">
-                <i class="fa-solid fa-chevron-left text-xs"></i>
-            </button>
-            <h2 class="font-bold text-[#4A3E3D] text-base">釜山行程導航</h2>
-        </div>
-        <span class="text-xs text-[#8C7A6B] font-medium">12/29 - 1/3</span>
-    </header>
-
-    <!-- Horizontal Calendar Bar -->
-    <div class="sticky top-[53px] z-25 bg-[#FBF9F5]/95 backdrop-blur-md py-2 border-b border-[#E8DFC8]/40">
-        <div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar px-5" id="dateBar">
-            <!-- Dynamically populated dates -->
-        </div>
-    </div>
-
-    <!-- Subtitle Banner -->
-    <div id="daySummaryBar" class="px-5 py-2.5 bg-[#F3EDE2]/40 text-xs text-[#8C7A6B] flex justify-between items-center border-b border-[#E8DFC8]/30">
-        <span id="currentDayText" class="font-bold text-[#4A3E3D] text-sm"><i class="fa-regular fa-calendar-check mr-1.5 text-[#D4A359]"></i>DAY 1</span>
-        <span id="itemCountBadge" class="bg-[#E8DFC8]/60 text-[#4A3E3D] text-[10px] font-bold px-2 py-0.5 rounded-full">0 個行程</span>
-    </div>
-
-    <!-- Main Itinerary Timeline Area -->
-    <main class="px-4 py-4 relative min-h-[500px] pb-24">
-        <div class="timeline-line"></div>
-        <div id="itineraryContainer" class="space-y-4 relative z-10"></div>
-        
-        <!-- Empty State -->
-        <div id="emptyState" class="hidden py-16 text-center text-[#8C7A6B]">
-            <i class="fa-solid fa-compass-drafting text-4xl mb-3 text-[#E8DFC8]"></i>
-            <p class="text-sm font-medium">今天還沒有安排行程</p>
-            <p class="text-xs text-[#8C7A6B]/80 mt-1">點擊下方 ➕ 新增景點行程來加入</p>
-        </div>
-    </main>
-
-    <!-- Floating Add Button -->
-    <div class="fixed bottom-16 left-0 right-0 max-w-md mx-auto px-5 z-30 pointer-events-none flex justify-center">
-        <button onclick="openAddModal()" class="pointer-events-auto bg-[#4A3E3D] text-[#FBF9F5] font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2 hover:bg-black active:scale-95 transition-all text-xs border border-[#E8DFC8]">
-            <i class="fa-solid fa-plus text-sm"></i>
-            <span>新增景點行程</span>
-        </button>
-    </div>
-  </div>
-
-  <!-- 行程頁面專屬的 Modal (刪除、新增景點、詳情等) -->
-  <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-      <div class="modal-overlay fixed inset-0 bg-black/50 backdrop-blur-sm" onclick="closeDeleteModal()"></div>
-      <div class="bg-[#FBF9F5] w-full max-w-xs rounded-2xl z-10 p-5 shadow-2xl border border-[#E8DFC8] text-center space-y-4">
-          <div class="w-12 h-12 rounded-full bg-red-100 text-red-500 flex items-center justify-center mx-auto text-lg"><i class="fa-solid fa-trash-can"></i></div>
-          <div>
-              <h4 class="font-bold text-[#4A3E3D] text-base">確認刪除行程</h4>
-              <p id="deleteConfirmText" class="text-xs text-[#8C7A6B] mt-1 leading-relaxed">確定要刪除「此行程」嗎？</p>
-          </div>
-          <div class="flex gap-2 pt-2">
-              <button onclick="closeDeleteModal()" class="flex-1 py-2.5 rounded-xl border border-[#E8DFC8] text-[#4A3E3D] font-bold text-xs bg-white">取消</button>
-              <button id="btnConfirmDelete" class="flex-1 py-2.5 rounded-xl text-white font-bold text-xs bg-red-500 shadow-sm">確定刪除</button>
-          </div>
-      </div>
-  </div>
-
-  <div id="addModal" class="fixed inset-0 z-[450] hidden flex items-end sm:items-center justify-center">
-      <div class="modal-overlay fixed inset-0 bg-black/40 backdrop-blur-sm" onclick="closeAddModal()"></div>
-      <div class="bg-[#FBF9F5] w-full max-w-md rounded-t-3xl sm:rounded-2xl z-10 max-h-[85vh] flex flex-col shadow-2xl border border-[#E8DFC8] overflow-hidden">
-          <div class="p-4 border-b border-[#E8DFC8] flex justify-between items-center bg-[#FBF9F5]">
-              <div>
-                  <h3 class="font-bold text-[#4A3E3D] text-base">選擇景點加入行程</h3>
-                  <p class="text-xs text-[#8C7A6B]">點擊「加入」可連續選擇多個景點</p>
-              </div>
-              <button onclick="closeAddModal()" class="w-8 h-8 rounded-full bg-[#F3EDE2] text-[#4A3E3D] flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-          </div>
-          <div class="px-4 py-2.5 bg-[#F3EDE2]/30 border-b border-[#E8DFC8]/50">
-              <div class="flex gap-2">
-                  <input type="text" id="customSpotName" placeholder="自訂地點名稱..." class="flex-1 text-xs px-3 py-2 rounded-xl border border-[#E8DFC8] bg-white focus:outline-none">
-                  <select id="customSpotCat" class="text-xs px-2 py-2 rounded-xl border border-[#E8DFC8] bg-white text-[#4A3E3D] font-medium">
-                      <option value="SIGHTSEEING">景點</option><option value="FOOD">美食</option><option value="TRANSPORT">交通</option><option value="HOTEL">住宿</option><option value="SPECIAL EXPERIENCE">體驗</option>
-                  </select>
-                  <button onclick="addCustomSpot()" class="bg-[#4A3E3D] text-white text-xs px-3.5 py-2 rounded-xl font-bold">新增</button>
-              </div>
-          </div>
-          <div class="flex overflow-x-auto no-scrollbar border-b border-[#E8DFC8] bg-[#FBF9F5] px-3 py-2 gap-1.5" id="areaTabs">
-              <button onclick="switchAreaTab('A')" id="tab-A" class="area-tab border text-xs px-3 py-1.5 rounded-full whitespace-nowrap font-medium transition shadow-sm">A - 松島.影島</button>
-              <button onclick="switchAreaTab('B')" id="tab-B" class="area-tab border text-xs px-3 py-1.5 rounded-full whitespace-nowrap font-medium transition shadow-sm">B - 市集.市場</button>
-              <button onclick="switchAreaTab('C')" id="tab-C" class="area-tab border text-xs px-3 py-1.5 rounded-full whitespace-nowrap font-medium transition shadow-sm">C - 西面.田浦</button>
-              <button onclick="switchAreaTab('D')" id="tab-D" class="area-tab border text-xs px-3 py-1.5 rounded-full whitespace-nowrap font-medium transition shadow-sm">D - 廣安里</button>
-              <button onclick="switchAreaTab('E')" id="tab-E" class="area-tab border text-xs px-3 py-1.5 rounded-full whitespace-nowrap font-medium transition shadow-sm">E - 海雲台</button>
-              <button onclick="switchAreaTab('F')" id="tab-F" class="area-tab border text-xs px-3 py-1.5 rounded-full whitespace-nowrap font-medium transition shadow-sm">F - 膠囊 & 海岸列車</button>
-          </div>
-          <div id="presetSpotsList" class="p-4 overflow-y-auto space-y-2.5 flex-1 max-h-[50vh]"></div>
-      </div>
-  </div>
-
-  <div id="detailSheet" class="fixed inset-0 z-[500] hidden">
-      <div class="modal-overlay fixed inset-0 bg-black/50 backdrop-blur-sm" onclick="closeDetailSheet()"></div>
-      <div class="bottom-sheet hidden-sheet fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#FBF9F5] rounded-t-3xl border-t border-[#E8DFC8] shadow-2xl max-h-[85vh] flex flex-col overflow-hidden z-10">
-          <div class="flex justify-between items-center px-6 pt-3 pb-1">
-              <div class="w-12 h-1.5 bg-[#E8DFC8] rounded-full mx-auto"></div>
-              <button onclick="closeDetailSheet()" class="w-7 h-7 rounded-full bg-[#F3EDE2] text-[#4A3E3D] flex items-center justify-center text-xs"><i class="fa-solid fa-xmark"></i></button>
-          </div>
-          <div class="px-6 pb-24 overflow-y-auto space-y-5" id="detailSheetContent"></div>
-          <div class="absolute bottom-0 left-0 right-0 bg-[#FBF9F5]/95 backdrop-blur-sm p-4 border-t border-[#E8DFC8]/60 flex gap-3 z-20">
-              <a id="btnNaverMap" target="_blank" rel="noopener noreferrer" href="#" class="flex-1 bg-[#03C75A] text-white font-bold py-3.5 px-3 rounded-xl text-center text-xs flex items-center justify-center gap-2 shadow-sm">NAVER MAP</a>
-              <a id="btnGoogleMap" target="_blank" rel="noopener noreferrer" href="#" class="flex-1 bg-white text-[#4A3E3D] border border-[#E8DFC8] font-bold py-3.5 px-3 rounded-xl text-center text-xs flex items-center justify-center gap-2 shadow-sm">Google Map</a>
-          </div>
-      </div>
-  </div>
-
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-[600] bg-[#4A3E3D] text-[#FBF9F5] text-xs px-4 py-2.5 rounded-full shadow-lg opacity-0 transition-opacity pointer-events-none flex items-center gap-2">
-      <i class="fa-solid fa-circle-check text-[#D4A359]"></i>
-      <span id="toastMsg">操作成功</span>
-  </div>
-
-  <!-- 底部導覽列 -->
   <nav>
     <button class="nav-item active-schedule" id="nav-schedule" onclick="toggleNav('schedule')">
       <i class="fa-solid fa-compass"></i>
-      首頁導覽
-    </button>
-    <button class="nav-item" id="nav-itinerary" onclick="toggleNav('itinerary')">
-      <i class="fa-solid fa-calendar-days"></i>
       行程導覽
     </button>
     <button class="nav-item" id="nav-favorites" onclick="toggleNav('favorites')">
@@ -962,7 +948,6 @@
     </button>
   </nav>
 
-  <!-- Firebase & 主邏輯 Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -1007,7 +992,12 @@
           if(rateSub) rateSub.innerText = `1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW`;
           if (currentSheetType === 'expenses') renderExpensesUI();
         }
-      } catch (err) {}
+      } catch (err) {
+        const rateMain = document.getElementById('rate-main-val');
+        const rateSub = document.getElementById('rate-sub-val');
+        if(rateMain) rateMain.innerText = EXCHANGE_RATE.toFixed(2);
+        if(rateSub) rateSub.innerText = `1 TWD ≈ ${EXCHANGE_RATE} KRW`;
+      }
     }
     fetchLiveExchangeRate();
 
@@ -1134,9 +1124,11 @@
       if (currentText !== formatted) {
         frontSpan.textContent = currentText;
         backSpan.textContent = formatted;
+        
         flipper.classList.remove('flipping');
         void flipper.offsetWidth;
         flipper.classList.add('flipping');
+
         topSpan.textContent = formatted;
         setTimeout(() => {
           bottomSpan.textContent = formatted;
@@ -1147,13 +1139,19 @@
 
     function startSingleCountdown() {
       const targetDate = new Date(`2026-12-31T18:00:00`);
+
       function tick() {
         const now = new Date();
         const diff = targetDate - now;
+
         if (diff <= 0) {
-          updateClockUnit('days', 0); updateClockUnit('hours', 0); updateClockUnit('minutes', 0); updateClockUnit('seconds', 0);
+          updateClockUnit('days', 0);
+          updateClockUnit('hours', 0);
+          updateClockUnit('minutes', 0);
+          updateClockUnit('seconds', 0);
           return;
         }
+
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const mins = Math.floor((diff / 1000 / 60) % 60);
@@ -1164,6 +1162,7 @@
         updateClockUnit('minutes', mins);
         updateClockUnit('seconds', secs);
       }
+
       setInterval(tick, 1000);
       tick();
     }
@@ -1171,48 +1170,45 @@
 
     window.closeSheet = function() {
       const sheet = document.getElementById('bottom-sheet');
+      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
       sheet.style.transform = 'translateY(105%)';
       document.getElementById('sheet-overlay').classList.remove('active');
       sheet.classList.remove('active');
+      
+      document.querySelectorAll('.nav-item').forEach(el => {
+        el.className = 'nav-item';
+      });
+      document.getElementById('nav-schedule').classList.add('active-schedule');
       currentSheetType = null;
+      currentActiveCat = null;
     };
 
-    // ================= 底部導覽切換控制 (含行程導航滑入) =================
     window.toggleNav = function(type) {
       if (type === 'schedule') {
-        closeItineraryPage();
-        closeSheet();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        updateNavActiveState('schedule');
-      } else if (type === 'itinerary') {
-        openItineraryPage();
-        updateNavActiveState('itinerary');
+        if (currentSheetType !== null) {
+          closeSheet();
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       } else if (type === 'favorites') {
-        closeItineraryPage();
-        openFavoritesSheet();
+        if (currentSheetType === 'favorites') {
+          closeSheet();
+        } else {
+          openFavoritesSheet();
+        }
       } else if (type === 'expenses') {
-        closeItineraryPage();
-        openExpensesSheet();
+        if (currentSheetType === 'expenses') {
+          closeSheet();
+        } else {
+          openExpensesSheet();
+        }
       }
-    };
-
-    window.openItineraryPage = function() {
-      const page = document.getElementById('itinerary-view-page');
-      page.classList.add('active');
-    };
-
-    window.closeItineraryPage = function() {
-      const page = document.getElementById('itinerary-view-page');
-      page.classList.remove('active');
-      updateNavActiveState('schedule');
     };
 
     function updateNavActiveState(activeType) {
       document.querySelectorAll('.nav-item').forEach(el => el.className = 'nav-item');
       if (activeType === 'schedule') {
         document.getElementById('nav-schedule').classList.add('active-schedule');
-      } else if (activeType === 'itinerary') {
-        document.getElementById('nav-itinerary').classList.add('active-itinerary');
       } else if (activeType === 'favorites') {
         document.getElementById('nav-favorites').classList.add('active-favorites');
       } else if (activeType === 'expenses') {
@@ -1234,6 +1230,7 @@
           <div style="font-size: 10px; font-weight: 800; opacity: 0.8; letter-spacing: 0.8px; margin-top: 1px;">${theme.code}</div>
         </div>
       `;
+
       renderCategorySheetContent(catCode);
       showSheet();
     };
@@ -1241,7 +1238,11 @@
     function renderCategorySheetContent(catCode) {
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = '';
-      let listData = catCode !== 'ALL' ? presetData.filter(item => item.cat === catCode) : presetData;
+
+      let listData = presetData;
+      if (catCode !== 'ALL') {
+        listData = presetData.filter(item => item.cat === catCode);
+      }
 
       listData.forEach((item, index) => {
         const isFav = favorites.includes(item.id);
@@ -1271,9 +1272,11 @@
     function openFavoritesSheet() {
       currentSheetType = 'favorites';
       updateNavActiveState('favorites');
+
       const titleElem = document.getElementById('sheet-title');
       titleElem.innerText = `收藏 (${favorites.length})`;
       titleElem.style.color = 'var(--color-pink)';
+
       renderFavoritesSheetContent();
       showSheet();
     }
@@ -1281,15 +1284,18 @@
     function openExpensesSheet() {
       currentSheetType = 'expenses';
       updateNavActiveState('expenses');
+
       const titleElem = document.getElementById('sheet-title');
       titleElem.innerText = `記帳小幫手`;
       titleElem.style.color = 'var(--expense-theme)';
+
       renderExpensesSheetContent();
       showSheet();
     }
 
     function showSheet() {
       const sheet = document.getElementById('bottom-sheet');
+      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
       sheet.style.transform = 'translateY(0)';
       document.getElementById('sheet-overlay').classList.add('active');
       sheet.classList.add('active');
@@ -1298,10 +1304,16 @@
     function renderFavoritesSheetContent() {
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = '';
+
       const favItems = presetData.filter(item => favorites.includes(item.id));
 
       if (favItems.length === 0) {
-        sheetBody.innerHTML = `<div class="empty-fav-msg" style="text-align:center; padding:50px 20px; color:var(--text-sub);">還沒有收藏的景點喔！</div>`;
+        sheetBody.innerHTML = `
+          <div class="empty-fav-msg">
+            <i class="fa-regular fa-heart" style="font-size:36px; margin-bottom:12px; color:var(--color-pink);"></i><br>
+            還沒有收藏的景點喔！<br>點擊分區卡片點擊愛心加入收藏吧～
+          </div>
+        `;
         return;
       }
 
@@ -1310,59 +1322,168 @@
         card.className = `item-card cat-${item.cat}`;
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}`;
         const spotTheme = categoryThemeMap[item.cat] || categoryThemeMap['ALL'];
+
         card.innerHTML = `
           <div class="card-top">
             <div class="item-title">${index + 1}. ${item.name}</div>
-            <div class="card-actions"><button class="icon-btn active-heart" onclick="toggleFavorite('${item.id}')"><i class="fa-solid fa-heart"></i></button></div>
+            <div class="card-actions">
+              <button class="icon-btn active-heart" onclick="toggleFavorite('${item.id}')">
+                <i class="fa-solid fa-heart"></i>
+              </button>
+            </div>
           </div>
           <div class="story-box">${item.story}</div>
-          <a href="${mapUrl}" target="_blank" class="map-btn" style="--map-btn-bg: ${spotTheme.bgLight}; --map-btn-color: ${spotTheme.main};"><i class="fa-solid fa-location-dot"></i> Google Map</a>
+          <a href="${mapUrl}" target="_blank" class="map-btn" style="--map-btn-bg: ${spotTheme.bgLight}; --map-btn-color: ${spotTheme.main};">
+            <i class="fa-solid fa-location-dot"></i> Google Map
+          </a>
         `;
         sheetBody.appendChild(card);
       });
     }
 
+    // 限定日期範圍：12/29 (Tue) 至 2027/1/3 (Sun) 英文星期縮寫
     function generateDateOptions(selectedVal) {
-      const tripDates = [{val:'12/29',text:'12/29 (Tue)'},{val:'12/30',text:'12/30 (Wed)'},{val:'12/31',text:'12/31 (Thu)'},{val:'1/1',text:'1/1 (Fri)'},{val:'1/2',text:'1/2 (Sat)'},{val:'1/3',text:'1/3 (Sun)'}];
-      return tripDates.map(d => `<option value="${d.val}" ${(d.val===selectedVal||(!selectedVal&&d.val==='12/29'))?'selected':''}>${d.text}</option>`).join('');
+      const tripDates = [
+        { val: '12/29', text: '12/29 (Tue)' },
+        { val: '12/30', text: '12/30 (Wed)' },
+        { val: '12/31', text: '12/31 (Thu)' },
+        { val: '1/1', text: '1/1 (Fri)' },
+        { val: '1/2', text: '1/2 (Sat)' },
+        { val: '1/3', text: '1/3 (Sun)' }
+      ];
+      
+      return tripDates.map(d => {
+        const isSelected = (d.val === selectedVal || (!selectedVal && d.val === '12/29')) ? 'selected' : '';
+        return `<option value="${d.val}" ${isSelected}>${d.text}</option>`;
+      }).join('');
     }
 
     function renderExpensesSheetContent() {
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = `
         <div class="dashboard-grid">
-          <div class="dash-box">
+          <div class="dash-box" style="background: linear-gradient(135deg, var(--expense-theme) 0%, #9F75D3 100%);">
             <div class="dash-title">消費總金額</div>
-            <div><div class="dash-main-val" id="total-expense">₩ 0</div><div class="dash-sub-val" id="total-expense-twd">≈ NT$ 0</div></div>
+            <div>
+              <div class="dash-main-val" id="total-expense">₩ 0</div>
+              <div class="dash-sub-val" id="total-expense-twd">≈ NT$ 0</div>
+            </div>
           </div>
-          <div class="dash-box">
+
+          <div class="dash-box" style="background: linear-gradient(135deg, var(--expense-theme) 0%, #9F75D3 100%);">
             <div class="dash-title">當日即時匯率</div>
-            <div><div class="dash-main-val" id="rate-main-val">${EXCHANGE_RATE.toFixed(2)}</div><div class="dash-sub-val" id="rate-sub-val">1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW</div></div>
+            <div>
+              <div class="dash-main-val" id="rate-main-val">${EXCHANGE_RATE.toFixed(2)}</div>
+              <div class="dash-sub-val" id="rate-sub-val">1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW</div>
+            </div>
           </div>
         </div>
-        <div class="add-form" style="background:#fff; border-radius:16px; padding:16px; border:1px solid var(--border-color); margin-bottom:16px;">
-          <h3 style="font-size: 14px; margin-bottom: 8px;">新增消費紀錄</h3>
-          <div style="display:flex; gap:8px; margin-bottom:8px;">
-            <select id="expense-date" style="flex:1; padding:10px; border-radius:10px; border:1px solid var(--border-color);">${generateDateOptions()}</select>
-            <input type="text" id="expense-item" placeholder="品項" style="flex:2; padding:10px; border-radius:10px; border:1px solid var(--border-color);">
+
+        <div class="add-form">
+          <h3 style="font-size: 14px; margin-bottom: 8px; color: var(--text-main);">新增消費紀錄</h3>
+          
+          <div class="form-row-inline">
+            <select id="expense-date">
+              ${generateDateOptions()}
+            </select>
+            <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
           </div>
-          <input type="number" id="expense-amount" placeholder="金額 (KRW)" oninput="updateTwdHint(this.value)" style="width:100%; padding:10px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:8px;">
-          <div class="twd-hint" id="twd-conversion-hint" style="font-size:12px; color:var(--expense-btn-color); margin-bottom:10px;">台幣試算：≈ NT$ 0</div>
-          <button onclick="addExpense()" style="width:100%; background:var(--expense-btn-color); color:white; border:none; padding:11px; border-radius:10px; font-weight:700;">帳單確認</button>
+
+          <input type="number" id="expense-amount" placeholder="金額 (KRW)" oninput="updateTwdHint(this.value)">
+          <div class="twd-hint" id="twd-conversion-hint">台幣試算：≈ NT$ 0</div>
+          
+          <div class="payer-section-label">
+            <span>付款人</span>
+            <button class="select-all-btn" onclick="toggleSelectAllPayers()">全選 / 清除</button>
+          </div>
+          <div class="payer-select-container" id="payer-chips-container">
+            <div class="payer-chip selected" data-payer="All" onclick="selectPayerChip('All')"><i class="fa-solid fa-users" style="font-size:10px;"></i> All</div>
+            <div class="payer-chip" data-payer="Jase" onclick="selectPayerChip('Jase')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jase</div>
+            <div class="payer-chip" data-payer="Jessie" onclick="selectPayerChip('Jessie')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jessie</div>
+            <div class="payer-chip" data-payer="Jewel" onclick="selectPayerChip('Jewel')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jewel</div>
+            <div class="payer-chip" data-payer="Kay" onclick="selectPayerChip('Kay')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Kay</div>
+          </div>
+
+          <button class="btn-submit" onclick="addExpense()">帳單確認</button>
         </div>
+
         <div id="expenses-list"></div>
       `;
+
       renderExpensesUI();
     }
 
+    let selectedPayers = ['All'];
+
+    window.selectPayerChip = function(payerName) {
+      const chips = document.querySelectorAll('.payer-chip');
+      if (payerName === 'All') {
+        selectedPayers = ['All'];
+      } else {
+        if (selectedPayers.includes('All')) {
+          selectedPayers = [];
+        }
+        const idx = selectedPayers.indexOf(payerName);
+        if (idx > -1) {
+          selectedPayers.splice(idx, 1);
+        } else {
+          selectedPayers.push(payerName);
+        }
+        if (selectedPayers.length === 0) {
+          selectedPayers = ['All'];
+        }
+      }
+      
+      chips.forEach(chip => {
+        const p = chip.getAttribute('data-payer');
+        if (selectedPayers.includes(p)) {
+          chip.classList.add('selected');
+        } else {
+          chip.classList.remove('selected');
+        }
+      });
+    };
+
+    let allSelectedState = false;
+    window.toggleSelectAllPayers = function() {
+      const chips = document.querySelectorAll('.payer-chip');
+      allSelectedState = !allSelectedState;
+      if (allSelectedState) {
+        selectedPayers = ['Jase', 'Jessie', 'Jewel', 'Kay'];
+      } else {
+        selectedPayers = ['All'];
+      }
+      chips.forEach(chip => {
+        const p = chip.getAttribute('data-payer');
+        if (selectedPayers.includes(p) || (allSelectedState && p !== 'All')) {
+          if(p !== 'All' || !allSelectedState) {
+            chip.classList.add('selected');
+          }
+        } else {
+          chip.classList.remove('selected');
+        }
+        if(!allSelectedState && p === 'All') {
+          chip.classList.add('selected');
+        } else if(allSelectedState && p === 'All') {
+          chip.classList.remove('selected');
+        }
+      });
+    };
+
     window.toggleFavorite = function(itemId) {
       const idx = favorites.indexOf(itemId);
-      if (idx > -1) favorites.splice(idx, 1);
-      else favorites.push(itemId);
+      if (idx > -1) {
+        favorites.splice(idx, 1);
+      } else {
+        favorites.push(itemId);
+      }
       saveFavorites();
-      if (currentSheetType === 'category' && currentActiveCat) renderCategorySheetContent(currentActiveCat);
-      else if (currentSheetType === 'favorites') {
-        document.getElementById('sheet-title').innerText = `收藏 (${favorites.length})`;
+
+      if (currentSheetType === 'category' && currentActiveCat) {
+        renderCategorySheetContent(currentActiveCat);
+      } else if (currentSheetType === 'favorites') {
+        const titleElem = document.getElementById('sheet-title');
+        titleElem.innerText = `收藏 (${favorites.length})`;
         renderFavoritesSheetContent();
       }
     };
@@ -1371,389 +1492,272 @@
       const dateVal = document.getElementById('expense-date').value;
       const item = document.getElementById('expense-item').value;
       const amount = Number(document.getElementById('expense-amount').value);
+      
+      let payerStr = selectedPayers.join(', ');
+      if (selectedPayers.includes('All')) {
+        payerStr = 'All (Jase, Jessie, Jewel, Kay)';
+      }
+
       if (!item || !amount) return alert('請填寫品項與金額！');
-      await addDoc(collection(db, "expenses"), { date: dateVal, item, amount, payer: 'All', createdAt: Date.now() });
+
+      await addDoc(collection(db, "expenses"), {
+        date: dateVal,
+        item, 
+        amount, 
+        payer: payerStr, 
+        createdAt: Date.now()
+      });
+
       document.getElementById('expense-item').value = '';
       document.getElementById('expense-amount').value = '';
       document.getElementById('twd-conversion-hint').innerText = '台幣試算：≈ NT$ 0';
     };
 
     window.deleteExpense = async function(docId) {
-      if (confirm('確定要刪除這筆帳單嗎？')) await deleteDoc(doc(db, "expenses", docId));
+      if (confirm('確定要刪除這筆帳單嗎？')) {
+        await deleteDoc(doc(db, "expenses", docId));
+      }
+    };
+
+    // 修改彈窗視窗（可動態選擇日期選單）
+    window.editExpense = async function(docId, currentDate, currentItem, currentAmount) {
+      const newDateOptions = generateDateOptions(currentDate);
+      
+      const modalBg = document.createElement('div');
+      modalBg.style.position = 'fixed';
+      modalBg.style.top = '0';
+      modalBg.style.left = '0';
+      modalBg.style.right = '0';
+      modalBg.style.bottom = '0';
+      modalBg.style.background = 'rgba(0,0,0,0.4)';
+      modalBg.style.zIndex = '9999';
+      modalBg.style.display = 'flex';
+      modalBg.style.alignItems = 'center';
+      modalBg.style.justifyContent = 'center';
+      modalBg.style.padding = '16px';
+
+      modalBg.innerHTML = `
+        <div style="background:#FAF9F6; border-radius:20px; padding:20px; width:100%; max-width:340px; border:1px solid var(--border-color); box-shadow:0 8px 24px rgba(0,0,0,0.15);">
+          <h3 style="font-size:15px; font-weight:700; margin-bottom:12px; color:var(--text-main);">修改消費紀錄</h3>
+          <label style="font-size:12px; color:var(--text-sub);">日期</label>
+          <select id="edit-date" style="width:100%; padding:10px 12px; margin:4px 0 10px 0; border:1px solid var(--border-color); border-radius:10px; background:#FAF7F4; font-size:14px; outline:none;">
+            ${newDateOptions}
+          </select>
+          <label style="font-size:12px; color:var(--text-sub);">品項</label>
+          <input type="text" id="edit-item" value="${currentItem}" style="width:100%; padding:10px 12px; margin:4px 0 10px 0; border:1px solid var(--border-color); border-radius:10px; background:#FAF7F4; font-size:14px; outline:none;">
+          <label style="font-size:12px; color:var(--text-sub);">金額 (KRW)</label>
+          <input type="number" id="edit-amount" value="${currentAmount}" style="width:100%; padding:10px 12px; margin:4px 0 16px 0; border:1px solid var(--border-color); border-radius:10px; background:#FAF7F4; font-size:14px; outline:none;">
+          <div style="display:flex; gap:8px;">
+            <button id="edit-cancel" style="flex:1; padding:10px; border-radius:10px; border:1px solid var(--border-color); background:#FAF7F4; font-weight:600; cursor:pointer;">取消</button>
+            <button id="edit-confirm" style="flex:1; padding:10px; border-radius:10px; border:none; background:var(--expense-btn-color); color:#FFF; font-weight:700; cursor:pointer;">儲存修改</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modalBg);
+
+      modalBg.querySelector('#edit-cancel').onclick = () => modalBg.remove();
+      modalBg.querySelector('#edit-confirm').onclick = async () => {
+        const newDate = modalBg.querySelector('#edit-date').value;
+        const newItem = modalBg.querySelector('#edit-item').value.trim();
+        const newAmount = Number(modalBg.querySelector('#edit-amount').value);
+
+        if (!newItem || isNaN(newAmount) || newAmount <= 0) {
+          alert('請填寫有效的品項與金額！');
+          return;
+        }
+
+        await updateDoc(doc(db, "expenses", docId), {
+          date: newDate,
+          item: newItem,
+          amount: newAmount
+        });
+
+        modalBg.remove();
+      };
     };
 
     function renderExpensesUI() {
       const expensesList = document.getElementById('expenses-list');
+      const totalElement = document.getElementById('total-expense');
+      const totalTwdElement = document.getElementById('total-expense-twd');
+      
       if (!expensesList) return;
       expensesList.innerHTML = '';
       let total = 0;
+
       latestExpensesData.forEach((docSnap) => {
         const data = docSnap.data();
+        const docId = docSnap.id;
         total += data.amount;
+
+        const dateTag = data.date ? `${data.date} ｜ ` : '';
+        const pName = data.payer || 'All';
+        const itemTwd = Math.round(data.amount / EXCHANGE_RATE);
+
         const card = document.createElement('div');
         card.className = 'item-card expense-item-card';
         card.innerHTML = `
           <div class="card-top">
-            <div class="item-title">${data.date || ''} ｜ ${data.item}</div>
-            <div style="text-align: right;"><span style="color:var(--expense-btn-color); font-weight:700;">₩ ${data.amount.toLocaleString()}</span></div>
+            <div class="item-title">${dateTag}${data.item}</div>
+            <div style="text-align: right;">
+              <span style="color:var(--expense-btn-color); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+              <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${itemTwd.toLocaleString()}</div>
+            </div>
           </div>
-          <button class="expense-btn delete" onclick="deleteExpense('${docSnap.id}')" style="margin-top:6px; color:var(--color-pink);">刪除</button>
+          <div style="font-size:12px; color:var(--text-sub); margin-top:6px; display:flex; align-items:center; gap:5px;">
+            <i class="fa-solid fa-credit-card" style="font-size:11px;"></i> ${pName}
+          </div>
+          <div class="expense-actions">
+            <button class="expense-btn" onclick="editExpense('${docId}', '${data.date || ''}', '${data.item.replace(/'/g, "\\'")}', ${data.amount})"><i class="fa-solid fa-pen"></i> 修改</button>
+            <button class="expense-btn delete" style="color: var(--color-pink); border-color: rgba(249, 139, 169, 0.3); background: #FFF9F8;" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
+          </div>
         `;
         expensesList.appendChild(card);
       });
+
       const totalTwd = Math.round(total / EXCHANGE_RATE);
-      if(document.getElementById('total-expense')) document.getElementById('total-expense').innerText = `₩ ${total.toLocaleString()}`;
-      if(document.getElementById('total-expense-twd')) document.getElementById('total-expense-twd').innerText = `≈ NT$ ${totalTwd.toLocaleString()}`;
+      if(totalElement) totalElement.innerText = `₩ ${total.toLocaleString()}`;
+      if(totalTwdElement) totalTwdElement.innerText = `≈ NT$ ${totalTwd.toLocaleString()}`;
     }
 
     onSnapshot(collection(db, "expenses"), (snapshot) => {
       latestExpensesData = snapshot.docs;
-      if (currentSheetType === 'expenses') renderExpensesUI();
-    });
-  </script>
-
-  <!-- ================= 第二個新頁面（行程導航）專屬的完整 JS 邏輯 ================= -->
-  <script>
-    const AREA_COLOR_MAP = {
-        'A': { hex: '#7FB9E6', textDark: false },
-        'B': { hex: '#FF8F45', textDark: false },
-        'C': { hex: '#F4D77A', textDark: true },
-        'D': { hex: '#D6BEEA', textDark: true },
-        'E': { hex: '#F98BA9', textDark: false },
-        'F': { hex: '#B7C96A', textDark: false }
-    };
-
-    const PRESET_SPOTS_DB = {
-        'A': [
-            { title: 'Songdo Bay Station 海上纜車', cat: 'SIGHTSEEING', time: '10:00', desc: '松島全景透明纜車', addr: '釜山廣域市西區松島海邊路 171', query: 'Songdo Bay Station' },
-            { title: 'Songdo Sky Park', cat: 'SIGHTSEEING', time: '11:00', desc: '纜車頂站與龍宮雲橋連結區', addr: '釜山廣域市西區岩南公園路', query: 'Songdo Sky Park' },
-            { title: '影島海女村', cat: 'FOOD', time: '12:30', desc: '海邊現切海鮮與泡麵', addr: '釜山廣域市影島區中里海邊路 2-35', query: '영도해녀문화전시관' },
-            { title: 'Having moment', cat: 'FOOD', time: '14:30', desc: '影島質感海景咖啡廳', addr: '釜山廣域市影島區白淺灘路', query: 'Having moment 영도' }
-        ],
-        'B': [
-            { title: '山青豬肉湯飯', cat: 'FOOD', time: '09:00', desc: '傳統在地濃郁湯飯', addr: '釜山廣域市中區', query: '산청돼지국밥' },
-            { title: '富平罐頭市場', cat: 'FOOD', time: '18:30', desc: '夜市小吃與熱鬧地道氛圍', addr: '釜山廣域市中區富平洞', query: '부평깡통시장' }
-        ],
-        'C': [
-            { title: '水邊豬肉湯飯 西面店', cat: 'FOOD', time: '08:30', desc: '西面人氣湯飯排隊名店', addr: '釜山廣域市釜山鎮區', query: '수변최고돼지국밥 서면' },
-            { title: '烤肉的男子 西面店', cat: 'FOOD', time: '19:30', desc: '專人桌邊代烤精緻韓式燒肉', addr: '釜山廣域市釜山鎮區', query: '고기굽는남자 서면' }
-        ],
-        'D': [
-            { title: '五六島天空步道', cat: 'SIGHTSEEING', time: '10:00', desc: '懸空玻璃步道觀賞雙海交界', addr: '釜山廣域市南區五六島路', query: '오륙도 스카이워크' },
-            { title: '廣安里 M 無人機燈光秀', cat: 'SPECIAL EXPERIENCE', time: '19:00', desc: '週六夜間海上無人機精彩表演', addr: '廣安里海水浴場沙灘', query: '광안리 M 드론라이트쇼' }
-        ],
-        'E': [
-            { title: '味讚王鹽烤肉 海雲台店', cat: 'FOOD', time: '17:30', desc: '3.5cm 超厚切熟成三層肉', addr: '釜山廣域市海雲台區', query: '맛찬들왕소금구이 해운대' },
-            { title: '海雲台傳統市場', cat: 'SIGHTSEEING', time: '19:00', desc: '盲鰻、辣炒年糕與盲鰻街', addr: '釜山廣域市海雲台區', query: '해운대시시장' }
-        ],
-        'F': [
-            { title: '海雲臺藍線公園 尾浦站—青沙浦站', cat: 'SPECIAL EXPERIENCE', time: '09:30', desc: '繽紛天空膠囊列車與海岸列車', addr: '釜山廣域市海雲台區尾浦', query: '해운대블루라인파크 미포정거장' }
-        ]
-    };
-
-    const TRIP_DATES = [
-        { key: '2026-12-29', dayNum: '29', week: 'WED', title: 'DAY 1' },
-        { key: '2026-12-30', dayNum: '30', week: 'THU', title: 'DAY 2' },
-        { key: '2026-12-31', dayNum: '31', week: 'FRI', title: 'DAY 3' },
-        { key: '2027-01-01', dayNum: '1', week: 'SAT', title: 'DAY 4' },
-        { key: '2027-01-02', dayNum: '2', week: 'SUN', title: 'DAY 5' },
-        { key: '2027-01-03', dayNum: '3', week: 'MON', title: 'DAY 6' }
-    ];
-
-    let currentActiveDateKey = '2026-12-29';
-    let itineraryData = {};
-    let pendingDeleteId = null;
-
-    window.addEventListener('DOMContentLoaded', () => {
-        loadItineraryFromStorage();
-        renderCalendarBar();
-        renderTimeline();
-        initSortable();
+      if (currentSheetType === 'expenses') {
+        renderExpensesUI();
+      }
     });
 
-    function loadItineraryFromStorage() {
-        const saved = localStorage.getItem('busan_app_v6_data');
-        if (saved) {
-            try { itineraryData = JSON.parse(saved); } catch(e) { itineraryData = getDefaultInitialData(); }
-        } else {
-            itineraryData = getDefaultInitialData();
-            saveItineraryToStorage();
-        }
-    }
+    const sheet = document.getElementById('bottom-sheet');
+    const sheetBody = document.getElementById('sheet-body');
 
-    function getDefaultInitialData() {
-        return {
-            '2026-12-29': [{ id: 'def_1', time: '07:30', title: '金海國際機場 (PUS)', cat: 'FLIGHT', desc: '搭乘班機直飛釜山金海機場', addr: '釜山廣域市江西區機場路 108', highlight: false, query: '김해국제공항' }],
-            '2026-12-30': [], '2026-12-31': [], '2027-01-01': [], '2027-01-02': [], '2027-01-03': []
-        };
-    }
+    let startY = 0;
+    let currentY = 0;
+    let isDragging = false;
 
-    function saveItineraryToStorage() {
-        localStorage.setItem('busan_app_v6_data', JSON.stringify(itineraryData));
-    }
+    sheet.addEventListener('touchstart', (e) => {
+      const touchY = e.touches[0].clientY;
+      const sheetRect = sheet.getBoundingClientRect();
+      const relativeTouchY = touchY - sheetRect.top;
 
-    function renderCalendarBar() {
-        const dateBar = document.getElementById('dateBar');
-        dateBar.innerHTML = '';
-        TRIP_DATES.forEach(d => {
-            const isActive = d.key === currentActiveDateKey;
-            const dateBtn = document.createElement('button');
-            dateBtn.onclick = () => switchDate(d.key);
-            dateBtn.className = `min-w-[58px] py-2 px-2.5 rounded-2xl flex flex-col items-center transition-all shrink-0 border ${isActive ? 'bg-[#4A3E3D] text-[#FBF9F5] shadow-md border-[#4A3E3D] font-bold scale-105' : 'bg-white/85 border-[#E8DFC8] text-[#4A3E3D]'}`;
-            dateBtn.innerHTML = `
-                <span class="text-[9px] tracking-wider uppercase font-semibold ${isActive ? 'text-[#D4A359]' : 'text-[#8C7A6B]'}">${d.week}</span>
-                <span class="text-lg font-extrabold leading-none my-0.5">${d.dayNum}</span>
-                ${isActive ? '<span class="w-1.5 h-1.5 bg-[#D4A359] rounded-full mt-0.5"></span>' : '<span class="w-1.5 h-1.5 opacity-0 mt-0.5"></span>'}
-            `;
-            dateBar.appendChild(dateBtn);
-        });
-        const currObj = TRIP_DATES.find(d => d.key === currentActiveDateKey);
-        if (currObj) document.getElementById('currentDayText').innerHTML = `<i class="fa-regular fa-calendar-check mr-1.5 text-[#D4A359]"></i>${currObj.title}`;
-    }
+      if (relativeTouchY <= sheetRect.height * 0.67 && sheetBody.scrollTop <= 0) {
+        startY = touchY;
+        isDragging = true;
+        sheet.style.transition = 'none'; 
+      }
+    }, { passive: true });
 
-    function switchDate(dateKey) {
-        currentActiveDateKey = dateKey;
-        renderCalendarBar();
-        renderTimeline();
-    }
+    sheet.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      currentY = e.touches[0].clientY;
+      const deltaY = currentY - startY;
 
-    function getCategoryStyle(cat) {
-        switch(cat) {
-            case 'FLIGHT': return { bg: 'bg-blue-100/80', text: 'text-blue-800', icon: 'fa-plane' };
-            case 'TRANSPORT': return { bg: 'bg-stone-200/80', text: 'text-stone-700', icon: 'fa-car' };
-            case 'FOOD': return { bg: 'bg-amber-100/80', text: 'text-amber-800', icon: 'fa-utensils' };
-            case 'SIGHTSEEING': return { bg: 'bg-emerald-100/80', text: 'text-emerald-800', icon: 'fa-camera' };
-            case 'HOTEL': return { bg: 'bg-purple-100/80', text: 'text-purple-800', icon: 'fa-hotel' };
-            case 'SPECIAL EXPERIENCE': return { bg: 'bg-amber-200/80', text: 'text-amber-900', icon: 'fa-crown' };
-            default: return { bg: 'bg-[#F3EDE2]', text: 'text-[#4A3E3D]', icon: 'fa-location-dot' };
-        }
-    }
+      if (deltaY > 0) {
+        e.preventDefault();
+        sheet.style.transform = `translateY(${deltaY}px)`;
+      }
+    }, { passive: false });
 
-    function renderTimeline() {
-        const container = document.getElementById('itineraryContainer');
-        const emptyState = document.getElementById('emptyState');
-        const items = itineraryData[currentActiveDateKey] || [];
-        document.getElementById('itemCountBadge').innerText = `${items.length} 個行程`;
+    sheet.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      const deltaY = currentY - startY;
 
-        if (items.length === 0) {
-            container.innerHTML = '';
-            emptyState.classList.remove('hidden');
-            return;
-        }
-        emptyState.classList.add('hidden');
-        container.innerHTML = '';
+      sheet.style.transition = 'transform 0.3s ease-out';
 
-        items.forEach((item) => {
-            const catStyle = getCategoryStyle(item.cat);
-            const isHighlight = !!item.highlight;
-            const cardHtml = `
-                <div class="drag-item flex gap-3 items-start group select-none" data-id="${item.id}">
-                    <div class="w-12 text-right pt-2 shrink-0">
-                        <span class="text-xs font-bold text-[#4A3E3D] block font-mono leading-none">${item.time || '10:00'}</span>
-                        <span class="w-2 h-2 rounded-full inline-block mt-2 ${isHighlight ? 'bg-[#D4A359] ring-4 ring-[#D4A359]/20' : 'bg-[#E8DFC8]'}"></span>
-                    </div>
-                    <div onclick="openDetailSheet('${item.id}')" class="flex-1 cursor-pointer rounded-2xl p-4 transition-all relative ${isHighlight ? 'highlight-card' : 'bg-white border border-[#E8DFC8]/60 shadow-sm'}">
-                        <div class="flex justify-between items-start gap-2 mb-1.5">
-                            <span class="category-badge px-2 py-0.5 rounded-md ${catStyle.bg} ${catStyle.text} font-bold inline-flex items-center gap-1">
-                                <i class="fa-solid ${catStyle.icon} text-[10px]"></i> ${item.cat}
-                            </span>
-                            <div class="flex items-center gap-1 text-[#8C7A6B]" onclick="event.stopPropagation()">
-                                <button onclick="toggleHighlight('${item.id}'); event.stopPropagation();" class="w-7 h-7 rounded-full hover:bg-[#F3EDE2] flex items-center justify-center text-xs ${isHighlight ? 'text-[#D4A359]' : 'text-[#E8DFC8]'}" title="重點標示"><i class="fa-solid fa-bookmark"></i></button>
-                                <button onclick="openDeleteModal('${item.id}'); event.stopPropagation();" class="w-7 h-7 rounded-full hover:bg-red-50 text-[#8C7A6B] hover:text-red-500 flex items-center justify-center text-xs" title="刪除"><i class="fa-solid fa-xmark text-sm"></i></button>
-                                <div class="drag-handle w-7 h-7 rounded-lg bg-[#F3EDE2]/40 text-[#8C7A6B] flex items-center justify-center text-sm"><i class="fa-solid fa-grip-vertical"></i></div>
-                            </div>
-                        </div>
-                        <h4 class="font-bold text-[#4A3E3D] text-base leading-snug mb-1">${item.title}</h4>
-                        <p class="text-xs text-[#8C7A6B] line-clamp-2 leading-relaxed">${item.note || item.desc || '點擊可檢視詳細地點資訊...'}</p>
-                    </div>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', cardHtml);
-        });
-    }
+      if (deltaY > 70) {
+        closeSheet();
+      } else {
+        sheet.style.transform = 'translateY(0)';
+      }
+      startY = 0;
+      currentY = 0;
+    });
 
-    function initSortable() {
-        const container = document.getElementById('itineraryContainer');
-        new Sortable(container, {
-            handle: '.drag-handle',
-            animation: 200,
-            onEnd: function () {
-                const newOrderIds = Array.from(container.querySelectorAll('.drag-item')).map(el => el.dataset.id);
-                const currentItems = itineraryData[currentActiveDateKey] || [];
-                itineraryData[currentActiveDateKey] = newOrderIds.map(id => currentItems.find(item => item.id === id)).filter(Boolean);
-                saveItineraryToStorage();
-                showToast('行程排序已更新');
-            }
-        });
-    }
+    document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const fireworkSpots = [
+        { x: window.innerWidth * 0.5, y: window.innerHeight * 0.25 },
+        { x: window.innerWidth * 0.28, y: window.innerHeight * 0.2 },
+        { x: window.innerWidth * 0.72, y: window.innerHeight * 0.2 },
+        { x: window.innerWidth * 0.4, y: window.innerHeight * 0.35 },
+        { x: window.innerWidth * 0.6, y: window.innerHeight * 0.35 }
+      ];
 
-    window.toggleHighlight = function(itemId) {
-        const items = itineraryData[currentActiveDateKey] || [];
-        const item = items.find(i => i.id === itemId);
-        if (item) {
-            item.highlight = !item.highlight;
-            saveItineraryToStorage();
-            renderTimeline();
-            showToast(item.highlight ? '已標示為重點行程' : '已取消重點標示');
-        }
-    };
-
-    window.openDeleteModal = function(itemId) {
-        const items = itineraryData[currentActiveDateKey] || [];
-        const item = items.find(i => i.id === itemId);
-        if (!item) return;
-        pendingDeleteId = itemId;
-        document.getElementById('deleteConfirmText').innerText = `確定要刪除「${item.title}」嗎？`;
-        document.getElementById('btnConfirmDelete').onclick = executeDelete;
-        document.getElementById('deleteModal').classList.remove('hidden');
-    };
-
-    window.closeDeleteModal = function() {
-        pendingDeleteId = null;
-        document.getElementById('deleteModal').classList.add('hidden');
-    };
-
-    function executeDelete() {
-        if (!pendingDeleteId) return;
-        itineraryData[currentActiveDateKey] = (itineraryData[currentActiveDateKey] || []).filter(i => i.id !== pendingDeleteId);
-        saveItineraryToStorage();
-        renderTimeline();
-        closeDeleteModal();
-        showToast('已成功刪除行程');
-    }
-
-    window.openAddModal = function() {
-        document.getElementById('addModal').classList.remove('hidden');
-        switchAreaTab('A');
-    };
-
-    window.closeAddModal = function() {
-        document.getElementById('addModal').classList.add('hidden');
-    };
-
-    window.switchAreaTab = function(areaKey) {
-        ['A', 'B', 'C', 'D', 'E', 'F'].forEach(key => {
-            const btn = document.getElementById(`tab-${key}`);
-            const colorInfo = AREA_COLOR_MAP[key];
-            if (key === areaKey) {
-                btn.style.backgroundColor = colorInfo.hex;
-                btn.style.borderColor = colorInfo.hex;
-                btn.style.color = colorInfo.textDark ? '#4A3E3D' : '#FFFFFF';
-            } else {
-                btn.style.backgroundColor = '#FFFFFF';
-                btn.style.borderColor = '#E8DFC8';
-                btn.style.color = '#4A3E3D';
-            }
-        });
-        renderPresetSpots(areaKey);
-    };
-
-    function renderPresetSpots(areaKey) {
-        const listContainer = document.getElementById('presetSpotsList');
-        const spots = PRESET_SPOTS_DB[areaKey] || [];
-        const areaColor = AREA_COLOR_MAP[areaKey]?.hex || '#4A3E3D';
-        listContainer.innerHTML = '';
-        spots.forEach((spot) => {
-            const catStyle = getCategoryStyle(spot.cat);
-            listContainer.insertAdjacentHTML('beforeend', `
-                <div class="bg-white border border-[#E8DFC8] rounded-2xl p-3 flex justify-between items-center shadow-sm">
-                    <div>
-                        <span class="category-badge px-2 py-0.5 rounded ${catStyle.bg} ${catStyle.text}">${spot.cat}</span>
-                        <h5 class="font-bold text-[#4A3E3D] text-sm mt-1">${spot.title}</h5>
-                        <p class="text-[11px] text-[#8C7A6B]">${spot.desc}</p>
-                    </div>
-                    <button onclick="addPresetSpotToItinerary('${areaKey}', '${spot.title.replace(/'/g, "\\'")}')" style="background-color: ${areaColor}" class="text-white px-3 py-1.5 rounded-xl text-xs font-bold shrink-0">加入</button>
-                </div>
-            `);
-        });
-    }
-
-    window.addPresetSpotToItinerary = function(areaKey, spotTitle) {
-        const spot = PRESET_SPOTS_DB[areaKey].find(s => s.title === spotTitle);
-        if (!spot) return;
-        const newItem = {
-            id: 'spot_' + Date.now() + '_' + Math.floor(Math.random()*1000),
-            title: spot.title, cat: spot.cat, time: spot.time || '12:00',
-            desc: spot.desc || '', addr: spot.addr || '', note: '', highlight: false, query: spot.query || spot.title
-        };
-        if (!itineraryData[currentActiveDateKey]) itineraryData[currentActiveDateKey] = [];
-        itineraryData[currentActiveDateKey].push(newItem);
-        saveItineraryToStorage();
-        renderTimeline();
-        showToast(`已加入「${spot.title}」`);
-    };
-
-    window.addCustomSpot = function() {
-        const title = document.getElementById('customSpotName').value.trim();
-        if (!title) return showToast('請輸入景點名稱');
-        const newItem = {
-            id: 'custom_' + Date.now(), title, cat: document.getElementById('customSpotCat').value,
-            time: '12:00', desc: '自訂地點', addr: '釜山廣域市', note: '', highlight: false, query: title
-        };
-        if (!itineraryData[currentActiveDateKey]) itineraryData[currentActiveDateKey] = [];
-        itineraryData[currentActiveDateKey].push(newItem);
-        saveItineraryToStorage();
-        renderTimeline();
-        document.getElementById('customSpotName').value = '';
-        showToast(`已成功新增「${title}」`);
-    };
-
-    window.openDetailSheet = function(itemId) {
-        const items = itineraryData[currentActiveDateKey] || [];
-        const item = items.find(i => i.id === itemId);
-        if (!item) return;
-        const catStyle = getCategoryStyle(item.cat);
-        document.getElementById('detailSheetContent').innerHTML = `
-            <div class="flex items-center gap-2 pt-1">
-                <span class="category-badge border border-[#E8DFC8] px-2.5 py-1 rounded-md ${catStyle.bg} ${catStyle.text} font-bold">${item.cat}</span>
-                <span class="text-xs font-mono font-bold text-[#4A3E3D]">
-                    <input type="time" value="${item.time || '10:00'}" onchange="updateItemTime('${item.id}', this.value)" class="bg-transparent font-mono font-bold focus:outline-none cursor-pointer">
-                </span>
-            </div>
-            <div>
-                <h2 class="text-xl font-extrabold text-[#4A3E3D] tracking-tight mb-1">${item.title}</h2>
-                <p class="text-xs text-[#8C7A6B]"><i class="fa-solid fa-location-dot text-[#D4A359] mr-1"></i>${item.addr || '釜山廣域市'}</p>
-            </div>
-            <div class="space-y-2">
-                <span class="text-[10px] font-bold tracking-widest text-[#8C7A6B] uppercase block">備註資訊 (NOTES)</span>
-                <textarea rows="4" onchange="updateItemNote('${item.id}', this.value)" placeholder="寫下備註..." class="w-full text-xs p-3.5 rounded-2xl bg-white border border-[#E8DFC8] focus:outline-none">${item.note || item.desc || ''}</textarea>
-            </div>
-        `;
-        const q = encodeURIComponent(item.query || item.title);
-        document.getElementById('btnNaverMap').href = `https://map.naver.com/v5/search/${q}`;
-        document.getElementById('btnGoogleMap').href = `https://maps.google.com/?q=${q}`;
-        
-        const sheet = document.getElementById('detailSheet');
-        sheet.classList.remove('hidden');
-        setTimeout(() => sheet.querySelector('.bottom-sheet').classList.remove('hidden-sheet'), 10);
-    };
-
-    window.closeDetailSheet = function() {
-        const sheet = document.getElementById('detailSheet');
-        sheet.querySelector('.bottom-sheet').classList.add('hidden-sheet');
-        setTimeout(() => sheet.classList.add('hidden'), 300);
-    };
-
-    window.updateItemTime = function(itemId, newTime) {
-        const item = (itineraryData[currentActiveDateKey] || []).find(i => i.id === itemId);
-        if (item) { item.time = newTime; saveItineraryToStorage(); renderTimeline(); showToast('時間已更新'); }
-    };
-
-    window.updateItemNote = function(itemId, newNote) {
-        const item = (itineraryData[currentActiveDateKey] || []).find(i => i.id === itemId);
-        if (item) { item.note = newNote; saveItineraryToStorage(); renderTimeline(); showToast('備註已儲存'); }
-    };
-
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        document.getElementById('toastMsg').innerText = msg;
-        toast.classList.remove('opacity-0');
-        toast.classList.add('opacity-100');
+      fireworkSpots.forEach((spot, index) => {
         setTimeout(() => {
-            toast.classList.remove('opacity-100');
-            toast.classList.add('opacity-0');
-        }, 2000);
-    }
+          createIllustrationFirework(spot.x, spot.y);
+        }, index * 160);
+      });
+    });
+
+    window.createIllustrationFirework = function(x, y) {
+      const rayCount = 24;
+      const colors = ['#7FB9E6', '#D6BEEA', '#F4D77A', '#B7C96A', '#F98BA9', '#FF8F45'];
+
+      for (let i = 0; i < rayCount; i++) {
+        const ray = document.createElement('div');
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        ray.style.position = 'fixed';
+        ray.style.left = `${x}px`;
+        ray.style.top = `${y}px`;
+        ray.style.width = '2.5px';
+        ray.style.height = `${30 + Math.random() * 35}px`;
+        ray.style.backgroundColor = color;
+        ray.style.borderRadius = '2px';
+        ray.style.pointerEvents = 'none';
+        ray.style.zIndex = '99999';
+        ray.style.transformOrigin = 'top center';
+        ray.style.opacity = '1';
+
+        const angle = (360 / rayCount) * i + (Math.random() * 8 - 4);
+        const distance = 50 + Math.random() * 50;
+        
+        ray.style.transform = `rotate(${angle}deg) scaleY(0.2)`;
+        ray.style.transition = 'all 0.8s cubic-bezier(0.1, 0.8, 0.3, 1)';
+        document.body.appendChild(ray);
+
+        requestAnimationFrame(() => {
+          ray.style.transform = `rotate(${angle}deg) translateY(${distance}px) scaleY(1.2)`;
+          ray.style.opacity = '0';
+        });
+
+        setTimeout(() => ray.remove(), 800);
+      }
+
+      const starCount = 18;
+      const starSymbols = ['✨', '✦', '·', '˚'];
+
+      for (let j = 0; j < starCount; j++) {
+        const star = document.createElement('div');
+        star.innerText = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+        
+        star.style.position = 'fixed';
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+        star.style.fontSize = `${10 + Math.random() * 12}px`;
+        star.style.color = colors[Math.floor(Math.random() * colors.length)];
+        star.style.pointerEvents = 'none';
+        star.style.zIndex = '99999';
+        star.style.opacity = '1';
+
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 40 + Math.random() * 80;
+        const tx = Math.cos(angle) * speed;
+        const ty = Math.sin(angle) * speed;
+
+        star.style.transition = 'all 0.9s ease-out';
+        document.body.appendChild(star);
+
+        requestAnimationFrame(() => {
+          star.style.transform = `translate(${tx}px, ${ty}px) scale(1.3) rotate(${Math.random() * 180}deg)`;
+          star.style.opacity = '0';
+        });
+
+        setTimeout(() => star.remove(), 900);
+      }
+    };
   </script>
 </body>
 </html>
