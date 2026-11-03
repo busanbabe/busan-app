@@ -1640,7 +1640,7 @@
       const sheetRect = sheet.getBoundingClientRect();
       const relativeTouchY = touchY - sheetRect.top;
 
-      if (relativeTouchY <= sheetRect.height * 0.67 && sheetBody.scrollTop <= 0) {
+      if (relativeTouchY <= sheetRect.height * 0.85 && sheetBody.scrollTop <= 0) {
         startY = touchY;
         isDragging = true;
         sheet.style.transition = 'none'; 
