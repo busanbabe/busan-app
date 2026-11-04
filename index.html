@@ -692,9 +692,51 @@
 
     let favorites = JSON.parse(localStorage.getItem('busan_favs') || '[]');
 
-    window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', () => {
       initBottomSheetGestures();
     });
+
+    /* 85% 寬鬆觸發手勢下拉關閉機制 */
+    function initBottomSheetGestures() {
+      const sheet = document.getElementById('bottom-sheet');
+      if (!sheet) return;
+      let startY = 0;
+      let currentY = 0;
+      let isDragging = false;
+
+      const dragHeader = sheet.querySelector('.sheet-header');
+      if (!dragHeader) return;
+
+      dragHeader.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        sheet.style.transition = 'none';
+      }, { passive: true });
+
+      dragHeader.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentY = e.touches[0].clientY;
+        const diff = currentY - startY;
+        if (diff > 0) {
+          sheet.style.transform = `translateY(${diff}px)`;
+        }
+      }, { passive: true });
+
+      dragHeader.addEventListener('touchend', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+        const diff = currentY - startY;
+        const sheetHeight = sheet.clientHeight;
+
+        if (diff > sheetHeight * 0.15) {
+          closeSheet();
+        } else {
+          sheet.style.transform = 'translateY(0)';
+        }
+      });
+    }
+
 
     /* 純底部 Bar 點擊切換頁面 */
     window.switchPage = function(index) {
