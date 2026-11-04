@@ -703,7 +703,7 @@
       else if (activeType === 'expenses') document.getElementById('nav-expenses').classList.add('active-expenses');
     }
 
-    async function openExpensesSheet() {
+function openExpensesSheet() {
   currentSheetType = 'expenses';
   updateNavActiveState('expenses');
   
@@ -712,24 +712,15 @@
   titleElem.style.color = 'var(--text-main)';
   
   const sheetBody = document.getElementById('sheet-body');
-  sheetBody.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-sub);">載入記帳本中...</div>';
+  
+  // 用 iframe 嵌入獨立的 ledger 頁面，安全又乾淨！
+  sheetBody.innerHTML = `
+    <iframe src="/ledger/" style="width: 100%; height: 75vh; border: none; background: transparent;"></iframe>
+  `;
+  
   showSheet();
-
-  try {
-    // 背後讀取 ledger 資料夾裡的獨立檔案
-    const response = await fetch('/ledger/index.html');
-    const htmlText = await response.text();
-    
-    // 解析內容並塞進底部的抽屜 (Bottom Sheet) 裡面
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlText, 'text/html');
-    const ledgerContent = doc.querySelector('#ledger-app') || doc.body;
-    
-    sheetBody.innerHTML = ledgerContent.innerHTML;
-  } catch (err) {
-    sheetBody.innerHTML = '<div style="text-align:center; padding:30px; color:#F98BA9;">記帳本載入失敗，請確認 /ledger/index.html 檔案存在</div>';
-  }
 }
+
 
     function showToast(msg) {
       const toast = document.getElementById('toast');
