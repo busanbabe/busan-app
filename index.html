@@ -24,11 +24,9 @@
       --color-baby-pink: #EFBDBD;
       --color-pistachio: #B6C687;
       --color-pale-yellow: #FAF6C8;
-
       --color-pink: #F98BA9;
 
       --bg-color: #FAF9F6;
-      --card-bg: #FFFFFF;
       --text-main: #5C4E4E;
       --text-sub: #8C7C7C;
       --border-color: #EFECE6;
@@ -74,12 +72,12 @@
       letter-spacing: 0.3px;
     }
 
-    /* 修改 3：頂部 Header 標題與閃爍星號整體往上拉一點 */
+    /* 頂部 Header 標題與上下間距拉大調整 */
     header {
       background: transparent;
       max-width: 680px;
       margin: 0 auto;
-      padding: 12px 16px 2px 34px;
+      padding: 24px 16px 16px 34px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -130,7 +128,9 @@
       margin-bottom: 16px;
       border: 1px solid var(--border-color);
     }
-    #hero-countdown-card { margin-top: -15px; }
+    
+    /* 下方整體卡片往下移與標題拉開距離 */
+    #hero-countdown-card { margin-top: 8px; }
 
     .weather-box {
       display: flex;
@@ -205,7 +205,6 @@
       perspective: 160px;
     }
 
-    /* 修改 2：縮小左右軸承，微調中間橫槓與空格感 */
     .flip-card-wrapper::before,
     .flip-card-wrapper::after {
       content: '';
@@ -245,7 +244,6 @@
       );
     }
 
-    /* 修改 2：微調卡片邊框線寬度，緊湊中間縫隙 */
     .card-face.top {
       top: 0;
       align-items: flex-end;
@@ -342,7 +340,7 @@
       pointer-events: none;
     }
 
-    /* 中間 Card Bar (即時匯率對照計算機) */
+    /* Go Exchange 方案 A 樣式 */
     .calc-card-bar {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(8px);
@@ -357,7 +355,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .calc-title {
@@ -378,10 +376,15 @@
       border: 1px solid var(--border-color);
     }
 
-    .calc-input-group {
+    .calc-input-box {
+      background: #FAF7F4;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      padding: 10px 12px;
       display: flex;
+      align-items: center;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .calc-input-wrap {
@@ -389,20 +392,20 @@
       position: relative;
     }
 
-    /* 修改 4：調整右邊距 padding-right，解決 KRW 與數字太貼黏的問題 */
     .calc-input-wrap input {
       width: 100%;
       padding: 8px 10px;
       border: 1px solid var(--border-color);
-      border-radius: 10px;
+      border-radius: 8px;
       font-size: 14px;
-      font-weight: 600;
-      background: #FAF7F4;
+      font-weight: 700;
+      background: #FFFFFF;
       color: var(--text-main);
       outline: none;
       text-align: right;
     }
-    .calc-input-wrap input#quick-twd { padding-right: 36px; }
+
+    .calc-input-wrap input#quick-twd { padding-right: 38px; }
     .calc-input-wrap input#quick-krw { padding-right: 48px; }
 
     .calc-input-wrap .unit-tag {
@@ -416,31 +419,35 @@
       pointer-events: none;
     }
 
-    /* 修改 4：退稅提示改為右對齊，精準對應右邊韓元欄位 */
-    .tax-free-hint-container {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .tax-free-hint {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 5px 10px;
-      border-radius: 8px;
-      display: inline-block;
-      transition: all 0.2s ease;
-      background: #FAF7F4;
+    .swap-icon-wrap {
       color: var(--text-sub);
-      border: 1px solid var(--border-color);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.7;
     }
 
-    .tax-free-hint.reached {
-      background: var(--color-pistachio);
+    .tax-free-banner {
+      background: #FAF7F4;
+      border: 1px dashed var(--border-color);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+
+    .tax-free-banner.reached {
+      background: rgba(182, 198, 135, 0.2);
+      border: 1px solid var(--color-pistachio);
       color: #5C4E4E;
-      border: 1px solid #5C4E4E;
     }
 
-    /* 修改 1：「探索景點」標題大小改為 15px，與集合倒數一致 */
+    /* 探索景點標題 15px */
     .section-title-label {
       font-size: 15px;
       font-weight: 700;
@@ -451,7 +458,6 @@
       gap: 6px;
     }
 
-    /* 探索景點：雙欄正方形網格 */
     .category-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -565,8 +571,8 @@
       gap: 5px;
       margin-top: 10px;
       padding: 6px 12px;
-      background: var(--map-btn-bg, rgba(92, 78, 78, 0.08));
-      color: var(--map-btn-color, #5C4E4E);
+      background: rgba(92, 78, 78, 0.08);
+      color: #5C4E4E;
       text-decoration: none;
       border-radius: 8px;
       font-size: 12px;
@@ -595,8 +601,6 @@
       color: var(--text-main);
       outline: none;
     }
-
-    .add-form input:focus, .add-form select:focus { border-color: var(--text-main); }
 
     .form-row-inline {
       display: flex;
@@ -634,11 +638,7 @@
       background: #FAF7F4;
       color: var(--text-sub);
       cursor: pointer;
-      transition: all 0.2s;
       text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -679,10 +679,7 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      transition: opacity 0.2s;
     }
-
-    .btn-submit:active { opacity: 0.9; }
 
     .dashboard-grid {
       display: grid;
@@ -707,16 +704,12 @@
       font-size: 12px;
       font-weight: 600;
       opacity: 0.95;
-      display: flex;
-      align-items: center;
-      gap: 5px;
     }
 
     .dash-main-val {
       font-size: clamp(19px, 5.2vw, 23px);
       font-weight: 800;
       margin-top: 4px;
-      line-height: 1.2;
     }
 
     .dash-sub-val {
@@ -740,7 +733,6 @@
       background: #FAF7F4;
       cursor: pointer;
       color: var(--text-sub);
-      transition: all 0.2s;
     }
 
     .expense-btn.delete {
@@ -764,7 +756,6 @@
       bottom: var(--nav-height);
       background: rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
       z-index: 150;
       opacity: 0;
       pointer-events: none;
@@ -806,9 +797,7 @@
       flex-direction: column;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border-color);
-      position: relative;
       cursor: grab;
       user-select: none;
     }
@@ -832,7 +821,6 @@
       font-size: 16px;
       font-weight: 700;
       color: var(--text-main);
-      letter-spacing: 0.5px;
     }
 
     .sheet-body {
@@ -849,7 +837,6 @@
       right: 0;
       background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       display: flex;
       justify-content: space-around;
       padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
@@ -868,7 +855,6 @@
       background: none;
       cursor: pointer;
       flex: 1;
-      transition: color 0.2s;
     }
 
     .nav-item i { font-size: 18px; margin-bottom: 3px; }
@@ -954,7 +940,7 @@
       </div>
     </div>
 
-    <!-- 中間 Card Bar：即時匯率對照計算機 (修改 4：台幣在左、韓幣在右) -->
+    <!-- Go Exchange 方案 A 版型（含即時匯率與退稅橫幅） -->
     <div class="calc-card-bar">
       <div class="calc-header">
         <div class="calc-title">
@@ -963,23 +949,30 @@
         </div>
         <div class="calc-rate-badge" id="calc-rate-display">1 TWD ≈ 41.50 KRW</div>
       </div>
-      <div class="calc-input-group">
+      
+      <div class="calc-input-box">
         <div class="calc-input-wrap">
           <input type="number" id="quick-twd" placeholder="0" oninput="convertQuickRate('twd')">
           <span class="unit-tag">NT$</span>
         </div>
-        <div style="display:flex; align-items:center; color:var(--text-sub); font-size:12px;">⇄</div>
+        
+        <div class="swap-icon-wrap">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+        </div>
+
         <div class="calc-input-wrap">
           <input type="number" id="quick-krw" placeholder="0" oninput="convertQuickRate('krw')">
           <span class="unit-tag">KRW</span>
         </div>
       </div>
-      <div class="tax-free-hint-container">
-        <div class="tax-free-hint" id="tax-free-hint">再 ₩15,000 達退稅</div>
+
+      <div class="tax-free-banner" id="tax-banner">
+        <span><i class="fa-solid fa-receipt" style="margin-right: 4px;"></i> 退稅進度</span>
+        <span style="font-weight: 700;" id="tax-status-text">再 ₩15,000 達退稅門檻</span>
       </div>
     </div>
 
-    <!-- 探索景點：1:1 正方形網格 -->
+    <!-- 探索景點網格 -->
     <div class="hero-card">
       <div class="section-title-label">
         <i class="fa-solid fa-map-location-dot" style="color: var(--text-main);"></i>
@@ -1029,7 +1022,6 @@
         <div class="sheet-title" id="sheet-title">標題</div>
       </div>
     </div>
-    
     <div class="sheet-body" id="sheet-body"></div>
   </div>
 
@@ -1071,13 +1063,12 @@
     let currentActiveCat = null;
 
     const categoryThemeMap = {
-      'A': { main: '#BBB7E5', bgLight: 'rgba(187, 183, 229, 0.2)', name: 'A. 松島 . 影島', code: 'SONGDO & YEONGDO' },
-      'B': { main: '#F7DFDF', bgLight: 'rgba(247, 223, 223, 0.3)', name: 'B. 市集 . 市場', code: 'MARKETS' },
-      'C': { main: '#DAE9FA', bgLight: 'rgba(218, 233, 250, 0.3)', name: 'C. 西面 . 田浦', code: 'SEOMYEON & JEONPO' },
-      'D': { main: '#EFBDBD', bgLight: 'rgba(239, 189, 189, 0.25)', name: 'D. 廣安里', code: 'GWANGANLI' },
-      'E': { main: '#B6C687', bgLight: 'rgba(182, 198, 135, 0.25)', name: 'E. 海雲台', code: 'HAEUNDAE' },
-      'F': { main: '#FAF6C8', bgLight: 'rgba(250, 246, 200, 0.35)', name: 'F. 天空膠囊 & 海岸列車', code: 'SKY CAPSULE & TRAIN' },
-      'ALL': { main: '#5C4E4E', bgLight: 'rgba(92, 78, 78, 0.08)', name: 'ALL SPOTS' }
+      'A': { code: 'SONGDO & YEONGDO' },
+      'B': { code: 'MARKETS' },
+      'C': { code: 'SEOMYEON & JEONPO' },
+      'D': { code: 'GWANGANLI' },
+      'E': { code: 'HAEUNDAE' },
+      'F': { code: 'SKY CAPSULE & TRAIN' }
     };
 
     async function fetchLiveExchangeRate() {
@@ -1103,46 +1094,47 @@
     }
     fetchLiveExchangeRate();
 
-    /* 修改 4：換算邏輯與精簡提示同步更新 */
     window.convertQuickRate = function(type) {
       const krwInput = document.getElementById('quick-krw');
       const twdInput = document.getElementById('quick-twd');
-      const hint = document.getElementById('tax-free-hint');
+      const banner = document.getElementById('tax-banner');
+      const statusText = document.getElementById('tax-status-text');
 
       if (type === 'krw') {
         const krw = Number(krwInput.value);
         if (!krwInput.value || isNaN(krw) || krw <= 0) {
           twdInput.value = '';
-          hint.className = 'tax-free-hint';
-          hint.innerText = '再 ₩15,000 達退稅';
+          banner.className = 'tax-free-banner';
+          statusText.innerText = '再 ₩15,000 達退稅門檻';
           return;
         }
         twdInput.value = Math.round(krw / EXCHANGE_RATE);
-        updateTaxHint(krw);
+        updateTaxBanner(krw);
       } else {
         const twd = Number(twdInput.value);
         if (!twdInput.value || isNaN(twd) || twd <= 0) {
           krwInput.value = '';
-          hint.className = 'tax-free-hint';
-          hint.innerText = '再 ₩15,000 達退稅';
+          banner.className = 'tax-free-banner';
+          statusText.innerText = '再 ₩15,000 達退稅門檻';
           return;
         }
         const krw = Math.round(twd * EXCHANGE_RATE);
         krwInput.value = krw;
-        updateTaxHint(krw);
+        updateTaxBanner(krw);
       }
     };
 
-    function updateTaxHint(krwVal) {
-      const hint = document.getElementById('tax-free-hint');
+    function updateTaxBanner(krwVal) {
+      const banner = document.getElementById('tax-banner');
+      const statusText = document.getElementById('tax-status-text');
       const threshold = 15000;
       if (krwVal >= threshold) {
-        hint.className = 'tax-free-hint reached';
-        hint.innerText = '✨ 已達退稅門檻';
+        banner.className = 'tax-free-banner reached';
+        statusText.innerText = '✨ 已達退稅門檻';
       } else {
         const diff = threshold - krwVal;
-        hint.className = 'tax-free-hint';
-        hint.innerText = `再 ₩${diff.toLocaleString()} 達退稅`;
+        banner.className = 'tax-free-banner';
+        statusText.innerText = `再 ₩${diff.toLocaleString()} 達退稅門檻`;
       }
     }
 
@@ -1183,68 +1175,68 @@
     };
 
     const presetData = [
-      { id: 'A1', cat: 'A', name: 'Songdo Bay Station 海上纜車', type: 'spot', story: '跨越海港的透明水晶纜車，飽覽松島海灣景色' },
-      { id: 'A2', cat: 'A', name: 'Songdo Sky Park', type: 'spot', story: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋' },
-      { id: 'A3', cat: 'A', name: '影島海女村', type: 'food', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯，坐在海邊大圓桶上享用現採海鮮' },
-      { id: 'A4', cat: 'A', name: 'Having moment', type: 'food', story: '位於影島白淺灘文化村的海景第一排質感咖啡廳' },
-      { id: 'A5', cat: 'A', name: 'Burger Yo Busan', type: 'food', story: '必點：手工巨無霸漢堡，露天高層海景極佳' },
-      { id: 'A6', cat: 'A', name: 'THRILL ON THE MUG 海景咖啡', type: 'food', story: '擁有階梯式海景座位與壯觀海景窗戶' },
-      { id: 'A7', cat: 'A', name: 'ATRE Museum Busan', type: 'spot', story: '光影藝術沉浸式展覽，拍照質感極高' },
-      { id: 'A8', cat: 'A', name: '甘川文化村', type: 'spot', story: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸' },
+      { id: 'A1', cat: 'A', name: 'Songdo Bay Station 海上纜車', story: '跨越海港的透明水晶纜車，飽覽松島海灣景色' },
+      { id: 'A2', cat: 'A', name: 'Songdo Sky Park', story: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋' },
+      { id: 'A3', cat: 'A', name: '影島海女村', story: '必點：海鮮拉麵、鮑魚海膽紫菜包飯，坐在海邊大圓桶上享用現採海鮮' },
+      { id: 'A4', cat: 'A', name: 'Having moment', story: '位於影島白淺灘文化村的海景第一排質感咖啡廳' },
+      { id: 'A5', cat: 'A', name: 'Burger Yo Busan', story: '必點：手工巨無霸漢堡，露天高層海景極佳' },
+      { id: 'A6', cat: 'A', name: 'THRILL ON THE MUG 海景咖啡', story: '擁有階梯式海景座位與壯觀海景窗戶' },
+      { id: 'A7', cat: 'A', name: 'ATRE Museum Busan', story: '光影藝術沉浸式展覽，拍照質感極高' },
+      { id: 'A8', cat: 'A', name: '甘川文化村', story: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸' },
 
-      { id: 'B1', cat: 'B', name: '山青豬肉湯飯', type: 'food', story: '在地老字號湯飯，湯頭濃郁無腥味' },
-      { id: 'B2', cat: 'B', name: '富平罐頭市場', type: 'spot', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞' },
-      { id: 'B3', cat: 'B', name: '愉快的生拌牛肉', type: 'food', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵' },
-      { id: 'B4', cat: 'B', name: '國際市場', type: 'spot', story: '歷史悠久的大型傳統市場，購買雜貨與伴手禮好去處' },
-      { id: 'B5', cat: 'B', name: 'BIFF 廣場', type: 'spot', story: '必吃：黑糖餅（堅果黑糖餡）' },
-      { id: 'B6', cat: 'B', name: 'Olive Young gwangbok town', type: 'spot', story: '旗艦店，品項最齊全的美妝護膚天堂' },
-      { id: 'B7', cat: 'B', name: '札嘎其市場', type: 'spot', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理' },
-      { id: 'B8', cat: 'B', name: '新東亞水產物綜合市場', type: 'spot', story: '在地人偏愛的海鮮綜合市場，價格實惠' },
+      { id: 'B1', cat: 'B', name: '山青豬肉湯飯', story: '在地老字號湯飯，湯頭濃郁無腥味' },
+      { id: 'B2', cat: 'B', name: '富平罐頭市場', story: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞' },
+      { id: 'B3', cat: 'B', name: '愉快的生拌牛肉', story: '必點：韓式生拌牛肉＋章魚海鮮拉麵' },
+      { id: 'B4', cat: 'B', name: '國際市場', story: '歷史悠久的大型傳統市場，購買雜貨與伴手禮好去處' },
+      { id: 'B5', cat: 'B', name: 'BIFF 廣場', story: '必吃：黑糖餅（堅果黑糖餡）' },
+      { id: 'B6', cat: 'B', name: 'Olive Young gwangbok town', story: '旗艦店，品項最齊全的美妝護膚天堂' },
+      { id: 'B7', cat: 'B', name: '札嘎其市場', story: '韓國最大海鮮市場，一樓選海鮮二樓直接料理' },
+      { id: 'B8', cat: 'B', name: '新東亞水產物綜合市場', story: '在地人偏愛的海鮮綜合市場，價格實惠' },
 
-      { id: 'C1', cat: 'C', name: '水邊豬肉湯飯 西面店', type: 'food', story: '廣安里名店分店，薄切豬肉片湯飯極讚' },
-      { id: 'C2', cat: 'C', name: '安木 西面店', type: 'food', story: '精緻韓定食與特色熟成肉料理' },
-      { id: 'C3', cat: 'C', name: '세든 365약국 藥局', type: 'spot', story: '西面便利藥局，常備藥與保健品採買好去處' },
-      { id: 'C4', cat: 'C', name: '돼지나무 사랑엄청난 서면 본점 燒肉', type: 'food', story: '西面人氣黑豬肉專賣店' },
-      { id: 'C5', cat: 'C', name: '烤肉的男子 西面店', type: 'food', story: '桌邊專人幫烤，五花肉與豬頸肉極度優質' },
-      { id: 'C6', cat: 'C', name: 'Poset Jeonpo 明信片', type: 'spot', story: '田浦咖啡街必逛質感明信片文創選物店' },
-      { id: 'C7', cat: 'C', name: '老宅邸 燒肉', type: 'food', story: '充滿復古老宅氛圍的高質感燒肉店' },
-      { id: 'C8', cat: 'C', name: 'Solsot 西面店 燒肉', type: 'food', story: '精緻韓式釜飯，拌入特製醬汁與鍋巴湯' },
-      { id: 'C9', cat: 'C', name: 'PURADAK炸雞', type: 'food', story: '精品級黑色包裝炸雞，必點：青辣椒蛋黃醬炸雞' },
-      { id: 'C10', cat: 'C', name: 'moody bread market 咖啡&麵包', type: 'food', story: '田浦質感烘焙坊，各式新鮮出爐歐式麵包' },
-      { id: 'C11', cat: 'C', name: 'Pot of busan 甜點', type: 'food', story: '特色造型甜點與午茶好去處' },
-      { id: 'C12', cat: 'C', name: 'Strut Coffee', type: 'food', story: '極簡工業風咖啡廳，手沖與拿鐵表現極佳' },
-      { id: 'C13', cat: 'C', name: 'Momos Coffee - Flagship Store', type: 'food', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖' },
+      { id: 'C1', cat: 'C', name: '水邊豬肉湯飯 西面店', story: '廣安里名店分店，薄切豬肉片湯飯極讚' },
+      { id: 'C2', cat: 'C', name: '安木 西面店', story: '精緻韓定食與特色熟成肉料理' },
+      { id: 'C3', cat: 'C', name: '세든 365약국 藥局', story: '西面便利藥局，常備藥與保健品採買好去處' },
+      { id: 'C4', cat: 'C', name: '돼지나무 사랑엄청난 서면 본점 燒肉', story: '西面人氣黑豬肉專賣店' },
+      { id: 'C5', cat: 'C', name: '烤肉的男子 西面店', story: '桌邊專人幫烤，五花肉與豬頸肉極度優質' },
+      { id: 'C6', cat: 'C', name: 'Poset Jeonpo 明信片', story: '田浦咖啡街必逛質感明信片文創選物店' },
+      { id: 'C7', cat: 'C', name: '老宅邸 燒肉', story: '充滿復古老宅氛圍的高質感燒肉店' },
+      { id: 'C8', cat: 'C', name: 'Solsot 西面店 燒肉', story: '精緻韓式釜飯，拌入特製醬汁與鍋巴湯' },
+      { id: 'C9', cat: 'C', name: 'PURADAK炸雞', story: '精品級黑色包裝炸雞，必點：青辣椒蛋黃醬炸雞' },
+      { id: 'C10', cat: 'C', name: 'moody bread market 咖啡&麵包', story: '田浦質感烘焙坊，各式新鮮出爐歐式麵包' },
+      { id: 'C11', cat: 'C', name: 'Pot of busan 甜點', story: '特色造型甜點與午茶好去處' },
+      { id: 'C12', cat: 'C', name: 'Strut Coffee', story: '極簡工業風咖啡廳，手沖與拿鐵表現極佳' },
+      { id: 'C13', cat: 'C', name: 'Momos Coffee - Flagship Store', story: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖' },
 
-      { id: 'D1', cat: 'D', name: '五六島天空步道', type: 'spot', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖' },
-      { id: 'D2', cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', type: 'food', story: '米其林推薦高質感湯飯，清爽極致' },
-      { id: 'D3', cat: 'D', name: 'Momos Coffee - Dorunheon', type: 'food', story: '環境清幽雅緻' },
-      { id: 'D4', cat: 'D', name: '烤肉的男子 廣安里店', type: 'food', story: '享受美味專人代烤肉品，同時欣賞廣安里海景' },
-      { id: 'D5', cat: 'D', name: '釜飯', type: 'food', story: '廣安里在地高評價精緻釜飯料理' },
-      { id: 'D6', cat: 'D', name: 'Ancien 咖啡&麵包', type: 'food', story: '香氣四溢的手工麵包與舒適咖啡空間' },
-      { id: 'D7', cat: 'D', name: 'La Mia Estate 義式冰淇淋', type: 'food', story: '香濃滑順的義式手工 Gelato 冰淇淋' },
-      { id: 'D8', cat: 'D', name: 'All Sunday', type: 'food', story: '廣安里人氣打卡早午餐與咖啡烘焙坊' },
-      { id: 'D9', cat: 'D', name: '廣安里 M 無人機燈光秀', type: 'spot', story: '每週六晚上限定的廣安大橋無人機燈光演出' },
-      { id: 'D10', cat: 'D', name: '고하순 광안직영점 燒肉', type: 'food', story: '廣安里直營極品熟成烤肉專賣店' },
-      { id: 'D11', cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', type: 'spot', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕' },
+      { id: 'D1', cat: 'D', name: '五六島天空步道', story: '懸空玻璃步道，俯瞰五六島與壯麗懸崖' },
+      { id: 'D2', cat: 'D', name: 'Namagjib 豬肉湯飯 / 米其林推薦', story: '米其林推薦高質感湯飯，清爽極致' },
+      { id: 'D3', cat: 'D', name: 'Momos Coffee - Dorunheon', story: '環境清幽雅緻' },
+      { id: 'D4', cat: 'D', name: '烤肉的男子 廣安里店', story: '享受美味專人代烤肉品，同時欣賞廣安里海景' },
+      { id: 'D5', cat: 'D', name: '釜飯', story: '廣安里在地高評價精緻釜飯料理' },
+      { id: 'D6', cat: 'D', name: 'Ancien 咖啡&麵包', story: '香氣四溢的手工麵包與舒適咖啡空間' },
+      { id: 'D7', cat: 'D', name: 'La Mia Estate 義式冰淇淋', story: '香濃滑順的義式手工 Gelato 冰淇淋' },
+      { id: 'D8', cat: 'D', name: 'All Sunday', story: '廣安里人氣打卡早午餐與咖啡烘焙坊' },
+      { id: 'D9', cat: 'D', name: '廣安里 M 無人機燈光秀', story: '每週六晚上限定的廣安大橋無人機燈光演出' },
+      { id: 'D10', cat: 'D', name: '고하순 광안직영점 燒肉', story: '廣安里直營極品熟成烤肉專賣店' },
+      { id: 'D11', cat: 'D', name: '新世界百貨公司 Centum City / SPA LAND', story: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕' },
 
-      { id: 'E1', cat: 'E', name: '味贊王鹽烤肉 海雲台店', type: 'food', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳' },
-      { id: 'E2', cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', type: 'food', story: '排隊名店：分為釜山式濃湯與密陽式清湯兩種風格' },
-      { id: 'E3', cat: 'E', name: 'Busandang 紅豆麵包', type: 'food', story: '香甜濃郁的經典紅豆麵包' },
-      { id: 'E4', cat: 'E', name: '螞蟻家辣炒章魚', type: 'food', story: '招牌牛腸炒章魚蝦仁，拌飯一流' },
-      { id: 'E5', cat: 'E', name: '海雲台傳統市場', type: 'spot', story: '充滿在地小吃、海鮮與糖餅的熱鬧市集' },
-      { id: 'E6', cat: 'E', name: 'Haeundae 31cm Haemul Kalguksu', type: 'food', story: '超澎湃綜合貝類海鮮刀削麵' },
-      { id: 'E7', cat: 'E', name: 'Jayeondo Sogeumppang & Jayeondohae', type: 'food', story: '自然島鹽可頌，外酥內軟排隊名店' },
-      { id: 'E8', cat: 'E', name: '오브봔 ovone水果蛋糕', type: 'food', story: '精緻美味的季節水果蛋糕與午茶甜點' },
-      { id: 'E9', cat: 'E', name: 'Miffy 專門店', type: 'spot', story: '可愛的米飛兔官方授權專賣店與選物' },
-      { id: 'E10', cat: 'E', name: '水邊豬肉湯飯', type: 'food', story: '海雲台分店，濃郁順口的在地好滋味' },
+      { id: 'E1', cat: 'E', name: '味贊王鹽烤肉 海雲台店', story: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳' },
+      { id: 'E2', cat: 'E', name: '嚴湧帛豬肉湯飯 海雲台店', story: '排隊名店：分為釜山式濃湯與密陽式清湯兩種風格' },
+      { id: 'E3', cat: 'E', name: 'Busandang 紅豆麵包', story: '香甜濃郁的經典紅豆麵包' },
+      { id: 'E4', cat: 'E', name: '螞蟻家辣炒章魚', story: '招牌牛腸炒章魚蝦仁，拌飯一流' },
+      { id: 'E5', cat: 'E', name: '海雲台傳統市場', story: '充滿在地小吃、海鮮與糖餅的熱鬧市集' },
+      { id: 'E6', cat: 'E', name: 'Haeundae 31cm Haemul Kalguksu', story: '超澎湃綜合貝類海鮮刀削麵' },
+      { id: 'E7', cat: 'E', name: 'Jayeondo Sogeumppang & Jayeondohae', story: '自然島鹽可頌，外酥內軟排隊名店' },
+      { id: 'E8', cat: 'E', name: '오브봔 ovone水果蛋糕', story: '精緻美味的季節水果蛋糕與午茶甜點' },
+      { id: 'E9', cat: 'E', name: 'Miffy 專門店', story: '可愛的米飛兔官方授權專賣店與選物' },
+      { id: 'E10', cat: 'E', name: '水邊豬肉湯飯', story: '海雲台分店，濃郁順口的在地好滋味' },
 
-      { id: 'F1', cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', type: 'spot', story: '彩色車廂在高空軌道運行欣賞海景' },
-      { id: 'F2', cat: 'F', name: 'TIDE Coffee Roasters', type: 'food', story: '青沙浦海景第一排的烘焙咖啡館' },
-      { id: 'F3', cat: 'F', name: 'Edge 993', type: 'food', story: '擁有超棒頂樓露台，眺望海岸列車與海景' },
-      { id: 'F4', cat: 'F', name: 'CHU PLUS 松亭店', type: 'food', story: '松亭海灘旁，現炸香酥吉拿棒佐濃郁冰淇淋' },
-      { id: 'F5', cat: 'F', name: '青沙浦紅白雙燈塔', type: 'spot', story: '紅白雙燈塔映襯海景' },
-      { id: 'F6', cat: 'F', name: '青沙浦踏石瞭望臺', type: 'spot', story: '海上步道：透明玻璃天空步道，感受懸空看海的刺激' },
-      { id: 'F7', cat: 'F', name: 'Skyline Luge Busan', type: 'spot', story: '釜山斜坡滑車，驚險刺激適合結伴同遊' }
+      { id: 'F1', cat: 'F', name: '海雲臺藍線公園 尾浦站—青沙浦站', story: '彩色車廂在高空軌道運行欣賞海景' },
+      { id: 'F2', cat: 'F', name: 'TIDE Coffee Roasters', story: '青沙浦海景第一排的烘焙咖啡館' },
+      { id: 'F3', cat: 'F', name: 'Edge 993', story: '擁有超棒頂樓露台，眺望海岸列車與海景' },
+      { id: 'F4', cat: 'F', name: 'CHU PLUS 松亭店', story: '松亭海灘旁，現炸香酥吉拿棒佐濃郁冰淇淋' },
+      { id: 'F5', cat: 'F', name: '青沙浦紅白雙燈塔', story: '紅白雙燈塔映襯海景' },
+      { id: 'F6', cat: 'F', name: '青沙浦踏石瞭望臺', story: '海上步道：透明玻璃天空步道，感受懸空看海的刺激' },
+      { id: 'F7', cat: 'F', name: 'Skyline Luge Busan', story: '釜山斜坡滑車，驚險刺激適合結伴同遊' }
     ];
 
     let favorites = JSON.parse(localStorage.getItem('busan_favs') || '[]');
@@ -1253,6 +1245,7 @@
       localStorage.setItem('busan_favs', JSON.stringify(favorites));
     }
 
+    /* 翻頁時鐘 3D 結構與中心軸心優化 */
     function updateClockUnit(unitName, value) {
       const formatted = String(value).padStart(2, '0');
       const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
@@ -1320,9 +1313,7 @@
       document.getElementById('sheet-overlay').classList.remove('active');
       sheet.classList.remove('active');
       
-      document.querySelectorAll('.nav-item').forEach(el => {
-        el.className = 'nav-item';
-      });
+      document.querySelectorAll('.nav-item').forEach(el => el.className = 'nav-item');
       document.getElementById('nav-schedule').classList.add('active-schedule');
       currentSheetType = null;
       currentActiveCat = null;
@@ -1330,35 +1321,22 @@
 
     window.toggleNav = function(type) {
       if (type === 'schedule') {
-        if (currentSheetType !== null) {
-          closeSheet();
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        if (currentSheetType !== null) closeSheet();
+        else window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (type === 'favorites') {
-        if (currentSheetType === 'favorites') {
-          closeSheet();
-        } else {
-          openFavoritesSheet();
-        }
+        if (currentSheetType === 'favorites') closeSheet();
+        else openFavoritesSheet();
       } else if (type === 'expenses') {
-        if (currentSheetType === 'expenses') {
-          closeSheet();
-        } else {
-          openExpensesSheet();
-        }
+        if (currentSheetType === 'expenses') closeSheet();
+        else openExpensesSheet();
       }
     };
 
     function updateNavActiveState(activeType) {
       document.querySelectorAll('.nav-item').forEach(el => el.className = 'nav-item');
-      if (activeType === 'schedule') {
-        document.getElementById('nav-schedule').classList.add('active-schedule');
-      } else if (activeType === 'favorites') {
-        document.getElementById('nav-favorites').classList.add('active-favorites');
-      } else if (activeType === 'expenses') {
-        document.getElementById('nav-expenses').classList.add('active-expenses');
-      }
+      if (activeType === 'schedule') document.getElementById('nav-schedule').classList.add('active-schedule');
+      else if (activeType === 'favorites') document.getElementById('nav-favorites').classList.add('active-favorites');
+      else if (activeType === 'expenses') document.getElementById('nav-expenses').classList.add('active-expenses');
     }
 
     window.openCategorySheet = function(catCode, titleName) {
@@ -1366,7 +1344,7 @@
       currentActiveCat = catCode;
       updateNavActiveState('schedule');
       
-      const theme = categoryThemeMap[catCode] || categoryThemeMap['ALL'];
+      const theme = categoryThemeMap[catCode];
       const titleElem = document.getElementById('sheet-title');
       
       titleElem.innerHTML = `
@@ -1384,10 +1362,7 @@
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = '';
 
-      let listData = presetData;
-      if (catCode !== 'ALL') {
-        listData = presetData.filter(item => item.cat === catCode);
-      }
+      const listData = presetData.filter(item => item.cat === catCode);
 
       listData.forEach((item, index) => {
         const isFav = favorites.includes(item.id);
@@ -1562,27 +1537,17 @@
       if (payerName === 'All') {
         selectedPayers = ['All'];
       } else {
-        if (selectedPayers.includes('All')) {
-          selectedPayers = [];
-        }
+        if (selectedPayers.includes('All')) selectedPayers = [];
         const idx = selectedPayers.indexOf(payerName);
-        if (idx > -1) {
-          selectedPayers.splice(idx, 1);
-        } else {
-          selectedPayers.push(payerName);
-        }
-        if (selectedPayers.length === 0) {
-          selectedPayers = ['All'];
-        }
+        if (idx > -1) selectedPayers.splice(idx, 1);
+        else selectedPayers.push(payerName);
+        if (selectedPayers.length === 0) selectedPayers = ['All'];
       }
       
       chips.forEach(chip => {
         const p = chip.getAttribute('data-payer');
-        if (selectedPayers.includes(p)) {
-          chip.classList.add('selected');
-        } else {
-          chip.classList.remove('selected');
-        }
+        if (selectedPayers.includes(p)) chip.classList.add('selected');
+        else chip.classList.remove('selected');
       });
     };
 
@@ -1590,42 +1555,31 @@
     window.toggleSelectAllPayers = function() {
       const chips = document.querySelectorAll('.payer-chip');
       allSelectedState = !allSelectedState;
-      if (allSelectedState) {
-        selectedPayers = ['Jase', 'Jessie', 'Jewel', 'Kay'];
-      } else {
-        selectedPayers = ['All'];
-      }
+      if (allSelectedState) selectedPayers = ['Jase', 'Jessie', 'Jewel', 'Kay'];
+      else selectedPayers = ['All'];
+      
       chips.forEach(chip => {
         const p = chip.getAttribute('data-payer');
         if (selectedPayers.includes(p) || (allSelectedState && p !== 'All')) {
-          if(p !== 'All' || !allSelectedState) {
-            chip.classList.add('selected');
-          }
+          if(p !== 'All' || !allSelectedState) chip.classList.add('selected');
         } else {
           chip.classList.remove('selected');
         }
-        if(!allSelectedState && p === 'All') {
-          chip.classList.add('selected');
-        } else if(allSelectedState && p === 'All') {
-          chip.classList.remove('selected');
-        }
+        if(!allSelectedState && p === 'All') chip.classList.add('selected');
+        else if(allSelectedState && p === 'All') chip.classList.remove('selected');
       });
     };
 
     window.toggleFavorite = function(itemId) {
       const idx = favorites.indexOf(itemId);
-      if (idx > -1) {
-        favorites.splice(idx, 1);
-      } else {
-        favorites.push(itemId);
-      }
+      if (idx > -1) favorites.splice(idx, 1);
+      else favorites.push(itemId);
       saveFavorites();
 
       if (currentSheetType === 'category' && currentActiveCat) {
         renderCategorySheetContent(currentActiveCat);
       } else if (currentSheetType === 'favorites') {
-        const titleElem = document.getElementById('sheet-title');
-        titleElem.innerText = `收藏 (${favorites.length})`;
+        document.getElementById('sheet-title').innerText = `收藏 (${favorites.length})`;
         renderFavoritesSheetContent();
       }
     };
@@ -1665,17 +1619,7 @@
       const newDateOptions = generateDateOptions(currentDate);
       
       const modalBg = document.createElement('div');
-      modalBg.style.position = 'fixed';
-      modalBg.style.top = '0';
-      modalBg.style.left = '0';
-      modalBg.style.right = '0';
-      modalBg.style.bottom = '0';
-      modalBg.style.background = 'rgba(0,0,0,0.4)';
-      modalBg.style.zIndex = '9999';
-      modalBg.style.display = 'flex';
-      modalBg.style.alignItems = 'center';
-      modalBg.style.justifyContent = 'center';
-      modalBg.style.padding = '16px';
+      modalBg.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;';
 
       modalBg.innerHTML = `
         <div style="background:#FAF9F6; border-radius:20px; padding:20px; width:100%; max-width:340px; border:1px solid var(--border-color); box-shadow:0 8px 24px rgba(0,0,0,0.15);">
@@ -1751,7 +1695,7 @@
           </div>
           <div class="expense-actions">
             <button class="expense-btn" onclick="editExpense('${docId}', '${data.date || ''}', '${data.item.replace(/'/g, "\\'")}', ${data.amount})"><i class="fa-solid fa-pen"></i> 修改</button>
-            <button class="expense-btn delete" style="color: var(--color-pink); border-color: rgba(249, 139, 169, 0.3); background: #FFF9F8;" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
+            <button class="expense-btn delete" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
           </div>
         `;
         expensesList.appendChild(card);
@@ -1764,14 +1708,11 @@
 
     onSnapshot(collection(db, "expenses"), (snapshot) => {
       latestExpensesData = snapshot.docs;
-      if (currentSheetType === 'expenses') {
-        renderExpensesUI();
-      }
+      if (currentSheetType === 'expenses') renderExpensesUI();
     });
 
     const sheet = document.getElementById('bottom-sheet');
     const sheetBody = document.getElementById('sheet-body');
-
     let startY = 0;
     let currentY = 0;
     let isDragging = false;
@@ -1805,12 +1746,8 @@
       const deltaY = currentY - startY;
 
       sheet.style.transition = 'transform 0.3s ease-out';
-
-      if (deltaY > 70) {
-        closeSheet();
-      } else {
-        sheet.style.transform = `translateY(0)`;
-      }
+      if (deltaY > 70) closeSheet();
+      else sheet.style.transform = `translateY(0)`;
       startY = 0;
       currentY = 0;
     });
@@ -1826,9 +1763,7 @@
       ];
 
       fireworkSpots.forEach((spot, index) => {
-        setTimeout(() => {
-          createIllustrationFirework(spot.x, spot.y);
-        }, index * 160);
+        setTimeout(() => createIllustrationFirework(spot.x, spot.y), index * 160);
       });
     });
 
@@ -1840,17 +1775,7 @@
         const ray = document.createElement('div');
         const color = colors[Math.floor(Math.random() * colors.length)];
         
-        ray.style.position = 'fixed';
-        ray.style.left = `${x}px`;
-        ray.style.top = `${y}px`;
-        ray.style.width = '2.5px';
-        ray.style.height = `${30 + Math.random() * 35}px`;
-        ray.style.backgroundColor = color;
-        ray.style.borderRadius = '2px';
-        ray.style.pointerEvents = 'none';
-        ray.style.zIndex = '99999';
-        ray.style.transformOrigin = 'top center';
-        ray.style.opacity = '1';
+        ray.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:2.5px;height:${30 + Math.random() * 35}px;background-color:${color};border-radius:2px;pointer-events:none;z-index:99999;transform-origin:top center;opacity:1;`;
 
         const angle = (360 / rayCount) * i + (Math.random() * 8 - 4);
         const distance = 50 + Math.random() * 50;
@@ -1865,38 +1790,6 @@
         });
 
         setTimeout(() => ray.remove(), 800);
-      }
-
-      const starCount = 18;
-      const starSymbols = ['✨', '✦', '·', '˚'];
-
-      for (let j = 0; j < starCount; j++) {
-        const star = document.createElement('div');
-        star.innerText = starSymbols[Math.floor(Math.random() * starSymbols.length)];
-        
-        star.style.position = 'fixed';
-        star.style.left = `${x}px`;
-        star.style.top = `${y}px`;
-        star.style.fontSize = `${10 + Math.random() * 12}px`;
-        star.style.color = colors[Math.floor(Math.random() * colors.length)];
-        star.style.pointerEvents = 'none';
-        star.style.zIndex = '99999';
-        star.style.opacity = '1';
-
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 40 + Math.random() * 80;
-        const tx = Math.cos(angle) * speed;
-        const ty = Math.sin(angle) * speed;
-
-        star.style.transition = 'all 0.9s ease-out';
-        document.body.appendChild(star);
-
-        requestAnimationFrame(() => {
-          star.style.transform = `translate(${tx}px, ${ty}px) scale(1.3) rotate(${Math.random() * 180}deg)`;
-          star.style.opacity = '0';
-        });
-
-        setTimeout(() => star.remove(), 900);
       }
     };
   </script>
