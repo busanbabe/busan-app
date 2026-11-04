@@ -836,7 +836,7 @@
       let currentY = 0;
       let isDragging = false;
 
-      const header = sheet.querySelector('.sheet-header') || sheet;
+      const header = sheet;
 
       header.addEventListener('touchstart', (e) => {
         startY = e.touches[0].clientY;
@@ -860,7 +860,7 @@
         const diff = currentY - startY;
         const sheetHeight = sheet.clientHeight;
 
-        if (diff > sheetHeight * 0.15) {
+        if (diff > sheetHeight * 0.85) {
           closeSheet();
         } else {
           sheet.style.transform = 'translateY(0)';
