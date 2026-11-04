@@ -263,7 +263,7 @@
     .flipper-face.back { align-items: flex-start; transform: rotateX(180deg); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-top: 1px solid rgba(255, 255, 255, 0.6); }
     .flipper-face.back span { transform: translateY(-50%); }
 
-        .unit-label {
+    .unit-label {
       position: absolute; 
       bottom: 6px; 
       left: 50%; 
@@ -275,7 +275,6 @@
       z-index: 40; 
       pointer-events: none;
     }
-
 
     .calc-card-bar {
       background: rgba(255, 255, 255, 0.95);
@@ -373,7 +372,7 @@
       cursor: grab; 
       user-select: none; 
     }
-    .sheet-handle { width: 38px; height: 5px; background: #D4CBC0; border-radius: 3px; align-self: center; margin-bottom: 10px; }
+    .sheet-handle { width: 38px; height: 5px; background: #D4CBC0; border-radius: 3px; margin: 0 auto 10px; }
     .sheet-title-bar { display: flex; justify-content: center; align-items: center; }
     .sheet-title { font-size: 16px; font-weight: 700; color: var(--text-main); }
     
@@ -383,14 +382,6 @@
       -webkit-overflow-scrolling: touch; 
       overscroll-behavior: contain; 
       padding: 16px; 
-    }
-
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
     }
 
     /* 記帳頁面 */
@@ -421,7 +412,7 @@
     nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(16px);
-      display: flex; justify-around; padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+      display: flex; justify-content: space-around; padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
       border-top: 1px solid var(--border-color); z-index: 300;
     }
     .nav-item {
@@ -548,12 +539,12 @@
     </div>
   </div>
 
-  <!-- PAGE 2: 行程導覽 (ITINERARY) - 保留容器供未來設計 -->
+  <!-- PAGE 2: 行程導覽 (ITINERARY) -->
   <div class="app-page max-w-md mx-auto relative select-none" id="page-itinerary">
     <!-- 未來新行程導覽內容可在此區塊構建 -->
   </div>
 
-  <!-- Bottom Sheet (探索景點、收藏、記帳) -->
+  <!-- Bottom Sheet -->
   <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
   <div class="bottom-sheet" id="bottom-sheet">
     <div class="sheet-header" id="sheet-header">
@@ -607,7 +598,7 @@
     let latestExpensesData = [];
     let currentSheetType = null;
     let currentActiveCat = null;
-    let currentPageIndex = 0; // 0: 首頁, 1: 行程頁
+    let currentPageIndex = 0;
 
     const categoryThemeMap = {
       'A': { code: 'SONGDO & YEONGDO' },
@@ -692,11 +683,7 @@
 
     let favorites = JSON.parse(localStorage.getItem('busan_favs') || '[]');
 
-        window.addEventListener('DOMContentLoaded', () => {
-      initBottomSheetGestures();
-    });
-
-    /* 85% 寬鬆觸發手勢下拉關閉機制 */
+    /* 下拉手勢控制機制 */
     function initBottomSheetGestures() {
       const sheet = document.getElementById('bottom-sheet');
       if (!sheet) return;
@@ -730,15 +717,18 @@
         const sheetHeight = sheet.clientHeight;
 
         if (diff > sheetHeight * 0.15) {
-          closeSheet();
+          window.closeSheet();
         } else {
           sheet.style.transform = 'translateY(0)';
         }
       });
     }
 
+    window.addEventListener('DOMContentLoaded', () => {
+      initBottomSheetGestures();
+    });
 
-    /* 純底部 Bar 點擊切換頁面 */
+    /* 切換頁面 */
     window.switchPage = function(index) {
       currentPageIndex = index;
       const homePage = document.getElementById('page-home');
@@ -756,27 +746,27 @@
 
     window.handleNavClick = function(type) {
       if (type === 'home') {
-        if (currentSheetType !== null) { closeSheet(); return; }
+        if (currentSheetType !== null) { window.closeSheet(); return; }
         if (currentPageIndex === 0) {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          switchPage(0);
+          window.switchPage(0);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       } else if (type === 'schedule') {
-        if (currentSheetType !== null) { closeSheet(); return; }
+        if (currentSheetType !== null) { window.closeSheet(); return; }
         if (currentPageIndex === 1) {
           document.getElementById('page-itinerary').scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          switchPage(1);
+          window.switchPage(1);
           document.getElementById('page-itinerary').scrollTo({ top: 0, behavior: 'smooth' });
         }
       } else if (type === 'favorites') {
-        if (currentSheetType === 'favorites') closeSheet();
-        else openFavoritesSheet();
+        if (currentSheetType === 'favorites') window.closeSheet();
+        else window.openFavoritesSheet();
       } else if (type === 'expenses') {
-        if (currentSheetType === 'expenses') closeSheet();
-        else openExpensesSheet();
+        if (currentSheetType === 'expenses') window.closeSheet();
+        else window.openExpensesSheet();
       }
     };
 
@@ -795,7 +785,7 @@
       setTimeout(() => toast.style.opacity = '0', 2000);
     }
 
-    /* 天氣與匯率 API */
+    /* 匯率與計算 */
     async function fetchLiveExchangeRate() {
       try {
         const res = await fetch('https://open.er-api.com/v6/latest/TWD');
@@ -867,7 +857,7 @@
     }
     fetchBusanWeather();
 
-    /* 翻頁時鐘倒數 */
+    /* 翻頁時鐘倒數機制 */
     function updateClockUnit(unitName, value) {
       const formatted = String(value).padStart(2, '0');
       const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
@@ -909,90 +899,33 @@
         updateClockUnit('minutes', Math.floor((diff / 1000 / 60) % 60));
         updateClockUnit('seconds', Math.floor((diff / 1000) % 60));
       }
-      setInterval(tick, 1000); tick();
+      setInterval(tick, 1000); 
+      tick();
     }
     startSingleCountdown();
 
-    /* 85% 寬鬆觸發手勢下拉關閉機制 */
-    function initBottomSheetGestures() {
-    const sheet = document.getElementById('bottom-sheet');
-    if (!sheet) return;
-    let startY = 0;
-    let currentY = 0;
-    let isDragging = false;
-
-    function initBottomSheetGestures() {
-      const sheet = document.getElementById('bottom-sheet');
-      if (!sheet) return;
-      let startY = 0;
-      let currentY = 0;
-      let isDragging = false;
-
-      // 嚴格規定：只能透過頂部的 .sheet-header 區域來拖曳關閉視窗
-      const dragHeader = sheet.querySelector('.sheet-header');
-
-      dragHeader.addEventListener('touchstart', (e) => {
-        startY = e.touches[0].clientY;
-        isDragging = true;
-        sheet.style.transition = 'none';
-      }, { passive: true });
-
-      dragHeader.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        currentY = e.touches[0].clientY;
-        const diff = currentY - startY;
-        
-        // 只有往下拉時才作用
-        if (diff > 0) {
-          sheet.style.transform = `translateY(${diff}px)`;
-        }
-      }, { passive: true });
-
-      dragHeader.addEventListener('touchend', () => {
-        if (!isDragging) return;
-        isDragging = false;
-        sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-        const diff = currentY - startY;
-        const sheetHeight = sheet.clientHeight;
-
-        // 超過視窗高度的 15% 就關閉，否則彈回原位
-        if (diff > sheetHeight * 0.15) {
-          closeSheet();
-        } else {
-          sheet.style.transform = 'translateY(0)';
-        }
-      });
-    }
-
-
-
-    /* Bottom Sheet 互動 */
+    /* Bottom Sheet 展開與關閉 */
     window.openSheet = function() {
-    const sheet = document.getElementById('bottom-sheet');
-    const overlay = document.getElementById('sheet-overlay');
-    sheet.classList.add('active');
-    overlay.classList.add('active');
-    sheet.style.transform = 'translateY(0)';
-    
-    // 鎖定背景頁面滾動
-    document.body.style.overflow = 'hidden';
-};
+      const sheet = document.getElementById('bottom-sheet');
+      const overlay = document.getElementById('sheet-overlay');
+      sheet.classList.add('active');
+      overlay.classList.add('active');
+      sheet.style.transform = 'translateY(0)';
+      document.body.style.overflow = 'hidden';
+    };
 
-window.closeSheet = function() {
-    const sheet = document.getElementById('bottom-sheet');
-    const overlay = document.getElementById('sheet-overlay');
-    sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-    sheet.style.transform = 'translateY(105%)';
-    overlay.classList.remove('active');
-    sheet.classList.remove('active');
-    updateNavActiveState(currentPageIndex === 0 ? 'home' : 'schedule');
-    currentSheetType = null;
-    currentActiveCat = null;
-    
-    // 恢復背景頁面滾動
-    document.body.style.overflow = '';
-};
-
+    window.closeSheet = function() {
+      const sheet = document.getElementById('bottom-sheet');
+      const overlay = document.getElementById('sheet-overlay');
+      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+      sheet.style.transform = 'translateY(105%)';
+      overlay.classList.remove('active');
+      sheet.classList.remove('active');
+      updateNavActiveState(currentPageIndex === 0 ? 'home' : 'schedule');
+      currentSheetType = null;
+      currentActiveCat = null;
+      document.body.style.overflow = '';
+    };
 
     window.openCategorySheet = function(catCode, titleName) {
       currentSheetType = 'category';
@@ -1005,7 +938,7 @@ window.closeSheet = function() {
         </div>
       `;
       renderCategorySheetContent(catCode);
-      showSheet();
+      window.openSheet();
     };
 
     function renderCategorySheetContent(catCode) {
@@ -1033,33 +966,25 @@ window.closeSheet = function() {
       });
     }
 
-    function openFavoritesSheet() {
+    window.openFavoritesSheet = function() {
       currentSheetType = 'favorites';
       updateNavActiveState('favorites');
       const titleElem = document.getElementById('sheet-title');
       titleElem.innerText = `收藏 (${favorites.length})`;
       titleElem.style.color = 'var(--color-pink)';
       renderFavoritesSheetContent();
-      showSheet();
-    }
+      window.openSheet();
+    };
 
-    function openExpensesSheet() {
+    window.openExpensesSheet = function() {
       currentSheetType = 'expenses';
       updateNavActiveState('expenses');
       const titleElem = document.getElementById('sheet-title');
       titleElem.innerText = `記帳小幫手`;
       titleElem.style.color = 'var(--text-main)';
       renderExpensesSheetContent();
-      showSheet();
-    }
-
-    function showSheet() {
-      const sheet = document.getElementById('bottom-sheet');
-      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-      sheet.style.transform = 'translateY(0)';
-      document.getElementById('sheet-overlay').classList.add('active');
-      sheet.classList.add('active');
-    }
+      window.openSheet();
+    };
 
     function renderFavoritesSheetContent() {
       const sheetBody = document.getElementById('sheet-body');
