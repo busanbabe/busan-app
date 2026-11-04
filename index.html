@@ -4,11 +4,11 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Hello Busan | Hi 2027</title>
+  <title>釜山安妞 | Hi 2027</title>
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Hello Busan">
+  <meta name="apple-mobile-web-app-title" content="釜山安妞">
   <link rel="apple-touch-icon" href="cover.PNG">
   
   <!-- Tailwind CSS & SortableJS -->
@@ -85,7 +85,7 @@
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
       -webkit-tap-highlight-color: transparent;
-      box-shadow: none !important; /* 全面無陰影設計 */
+      box-shadow: none !important;
     }
 
     body {
@@ -119,7 +119,6 @@
       display: block;
     }
 
-    /* 頂部 Header */
     header {
       background: transparent;
       max-width: 680px;
@@ -312,16 +311,16 @@
     .cat-letter-badge { position: absolute; top: 10px; left: 12px; font-size: 13px; font-weight: 800; color: var(--text-main); opacity: 0.85; }
     .cat-card-title { font-size: 15px; font-weight: 700; color: var(--text-main); line-height: 1.35; }
 
-    /* 行程頁面專屬排版與對齊 */
+    /* 行程頁面專屬排版與對齊：精準正方形日期按鈕與時間軸對齊 */
     .itinerary-wrapper {
       max-width: 680px;
       margin: 0 auto;
       padding: 0 16px;
     }
-    /* 時間軸線條：隨著列表自動向下延伸 */
+    /* 時間軸線條：精準定在 7:30 右側 (距左 48px)，絕不壓到時間或卡片 */
     .timeline-line { 
       position: absolute; 
-      left: 17px; /* 與下方卡片時間軸圓點完美對齊 */
+      left: 48px; 
       top: 24px; 
       bottom: 24px; 
       width: 2px; 
@@ -357,13 +356,20 @@
     .story-box { font-size: 13px; color: var(--text-sub); line-height: 1.5; margin-top: 6px; background: rgba(250, 247, 244, 0.8); padding: 9px 11px; border-radius: 10px; }
     .map-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; padding: 6px 12px; background: rgba(92, 78, 78, 0.08); color: #5C4E4E; text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 700; }
 
-    /* Bottom Sheet & 85% 下拉手勢收起機制 */
-    .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: var(--nav-height); background: rgba(0, 0, 0, 0.3); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    /* Bottom Sheet & 輕量下拉關閉 (無霧霾黑背景遮罩) */
+    .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: var(--nav-height); background: rgba(0, 0, 0, 0.2); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
     .sheet-overlay.active { opacity: 1; pointer-events: auto; }
-    .bottom-sheet { position: fixed; left: 0; right: 0; bottom: var(--nav-height); max-width: 680px; margin: 0 auto; max-height: calc(85vh - var(--nav-height)); height: 75vh; background: #FAF9F6; border-top-left-radius: 24px; border-top-right-radius: 24px; z-index: 200; transform: translateY(105%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); border-bottom: none; touch-action: none; }
+    
+    .bottom-sheet { 
+      position: fixed; left: 0; right: 0; bottom: var(--nav-height); max-width: 680px; margin: 0 auto; 
+      max-height: calc(85vh - var(--nav-height)); height: 75vh; background: #FAF9F6; 
+      border-top-left-radius: 24px; border-top-right-radius: 24px; z-index: 200; 
+      transform: translateY(105%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); 
+      display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); border-bottom: none; touch-action: none; 
+    }
     .bottom-sheet.active { transform: translateY(0); }
 
-    .sheet-header { padding: 10px 20px 14px; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid var(--border-color); cursor: grab; user-select: none; }
+    .sheet-header { padding: 12px 20px 14px; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.98); border-bottom: 1px solid var(--border-color); cursor: grab; user-select: none; }
     .sheet-handle { width: 38px; height: 5px; background: #D4CBC0; border-radius: 3px; align-self: center; margin-bottom: 10px; }
     .sheet-title-bar { display: flex; justify-content: center; align-items: center; }
     .sheet-title { font-size: 16px; font-weight: 700; color: var(--text-main); }
@@ -396,7 +402,7 @@
     .expense-btn.delete { color: var(--color-pink); border-color: rgba(249, 139, 169, 0.3); background: #FFF9F8; }
     .empty-fav-msg { text-align: center; padding: 50px 20px; color: var(--text-sub); font-size: 14px; }
 
-    /* Bottom Nav Bar */
+    /* 底部導覽列 Bar */
     nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(16px);
@@ -426,7 +432,7 @@
   <!-- PAGE 1: 首頁 (HOME) -->
   <div class="app-page active-page" id="page-home">
     <header>
-      <div class="header-title-text">Hello Busan</div>
+      <div class="header-title-text">釜山安妞</div>
       <div class="new-year-badge">
         <span class="header-title-text">Hi 2027</span>
         <span class="sparkle-icon" id="sparkle-btn">✨</span>
@@ -447,7 +453,7 @@
         <div class="reunion-countdown-section">
           <div class="countdown-header">
             <span class="countdown-title">
-              <i class="fa-solid fa-heart title-heart-icon"></i> 集合倒數
+              <i class="fa-solid fa-heart title-heart-icon"></i> 12月31號晚餐團圓跨年倒數
             </span>
           </div>
           <div class="flip-clock" id="clock-reunion">
@@ -527,9 +533,9 @@
     </div>
   </div>
 
-  <!-- PAGE 2: 新增行程 (ITINERARY) -->
+  <!-- PAGE 2: 行程導覽 (ITINERARY) -->
   <div class="app-page relative bg-cream select-none" id="page-itinerary">
-    <!-- 頂部日期橫條：固定 5 天不滑動，左右框線與下方行程列表完美切齊 -->
+    <!-- 頂部日期橫條：修正為精緻正方形按鈕區塊 -->
     <header class="sticky top-0 z-20 bg-cream/95 backdrop-blur-md pt-3 pb-3 border-b border-warm-border/50">
       <div class="itinerary-wrapper">
         <div class="grid grid-cols-6 gap-2 w-full" id="dateBar"></div>
@@ -557,7 +563,7 @@
       </main>
     </div>
 
-    <!-- 新增行程按鈕：依指定 bottom: -25px 呈現半懸浮貼底視覺 -->
+    <!-- 新增行程按鈕 -->
     <div class="sticky left-0 right-0 px-5 z-20 flex justify-center pointer-events-none" style="bottom: -25px; margin-bottom: 35px;">
       <button onclick="openAddModal()" class="bg-warm-dark text-cream font-bold py-3.5 px-6 rounded-full flex items-center gap-2 hover:bg-black active:scale-95 transition-all text-sm border border-warm-border pointer-events-auto">
         <i class="fa-solid fa-plus text-base"></i>
@@ -582,10 +588,10 @@
     </div>
   </div>
 
-  <!-- 新增景點 Modal (從庫選擇，確保點擊與內部滾動順暢) -->
+  <!-- 新增景點 Modal：優化為輕量 Bottom Sheet 視窗 (拿掉沉重黑背景遮罩) -->
   <div id="addModal" class="fixed inset-0 z-40 hidden flex items-end sm:items-center justify-center">
-    <div class="sheet-overlay active fixed inset-0" onclick="closeAddModal()"></div>
-    <div class="bg-cream w-full max-w-md rounded-t-3xl sm:rounded-2xl z-10 max-h-[85vh] flex flex-col border border-warm-border overflow-hidden relative">
+    <div class="fixed inset-0 bg-black/10 backdrop-blur-[2px]" onclick="closeAddModal()"></div>
+    <div class="bg-cream w-full max-w-md rounded-t-3xl sm:rounded-2xl z-10 max-h-[85vh] flex flex-col border border-warm-border overflow-hidden relative shadow-lg">
       <div class="p-4 border-b border-warm-border flex justify-between items-center bg-cream">
         <div>
           <h3 class="font-bold text-warm-dark text-base">選擇景點加入行程</h3>
@@ -694,7 +700,7 @@
     let latestExpensesData = [];
     let currentSheetType = null;
     let currentActiveCat = null;
-    let currentPageIndex = 0; // 0: 首頁, 1: 行程頁
+    let currentPageIndex = 0;
 
     const AREA_COLOR_MAP = {
       'A': { hex: '#BBB7E5' },
@@ -809,7 +815,6 @@
       initBottomSheetGestures();
     });
 
-    /* 純底部 Bar 點擊切換頁面 */
     window.switchPage = function(index) {
       currentPageIndex = index;
       const homePage = document.getElementById('page-home');
@@ -859,7 +864,6 @@
       else if (activeType === 'expenses') document.getElementById('nav-expenses').classList.add('active-expenses');
     }
 
-    /* 行程 LocalStorage 操作 */
     function getDefaultInitialData() {
       return {
         '2026-12-29': [
@@ -884,7 +888,7 @@
       localStorage.setItem('busan_app_v6_data', JSON.stringify(itineraryData));
     }
 
-    /* 上方固定日期列：上為大日期數字、下為小星期縮寫，選中時深咖啡色且下方有粉紅小點點 */
+    /* 日期方塊調整：改回正方形按鈕、點擊時帶有粉紅色小點點與咖啡色底 */
     function renderCalendarBar() {
       const dateBar = document.getElementById('dateBar');
       dateBar.innerHTML = '';
@@ -892,15 +896,15 @@
         const isActive = d.key === currentActiveDateKey;
         const dateBtn = document.createElement('button');
         dateBtn.onclick = () => switchDate(d.key);
-        dateBtn.className = `py-2 px-1 rounded-2xl flex flex-col items-center justify-center transition-all border ${
+        dateBtn.className = `aspect-square rounded-2xl flex flex-col items-center justify-center transition-all border ${
           isActive 
-          ? 'bg-[#5C4E4E] text-cream border-[#5C4E4E] font-bold' 
+          ? 'bg-[#5C4E4E] text-cream border-[#5C4E4E] font-bold shadow-sm' 
           : 'bg-white/90 border-warm-border/60 text-warm-dark hover:bg-warm-bg'
         }`;
         dateBtn.innerHTML = `
-          <span class="text-lg font-extrabold leading-none mb-1">${d.dayNum}</span>
-          <span class="text-[10px] tracking-wider uppercase font-semibold ${isActive ? 'text-cream/90' : 'text-warm-muted'}">${d.week}</span>
-          ${isActive ? '<span class="w-1.5 h-1.5 bg-[#F98BA9] rounded-full mt-1"></span>' : '<span class="w-1.5 h-1.5 opacity-0 mt-1"></span>'}
+          <span class="text-base font-extrabold leading-none mb-1">${d.dayNum}</span>
+          <span class="text-[9px] tracking-wider uppercase font-semibold ${isActive ? 'text-cream/90' : 'text-warm-muted'}">${d.week}</span>
+          ${isActive ? '<span class="w-1.5 h-1.5 bg-[#F98BA9] rounded-full mt-1.5"></span>' : '<span class="w-1.5 h-1.5 opacity-0 mt-1.5"></span>'}
         `;
         dateBar.appendChild(dateBtn);
       });
@@ -928,6 +932,7 @@
       }
     }
 
+    /* 時間軸與卡片渲染：完美對齊 7:30 與拿掉多餘圓點 */
     function renderTimeline() {
       const container = document.getElementById('itineraryContainer');
       const emptyState = document.getElementById('emptyState');
@@ -948,9 +953,8 @@
         const isHighlight = !!item.highlight;
         const cardHtml = `
           <div class="drag-item flex gap-3 items-start group select-none" data-id="${item.id}">
-            <div class="w-12 text-left pt-2 shrink-0 relative flex items-center">
+            <div class="w-12 text-left pt-2.5 shrink-0 relative flex items-center">
               <span class="text-xs font-bold text-warm-dark block font-mono leading-none">${item.time || '10:00'}</span>
-              <span class="w-2.5 h-2.5 rounded-full absolute -right-[7px] top-[14px] z-10 ${isHighlight ? 'bg-gold-highlight' : 'bg-[#BBB7E5]'} border-2 border-cream"></span>
             </div>
             <div onclick="openDetailSheet('${item.id}')" class="flex-1 cursor-pointer rounded-2xl p-4 transition-all relative ${
               isHighlight ? 'highlight-card' : 'bg-cream-card border border-warm-border/60'
@@ -1181,7 +1185,6 @@
       setTimeout(() => toast.style.opacity = '0', 2000);
     }
 
-    /* 天氣與匯率 API */
     async function fetchLiveExchangeRate() {
       try {
         const res = await fetch('https://open.er-api.com/v6/latest/TWD');
@@ -1253,7 +1256,6 @@
     }
     fetchBusanWeather();
 
-    /* 翻頁時鐘倒數 */
     function updateClockUnit(unitName, value) {
       const formatted = String(value).padStart(2, '0');
       const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
@@ -1299,7 +1301,6 @@
     }
     startSingleCountdown();
 
-    /* 85% 寬鬆觸發手勢下拉關閉機制 (含所有 Bottom Sheet 視窗) */
     function initBottomSheetGestures() {
       const sheets = [document.getElementById('bottom-sheet'), document.getElementById('detailSheetBox')];
       sheets.forEach(sheet => {
@@ -1342,7 +1343,6 @@
       });
     }
 
-    /* Bottom Sheet 互動 */
     window.closeSheet = function() {
       const sheet = document.getElementById('bottom-sheet');
       sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
@@ -1499,10 +1499,10 @@
           </div>
           <div class="payer-select-container">
             <div class="payer-chip selected" data-payer="All" onclick="selectPayerChip('All')"><i class="fa-solid fa-users" style="font-size:10px;"></i> All</div>
-            <div class="payer-chip" data-payer="Jase" onclick="selectPayerChip('Jase')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jase</div>
-            <div class="payer-chip" data-payer="Jessie" onclick="selectPayerChip('Jessie')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jessie</div>
-            <div class="payer-chip" data-payer="Jewel" onclick="selectPayerChip('Jewel')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jewel</div>
-            <div class="payer-chip" data-payer="Kay" onclick="selectPayerChip('Kay')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Kay</div>
+            <div class="payer-chip" data-payer="Jase" onclick="selectPayerChip('Jase')"><i class="fa-solid fa-user" style="font-size:10px;"></i> 瀘州宋慧喬</div>
+            <div class="payer-chip" data-payer="Jessie" onclick="selectPayerChip('Jessie')"><i class="fa-solid fa-user" style="font-size:10px;"></i> 古亭孫藝珍</div>
+            <div class="payer-chip" data-payer="Jewel" onclick="selectPayerChip('Jewel')"><i class="fa-solid fa-user" style="font-size:10px;"></i> 高雄全智賢</div>
+            <div class="payer-chip" data-payer="Kay" onclick="selectPayerChip('Kay')"><i class="fa-solid fa-user" style="font-size:10px;"></i> 高雄馬東石</div>
           </div>
           <button class="btn-submit" onclick="addExpense()">帳單確認</button>
         </div>
@@ -1565,7 +1565,7 @@
       const item = document.getElementById('expense-item').value;
       const amount = Number(document.getElementById('expense-amount').value);
       let payerStr = selectedPayers.join(', ');
-      if (selectedPayers.includes('All')) payerStr = 'All (Jase, Jessie, Jewel, Kay)';
+      if (selectedPayers.includes('All')) payerStr = 'All (全體成員)';
       if (!item || !amount) return alert('請填寫品項與金額！');
 
       await addDoc(collection(db, "expenses"), { date: dateVal, item, amount, payer: payerStr, createdAt: Date.now() });
