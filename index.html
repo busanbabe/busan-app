@@ -830,51 +830,47 @@
 
     /* 85% 寬鬆觸發手勢下拉關閉機制 */
     function initBottomSheetGestures() {
-      const sheet = document.getElementById('bottom-sheet');
-      if (!sheet) return;
-      let startY = 0;
-      let currentY = 0;
-      let isDragging = false;
+    const sheet = document.getElementById('bottom-sheet');
+    if (!sheet) return;
+    let startY = 0;
+    let currentY = 0;
+    let isDragging = false;
 
-      const header = sheet.querySelector('.sheet-header') || sheet;
+    // 這裡我們之前用的是 header，如果要整個視窗都能拉，可以確認這裡
+    const header = sheet.querySelector('.sheet-header') || sheet;
 
-header.addEventListener('touchstart', (e) => {
-    // 確保只有從頂部 header 開始拉，才啟動拖曳
-    startY = e.touches[0].clientY;
-    isDragging = true;
-    sheet.style.transition = 'none';
-}, { passive: true });
+    header.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        sheet.style.transition = 'none';
+    }, { passive: true });
 
+    header.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentY = e.touches[0].clientY;
+        const diff = currentY - startY;
+        
+        if (diff > 0) {
+            sheet.style.transform = `translateY(${diff}px)`;
+            e.preventDefault(); 
+        }
+    }, { passive: false }); 
 
-header.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    currentY = e.touches[0].clientY;
-    const diff = currentY - startY;
-    
-    // 如果是往下拉，才做位移並阻止預設事件
-    if (diff > 0) {
-        sheet.style.transform = `translateY(${diff}px)`;
-        // 防止拉動時畫面背景跟著晃動
-        e.preventDefault(); 
-    }
-}, { passive: false }); // 注意這裡必須是 false 才能 preventDefault
-
-
-
-      header.addEventListener('touchend', (e) => {
+    header.addEventListener('touchend', (e) => {
         if (!isDragging) return;
         isDragging = false;
         sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
         const diff = currentY - startY;
         const sheetHeight = sheet.clientHeight;
 
-        if (diff > sheetHeight * 0.15) {
-          closeSheet();
+        if (diff > sheetHeight * 0.15) { // 或 0.85
+            closeSheet();
         } else {
-          sheet.style.transform = 'translateY(0)';
+            sheet.style.transform = 'translateY(0)';
         }
-      }, { passive: true });
-    }
+    });
+}
+
 
     /* Bottom Sheet 互動 */
     window.openSheet = function() {
