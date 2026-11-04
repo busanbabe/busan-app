@@ -712,14 +712,11 @@ function openExpensesSheet() {
   titleElem.style.color = 'var(--text-main)';
   
   const sheetBody = document.getElementById('sheet-body');
-  
-  // 用 iframe 嵌入獨立的 ledger 頁面，安全又乾淨！
-  sheetBody.innerHTML = `
-    <iframe src="/ledger/" style="width: 100%; height: 75vh; border: none; background: transparent;"></iframe>
-  `;
+  sheetBody.innerHTML = '<iframe src="/ledger/" style="width: 100%; height: 75vh; border: none; background: transparent;"></iframe>';
   
   showSheet();
 }
+
 
 
     function showToast(msg) {
