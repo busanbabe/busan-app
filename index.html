@@ -11,7 +11,6 @@
   <meta name="apple-mobile-web-app-title" content="Hello Busan">
   <link rel="apple-touch-icon" href="cover.PNG">
   
-  <!-- 引進 Google Fonts Noto Serif -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap" rel="stylesheet">
@@ -19,7 +18,6 @@
 
   <style>
     :root {
-      /* 新六色色卡組合 */
       --color-lavender: #BBB7E5;
       --color-light-rose: #F7DFDF;
       --color-snow: #DAE9FA;
@@ -27,17 +25,14 @@
       --color-pistachio: #B6C687;
       --color-pale-yellow: #FAF6C8;
 
-      /* 原最上方標題專用粉色（維持不動） */
       --color-pink: #F98BA9;
 
-      /* 背景與文字（文字與時鐘改為帶灰調的深咖啡色） */
       --bg-color: #FAF9F6;
       --card-bg: #FFFFFF;
       --text-main: #5C4E4E;
       --text-sub: #8C7C7C;
       --border-color: #EFECE6;
 
-      /* 色卡對應 */
       --color-cat-a: #BBB7E5;
       --color-cat-b: #F7DFDF;
       --color-cat-c: #DAE9FA;
@@ -46,10 +41,8 @@
       --color-cat-f: #FAF6C8;
 
       --expense-theme: #BBB7E5;
-      --expense-bg-light: rgba(187, 183, 229, 0.2);
       --expense-btn-color: #B6C687;
 
-      /* 翻頁鬧鐘（選用粉紅色調 #F7DFDF，字體與時鐘一致為咖啡色 #5C4E4E） */
       --flip-bg: #F7DFDF;
       --flip-stripe: rgba(255, 255, 255, 0.35);
       --flip-text: #5C4E4E;
@@ -114,19 +107,11 @@
       transition: transform 0.1s ease;
     }
 
-    .sparkle-icon:active {
-      transform: scale(0.75);
-    }
+    .sparkle-icon:active { transform: scale(0.75); }
 
     @keyframes breathePulse {
-      0%, 100% {
-        opacity: 0.3;
-        transform: scale(0.9) rotate(0deg);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.25) rotate(0deg);
-      }
+      0%, 100% { opacity: 0.3; transform: scale(0.9) rotate(0deg); }
+      50% { opacity: 1; transform: scale(1.25) rotate(0deg); }
     }
 
     .container {
@@ -144,9 +129,7 @@
       margin-bottom: 16px;
       border: 1px solid var(--border-color);
     }
-    #hero-countdown-card {
-      margin-top: -15px;
-    }
+    #hero-countdown-card { margin-top: -15px; }
 
     .weather-box {
       display: flex;
@@ -163,9 +146,7 @@
       color: var(--text-main);
     }
 
-    .reunion-countdown-section {
-      margin-bottom: 0;
-    }
+    .reunion-countdown-section { margin-bottom: 0; }
 
     .countdown-header {
       display: flex;
@@ -358,6 +339,96 @@
       pointer-events: none;
     }
 
+    /* 中間 Card Bar (即時匯率對照計算機) */
+    .calc-card-bar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .calc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .calc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .calc-rate-badge {
+      font-size: 11px;
+      color: var(--text-sub);
+      background: #FAF7F4;
+      padding: 3px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .calc-input-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .calc-input-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    .calc-input-wrap input {
+      width: 100%;
+      padding: 8px 10px;
+      padding-right: 36px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      background: #FAF7F4;
+      color: var(--text-main);
+      outline: none;
+      text-align: right;
+    }
+
+    .calc-input-wrap .unit-tag {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-sub);
+      pointer-events: none;
+    }
+
+    .tax-free-hint {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 8px;
+      display: inline-block;
+      transition: all 0.2s ease;
+      background: #FAF7F4;
+      color: var(--text-sub);
+      border: 1px solid var(--border-color);
+    }
+
+    .tax-free-hint.reached {
+      background: var(--color-pistachio);
+      color: #5C4E4E;
+      border: 1px solid #5C4E4E;
+    }
+
     .section-title-label {
       font-size: 14px;
       font-weight: 700;
@@ -368,6 +439,7 @@
       gap: 6px;
     }
 
+    /* 探索景點：雙欄正方形網格 */
     .category-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -375,25 +447,24 @@
     }
 
     .cat-card-btn {
-      border-radius: 16px;
-      padding: 16px 14px;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      padding: 14px;
       border: 1px solid #5C4E4E;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      min-height: 96px;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,0.04);
       transition: all 0.2s ease;
       position: relative;
       overflow: hidden;
-      text-align: left;
+      text-align: center;
       color: var(--text-main);
     }
 
-    .cat-card-btn:active {
-      transform: scale(0.97);
-    }
+    .cat-card-btn:active { transform: scale(0.96); }
 
     .cat-card-btn[data-cat="A"] { background: var(--color-cat-a); }
     .cat-card-btn[data-cat="B"] { background: var(--color-cat-b); }
@@ -402,11 +473,21 @@
     .cat-card-btn[data-cat="E"] { background: var(--color-cat-e); }
     .cat-card-btn[data-cat="F"] { background: var(--color-cat-f); }
 
+    .cat-letter-badge {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-main);
+      opacity: 0.85;
+    }
+
     .cat-card-title {
       font-size: 15px;
       font-weight: 700;
       color: var(--text-main);
-      line-height: 1.3;
+      line-height: 1.35;
     }
 
     .item-card {
@@ -511,15 +592,8 @@
       margin-bottom: 8px;
     }
 
-    .form-row-inline select {
-      flex: 1;
-      margin-bottom: 0;
-    }
-
-    .form-row-inline input {
-      flex: 2;
-      margin-bottom: 0;
-    }
+    .form-row-inline select { flex: 1; margin-bottom: 0; }
+    .form-row-inline input { flex: 2; margin-bottom: 0; }
 
     .payer-section-label {
       font-size: 12px;
@@ -785,28 +859,15 @@
       transition: color 0.2s;
     }
 
-    .nav-item i {
-      font-size: 18px;
-      margin-bottom: 3px;
-    }
-
-    .nav-item.active-schedule {
-      color: var(--text-main);
-      font-weight: 700;
-    }
-    .nav-item.active-favorites {
-      color: var(--color-pink);
-      font-weight: 700;
-    }
-    .nav-item.active-expenses {
-      color: var(--color-lavender);
-      font-weight: 700;
-    }
+    .nav-item i { font-size: 18px; margin-bottom: 3px; }
+    .nav-item.active-schedule { color: var(--text-main); font-weight: 700; }
+    .nav-item.active-favorites { color: var(--color-pink); font-weight: 700; }
+    .nav-item.active-expenses { color: var(--color-lavender); font-weight: 700; }
   </style>
 </head>
 <body>
 
-  <!-- 頂部 Header：無背景色塊，純文字風格 -->
+  <!-- 頂部 Header -->
   <header>
     <div class="header-title-text">Hello Busan</div>
     <div class="new-year-badge">
@@ -881,6 +942,30 @@
       </div>
     </div>
 
+    <!-- 中間 Card Bar：即時匯率對照計算機 -->
+    <div class="calc-card-bar">
+      <div class="calc-header">
+        <div class="calc-title">
+          <i class="fa-solid fa-calculator" style="color: var(--text-main);"></i>
+          即時匯率對照計算機
+        </div>
+        <div class="calc-rate-badge" id="calc-rate-display">1 TWD ≈ 41.50 KRW</div>
+      </div>
+      <div class="calc-input-group">
+        <div class="calc-input-wrap">
+          <input type="number" id="quick-krw" placeholder="0" oninput="convertQuickRate('krw')">
+          <span class="unit-tag">KRW</span>
+        </div>
+        <div style="display:flex; align-items:center; color:var(--text-sub); font-size:12px;">⇄</div>
+        <div class="calc-input-wrap">
+          <input type="number" id="quick-twd" placeholder="0" oninput="convertQuickRate('twd')">
+          <span class="unit-tag">NT$</span>
+        </div>
+      </div>
+      <div class="tax-free-hint" id="tax-free-hint">再 ₩15,000 達退稅門檻 (₩15,000)</div>
+    </div>
+
+    <!-- 探索景點：1:1 正方形網格 -->
     <div class="hero-card">
       <div class="section-title-label">
         <i class="fa-solid fa-map-location-dot" style="color: var(--text-main);"></i>
@@ -889,27 +974,33 @@
 
       <div class="category-grid">
         <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')">
-          <div class="cat-card-title">A. 松島 . 影島</div>
+          <span class="cat-letter-badge">A</span>
+          <div class="cat-card-title">松島 . 影島</div>
         </button>
 
         <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')">
-          <div class="cat-card-title">B. 市集 . 市場</div>
+          <span class="cat-letter-badge">B</span>
+          <div class="cat-card-title">市集 . 市場</div>
         </button>
 
         <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')">
-          <div class="cat-card-title">C. 西面 . 田浦</div>
+          <span class="cat-letter-badge">C</span>
+          <div class="cat-card-title">西面 . 田浦</div>
         </button>
 
         <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')">
-          <div class="cat-card-title">D. 廣安里</div>
+          <span class="cat-letter-badge">D</span>
+          <div class="cat-card-title">廣安里</div>
         </button>
 
         <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')">
-          <div class="cat-card-title">E. 海雲台</div>
+          <span class="cat-letter-badge">E</span>
+          <div class="cat-card-title">海雲台</div>
         </button>
 
         <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')">
-          <div class="cat-card-title">F. 膠囊 & 海岸列車</div>
+          <span class="cat-letter-badge">F</span>
+          <div class="cat-card-title">膠囊 & 海岸列車</div>
         </button>
       </div>
     </div>
@@ -983,8 +1074,10 @@
           EXCHANGE_RATE = data.rates.KRW;
           const rateMain = document.getElementById('rate-main-val');
           const rateSub = document.getElementById('rate-sub-val');
+          const calcRateDisp = document.getElementById('calc-rate-display');
           if(rateMain) rateMain.innerText = EXCHANGE_RATE.toFixed(2);
           if(rateSub) rateSub.innerText = `1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW`;
+          if(calcRateDisp) calcRateDisp.innerText = `1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW`;
           if (currentSheetType === 'expenses') renderExpensesUI();
         }
       } catch (err) {
@@ -995,6 +1088,48 @@
       }
     }
     fetchLiveExchangeRate();
+
+    window.convertQuickRate = function(type) {
+      const krwInput = document.getElementById('quick-krw');
+      const twdInput = document.getElementById('quick-twd');
+      const hint = document.getElementById('tax-free-hint');
+
+      if (type === 'krw') {
+        const krw = Number(krwInput.value);
+        if (!krwInput.value || isNaN(krw) || krw <= 0) {
+          twdInput.value = '';
+          hint.className = 'tax-free-hint';
+          hint.innerText = '再 ₩15,000 達退稅門檻 (₩15,000)';
+          return;
+        }
+        twdInput.value = Math.round(krw / EXCHANGE_RATE);
+        updateTaxHint(krw);
+      } else {
+        const twd = Number(twdInput.value);
+        if (!twdInput.value || isNaN(twd) || twd <= 0) {
+          krwInput.value = '';
+          hint.className = 'tax-free-hint';
+          hint.innerText = '再 ₩15,000 達退稅門檻 (₩15,000)';
+          return;
+        }
+        const krw = Math.round(twd * EXCHANGE_RATE);
+        krwInput.value = krw;
+        updateTaxHint(krw);
+      }
+    };
+
+    function updateTaxHint(krwVal) {
+      const hint = document.getElementById('tax-free-hint');
+      const threshold = 15000;
+      if (krwVal >= threshold) {
+        hint.className = 'tax-free-hint reached';
+        hint.innerText = '✨ 已達韓國退稅門檻 (₩15,000)';
+      } else {
+        const diff = threshold - krwVal;
+        hint.className = 'tax-free-hint';
+        hint.innerText = `再 ₩${diff.toLocaleString()} 達退稅門檻 (₩15,000)`;
+      }
+    }
 
     async function fetchBusanWeather() {
       try {
