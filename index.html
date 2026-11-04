@@ -838,20 +838,28 @@
 
       const header = sheet.querySelector('.sheet-header') || sheet;
 
-      header.addEventListener('touchstart', (e) => {
-        startY = e.touches[0].clientY;
-        isDragging = true;
-        sheet.style.transition = 'none';
-      }, { passive: true });
+header.addEventListener('touchstart', (e) => {
+    // 確保只有從頂部 header 開始拉，才啟動拖曳
+    startY = e.touches[0].clientY;
+    isDragging = true;
+    sheet.style.transition = 'none';
+}, { passive: true });
 
-      header.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        currentY = e.touches[0].clientY;
-        const diff = currentY - startY;
-        if (diff > 0) {
-          sheet.style.transform = `translateY(${diff}px)`;
-        }
-      }, { passive: true });
+
+header.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    currentY = e.touches[0].clientY;
+    const diff = currentY - startY;
+    
+    // 如果是往下拉，才做位移並阻止預設事件
+    if (diff > 0) {
+        sheet.style.transform = `translateY(${diff}px)`;
+        // 防止拉動時畫面背景跟著晃動
+        e.preventDefault(); 
+    }
+}, { passive: false }); // 注意這裡必須是 false 才能 preventDefault
+
+
 
       header.addEventListener('touchend', (e) => {
         if (!isDragging) return;
@@ -869,16 +877,32 @@
     }
 
     /* Bottom Sheet 互動 */
-    window.closeSheet = function() {
-      const sheet = document.getElementById('bottom-sheet');
-      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-      sheet.style.transform = 'translateY(105%)';
-      document.getElementById('sheet-overlay').classList.remove('active');
-      sheet.classList.remove('active');
-      updateNavActiveState(currentPageIndex === 0 ? 'home' : 'schedule');
-      currentSheetType = null;
-      currentActiveCat = null;
-    };
+    window.openSheet = function() {
+    const sheet = document.getElementById('bottom-sheet');
+    const overlay = document.getElementById('sheet-overlay');
+    sheet.classList.add('active');
+    overlay.classList.add('active');
+    sheet.style.transform = 'translateY(0)';
+    
+    // 鎖定背景頁面滾動
+    document.body.style.overflow = 'hidden';
+};
+
+window.closeSheet = function() {
+    const sheet = document.getElementById('bottom-sheet');
+    const overlay = document.getElementById('sheet-overlay');
+    sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+    sheet.style.transform = 'translateY(105%)';
+    overlay.classList.remove('active');
+    sheet.classList.remove('active');
+    updateNavActiveState(currentPageIndex === 0 ? 'home' : 'schedule');
+    currentSheetType = null;
+    currentActiveCat = null;
+    
+    // 恢復背景頁面滾動
+    document.body.style.overflow = '';
+};
+
 
     window.openCategorySheet = function(catCode, titleName) {
       currentSheetType = 'category';
