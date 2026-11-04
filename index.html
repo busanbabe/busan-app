@@ -11,9 +11,8 @@
   <meta name="apple-mobile-web-app-title" content="Hello Busan">
   <link rel="apple-touch-icon" href="cover.PNG">
   
-  <!-- Tailwind CSS & SortableJS -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
 
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -314,15 +313,6 @@
     .cat-letter-badge { position: absolute; top: 10px; left: 12px; font-size: 13px; font-weight: 800; color: var(--text-main); opacity: 0.85; }
     .cat-card-title { font-size: 15px; font-weight: 700; color: var(--text-main); line-height: 1.35; }
 
-    /* 行程頁面專屬樣式 */
-    .timeline-line { position: absolute; left: 58px; top: 24px; bottom: 24px; width: 2px; background-color: #BBB7E5; z-index: 0; }
-    .highlight-card { border: 2px solid #EFBDBD !important; background: linear-gradient(135deg, #FFFFFF 0%, #FAF6C8 100%) !important; }
-    .category-badge { font-size: 0.65rem; letter-spacing: 0.08em; font-weight: 700; }
-    .drag-handle { touch-action: none; cursor: grab; }
-    .drag-handle:active { cursor: grabbing; }
-    .sortable-ghost { opacity: 0.3; background: #BBB7E5 !important; transform: scale(0.98); }
-    .sortable-chosen { transform: scale(1.02); z-index: 30; }
-
     .item-card {
       background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
       border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); border-left: 5px solid var(--expense-btn-color);
@@ -345,7 +335,7 @@
     .story-box { font-size: 13px; color: var(--text-sub); line-height: 1.5; margin-top: 6px; background: rgba(250, 247, 244, 0.8); padding: 9px 11px; border-radius: 10px; }
     .map-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; padding: 6px 12px; background: rgba(92, 78, 78, 0.08); color: #5C4E4E; text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 700; }
 
-    /* Bottom Sheet & 85% 下拉手勢收起機制 */
+    /* Bottom Sheet */
     .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: var(--nav-height); background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(2px); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
     .sheet-overlay.active { opacity: 1; pointer-events: auto; }
     .bottom-sheet { position: fixed; left: 0; right: 0; bottom: var(--nav-height); max-width: 680px; margin: 0 auto; max-height: calc(85vh - var(--nav-height)); height: 75vh; background: #FAF9F6; border-top-left-radius: 24px; border-top-right-radius: 24px; z-index: 200; transform: translateY(105%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); border-bottom: none; touch-action: none; }
@@ -515,113 +505,9 @@
     </div>
   </div>
 
-  <!-- PAGE 2: 新增行程 (ITINERARY) -->
+  <!-- PAGE 2: 行程導覽 (ITINERARY) - 保留容器供未來設計 -->
   <div class="app-page max-w-md mx-auto relative bg-cream select-none" id="page-itinerary">
-    <!-- 頂部日期橫條：固定 5 天不左右滑動 -->
-    <header class="sticky top-0 z-20 bg-cream/95 backdrop-blur-md pt-3 pb-3 border-b border-warm-border/50">
-      <div class="grid grid-cols-6 gap-1 px-3 py-1 w-full" id="dateBar"></div>
-    </header>
-
-    <!-- 天數小橫幅 -->
-    <div id="daySummaryBar" class="px-5 py-2.5 bg-warm-bg/40 text-xs text-warm-muted flex justify-between items-center border-b border-warm-border/30">
-      <span id="currentDayText" class="font-bold text-warm-dark text-sm"><i class="fa-regular fa-calendar-check mr-1.5 text-gold-highlight"></i>DAY 1</span>
-      <span id="itemCountBadge" class="bg-warm-border/60 text-warm-dark text-[10px] font-bold px-2 py-0.5 rounded-full">0 個行程</span>
-    </div>
-
-    <!-- 時間軸主行程內容 (保留呼吸空間，時間線與列表不重疊) -->
-    <main class="px-4 py-4 relative min-h-[500px]">
-      <div class="timeline-line"></div>
-      <div id="itineraryContainer" class="space-y-4 relative z-10 pl-2"></div>
-      
-      <!-- 空白狀態 -->
-      <div id="emptyState" class="hidden py-16 text-center text-warm-muted">
-        <i class="fa-solid fa-compass-drafting text-4xl mb-3 text-warm-border"></i>
-        <p class="text-sm font-medium">今天還沒有安排行程</p>
-        <p class="text-xs text-warm-muted/80 mt-1">點擊下方 ➕ 新增行程來加入</p>
-      </div>
-    </main>
-
-    <!-- 新增行程按鈕：依指定 bottom: -25px 呈現半懸浮貼底視覺[span_1](start_span)[span_1](end_span) -->
-    <div class="sticky bottom-[calc(20px+var(--nav-height))] left-0 right-0 px-5 z-20 flex justify-center pb-2 pointer-events-none" style="bottom: -25px; margin-bottom: 35px;">
-      <button onclick="openAddModal()" class="bg-warm-dark text-cream font-bold py-3.5 px-6 rounded-full flex items-center gap-2 hover:bg-black active:scale-95 transition-all text-sm border border-warm-border pointer-events-auto">
-        <i class="fa-solid fa-plus text-base"></i>
-        <span>新增行程</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- 刪除行程確認 Modal -->
-  <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-    <div class="sheet-overlay active fixed inset-0" onclick="closeDeleteModal()"></div>
-    <div class="bg-cream w-full max-w-xs rounded-2xl z-10 p-5 border border-warm-border text-center space-y-4">
-      <div class="w-12 h-12 rounded-full bg-red-100 text-red-500 flex items-center justify-center mx-auto text-lg"><i class="fa-solid fa-trash-can"></i></div>
-      <div>
-        <h4 class="font-bold text-warm-dark text-base">確認刪除行程</h4>
-        <p id="deleteConfirmText" class="text-xs text-warm-muted mt-1 leading-relaxed">確定要刪除「此行程」嗎？</p>
-      </div>
-      <div class="flex gap-2 pt-2">
-        <button onclick="closeDeleteModal()" class="flex-1 py-2.5 rounded-xl border border-warm-border text-warm-dark font-bold text-xs bg-white hover:bg-warm-bg transition">取消</button>
-        <button id="btnConfirmDelete" class="flex-1 py-2.5 rounded-xl text-white font-bold text-xs bg-red-500 hover:bg-red-600 transition">確定刪除</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 新增景點 Modal (從庫選擇，支援上下滾動) -->
-  <div id="addModal" class="fixed inset-0 z-40 hidden flex items-end sm:items-center justify-center">
-    <div class="sheet-overlay active fixed inset-0" onclick="closeAddModal()"></div>
-    <div class="bg-cream w-full max-w-md rounded-t-3xl sm:rounded-2xl z-10 max-h-[85vh] flex flex-col border border-warm-border overflow-hidden relative">
-      <div class="p-4 border-b border-warm-border flex justify-between items-center bg-cream">
-        <div>
-          <h3 class="font-bold text-warm-dark text-base">選擇景點加入行程</h3>
-          <p class="text-xs text-warm-muted">點擊「加入」可連續選擇多個景點</p>
-        </div>
-        <button onclick="closeAddModal()" class="w-8 h-8 rounded-full bg-warm-bg text-warm-dark flex items-center justify-center"><i class="fa-solid fa-xmark text-sm"></i></button>
-      </div>
-
-      <div class="px-4 py-2.5 bg-warm-bg/30 border-b border-warm-border/50">
-        <div class="flex gap-2">
-          <input type="text" id="customSpotName" placeholder="自訂地點名稱..." class="flex-1 text-xs px-3 py-2 rounded-xl border border-warm-border bg-white outline-none">
-          <select id="customSpotCat" class="text-xs px-2 py-2 rounded-xl border border-warm-border bg-white text-warm-dark font-medium">
-            <option value="SIGHTSEEING">景點</option>
-            <option value="FOOD">美食</option>
-            <option value="TRANSPORT">交通</option>
-            <option value="HOTEL">住宿</option>
-            <option value="SPECIAL EXPERIENCE">體驗</option>
-          </select>
-          <button onclick="addCustomSpot()" class="bg-warm-dark text-white text-xs px-3.5 py-2 rounded-xl font-bold">新增</button>
-        </div>
-      </div>
-
-      <div class="flex overflow-x-auto no-scrollbar border-b border-warm-border bg-cream px-3 py-2 gap-1.5" id="areaTabs">
-        <button onclick="switchAreaTab('A')" id="tab-A" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">A - 松島.影島</button>
-        <button onclick="switchAreaTab('B')" id="tab-B" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">B - 市集.市場</button>
-        <button onclick="switchAreaTab('C')" id="tab-C" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">C - 西面.田浦</button>
-        <button onclick="switchAreaTab('D')" id="tab-D" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">D - 廣安里</button>
-        <button onclick="switchAreaTab('E')" id="tab-E" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">E - 海雲台</button>
-        <button onclick="switchAreaTab('F')" id="tab-F" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">F - 膠囊 & 海岸列車</button>
-      </div>
-
-      <div id="presetSpotsList" class="p-4 overflow-y-auto space-y-2.5 flex-1 max-h-[50vh]"></div>
-    </div>
-  </div>
-
-  <!-- 行程詳情 Bottom Sheet -->
-  <div id="detailSheet" class="fixed inset-0 z-50 hidden">
-    <div class="sheet-overlay active fixed inset-0" onclick="closeDetailSheet()"></div>
-    <div class="bottom-sheet fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-cream rounded-t-3xl border-t border-warm-border max-h-[85vh] flex flex-col overflow-hidden z-10" id="detailSheetBox">
-      <div class="sheet-header" id="detailSheetHeader">
-        <div class="sheet-handle"></div>
-        <div class="flex justify-between items-center w-full">
-          <span class="text-xs font-bold text-warm-muted">詳情與備註</span>
-          <button onclick="closeDetailSheet()" class="w-7 h-7 rounded-full bg-warm-bg text-warm-dark flex items-center justify-center text-xs"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-      </div>
-      <div class="sheet-body space-y-5" id="detailSheetContent"></div>
-      <div class="absolute bottom-0 left-0 right-0 bg-cream/95 backdrop-blur-sm p-4 border-t border-warm-border/60 flex gap-3 z-20">
-        <a id="btnNaverMap" target="_blank" rel="noopener noreferrer" href="#" class="flex-1 bg-[#03C75A] text-white font-bold py-3.5 px-3 rounded-xl text-center text-xs flex items-center justify-center gap-2"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/></svg><span>NAVER MAP 導航</span></a>
-        <a id="btnGoogleMap" target="_blank" rel="noopener noreferrer" href="#" class="flex-1 bg-white text-warm-dark border border-warm-border font-bold py-3.5 px-3 rounded-xl text-center text-xs flex items-center justify-center gap-2"><svg class="w-4 h-4 fill-current text-warm-dark" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span>Google Map 地圖</span></a>
-      </div>
-    </div>
+    <!-- 未來新行程導覽內容可在此區塊構建 -->
   </div>
 
   <!-- Bottom Sheet (探索景點、收藏、記帳) -->
@@ -679,15 +565,6 @@
     let currentSheetType = null;
     let currentActiveCat = null;
     let currentPageIndex = 0; // 0: 首頁, 1: 行程頁
-
-    const AREA_COLOR_MAP = {
-      'A': { hex: '#BBB7E5' },
-      'B': { hex: '#F7DFDF' },
-      'C': { hex: '#DAE9FA' },
-      'D': { hex: '#EFBDBD' },
-      'E': { hex: '#B6C687' },
-      'F': { hex: '#FAF6C8' }
-    };
 
     const categoryThemeMap = {
       'A': { code: 'SONGDO & YEONGDO' },
@@ -770,26 +647,9 @@
       ]
     };
 
-    const TRIP_DATES = [
-      { key: '2026-12-29', dayNum: '29', week: 'TUE', label: '12/29', title: 'DAY 1' },
-      { key: '2026-12-30', dayNum: '30', week: 'THU', label: '12/30', title: 'DAY 2' },
-      { key: '2026-12-31', dayNum: '31', week: 'FRI', label: '12/31', title: 'DAY 3' },
-      { key: '2027-01-01', dayNum: '1', week: 'SAT', label: '1/1', title: 'DAY 4' },
-      { key: '2027-01-02', dayNum: '2', week: 'SUN', label: '1/2', title: 'DAY 5' },
-      { key: '2027-01-03', dayNum: '3', week: 'MON', label: '1/3', title: 'DAY 6' }
-    ];
-
-    let currentActiveDateKey = '2026-12-29';
-    let itineraryData = {};
-    let activeAreaTab = 'A';
-    let pendingDeleteId = null;
     let favorites = JSON.parse(localStorage.getItem('busan_favs') || '[]');
 
     window.addEventListener('DOMContentLoaded', () => {
-      loadItineraryFromStorage();
-      renderCalendarBar();
-      renderTimeline();
-      initSortable();
       initBottomSheetGestures();
     });
 
@@ -813,7 +673,6 @@
       if (type === 'home') {
         if (currentSheetType !== null) { closeSheet(); return; }
         if (currentPageIndex === 0) {
-          // 若已在首頁，再次點擊首頁 Icon 滾動回最頂端
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
           switchPage(0);
@@ -843,320 +702,6 @@
       else if (activeType === 'favorites') document.getElementById('nav-favorites').classList.add('active-favorites');
       else if (activeType === 'expenses') document.getElementById('nav-expenses').classList.add('active-expenses');
     }
-
-    /* 行程 LocalStorage 操作 */
-    function getDefaultInitialData() {
-      return {
-        '2026-12-29': [
-          { id: 'def_1', time: '07:30', title: '金海國際機場 (PUS)', cat: 'FLIGHT', desc: '搭乘班機直飛釜山金海機場', addr: '釜山廣域市江西區機場路 108', note: '備妥 Q-CODE 與護照。', highlight: false, query: '김해국제공항' },
-          { id: 'def_2', time: '13:00', title: '午餐：水邊豬肉湯飯 西面店', cat: 'FOOD', desc: '釜山必吃湯飯名店', addr: '釜山廣域市釜山鎮區', note: '加韭菜與蝦醬提味！', highlight: true, query: '수변최고돼지국밥 서면' }
-        ],
-        '2026-12-30': [], '2026-12-31': [], '2027-01-01': [], '2027-01-02': [], '2027-01-03': []
-      };
-    }
-
-    function loadItineraryFromStorage() {
-      const saved = localStorage.getItem('busan_app_v6_data');
-      if (saved) {
-        try { itineraryData = JSON.parse(saved); } catch(e) { itineraryData = getDefaultInitialData(); }
-      } else {
-        itineraryData = getDefaultInitialData();
-        saveItineraryToStorage();
-      }
-    }
-
-    function saveItineraryToStorage() {
-      localStorage.setItem('busan_app_v6_data', JSON.stringify(itineraryData));
-    }
-
-    /* 上方日期列：固定 5 天在上方正中間 */
-    function renderCalendarBar() {
-      const dateBar = document.getElementById('dateBar');
-      dateBar.innerHTML = '';
-      TRIP_DATES.forEach(d => {
-        const isActive = d.key === currentActiveDateKey;
-        const dateBtn = document.createElement('button');
-        dateBtn.onclick = () => switchDate(d.key);
-        dateBtn.className = `py-1.5 px-1 rounded-xl flex flex-col items-center transition-all border ${
-          isActive 
-          ? 'bg-warm-dark text-cream border-warm-dark font-bold' 
-          : 'bg-white/80 border-warm-border/60 text-warm-dark hover:bg-warm-bg opacity-80'
-        }`;
-        dateBtn.innerHTML = `
-          <span class="text-[8px] tracking-wider uppercase font-semibold ${isActive ? 'text-gold-highlight' : 'text-warm-muted'}">${d.label}</span>
-          <span class="text-sm font-extrabold leading-none my-0.5">${d.dayNum}</span>
-        `;
-        dateBar.appendChild(dateBtn);
-      });
-      const currObj = TRIP_DATES.find(d => d.key === currentActiveDateKey);
-      if (currObj) {
-        document.getElementById('currentDayText').innerHTML = `<i class="fa-regular fa-calendar-check mr-1.5 text-gold-highlight"></i>${currObj.title}`;
-      }
-    }
-
-    function switchDate(dateKey) {
-      currentActiveDateKey = dateKey;
-      renderCalendarBar();
-      renderTimeline();
-    }
-
-    function getCategoryStyle(cat) {
-      switch(cat) {
-        case 'FLIGHT': return { bg: 'bg-[#BBB7E5]/80', text: 'text-warm-dark', icon: 'fa-plane' };
-        case 'TRANSPORT': return { bg: 'bg-[#DAE9FA]/80', text: 'text-warm-dark', icon: 'fa-car' };
-        case 'FOOD': return { bg: 'bg-[#EFBDBD]/80', text: 'text-warm-dark', icon: 'fa-utensils' };
-        case 'SIGHTSEEING': return { bg: 'bg-[#B6C687]/80', text: 'text-warm-dark', icon: 'fa-camera' };
-        case 'HOTEL': return { bg: 'bg-[#F7DFDF]/80', text: 'text-warm-dark', icon: 'fa-hotel' };
-        case 'SPECIAL EXPERIENCE': return { bg: 'bg-[#FAF6C8]', text: 'text-warm-dark', icon: 'fa-crown' };
-        default: return { bg: 'bg-warm-bg', text: 'text-warm-dark', icon: 'fa-location-dot' };
-      }
-    }
-
-    function renderTimeline() {
-      const container = document.getElementById('itineraryContainer');
-      const emptyState = document.getElementById('emptyState');
-      const items = itineraryData[currentActiveDateKey] || [];
-      document.getElementById('itemCountBadge').innerText = `${items.length} 個行程`;
-
-      if (items.length === 0) {
-        container.innerHTML = '';
-        emptyState.classList.remove('hidden');
-        return;
-      } else {
-        emptyState.classList.add('hidden');
-      }
-
-      container.innerHTML = '';
-      items.forEach((item) => {
-        const catStyle = getCategoryStyle(item.cat);
-        const isHighlight = !!item.highlight;
-        const cardHtml = `
-          <div class="drag-item flex gap-3 items-start group select-none" data-id="${item.id}">
-            <div class="w-12 text-right pt-2 shrink-0">
-              <span class="text-xs font-bold text-warm-dark block font-mono leading-none">${item.time || '10:00'}</span>
-              <span class="w-2 h-2 rounded-full inline-block mt-2 ${isHighlight ? 'bg-gold-highlight' : 'bg-warm-border'}"></span>
-            </div>
-            <div onclick="openDetailSheet('${item.id}')" class="flex-1 cursor-pointer rounded-2xl p-4 transition-all relative ${
-              isHighlight ? 'highlight-card' : 'bg-cream-card border border-warm-border/60'
-            }">
-              <div class="flex justify-between items-start gap-2 mb-1.5">
-                <span class="category-badge px-2 py-0.5 rounded-md ${catStyle.bg} ${catStyle.text} font-bold inline-flex items-center gap-1">
-                  <i class="fa-solid ${catStyle.icon} text-[10px]"></i> ${item.cat}
-                </span>
-                <div class="flex items-center gap-1 text-warm-muted" onclick="event.stopPropagation()">
-                  <button onclick="toggleHighlight('${item.id}'); event.stopPropagation();" class="w-7 h-7 rounded-full flex items-center justify-center text-xs ${isHighlight ? 'text-[#EFBDBD]' : 'text-warm-border'}">
-                    <i class="fa-solid fa-bookmark"></i>
-                  </button>
-                  <button onclick="openDeleteModal('${item.id}'); event.stopPropagation();" class="w-7 h-7 rounded-full bg-warm-bg/50 hover:text-red-500 flex items-center justify-center text-xs">
-                    <i class="fa-solid fa-xmark text-sm"></i>
-                  </button>
-                  <div class="drag-handle w-7 h-7 rounded-lg bg-warm-bg/40 text-warm-muted flex items-center justify-center text-sm ml-0.5">
-                    <i class="fa-solid fa-grip-vertical"></i>
-                  </div>
-                </div>
-              </div>
-              <h4 class="font-bold text-warm-dark text-base leading-snug mb-1">${item.title}</h4>
-              <p class="text-xs text-warm-muted line-clamp-2 leading-relaxed">${item.note || item.desc || '點擊可檢視詳細地點資訊與隨手備註...'}</p>
-              <div class="mt-2.5 pt-2 border-t border-warm-border/30 flex justify-between items-center text-[11px] text-warm-muted">
-                <span class="truncate max-w-[180px]"><i class="fa-solid fa-location-dot text-warm-border mr-1"></i>${item.addr || '釜山廣域市'}</span>
-                <span class="text-warm-dark font-medium flex items-center gap-1 shrink-0">詳情 <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
-              </div>
-            </div>
-          </div>
-        `;
-        container.insertAdjacentHTML('beforeend', cardHtml);
-      });
-    }
-
-    function initSortable() {
-      const container = document.getElementById('itineraryContainer');
-      new Sortable(container, {
-        handle: '.drag-handle',
-        animation: 200,
-        delay: 150,
-        delayOnTouchOnly: true,
-        ghostClass: 'sortable-ghost',
-        chosenClass: 'sortable-chosen',
-        onEnd: function () {
-          const newOrderIds = Array.from(container.querySelectorAll('.drag-item')).map(el => el.dataset.id);
-          const currentItems = itineraryData[currentActiveDateKey] || [];
-          const reordered = newOrderIds.map(id => currentItems.find(item => item.id === id)).filter(Boolean);
-          itineraryData[currentActiveDateKey] = reordered;
-          saveItineraryToStorage();
-          showToast('行程排序已更新');
-        }
-      });
-    }
-
-    window.toggleHighlight = function(itemId) {
-      const items = itineraryData[currentActiveDateKey] || [];
-      const item = items.find(i => i.id === itemId);
-      if (item) {
-        item.highlight = !item.highlight;
-        saveItineraryToStorage();
-        renderTimeline();
-        showToast(item.highlight ? '已標示為重點行程' : '已取消重點標示');
-      }
-    };
-
-    window.openDeleteModal = function(itemId) {
-      const items = itineraryData[currentActiveDateKey] || [];
-      const item = items.find(i => i.id === itemId);
-      if (!item) return;
-      pendingDeleteId = itemId;
-      document.getElementById('deleteConfirmText').innerText = `確定要刪除「${item.title}」嗎？`;
-      document.getElementById('btnConfirmDelete').onclick = executeDelete;
-      document.getElementById('deleteModal').classList.remove('hidden');
-    };
-
-    window.closeDeleteModal = function() {
-      pendingDeleteId = null;
-      document.getElementById('deleteModal').classList.add('hidden');
-    };
-
-    function executeDelete() {
-      if (!pendingDeleteId) return;
-      const items = itineraryData[currentActiveDateKey] || [];
-      itineraryData[currentActiveDateKey] = items.filter(i => i.id !== pendingDeleteId);
-      saveItineraryToStorage();
-      renderTimeline();
-      closeDeleteModal();
-      showToast('已成功刪除行程');
-    }
-
-    window.openAddModal = function() {
-      document.getElementById('addModal').classList.remove('hidden');
-      switchAreaTab('A');
-    };
-
-    window.closeAddModal = function() {
-      document.getElementById('addModal').classList.add('hidden');
-    };
-
-    window.switchAreaTab = function(areaKey) {
-      activeAreaTab = areaKey;
-      ['A', 'B', 'C', 'D', 'E', 'F'].forEach(key => {
-        const btn = document.getElementById(`tab-${key}`);
-        const colorInfo = AREA_COLOR_MAP[key];
-        if (key === areaKey) {
-          btn.style.backgroundColor = colorInfo.hex;
-          btn.style.borderColor = colorInfo.hex;
-          btn.style.color = '#5C4E4E';
-          btn.style.fontWeight = 'bold';
-        } else {
-          btn.style.backgroundColor = '#FFFFFF';
-          btn.style.borderColor = '#BBB7E5';
-          btn.style.color = '#5C4E4E';
-          btn.style.fontWeight = '500';
-        }
-      });
-      renderPresetSpots(areaKey);
-    };
-
-    function renderPresetSpots(areaKey) {
-      const listContainer = document.getElementById('presetSpotsList');
-      const spots = PRESET_SPOTS_DB[areaKey] || [];
-      const areaColor = AREA_COLOR_MAP[areaKey]?.hex || '#5C4E4E';
-      listContainer.innerHTML = '';
-      spots.forEach((spot) => {
-        const catStyle = getCategoryStyle(spot.cat);
-        const spotCard = `
-          <div class="bg-white border border-warm-border/60 rounded-2xl p-3 flex justify-between items-center select-none">
-            <div class="flex-1 pr-2">
-              <span class="category-badge px-2 py-0.5 rounded ${catStyle.bg} ${catStyle.text}">${spot.cat}</span>
-              <h5 class="font-bold text-warm-dark text-sm mt-1">${spot.title}</h5>
-              <p class="text-[11px] text-warm-muted line-clamp-1 mt-0.5">${spot.desc}</p>
-            </div>
-            <button onclick="addPresetSpotToItinerary('${areaKey}', '${spot.title.replace(/'/g, "\\'")}')" style="background-color: ${areaColor}" class="text-warm-dark px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 border border-warm-dark/20">
-              <i class="fa-solid fa-plus text-[10px]"></i> 加入
-            </button>
-          </div>
-        `;
-        listContainer.insertAdjacentHTML('beforeend', spotCard);
-      });
-    }
-
-    window.addPresetSpotToItinerary = function(areaKey, spotTitle) {
-      const spot = PRESET_SPOTS_DB[areaKey].find(s => s.title === spotTitle);
-      if (!spot) return;
-      const newItem = {
-        id: 'spot_' + Date.now() + '_' + Math.floor(Math.random()*1000),
-        title: spot.title, cat: spot.cat, time: spot.time || '12:00',
-        desc: spot.desc || '', addr: spot.addr || '', note: '', highlight: false, query: spot.query || spot.title
-      };
-      if (!itineraryData[currentActiveDateKey]) itineraryData[currentActiveDateKey] = [];
-      itineraryData[currentActiveDateKey].push(newItem);
-      saveItineraryToStorage();
-      renderTimeline();
-      showToast(`已加入「${spot.title}」`);
-    };
-
-    window.addCustomSpot = function() {
-      const nameInput = document.getElementById('customSpotName');
-      const catInput = document.getElementById('customSpotCat');
-      const title = nameInput.value.trim();
-      if (!title) return showToast('請輸入景點名稱');
-      const newItem = {
-        id: 'custom_' + Date.now(), title: title, cat: catInput.value,
-        time: '12:00', desc: '自訂地點', addr: '釜山廣域市', note: '', highlight: false, query: title
-      };
-      if (!itineraryData[currentActiveDateKey]) itineraryData[currentActiveDateKey] = [];
-      itineraryData[currentActiveDateKey].push(newItem);
-      saveItineraryToStorage();
-      renderTimeline();
-      nameInput.value = '';
-      showToast(`已成功新增「${title}」`);
-    };
-
-    window.openDetailSheet = function(itemId) {
-      const items = itineraryData[currentActiveDateKey] || [];
-      const item = items.find(i => i.id === itemId);
-      if (!item) return;
-      const catStyle = getCategoryStyle(item.cat);
-      const contentHtml = `
-        <div class="flex items-center gap-2 pt-1">
-          <span class="category-badge border border-warm-border px-2.5 py-1 rounded-md ${catStyle.bg} ${catStyle.text} font-bold">${item.cat}</span>
-          <span class="text-xs font-mono font-bold text-warm-dark flex items-center gap-1">
-            <i class="fa-regular fa-clock text-warm-muted"></i> 
-            <input type="time" value="${item.time || '10:00'}" onchange="updateItemTime('${item.id}', this.value)" class="bg-transparent font-mono font-bold outline-none cursor-pointer">
-          </span>
-        </div>
-        <div>
-          <h2 class="text-xl font-extrabold text-warm-dark tracking-tight mb-1">${item.title}</h2>
-          <p class="text-xs text-warm-muted flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-gold-highlight"></i><span>${item.addr || '釜山廣域市'}</span></p>
-        </div>
-        <div class="space-y-2">
-          <span class="text-[10px] font-bold tracking-widest text-warm-muted uppercase block"><i class="fa-solid fa-pen-to-square mr-1"></i>備註資訊 (NOTES)</span>
-          <textarea rows="4" onchange="updateItemNote('${item.id}', this.value)" placeholder="點擊此處寫下備註..." class="w-full text-xs p-3.5 rounded-2xl bg-white border border-warm-border outline-none leading-relaxed text-warm-dark">${item.note || item.desc || ''}</textarea>
-        </div>
-      `;
-      document.getElementById('detailSheetContent').innerHTML = contentHtml;
-      const searchQuery = encodeURIComponent(item.query || item.title);
-      document.getElementById('btnNaverMap').href = `https://map.naver.com/v5/search/${searchQuery}`;
-      document.getElementById('btnGoogleMap').href = `https://maps.google.com/?q=${searchQuery}`;
-
-      const sheet = document.getElementById('detailSheet');
-      sheet.classList.remove('hidden');
-      setTimeout(() => sheet.querySelector('.bottom-sheet').classList.remove('hidden-sheet'), 10);
-    };
-
-    window.closeDetailSheet = function() {
-      const sheet = document.getElementById('detailSheet');
-      sheet.querySelector('.bottom-sheet').style.transform = 'translateY(105%)';
-      setTimeout(() => sheet.classList.add('hidden'), 300);
-    };
-
-    window.updateItemTime = function(itemId, newTime) {
-      const items = itineraryData[currentActiveDateKey] || [];
-      const item = items.find(i => i.id === itemId);
-      if (item) { item.time = newTime; saveItineraryToStorage(); renderTimeline(); showToast('時間已更新'); }
-    };
-
-    window.updateItemNote = function(itemId, newNote) {
-      const items = itineraryData[currentActiveDateKey] || [];
-      const item = items.find(i => i.id === itemId);
-      if (item) { item.note = newNote; saveItineraryToStorage(); renderTimeline(); showToast('備註已儲存'); }
-    };
 
     function showToast(msg) {
       const toast = document.getElementById('toast');
@@ -1283,48 +828,44 @@
     }
     startSingleCountdown();
 
-    /* 85% 寬鬆觸發手勢下拉關閉機制 (含所有 Bottom Sheet 視窗) */
+    /* 85% 寬鬆觸發手勢下拉關閉機制 */
     function initBottomSheetGestures() {
-      const sheets = [document.getElementById('bottom-sheet'), document.getElementById('detailSheetBox')];
-      sheets.forEach(sheet => {
-        if (!sheet) return;
-        let startY = 0;
-        let currentY = 0;
-        let isDragging = false;
+      const sheet = document.getElementById('bottom-sheet');
+      if (!sheet) return;
+      let startY = 0;
+      let currentY = 0;
+      let isDragging = false;
 
-        const header = sheet.querySelector('.sheet-header') || sheet;
+      const header = sheet.querySelector('.sheet-header') || sheet;
 
-        header.addEventListener('touchstart', (e) => {
-          startY = e.touches[0].clientY;
-          isDragging = true;
-          sheet.style.transition = 'none';
-        }, { passive: true });
+      header.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        sheet.style.transition = 'none';
+      }, { passive: true });
 
-        header.addEventListener('touchmove', (e) => {
-          if (!isDragging) return;
-          currentY = e.touches[0].clientY;
-          const diff = currentY - startY;
-          if (diff > 0) {
-            sheet.style.transform = `translateY(${diff}px)`;
-          }
-        }, { passive: true });
+      header.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentY = e.touches[0].clientY;
+        const diff = currentY - startY;
+        if (diff > 0) {
+          sheet.style.transform = `translateY(${diff}px)`;
+        }
+      }, { passive: true });
 
-        header.addEventListener('touchend', (e) => {
-          if (!isDragging) return;
-          isDragging = false;
-          sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-          const diff = currentY - startY;
-          const sheetHeight = sheet.clientHeight;
+      header.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+        const diff = currentY - startY;
+        const sheetHeight = sheet.clientHeight;
 
-          // 設定 85% 寬鬆觸發門檻
-          if (diff > sheetHeight * 0.15) {
-            if (sheet.id === 'detailSheetBox') closeDetailSheet();
-            else closeSheet();
-          } else {
-            sheet.style.transform = 'translateY(0)';
-          }
-        }, { passive: true });
-      });
+        if (diff > sheetHeight * 0.15) {
+          closeSheet();
+        } else {
+          sheet.style.transform = 'translateY(0)';
+        }
+      }, { passive: true });
     }
 
     /* Bottom Sheet 互動 */
