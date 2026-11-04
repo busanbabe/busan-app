@@ -85,6 +85,7 @@
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
       -webkit-tap-highlight-color: transparent;
+      box-shadow: none !important; /* 全面無陰影設計 */
     }
 
     body {
@@ -166,8 +167,6 @@
 
     .hero-card {
       background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       border-radius: 20px;
       padding: 18px;
       margin-bottom: 16px;
@@ -271,7 +270,6 @@
 
     .calc-card-bar {
       background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       border-radius: 20px; padding: 16px; margin-top: 18px; margin-bottom: 16px; border: 1px solid var(--border-color);
     }
     .calc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -314,17 +312,31 @@
     .cat-letter-badge { position: absolute; top: 10px; left: 12px; font-size: 13px; font-weight: 800; color: var(--text-main); opacity: 0.85; }
     .cat-card-title { font-size: 15px; font-weight: 700; color: var(--text-main); line-height: 1.35; }
 
-    /* 行程頁面專屬樣式 */
-    .timeline-line { position: absolute; left: 58px; top: 24px; bottom: 24px; width: 2px; background-color: #BBB7E5; z-index: 0; }
+    /* 行程頁面專屬排版與對齊 */
+    .itinerary-wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    /* 時間軸線條：隨著列表自動向下延伸 */
+    .timeline-line { 
+      position: absolute; 
+      left: 17px; /* 與下方卡片時間軸圓點完美對齊 */
+      top: 24px; 
+      bottom: 24px; 
+      width: 2px; 
+      background-color: #BBB7E5; 
+      z-index: 0; 
+    }
     .highlight-card { border: 2px solid #EFBDBD !important; background: linear-gradient(135deg, #FFFFFF 0%, #FAF6C8 100%) !important; }
     .category-badge { font-size: 0.65rem; letter-spacing: 0.08em; font-weight: 700; }
     .drag-handle { touch-action: none; cursor: grab; }
     .drag-handle:active { cursor: grabbing; }
-    .sortable-ghost { opacity: 0.3; background: #BBB7E5 !important; transform: scale(0.98); }
-    .sortable-chosen { transform: scale(1.02); z-index: 30; }
+    .sortable-ghost { opacity: 0.3; background: #BBB7E5 !important; }
+    .sortable-chosen { z-index: 30; }
 
     .item-card {
-      background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); border-left: 5px solid var(--expense-btn-color);
     }
     .item-card.cat-A { border-left-color: var(--color-cat-a); }
@@ -346,16 +358,16 @@
     .map-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; padding: 6px 12px; background: rgba(92, 78, 78, 0.08); color: #5C4E4E; text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 700; }
 
     /* Bottom Sheet & 85% 下拉手勢收起機制 */
-    .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: var(--nav-height); background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(2px); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+    .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: var(--nav-height); background: rgba(0, 0, 0, 0.3); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
     .sheet-overlay.active { opacity: 1; pointer-events: auto; }
     .bottom-sheet { position: fixed; left: 0; right: 0; bottom: var(--nav-height); max-width: 680px; margin: 0 auto; max-height: calc(85vh - var(--nav-height)); height: 75vh; background: #FAF9F6; border-top-left-radius: 24px; border-top-right-radius: 24px; z-index: 200; transform: translateY(105%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); border-bottom: none; touch-action: none; }
     .bottom-sheet.active { transform: translateY(0); }
 
-    .sheet-header { padding: 10px 20px 14px; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); cursor: grab; user-select: none; }
+    .sheet-header { padding: 10px 20px 14px; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid var(--border-color); cursor: grab; user-select: none; }
     .sheet-handle { width: 38px; height: 5px; background: #D4CBC0; border-radius: 3px; align-self: center; margin-bottom: 10px; }
     .sheet-title-bar { display: flex; justify-content: center; align-items: center; }
     .sheet-title { font-size: 16px; font-weight: 700; color: var(--text-main); }
-    .sheet-body { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+    .sheet-body { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; touch-action: pan-y; pointer-events: auto !important; }
 
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -516,33 +528,37 @@
   </div>
 
   <!-- PAGE 2: 新增行程 (ITINERARY) -->
-  <div class="app-page max-w-md mx-auto relative bg-cream select-none" id="page-itinerary">
-    <!-- 頂部日期橫條：固定 5 天不左右滑動 -->
+  <div class="app-page relative bg-cream select-none" id="page-itinerary">
+    <!-- 頂部日期橫條：固定 5 天不滑動，左右框線與下方行程列表完美切齊 -->
     <header class="sticky top-0 z-20 bg-cream/95 backdrop-blur-md pt-3 pb-3 border-b border-warm-border/50">
-      <div class="grid grid-cols-6 gap-1 px-3 py-1 w-full" id="dateBar"></div>
+      <div class="itinerary-wrapper">
+        <div class="grid grid-cols-6 gap-2 w-full" id="dateBar"></div>
+      </div>
     </header>
 
-    <!-- 天數小橫幅 -->
-    <div id="daySummaryBar" class="px-5 py-2.5 bg-warm-bg/40 text-xs text-warm-muted flex justify-between items-center border-b border-warm-border/30">
-      <span id="currentDayText" class="font-bold text-warm-dark text-sm"><i class="fa-regular fa-calendar-check mr-1.5 text-gold-highlight"></i>DAY 1</span>
-      <span id="itemCountBadge" class="bg-warm-border/60 text-warm-dark text-[10px] font-bold px-2 py-0.5 rounded-full">0 個行程</span>
+    <div class="itinerary-wrapper">
+      <!-- 天數小橫幅 -->
+      <div id="daySummaryBar" class="px-4 py-2.5 bg-warm-bg/40 text-xs text-warm-muted flex justify-between items-center border-b border-warm-border/30 rounded-xl my-2">
+        <span id="currentDayText" class="font-bold text-warm-dark text-sm"><i class="fa-regular fa-calendar-check mr-1.5 text-gold-highlight"></i>DAY 1</span>
+        <span id="itemCountBadge" class="bg-warm-border/60 text-warm-dark text-[10px] font-bold px-2 py-0.5 rounded-full">0 個行程</span>
+      </div>
+
+      <!-- 時間軸主行程內容 -->
+      <main class="py-4 relative min-h-[500px]">
+        <div class="timeline-line"></div>
+        <div id="itineraryContainer" class="space-y-4 relative z-10"></div>
+        
+        <!-- 空白狀態 -->
+        <div id="emptyState" class="hidden py-16 text-center text-warm-muted">
+          <i class="fa-solid fa-compass-drafting text-4xl mb-3 text-warm-border"></i>
+          <p class="text-sm font-medium">今天還沒有安排行程</p>
+          <p class="text-xs text-warm-muted/80 mt-1">點擊下方 ➕ 新增行程來加入</p>
+        </div>
+      </main>
     </div>
 
-    <!-- 時間軸主行程內容 (保留呼吸空間，時間線與列表不重疊) -->
-    <main class="px-4 py-4 relative min-h-[500px]">
-      <div class="timeline-line"></div>
-      <div id="itineraryContainer" class="space-y-4 relative z-10 pl-2"></div>
-      
-      <!-- 空白狀態 -->
-      <div id="emptyState" class="hidden py-16 text-center text-warm-muted">
-        <i class="fa-solid fa-compass-drafting text-4xl mb-3 text-warm-border"></i>
-        <p class="text-sm font-medium">今天還沒有安排行程</p>
-        <p class="text-xs text-warm-muted/80 mt-1">點擊下方 ➕ 新增行程來加入</p>
-      </div>
-    </main>
-
-    <!-- 新增行程按鈕：依指定 bottom: -25px 呈現半懸浮貼底視覺[span_1](start_span)[span_1](end_span) -->
-    <div class="sticky bottom-[calc(20px+var(--nav-height))] left-0 right-0 px-5 z-20 flex justify-center pb-2 pointer-events-none" style="bottom: -25px; margin-bottom: 35px;">
+    <!-- 新增行程按鈕：依指定 bottom: -25px 呈現半懸浮貼底視覺 -->
+    <div class="sticky left-0 right-0 px-5 z-20 flex justify-center pointer-events-none" style="bottom: -25px; margin-bottom: 35px;">
       <button onclick="openAddModal()" class="bg-warm-dark text-cream font-bold py-3.5 px-6 rounded-full flex items-center gap-2 hover:bg-black active:scale-95 transition-all text-sm border border-warm-border pointer-events-auto">
         <i class="fa-solid fa-plus text-base"></i>
         <span>新增行程</span>
@@ -566,7 +582,7 @@
     </div>
   </div>
 
-  <!-- 新增景點 Modal (從庫選擇，支援上下滾動) -->
+  <!-- 新增景點 Modal (從庫選擇，確保點擊與內部滾動順暢) -->
   <div id="addModal" class="fixed inset-0 z-40 hidden flex items-end sm:items-center justify-center">
     <div class="sheet-overlay active fixed inset-0" onclick="closeAddModal()"></div>
     <div class="bg-cream w-full max-w-md rounded-t-3xl sm:rounded-2xl z-10 max-h-[85vh] flex flex-col border border-warm-border overflow-hidden relative">
@@ -771,12 +787,12 @@
     };
 
     const TRIP_DATES = [
-      { key: '2026-12-29', dayNum: '29', week: 'TUE', label: '12/29', title: 'DAY 1' },
-      { key: '2026-12-30', dayNum: '30', week: 'THU', label: '12/30', title: 'DAY 2' },
-      { key: '2026-12-31', dayNum: '31', week: 'FRI', label: '12/31', title: 'DAY 3' },
-      { key: '2027-01-01', dayNum: '1', week: 'SAT', label: '1/1', title: 'DAY 4' },
-      { key: '2027-01-02', dayNum: '2', week: 'SUN', label: '1/2', title: 'DAY 5' },
-      { key: '2027-01-03', dayNum: '3', week: 'MON', label: '1/3', title: 'DAY 6' }
+      { key: '2026-12-29', dayNum: '29', week: 'TUE', title: 'DAY 1' },
+      { key: '2026-12-30', dayNum: '30', week: 'THU', title: 'DAY 2' },
+      { key: '2026-12-31', dayNum: '31', week: 'FRI', title: 'DAY 3' },
+      { key: '2027-01-01', dayNum: '1', week: 'SAT', title: 'DAY 4' },
+      { key: '2027-01-02', dayNum: '2', week: 'SUN', title: 'DAY 5' },
+      { key: '2027-01-03', dayNum: '3', week: 'MON', title: 'DAY 6' }
     ];
 
     let currentActiveDateKey = '2026-12-29';
@@ -813,7 +829,6 @@
       if (type === 'home') {
         if (currentSheetType !== null) { closeSheet(); return; }
         if (currentPageIndex === 0) {
-          // 若已在首頁，再次點擊首頁 Icon 滾動回最頂端
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
           switchPage(0);
@@ -869,7 +884,7 @@
       localStorage.setItem('busan_app_v6_data', JSON.stringify(itineraryData));
     }
 
-    /* 上方日期列：固定 5 天在上方正中間 */
+    /* 上方固定日期列：上為大日期數字、下為小星期縮寫，選中時深咖啡色且下方有粉紅小點點 */
     function renderCalendarBar() {
       const dateBar = document.getElementById('dateBar');
       dateBar.innerHTML = '';
@@ -877,14 +892,15 @@
         const isActive = d.key === currentActiveDateKey;
         const dateBtn = document.createElement('button');
         dateBtn.onclick = () => switchDate(d.key);
-        dateBtn.className = `py-1.5 px-1 rounded-xl flex flex-col items-center transition-all border ${
+        dateBtn.className = `py-2 px-1 rounded-2xl flex flex-col items-center justify-center transition-all border ${
           isActive 
-          ? 'bg-warm-dark text-cream border-warm-dark font-bold' 
-          : 'bg-white/80 border-warm-border/60 text-warm-dark hover:bg-warm-bg opacity-80'
+          ? 'bg-[#5C4E4E] text-cream border-[#5C4E4E] font-bold' 
+          : 'bg-white/90 border-warm-border/60 text-warm-dark hover:bg-warm-bg'
         }`;
         dateBtn.innerHTML = `
-          <span class="text-[8px] tracking-wider uppercase font-semibold ${isActive ? 'text-gold-highlight' : 'text-warm-muted'}">${d.label}</span>
-          <span class="text-sm font-extrabold leading-none my-0.5">${d.dayNum}</span>
+          <span class="text-lg font-extrabold leading-none mb-1">${d.dayNum}</span>
+          <span class="text-[10px] tracking-wider uppercase font-semibold ${isActive ? 'text-cream/90' : 'text-warm-muted'}">${d.week}</span>
+          ${isActive ? '<span class="w-1.5 h-1.5 bg-[#F98BA9] rounded-full mt-1"></span>' : '<span class="w-1.5 h-1.5 opacity-0 mt-1"></span>'}
         `;
         dateBar.appendChild(dateBtn);
       });
@@ -932,9 +948,9 @@
         const isHighlight = !!item.highlight;
         const cardHtml = `
           <div class="drag-item flex gap-3 items-start group select-none" data-id="${item.id}">
-            <div class="w-12 text-right pt-2 shrink-0">
+            <div class="w-12 text-left pt-2 shrink-0 relative flex items-center">
               <span class="text-xs font-bold text-warm-dark block font-mono leading-none">${item.time || '10:00'}</span>
-              <span class="w-2 h-2 rounded-full inline-block mt-2 ${isHighlight ? 'bg-gold-highlight' : 'bg-warm-border'}"></span>
+              <span class="w-2.5 h-2.5 rounded-full absolute -right-[7px] top-[14px] z-10 ${isHighlight ? 'bg-gold-highlight' : 'bg-[#BBB7E5]'} border-2 border-cream"></span>
             </div>
             <div onclick="openDetailSheet('${item.id}')" class="flex-1 cursor-pointer rounded-2xl p-4 transition-all relative ${
               isHighlight ? 'highlight-card' : 'bg-cream-card border border-warm-border/60'
@@ -1316,7 +1332,6 @@
           const diff = currentY - startY;
           const sheetHeight = sheet.clientHeight;
 
-          // 設定 85% 寬鬆觸發門檻
           if (diff > sheetHeight * 0.15) {
             if (sheet.id === 'detailSheetBox') closeDetailSheet();
             else closeSheet();
