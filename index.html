@@ -19,35 +19,42 @@
 
   <style>
     :root {
-      --color-sky: #7FB9E6;
-      --color-lavender: #D6BEEA;
-      --color-butter: #F4D77A;
-      --color-matcha: #B7C96A;
-      --color-pink: #F98BA9;
-      --color-tangerine: #FF8F45;
+      /* 新六色色卡組合 */
+      --color-lavender: #BBB7E5;
+      --color-light-rose: #F7DFDF;
+      --color-snow: #DAE9FA;
+      --color-baby-pink: #EFBDBD;
+      --color-pistachio: #B6C687;
+      --color-pale-yellow: #FAF6C8;
 
+      /* 原最上方標題專用粉色（維持不動） */
+      --color-pink: #F98BA9;
+
+      /* 背景與文字（文字與時鐘改為帶灰調的深咖啡色） */
       --bg-color: #FAF9F6;
       --card-bg: #FFFFFF;
-      --text-main: #2C3E50;
-      --text-sub: #7F8C8D;
+      --text-main: #5C4E4E;
+      --text-sub: #8C7C7C;
       --border-color: #EFECE6;
 
-      --color-cat-a: #7FB9E6;
-      --color-cat-b: #FF8F45;
-      --color-cat-c: #F4D77A;
-      --color-cat-d: #D6BEEA;
-      --color-cat-e: #F98BA9;
-      --color-cat-f: #B7C96A;
+      /* 色卡對應 */
+      --color-cat-a: #BBB7E5;
+      --color-cat-b: #F7DFDF;
+      --color-cat-c: #DAE9FA;
+      --color-cat-d: #EFBDBD;
+      --color-cat-e: #B6C687;
+      --color-cat-f: #FAF6C8;
 
-      --expense-theme: #B392DC;
-      --expense-bg-light: rgba(214, 190, 234, 0.2);
-      --expense-btn-color: #9DB347;
+      --expense-theme: #BBB7E5;
+      --expense-bg-light: rgba(187, 183, 229, 0.2);
+      --expense-btn-color: #B6C687;
 
-      --flip-bg: #826DEE;
-      --flip-stripe: rgba(255, 255, 255, 0.22);
-      --flip-text: #FFFFFF;
-      --flip-subtext: #EBF5FB;
-      --flip-divider: rgba(0, 0, 0, 0.2);
+      /* 翻頁鬧鐘（選用粉紅色調 #F7DFDF，字體與時鐘一致為咖啡色 #5C4E4E） */
+      --flip-bg: #F7DFDF;
+      --flip-stripe: rgba(255, 255, 255, 0.35);
+      --flip-text: #5C4E4E;
+      --flip-subtext: #7D6E6E;
+      --flip-divider: rgba(92, 78, 78, 0.15);
 
       --nav-height: calc(52px + env(safe-area-inset-bottom));
     }
@@ -63,10 +70,10 @@
     body {
       background-color: var(--bg-color);
       background-image: 
-        radial-gradient(circle at 15% 10%, rgba(127, 185, 230, 0.18) 0%, transparent 45%),
-        radial-gradient(circle at 85% 25%, rgba(249, 139, 169, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 70%, rgba(244, 215, 122, 0.18) 0%, transparent 60%),
-        radial-gradient(circle at 90% 90%, rgba(214, 190, 234, 0.18) 0%, transparent 50%);
+        radial-gradient(circle at 15% 10%, rgba(187, 183, 229, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 25%, rgba(247, 223, 223, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 70%, rgba(250, 246, 200, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 90% 90%, rgba(239, 189, 189, 0.18) 0%, transparent 50%);
       background-attachment: fixed;
       color: var(--text-main);
       padding-bottom: calc(65px + env(safe-area-inset-bottom));
@@ -153,7 +160,7 @@
     .weather-temp {
       font-size: 22px;
       font-weight: 700;
-      color: var(--color-sky);
+      color: var(--text-main);
     }
 
     .reunion-countdown-section {
@@ -209,8 +216,8 @@
         var(--flip-stripe) 8px
       );
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+      border: 1px solid var(--text-main);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
       display: flex;
       flex-direction: column;
       perspective: 160px;
@@ -224,10 +231,10 @@
       transform: translateY(-50%);
       width: 4px;
       height: 10px;
-      background-color: #2C3E50;
+      background-color: var(--text-main);
       z-index: 30;
       border-radius: 2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
     .flip-card-wrapper::before { left: 0; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
     .flip-card-wrapper::after { right: 0; border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
@@ -270,7 +277,7 @@
       align-items: flex-start;
       border-bottom-left-radius: 12px;
       border-bottom-right-radius: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
     }
 
     .card-face.bottom span { transform: translateY(-50%); }
@@ -334,7 +341,7 @@
       transform: rotateX(180deg);
       border-bottom-left-radius: 12px;
       border-bottom-right-radius: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
     }
     .flipper-face.back span { transform: translateY(-50%); }
 
@@ -349,7 +356,6 @@
       letter-spacing: 0.8px;
       z-index: 35;
       pointer-events: none;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
     .section-title-label {
@@ -371,18 +377,18 @@
     .cat-card-btn {
       border-radius: 16px;
       padding: 16px 14px;
-      border: none;
+      border: 1px solid #5C4E4E;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-height: 96px;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
       transition: all 0.2s ease;
       position: relative;
       overflow: hidden;
       text-align: left;
-      color: #FFFFFF;
+      color: var(--text-main);
     }
 
     .cat-card-btn:active {
@@ -399,20 +405,8 @@
     .cat-card-title {
       font-size: 15px;
       font-weight: 700;
-      color: #FFFFFF;
+      color: var(--text-main);
       line-height: 1.3;
-    }
-
-    .cat-card-badge {
-      font-size: 11px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.95);
-      background: rgba(255, 255, 255, 0.22);
-      padding: 3px 8px;
-      border-radius: 10px;
-      width: fit-content;
-      margin-top: 6px;
-      backdrop-filter: blur(4px);
     }
 
     .item-card {
@@ -478,8 +472,8 @@
       gap: 5px;
       margin-top: 10px;
       padding: 6px 12px;
-      background: var(--map-btn-bg, rgba(127, 185, 230, 0.15));
-      color: var(--map-btn-color, #7FB9E6);
+      background: var(--map-btn-bg, rgba(92, 78, 78, 0.08));
+      color: var(--map-btn-color, #5C4E4E);
       text-decoration: none;
       border-radius: 8px;
       font-size: 12px;
@@ -509,7 +503,7 @@
       outline: none;
     }
 
-    .add-form input:focus, .add-form select:focus { border-color: var(--expense-theme); }
+    .add-form input:focus, .add-form select:focus { border-color: var(--text-main); }
 
     .form-row-inline {
       display: flex;
@@ -566,14 +560,14 @@
     }
 
     .payer-chip.selected {
-      background: var(--expense-theme);
+      background: var(--text-main);
       color: #FFFFFF;
-      border-color: var(--expense-theme);
+      border-color: var(--text-main);
     }
 
     .select-all-btn {
       font-size: 11px;
-      color: var(--expense-theme);
+      color: var(--text-main);
       background: none;
       border: none;
       cursor: pointer;
@@ -583,7 +577,7 @@
 
     .twd-hint {
       font-size: 12px;
-      color: var(--expense-btn-color);
+      color: var(--text-main);
       margin-bottom: 10px;
       font-weight: 600;
       padding-left: 2px;
@@ -591,7 +585,7 @@
 
     .btn-submit {
       width: 100%;
-      background: var(--expense-btn-color);
+      background: var(--text-main);
       color: white;
       border: none;
       padding: 11px;
@@ -612,14 +606,15 @@
     }
 
     .dash-box {
-      background: linear-gradient(135deg, var(--expense-theme) 0%, #9F75D3 100%);
-      color: white;
+      background: linear-gradient(135deg, #BBB7E5 0%, #A49EE0 100%);
+      color: #5C4E4E;
       border-radius: 16px;
       padding: 16px 14px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-height: 105px;
+      border: 1px solid #5C4E4E;
     }
 
     .dash-title {
@@ -750,7 +745,7 @@
     .sheet-title {
       font-size: 16px;
       font-weight: 700;
-      color: var(--color-sky);
+      color: var(--text-main);
       letter-spacing: 0.5px;
     }
 
@@ -796,7 +791,7 @@
     }
 
     .nav-item.active-schedule {
-      color: var(--color-sky);
+      color: var(--text-main);
       font-weight: 700;
     }
     .nav-item.active-favorites {
@@ -804,7 +799,7 @@
       font-weight: 700;
     }
     .nav-item.active-expenses {
-      color: var(--expense-theme);
+      color: var(--color-lavender);
       font-weight: 700;
     }
   </style>
@@ -888,7 +883,7 @@
 
     <div class="hero-card">
       <div class="section-title-label">
-        <i class="fa-solid fa-map-location-dot" style="color: var(--color-sky);"></i>
+        <i class="fa-solid fa-map-location-dot" style="color: var(--text-main);"></i>
         探索景點
       </div>
 
@@ -971,13 +966,13 @@
     let currentActiveCat = null;
 
     const categoryThemeMap = {
-      'A': { main: '#7FB9E6', bgLight: 'rgba(127, 185, 230, 0.15)', name: 'A. 松島 . 影島', code: 'SONGDO & YEONGDO' },
-      'B': { main: '#FF8F45', bgLight: 'rgba(255, 143, 69, 0.15)', name: 'B. 市集 . 市場', code: 'MARKETS' },
-      'C': { main: '#D4B830', bgLight: 'rgba(244, 215, 122, 0.25)', name: 'C. 西面 . 田浦', code: 'SEOMYEON & JEONPO' },
-      'D': { main: '#B392DC', bgLight: 'rgba(214, 190, 234, 0.2)', name: 'D. 廣安里', code: 'GWANGANLI' },
-      'E': { main: '#F76B90', bgLight: 'rgba(249, 139, 169, 0.2)', name: 'E. 海雲台', code: 'HAEUNDAE' },
-      'F': { main: '#9DB347', bgLight: 'rgba(183, 201, 106, 0.2)', name: 'F. 天空膠囊 & 海岸列車', code: 'SKY CAPSULE & TRAIN' },
-      'ALL': { main: '#2C3E50', bgLight: 'rgba(44, 62, 80, 0.08)', name: 'ALL SPOTS' }
+      'A': { main: '#BBB7E5', bgLight: 'rgba(187, 183, 229, 0.2)', name: 'A. 松島 . 影島', code: 'SONGDO & YEONGDO' },
+      'B': { main: '#F7DFDF', bgLight: 'rgba(247, 223, 223, 0.3)', name: 'B. 市集 . 市場', code: 'MARKETS' },
+      'C': { main: '#DAE9FA', bgLight: 'rgba(218, 233, 250, 0.3)', name: 'C. 西面 . 田浦', code: 'SEOMYEON & JEONPO' },
+      'D': { main: '#EFBDBD', bgLight: 'rgba(239, 189, 189, 0.25)', name: 'D. 廣安里', code: 'GWANGANLI' },
+      'E': { main: '#B6C687', bgLight: 'rgba(182, 198, 135, 0.25)', name: 'E. 海雲台', code: 'HAEUNDAE' },
+      'F': { main: '#FAF6C8', bgLight: 'rgba(250, 246, 200, 0.35)', name: 'F. 天空膠囊 & 海岸列車', code: 'SKY CAPSULE & TRAIN' },
+      'ALL': { main: '#5C4E4E', bgLight: 'rgba(92, 78, 78, 0.08)', name: 'ALL SPOTS' }
     };
 
     async function fetchLiveExchangeRate() {
@@ -1225,9 +1220,9 @@
       const titleElem = document.getElementById('sheet-title');
       
       titleElem.innerHTML = `
-        <div style="text-align: center; color: ${theme.main};">
+        <div style="text-align: center; color: var(--text-main);">
           <div style="font-size: 16px; font-weight: 700;">${titleName}</div>
-          <div style="font-size: 10px; font-weight: 800; opacity: 0.8; letter-spacing: 0.8px; margin-top: 1px;">${theme.code}</div>
+          <div style="font-size: 10px; font-weight: 800; opacity: 0.7; letter-spacing: 0.8px; margin-top: 1px;">${theme.code}</div>
         </div>
       `;
 
@@ -1249,7 +1244,6 @@
         const card = document.createElement('div');
         card.className = `item-card cat-${item.cat}`;
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}`;
-        const spotTheme = categoryThemeMap[item.cat] || categoryThemeMap['ALL'];
 
         card.innerHTML = `
           <div class="card-top">
@@ -1261,7 +1255,7 @@
             </div>
           </div>
           <div class="story-box">${item.story}</div>
-          <a href="${mapUrl}" target="_blank" class="map-btn" style="--map-btn-bg: ${spotTheme.bgLight}; --map-btn-color: ${spotTheme.main};">
+          <a href="${mapUrl}" target="_blank" class="map-btn">
             <i class="fa-solid fa-location-dot"></i> Google Map
           </a>
         `;
@@ -1287,7 +1281,7 @@
 
       const titleElem = document.getElementById('sheet-title');
       titleElem.innerText = `記帳小幫手`;
-      titleElem.style.color = 'var(--expense-theme)';
+      titleElem.style.color = 'var(--text-main)';
 
       renderExpensesSheetContent();
       showSheet();
@@ -1321,7 +1315,6 @@
         const card = document.createElement('div');
         card.className = `item-card cat-${item.cat}`;
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.name)}`;
-        const spotTheme = categoryThemeMap[item.cat] || categoryThemeMap['ALL'];
 
         card.innerHTML = `
           <div class="card-top">
@@ -1333,7 +1326,7 @@
             </div>
           </div>
           <div class="story-box">${item.story}</div>
-          <a href="${mapUrl}" target="_blank" class="map-btn" style="--map-btn-bg: ${spotTheme.bgLight}; --map-btn-color: ${spotTheme.main};">
+          <a href="${mapUrl}" target="_blank" class="map-btn">
             <i class="fa-solid fa-location-dot"></i> Google Map
           </a>
         `;
@@ -1341,7 +1334,6 @@
       });
     }
 
-    // 限定日期範圍：12/29 (Tue) 至 2027/1/3 (Sun) 英文星期縮寫
     function generateDateOptions(selectedVal) {
       const tripDates = [
         { val: '12/29', text: '12/29 (Tue)' },
@@ -1362,7 +1354,7 @@
       const sheetBody = document.getElementById('sheet-body');
       sheetBody.innerHTML = `
         <div class="dashboard-grid">
-          <div class="dash-box" style="background: linear-gradient(135deg, var(--expense-theme) 0%, #9F75D3 100%);">
+          <div class="dash-box">
             <div class="dash-title">消費總金額</div>
             <div>
               <div class="dash-main-val" id="total-expense">₩ 0</div>
@@ -1370,7 +1362,7 @@
             </div>
           </div>
 
-          <div class="dash-box" style="background: linear-gradient(135deg, var(--expense-theme) 0%, #9F75D3 100%);">
+          <div class="dash-box">
             <div class="dash-title">當日即時匯率</div>
             <div>
               <div class="dash-main-val" id="rate-main-val">${EXCHANGE_RATE.toFixed(2)}</div>
@@ -1519,7 +1511,6 @@
       }
     };
 
-    // 修改彈窗視窗（可動態選擇日期選單）
     window.editExpense = async function(docId, currentDate, currentItem, currentAmount) {
       const newDateOptions = generateDateOptions(currentDate);
       
@@ -1549,7 +1540,7 @@
           <input type="number" id="edit-amount" value="${currentAmount}" style="width:100%; padding:10px 12px; margin:4px 0 16px 0; border:1px solid var(--border-color); border-radius:10px; background:#FAF7F4; font-size:14px; outline:none;">
           <div style="display:flex; gap:8px;">
             <button id="edit-cancel" style="flex:1; padding:10px; border-radius:10px; border:1px solid var(--border-color); background:#FAF7F4; font-weight:600; cursor:pointer;">取消</button>
-            <button id="edit-confirm" style="flex:1; padding:10px; border-radius:10px; border:none; background:var(--expense-btn-color); color:#FFF; font-weight:700; cursor:pointer;">儲存修改</button>
+            <button id="edit-confirm" style="flex:1; padding:10px; border-radius:10px; border:none; background:var(--text-main); color:#FFF; font-weight:700; cursor:pointer;">儲存修改</button>
           </div>
         </div>
       `;
@@ -1601,7 +1592,7 @@
           <div class="card-top">
             <div class="item-title">${dateTag}${data.item}</div>
             <div style="text-align: right;">
-              <span style="color:var(--expense-btn-color); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
+              <span style="color:var(--text-main); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
               <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${itemTwd.toLocaleString()}</div>
             </div>
           </div>
@@ -1668,7 +1659,7 @@
       if (deltaY > 70) {
         closeSheet();
       } else {
-        sheet.style.transform = 'translateY(0)';
+        sheet.style.transform = `translateY(0)`;
       }
       startY = 0;
       currentY = 0;
@@ -1693,7 +1684,7 @@
 
     window.createIllustrationFirework = function(x, y) {
       const rayCount = 24;
-      const colors = ['#7FB9E6', '#D6BEEA', '#F4D77A', '#B7C96A', '#F98BA9', '#FF8F45'];
+      const colors = ['#BBB7E5', '#F7DFDF', '#DAE9FA', '#EFBDBD', '#B6C687', '#FAF6C8'];
 
       for (let i = 0; i < rayCount; i++) {
         const ray = document.createElement('div');
