@@ -109,19 +109,13 @@
       -webkit-user-select: text !important;
     }
 
-    /* 多頁橫向滑動主容器 */
-    .app-swipe-container {
-      display: flex;
-      width: 200vw;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform;
-    }
-
     .app-page {
+      display: none;
       width: 100vw;
       min-height: 100vh;
-      flex-shrink: 0;
-      overflow-y: auto;
+    }
+    .app-page.active-page {
+      display: block;
     }
 
     /* 頂部 Header */
@@ -219,7 +213,6 @@
       background-image: repeating-linear-gradient(-45deg, transparent, transparent 5px, var(--flip-stripe) 5px, var(--flip-stripe) 8px);
       overflow: hidden;
       border: 1px solid var(--text-main);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
       display: flex;
       flex-direction: column;
       perspective: 200px;
@@ -308,7 +301,7 @@
     .cat-card-btn {
       aspect-ratio: 1 / 1; border-radius: 18px; padding: 14px; border: 1px solid #5C4E4E;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
-      cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.04); transition: all 0.2s ease; position: relative; overflow: hidden; text-align: center; color: var(--text-main);
+      cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; text-align: center; color: var(--text-main);
     }
     .cat-card-btn:active { transform: scale(0.96); }
     .cat-card-btn[data-cat="A"] { background: var(--color-cat-a); }
@@ -323,12 +316,12 @@
 
     /* 行程頁面專屬樣式 */
     .timeline-line { position: absolute; left: 58px; top: 24px; bottom: 24px; width: 2px; background-color: #BBB7E5; z-index: 0; }
-    .highlight-card { border: 2px solid #EFBDBD !important; background: linear-gradient(135deg, #FFFFFF 0%, #FAF6C8 100%) !important; box-shadow: 0 4px 15px rgba(239, 189, 189, 0.3); }
+    .highlight-card { border: 2px solid #EFBDBD !important; background: linear-gradient(135deg, #FFFFFF 0%, #FAF6C8 100%) !important; }
     .category-badge { font-size: 0.65rem; letter-spacing: 0.08em; font-weight: 700; }
     .drag-handle { touch-action: none; cursor: grab; }
     .drag-handle:active { cursor: grabbing; }
     .sortable-ghost { opacity: 0.3; background: #BBB7E5 !important; transform: scale(0.98); }
-    .sortable-chosen { box-shadow: 0 10px 25px rgba(74, 62, 61, 0.2) !important; transform: scale(1.02); z-index: 30; }
+    .sortable-chosen { transform: scale(1.02); z-index: 30; }
 
     .item-card {
       background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
@@ -350,19 +343,19 @@
     .icon-btn.active-heart { color: var(--color-pink); }
 
     .story-box { font-size: 13px; color: var(--text-sub); line-height: 1.5; margin-top: 6px; background: rgba(250, 247, 244, 0.8); padding: 9px 11px; border-radius: 10px; }
-    .map-btn { display: inline-flex; items-center; gap: 5px; margin-top: 10px; padding: 6px 12px; background: rgba(92, 78, 78, 0.08); color: #5C4E4E; text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 700; }
+    .map-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; padding: 6px 12px; background: rgba(92, 78, 78, 0.08); color: #5C4E4E; text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 700; }
 
-    /* Bottom Sheet 樣式 */
+    /* Bottom Sheet & 85% 下拉手勢收起機制 */
     .sheet-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: var(--nav-height); background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(2px); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
     .sheet-overlay.active { opacity: 1; pointer-events: auto; }
-    .bottom-sheet { position: fixed; left: 0; right: 0; bottom: var(--nav-height); max-width: 680px; margin: 0 auto; max-height: calc(85vh - var(--nav-height)); height: 75vh; background: #FAF9F6; border-top-left-radius: 24px; border-top-right-radius: 24px; z-index: 200; transform: translateY(105%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); border-bottom: none; }
+    .bottom-sheet { position: fixed; left: 0; right: 0; bottom: var(--nav-height); max-width: 680px; margin: 0 auto; max-height: calc(85vh - var(--nav-height)); height: 75vh; background: #FAF9F6; border-top-left-radius: 24px; border-top-right-radius: 24px; z-index: 200; transform: translateY(105%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--border-color); border-bottom: none; touch-action: none; }
     .bottom-sheet.active { transform: translateY(0); }
 
     .sheet-header { padding: 10px 20px 14px; display: flex; flex-direction: column; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); cursor: grab; user-select: none; }
     .sheet-handle { width: 38px; height: 5px; background: #D4CBC0; border-radius: 3px; align-self: center; margin-bottom: 10px; }
     .sheet-title-bar { display: flex; justify-content: center; align-items: center; }
     .sheet-title { font-size: 16px; font-weight: 700; color: var(--text-main); }
-    .sheet-body { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
+    .sheet-body { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
 
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -411,160 +404,156 @@
     #toast {
       position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999;
       background: var(--text-main); color: #FAF6C8; font-size: 12px; padding: 10px 18px;
-      border-radius: 99px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); opacity: 0;
+      border-radius: 99px; opacity: 0;
       transition: opacity 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 6px;
     }
   </style>
 </head>
 <body>
 
-  <!-- 手機滑動雙分頁容器 -->
-  <div class="app-swipe-container" id="swipe-container">
+  <!-- PAGE 1: 首頁 (HOME) -->
+  <div class="app-page active-page" id="page-home">
+    <header>
+      <div class="header-title-text">Hello Busan</div>
+      <div class="new-year-badge">
+        <span class="header-title-text">Hi 2027</span>
+        <span class="sparkle-icon" id="sparkle-btn">✨</span>
+      </div>
+    </header>
 
-    <!-- PAGE 1: 首頁 (HOME) -->
-    <div class="app-page" id="page-home">
-      <header>
-        <div class="header-title-text">Hello Busan</div>
-        <div class="new-year-badge">
-          <span class="header-title-text">Hi 2027</span>
-          <span class="sparkle-icon" id="sparkle-btn">✨</span>
-        </div>
-      </header>
-
-      <div class="container">
-        <!-- 倒數與天氣卡片 -->
-        <div class="hero-card" id="hero-countdown-card">
-          <div class="weather-box">
-            <div>
-              <div style="font-size: 12px; color: var(--text-sub);">釜山今日天氣</div>
-              <div style="font-size: 14px; font-weight: 500; margin-top:2px;" id="weather-text">載入天氣中... 🌤️</div>
-            </div>
-            <div class="weather-temp" id="weather-temp">--°C</div>
+    <div class="container">
+      <!-- 倒數與天氣卡片 -->
+      <div class="hero-card" id="hero-countdown-card">
+        <div class="weather-box">
+          <div>
+            <div style="font-size: 12px; color: var(--text-sub);">釜山今日天氣</div>
+            <div style="font-size: 14px; font-weight: 500; margin-top:2px;" id="weather-text">載入天氣中... 🌤️</div>
           </div>
+          <div class="weather-temp" id="weather-temp">--°C</div>
+        </div>
 
-          <div class="reunion-countdown-section">
-            <div class="countdown-header">
-              <span class="countdown-title">
-                <i class="fa-solid fa-heart title-heart-icon"></i> 集合倒數
-              </span>
+        <div class="reunion-countdown-section">
+          <div class="countdown-header">
+            <span class="countdown-title">
+              <i class="fa-solid fa-heart title-heart-icon"></i> 集合倒數
+            </span>
+          </div>
+          <div class="flip-clock" id="clock-reunion">
+            <div class="flip-unit" data-unit="days">
+              <div class="flip-card-wrapper">
+                <div class="flip-card-half top"><span>00</span></div>
+                <div class="flip-card-half bottom"><span>00</span></div>
+                <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
+              </div>
+              <span class="unit-label">DAY</span>
             </div>
-            <div class="flip-clock" id="clock-reunion">
-              <div class="flip-unit" data-unit="days">
-                <div class="flip-card-wrapper">
-                  <div class="flip-card-half top"><span>00</span></div>
-                  <div class="flip-card-half bottom"><span>00</span></div>
-                  <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
-                </div>
-                <span class="unit-label">DAY</span>
+            <div class="flip-unit" data-unit="hours">
+              <div class="flip-card-wrapper">
+                <div class="flip-card-half top"><span>00</span></div>
+                <div class="flip-card-half bottom"><span>00</span></div>
+                <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
               </div>
-              <div class="flip-unit" data-unit="hours">
-                <div class="flip-card-wrapper">
-                  <div class="flip-card-half top"><span>00</span></div>
-                  <div class="flip-card-half bottom"><span>00</span></div>
-                  <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
-                </div>
-                <span class="unit-label">HR</span>
+              <span class="unit-label">HR</span>
+            </div>
+            <div class="flip-unit" data-unit="minutes">
+              <div class="flip-card-wrapper">
+                <div class="flip-card-half top"><span>00</span></div>
+                <div class="flip-card-half bottom"><span>00</span></div>
+                <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
               </div>
-              <div class="flip-unit" data-unit="minutes">
-                <div class="flip-card-wrapper">
-                  <div class="flip-card-half top"><span>00</span></div>
-                  <div class="flip-card-half bottom"><span>00</span></div>
-                  <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
-                </div>
-                <span class="unit-label">MIN</span>
+              <span class="unit-label">MIN</span>
+            </div>
+            <div class="flip-unit" data-unit="seconds">
+              <div class="flip-card-wrapper">
+                <div class="flip-card-half top"><span>00</span></div>
+                <div class="flip-card-half bottom"><span>00</span></div>
+                <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
               </div>
-              <div class="flip-unit" data-unit="seconds">
-                <div class="flip-card-wrapper">
-                  <div class="flip-card-half top"><span>00</span></div>
-                  <div class="flip-card-half bottom"><span>00</span></div>
-                  <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
-                </div>
-                <span class="unit-label">SEC</span>
-              </div>
+              <span class="unit-label">SEC</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- 匯率與退稅卡片 -->
-        <div class="calc-card-bar">
-          <div class="calc-header">
-            <div class="calc-title"><i class="fa-solid fa-calculator" style="color: var(--text-main);"></i> Go Exchange</div>
-            <div class="calc-rate-badge" id="calc-rate-display">1 TWD ≈ 41.50 KRW</div>
+      <!-- 匯率與退稅卡片 -->
+      <div class="calc-card-bar">
+        <div class="calc-header">
+          <div class="calc-title"><i class="fa-solid fa-calculator" style="color: var(--text-main);"></i> Go Exchange</div>
+          <div class="calc-rate-badge" id="calc-rate-display">1 TWD ≈ 41.50 KRW</div>
+        </div>
+        
+        <div class="calc-input-box">
+          <div class="calc-input-wrap">
+            <input type="number" id="quick-twd" placeholder="0" oninput="convertQuickRate('twd')">
+            <span class="unit-tag">NT$</span>
           </div>
-          
-          <div class="calc-input-box">
-            <div class="calc-input-wrap">
-              <input type="number" id="quick-twd" placeholder="0" oninput="convertQuickRate('twd')">
-              <span class="unit-tag">NT$</span>
-            </div>
-            <div class="swap-icon-wrap"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
-            <div class="calc-input-wrap">
-              <input type="number" id="quick-krw" placeholder="0" oninput="convertQuickRate('krw')">
-              <span class="unit-tag">KRW</span>
-            </div>
-          </div>
-
-          <div class="tax-free-banner" id="tax-banner">
-            <span><i class="fa-solid fa-receipt" style="margin-right: 4px;"></i> 退稅進度</span>
-            <span style="font-weight: 700;" id="tax-status-text">再 ₩15,000 達退稅門檻</span>
+          <div class="swap-icon-wrap"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+          <div class="calc-input-wrap">
+            <input type="number" id="quick-krw" placeholder="0" oninput="convertQuickRate('krw')">
+            <span class="unit-tag">KRW</span>
           </div>
         </div>
 
-        <!-- 探索景點分類網格 -->
-        <div class="hero-card">
-          <div class="section-title-label"><i class="fa-solid fa-map-location-dot" style="color: var(--text-main);"></i> 探索景點</div>
-          <div class="category-grid">
-            <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')"><span class="cat-letter-badge">A</span><div class="cat-card-title">松島 . 影島</div></button>
-            <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')"><span class="cat-letter-badge">B</span><div class="cat-card-title">市集 . 市場</div></button>
-            <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')"><span class="cat-letter-badge">C</span><div class="cat-card-title">西面 . 田浦</div></button>
-            <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')"><span class="cat-letter-badge">D</span><div class="cat-card-title">廣安里</div></button>
-            <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')"><span class="cat-letter-badge">E</span><div class="cat-card-title">海雲台</div></button>
-            <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')"><span class="cat-letter-badge">F</span><div class="cat-card-title">膠囊 & 海岸列車</div></button>
-          </div>
+        <div class="tax-free-banner" id="tax-banner">
+          <span><i class="fa-solid fa-receipt" style="margin-right: 4px;"></i> 退稅進度</span>
+          <span style="font-weight: 700;" id="tax-status-text">再 ₩15,000 達退稅門檻</span>
+        </div>
+      </div>
+
+      <!-- 探索景點分類網格 -->
+      <div class="hero-card">
+        <div class="section-title-label"><i class="fa-solid fa-map-location-dot" style="color: var(--text-main);"></i> 探索景點</div>
+        <div class="category-grid">
+          <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')"><span class="cat-letter-badge">A</span><div class="cat-card-title">松島 . 影島</div></button>
+          <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')"><span class="cat-letter-badge">B</span><div class="cat-card-title">市集 . 市場</div></button>
+          <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')"><span class="cat-letter-badge">C</span><div class="cat-card-title">西面 . 田浦</div></button>
+          <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')"><span class="cat-letter-badge">D</span><div class="cat-card-title">廣安里</div></button>
+          <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')"><span class="cat-letter-badge">E</span><div class="cat-card-title">海雲台</div></button>
+          <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')"><span class="cat-letter-badge">F</span><div class="cat-card-title">膠囊 & 海岸列車</div></button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- PAGE 2: 新增行程 (ITINERARY) -->
-    <div class="app-page max-w-md mx-auto relative bg-cream select-none" id="page-itinerary">
-      <!-- 頂部日期橫條 -->
-      <header class="sticky top-0 z-20 bg-cream/95 backdrop-blur-md pt-3 pb-3 border-b border-warm-border/50">
-        <div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar px-5 py-1" id="dateBar"></div>
-      </header>
+  <!-- PAGE 2: 新增行程 (ITINERARY) -->
+  <div class="app-page max-w-md mx-auto relative bg-cream select-none" id="page-itinerary">
+    <!-- 頂部日期橫條：固定 5 天不左右滑動 -->
+    <header class="sticky top-0 z-20 bg-cream/95 backdrop-blur-md pt-3 pb-3 border-b border-warm-border/50">
+      <div class="grid grid-cols-6 gap-1 px-3 py-1 w-full" id="dateBar"></div>
+    </header>
 
-      <!-- 天數小橫幅 -->
-      <div id="daySummaryBar" class="px-5 py-2.5 bg-warm-bg/40 text-xs text-warm-muted flex justify-between items-center border-b border-warm-border/30">
-        <span id="currentDayText" class="font-bold text-warm-dark text-sm"><i class="fa-regular fa-calendar-check mr-1.5 text-gold-highlight"></i>DAY 1</span>
-        <span id="itemCountBadge" class="bg-warm-border/60 text-warm-dark text-[10px] font-bold px-2 py-0.5 rounded-full">0 個行程</span>
+    <!-- 天數小橫幅 -->
+    <div id="daySummaryBar" class="px-5 py-2.5 bg-warm-bg/40 text-xs text-warm-muted flex justify-between items-center border-b border-warm-border/30">
+      <span id="currentDayText" class="font-bold text-warm-dark text-sm"><i class="fa-regular fa-calendar-check mr-1.5 text-gold-highlight"></i>DAY 1</span>
+      <span id="itemCountBadge" class="bg-warm-border/60 text-warm-dark text-[10px] font-bold px-2 py-0.5 rounded-full">0 個行程</span>
+    </div>
+
+    <!-- 時間軸主行程內容 (保留呼吸空間，時間線與列表不重疊) -->
+    <main class="px-4 py-4 relative min-h-[500px]">
+      <div class="timeline-line"></div>
+      <div id="itineraryContainer" class="space-y-4 relative z-10 pl-2"></div>
+      
+      <!-- 空白狀態 -->
+      <div id="emptyState" class="hidden py-16 text-center text-warm-muted">
+        <i class="fa-solid fa-compass-drafting text-4xl mb-3 text-warm-border"></i>
+        <p class="text-sm font-medium">今天還沒有安排行程</p>
+        <p class="text-xs text-warm-muted/80 mt-1">點擊下方 ➕ 新增行程來加入</p>
       </div>
+    </main>
 
-      <!-- 時間軸主行程內容 -->
-      <main class="px-4 py-4 relative min-h-[500px]">
-        <div class="timeline-line"></div>
-        <div id="itineraryContainer" class="space-y-4 relative z-10"></div>
-        
-        <!-- 空白狀態 -->
-        <div id="emptyState" class="hidden py-16 text-center text-warm-muted">
-          <i class="fa-solid fa-compass-drafting text-4xl mb-3 text-warm-border"></i>
-          <p class="text-sm font-medium">今天還沒有安排行程</p>
-          <p class="text-xs text-warm-muted/80 mt-1">點擊下方 ➕ 新增景點行程來加入</p>
-        </div>
-      </main>
-
-      <!-- 新增景點按鈕 (行程頁) -->
-      <div class="sticky bottom-20 left-0 right-0 px-5 z-20 flex justify-center pb-4">
-        <button onclick="openAddModal()" class="bg-warm-dark text-cream font-bold py-3.5 px-6 rounded-full shadow-lg flex items-center gap-2 hover:bg-black active:scale-95 transition-all text-sm border border-warm-border">
-          <i class="fa-solid fa-plus text-base"></i>
-          <span>新增景點行程</span>
-        </button>
-      </div>
+    <!-- 新增行程按鈕：依指定 bottom: -25px 呈現半懸浮貼底視覺[span_1](start_span)[span_1](end_span) -->
+    <div class="sticky bottom-[calc(20px+var(--nav-height))] left-0 right-0 px-5 z-20 flex justify-center pb-2 pointer-events-none" style="bottom: -25px; margin-bottom: 35px;">
+      <button onclick="openAddModal()" class="bg-warm-dark text-cream font-bold py-3.5 px-6 rounded-full flex items-center gap-2 hover:bg-black active:scale-95 transition-all text-sm border border-warm-border pointer-events-auto">
+        <i class="fa-solid fa-plus text-base"></i>
+        <span>新增行程</span>
+      </button>
     </div>
   </div>
 
   <!-- 刪除行程確認 Modal -->
   <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
     <div class="sheet-overlay active fixed inset-0" onclick="closeDeleteModal()"></div>
-    <div class="bg-cream w-full max-w-xs rounded-2xl z-10 p-5 shadow-2xl border border-warm-border text-center space-y-4">
+    <div class="bg-cream w-full max-w-xs rounded-2xl z-10 p-5 border border-warm-border text-center space-y-4">
       <div class="w-12 h-12 rounded-full bg-red-100 text-red-500 flex items-center justify-center mx-auto text-lg"><i class="fa-solid fa-trash-can"></i></div>
       <div>
         <h4 class="font-bold text-warm-dark text-base">確認刪除行程</h4>
@@ -572,15 +561,15 @@
       </div>
       <div class="flex gap-2 pt-2">
         <button onclick="closeDeleteModal()" class="flex-1 py-2.5 rounded-xl border border-warm-border text-warm-dark font-bold text-xs bg-white hover:bg-warm-bg transition">取消</button>
-        <button id="btnConfirmDelete" class="flex-1 py-2.5 rounded-xl text-white font-bold text-xs bg-red-500 hover:bg-red-600 transition shadow-sm">確定刪除</button>
+        <button id="btnConfirmDelete" class="flex-1 py-2.5 rounded-xl text-white font-bold text-xs bg-red-500 hover:bg-red-600 transition">確定刪除</button>
       </div>
     </div>
   </div>
 
-  <!-- 新增景點 Modal (從庫選擇) -->
+  <!-- 新增景點 Modal (從庫選擇，支援上下滾動) -->
   <div id="addModal" class="fixed inset-0 z-40 hidden flex items-end sm:items-center justify-center">
     <div class="sheet-overlay active fixed inset-0" onclick="closeAddModal()"></div>
-    <div class="bg-cream w-full max-w-md rounded-t-3xl sm:rounded-2xl z-10 max-h-[85vh] flex flex-col shadow-2xl border border-warm-border overflow-hidden relative">
+    <div class="bg-cream w-full max-w-md rounded-t-3xl sm:rounded-2xl z-10 max-h-[85vh] flex flex-col border border-warm-border overflow-hidden relative">
       <div class="p-4 border-b border-warm-border flex justify-between items-center bg-cream">
         <div>
           <h3 class="font-bold text-warm-dark text-base">選擇景點加入行程</h3>
@@ -604,12 +593,12 @@
       </div>
 
       <div class="flex overflow-x-auto no-scrollbar border-b border-warm-border bg-cream px-3 py-2 gap-1.5" id="areaTabs">
-        <button onclick="switchAreaTab('A')" id="tab-A" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium shadow-sm whitespace-nowrap">A - 松島.影島</button>
-        <button onclick="switchAreaTab('B')" id="tab-B" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium shadow-sm whitespace-nowrap">B - 市集.市場</button>
-        <button onclick="switchAreaTab('C')" id="tab-C" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium shadow-sm whitespace-nowrap">C - 西面.田浦</button>
-        <button onclick="switchAreaTab('D')" id="tab-D" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium shadow-sm whitespace-nowrap">D - 廣安里</button>
-        <button onclick="switchAreaTab('E')" id="tab-E" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium shadow-sm whitespace-nowrap">E - 海雲台</button>
-        <button onclick="switchAreaTab('F')" id="tab-F" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium shadow-sm whitespace-nowrap">F - 膠囊 & 海岸列車</button>
+        <button onclick="switchAreaTab('A')" id="tab-A" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">A - 松島.影島</button>
+        <button onclick="switchAreaTab('B')" id="tab-B" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">B - 市集.市場</button>
+        <button onclick="switchAreaTab('C')" id="tab-C" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">C - 西面.田浦</button>
+        <button onclick="switchAreaTab('D')" id="tab-D" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">D - 廣安里</button>
+        <button onclick="switchAreaTab('E')" id="tab-E" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">E - 海雲台</button>
+        <button onclick="switchAreaTab('F')" id="tab-F" class="area-tab border text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">F - 膠囊 & 海岸列車</button>
       </div>
 
       <div id="presetSpotsList" class="p-4 overflow-y-auto space-y-2.5 flex-1 max-h-[50vh]"></div>
@@ -619,15 +608,18 @@
   <!-- 行程詳情 Bottom Sheet -->
   <div id="detailSheet" class="fixed inset-0 z-50 hidden">
     <div class="sheet-overlay active fixed inset-0" onclick="closeDetailSheet()"></div>
-    <div class="bottom-sheet fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-cream rounded-t-3xl border-t border-warm-border shadow-2xl max-h-[85vh] flex flex-col overflow-hidden z-10">
-      <div class="flex justify-between items-center px-6 pt-3 pb-1">
-        <div class="w-12 h-1.5 bg-warm-border rounded-full mx-auto"></div>
-        <button onclick="closeDetailSheet()" class="w-7 h-7 rounded-full bg-warm-bg text-warm-dark flex items-center justify-center text-xs"><i class="fa-solid fa-xmark"></i></button>
+    <div class="bottom-sheet fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-cream rounded-t-3xl border-t border-warm-border max-h-[85vh] flex flex-col overflow-hidden z-10" id="detailSheetBox">
+      <div class="sheet-header" id="detailSheetHeader">
+        <div class="sheet-handle"></div>
+        <div class="flex justify-between items-center w-full">
+          <span class="text-xs font-bold text-warm-muted">詳情與備註</span>
+          <button onclick="closeDetailSheet()" class="w-7 h-7 rounded-full bg-warm-bg text-warm-dark flex items-center justify-center text-xs"><i class="fa-solid fa-xmark"></i></button>
+        </div>
       </div>
-      <div class="px-6 pb-24 overflow-y-auto space-y-5" id="detailSheetContent"></div>
+      <div class="sheet-body space-y-5" id="detailSheetContent"></div>
       <div class="absolute bottom-0 left-0 right-0 bg-cream/95 backdrop-blur-sm p-4 border-t border-warm-border/60 flex gap-3 z-20">
-        <a id="btnNaverMap" target="_blank" rel="noopener noreferrer" href="#" class="flex-1 bg-[#03C75A] text-white font-bold py-3.5 px-3 rounded-xl text-center text-xs flex items-center justify-center gap-2 shadow-sm"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/></svg><span>NAVER MAP 導航</span></a>
-        <a id="btnGoogleMap" target="_blank" rel="noopener noreferrer" href="#" class="flex-1 bg-white text-warm-dark border border-warm-border font-bold py-3.5 px-3 rounded-xl text-center text-xs flex items-center justify-center gap-2 shadow-sm"><svg class="w-4 h-4 fill-current text-warm-dark" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span>Google Map 地圖</span></a>
+        <a id="btnNaverMap" target="_blank" rel="noopener noreferrer" href="#" class="flex-1 bg-[#03C75A] text-white font-bold py-3.5 px-3 rounded-xl text-center text-xs flex items-center justify-center gap-2"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/></svg><span>NAVER MAP 導航</span></a>
+        <a id="btnGoogleMap" target="_blank" rel="noopener noreferrer" href="#" class="flex-1 bg-white text-warm-dark border border-warm-border font-bold py-3.5 px-3 rounded-xl text-center text-xs flex items-center justify-center gap-2"><svg class="w-4 h-4 fill-current text-warm-dark" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg><span>Google Map 地圖</span></a>
       </div>
     </div>
   </div>
@@ -667,7 +659,7 @@
   <!-- JS 邏輯整合 -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, deleteDoc, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyArSoZq0ZMYSrt5oqb_E3uxP2iC...",
@@ -686,16 +678,15 @@
     let latestExpensesData = [];
     let currentSheetType = null;
     let currentActiveCat = null;
-    let currentPageIndex = 0; // 0: 首頁, 1: 新增行程頁
+    let currentPageIndex = 0; // 0: 首頁, 1: 行程頁
 
-    // 區域專屬色票號碼對應
     const AREA_COLOR_MAP = {
-      'A': { hex: '#BBB7E5', name: 'Lavender', textDark: true },
-      'B': { hex: '#F7DFDF', name: 'Light Rose', textDark: true },
-      'C': { hex: '#DAE9FA', name: 'Snow', textDark: true },
-      'D': { hex: '#EFBDBD', name: 'Baby Pink', textDark: true },
-      'E': { hex: '#B6C687', name: 'Pistachio', textDark: true },
-      'F': { hex: '#FAF6C8', name: 'Pale Yellow', textDark: true }
+      'A': { hex: '#BBB7E5' },
+      'B': { hex: '#F7DFDF' },
+      'C': { hex: '#DAE9FA' },
+      'D': { hex: '#EFBDBD' },
+      'E': { hex: '#B6C687' },
+      'F': { hex: '#FAF6C8' }
     };
 
     const categoryThemeMap = {
@@ -707,86 +698,85 @@
       'F': { code: 'SKY CAPSULE & TRAIN' }
     };
 
-    // 完整 48 個景點庫
     const PRESET_SPOTS_DB = {
       'A': [
-        { id: 'A1', title: 'Songdo Bay Station 海上纜車', cat: 'SIGHTSEEING', time: '10:00', desc: '跨越海港的透明水晶纜車，飽覽松島海灣景色', addr: '釜山廣域市西區松島海邊路 171', query: 'Songdo Bay Station' },
-        { id: 'A2', title: 'Songdo Sky Park', cat: 'SIGHTSEEING', time: '11:00', desc: '纜車終點站，內有小王子造型雕像與松島龍宮雲橋', addr: '釜山廣域市西區岩南公園路', query: 'Songdo Sky Park' },
-        { id: 'A3', title: '影島海女村', cat: 'FOOD', time: '12:30', desc: '必點：海鮮拉麵、鮑魚海膽紫菜包飯，坐在海邊大圓桶上享用現採海鮮', addr: '釜山廣域市影島區中里海邊路 2-35', query: '영도해녀문화전시관' },
-        { id: 'A4', title: 'Having moment', cat: 'FOOD', time: '14:30', desc: '位於影島白淺灘文化村的海景第一排質感咖啡廳', addr: '釜山廣域市影島區白淺灘路', query: 'Having moment 영도' },
-        { id: 'A5', title: 'Burger Yo Busan', cat: 'FOOD', time: '16:00', desc: '必點：手工巨無霸漢堡，露天高層海景極佳', addr: '釜山廣域市影島區', query: '버거요 영도' },
-        { id: 'A6', title: 'THRILL ON THE MUG 海景咖啡', cat: 'FOOD', time: '17:30', desc: '擁有階梯式海景座位與壯觀海景窗戶', addr: '釜山廣域市影島區東三洞', query: 'THRILL ON THE MUG' },
-        { id: 'A7', title: 'ATRE Museum Busan', cat: 'SIGHTSEEING', time: '19:00', desc: '光影藝術沉浸式展覽，拍照質感極高', addr: '釜山廣域市影島區', query: '아르떼뮤지엄 부산' },
-        { id: 'A8', title: '甘川文化村', cat: 'SIGHTSEEING', time: '09:30', desc: '釜山馬丘比丘，必拍照景點：小王子與沙漠狐狸', addr: '釜山廣域市沙下區甘川洞', query: '감천문화마을' }
+        { id: 'A1', title: 'Songdo Bay Station 海上纜車', cat: 'SIGHTSEEING', time: '10:00', desc: '跨越海港的水晶纜車，飽覽松島海灣景色', addr: '釜山廣域市西區松島海邊路 171', query: 'Songdo Bay Station' },
+        { id: 'A2', title: 'Songdo Sky Park', cat: 'SIGHTSEEING', time: '11:00', desc: '纜車終點站，內有小王子雕像與龍宮雲橋', addr: '釜山廣域市西區岩南公園路', query: 'Songdo Sky Park' },
+        { id: 'A3', title: '影島海女村', cat: 'FOOD', time: '12:30', desc: '必點海鮮拉麵與海膽紫菜包飯', addr: '釜山廣域市影島區中里海邊路 2-35', query: '영도해녀문화전시관' },
+        { id: 'A4', title: 'Having moment', cat: 'FOOD', time: '14:30', desc: '白淺灘文化村海景第一排咖啡廳', addr: '釜山廣域市影島區白淺灘路', query: 'Having moment 영도' },
+        { id: 'A5', title: 'Burger Yo Busan', cat: 'FOOD', time: '16:00', desc: '手工巨無霸漢堡，海景極佳', addr: '釜山廣域市影島區', query: '버거요 영도' },
+        { id: 'A6', title: 'THRILL ON THE MUG 海景咖啡', cat: 'FOOD', time: '17:30', desc: '階梯式海景座位與壯觀海景窗', addr: '釜山廣域市影島區東三洞', query: 'THRILL ON THE MUG' },
+        { id: 'A7', title: 'ATRE Museum Busan', cat: 'SIGHTSEEING', time: '19:00', desc: '沉浸式光影藝術展覽', addr: '釜山廣域市影島區', query: '아르떼뮤지엄 부산' },
+        { id: 'A8', title: '甘川文化村', cat: 'SIGHTSEEING', time: '09:30', desc: '釜山馬丘比丘，小王子打卡點', addr: '釜山廣域市沙下區甘川洞', query: '감천문화마을' }
       ],
       'B': [
-        { id: 'B1', title: '山青豬肉湯飯', cat: 'FOOD', time: '09:00', desc: '在地老字號湯飯，湯頭濃郁無腥味', addr: '釜山廣域市中區', query: '산청돼지국밥' },
-        { id: 'B2', title: '富平罐頭市場', cat: 'FOOD', time: '18:30', desc: '必吃：奶油烤玉米、煎餅、辣炒年糕與巨人炸雞', addr: '釜山廣域市中區富平洞', query: '부평깡통시장' },
-        { id: 'B3', title: '愉快的生拌牛肉', cat: 'FOOD', time: '19:30', desc: '必點：韓式生拌牛肉＋章魚海鮮拉麵', addr: '釜山廣域市中區', query: '유쾌한육회' },
-        { id: 'B4', title: '國際市場', cat: 'SIGHTSEEING', time: '15:00', desc: '歷史悠久的大型傳統市場，購買雜貨與伴手禮好去處', addr: '釜山廣域市中區新昌洞', query: '국제시장' },
-        { id: 'B5', title: 'BIFF 廣場', cat: 'FOOD', time: '16:30', desc: '必吃：黑糖餅（堅果黑糖餡）', addr: '釜山廣域市中區南浦洞', query: 'BIFF 광장' },
-        { id: 'B6', title: 'Olive Young gwangbok town', cat: 'SIGHTSEEING', time: '17:30', desc: '旗艦店，品項最齊全的美妝護膚天堂', addr: '釜山廣域市中區光復路', query: '올리브영 광복타운' },
-        { id: 'B7', title: '札嘎其市場', cat: 'FOOD', time: '12:00', desc: '韓國最大海鮮市場，一樓選海鮮二樓直接料理', addr: '釜山廣域市中區札嘎其海岸路', query: '자갈치시장' },
-        { id: 'B8', title: '新東亞水產物綜合市場', cat: 'FOOD', time: '13:00', desc: '在地人偏愛的海鮮綜合市場，價格實惠', addr: '釜山廣域市中區', query: '신동아수산물종합시장' }
+        { id: 'B1', title: '山青豬肉湯飯', cat: 'FOOD', time: '09:00', desc: '在地老字號湯飯，湯頭濃郁', addr: '釜山廣域市中區', query: '산청돼지국밥' },
+        { id: 'B2', title: '富平罐頭市場', cat: 'FOOD', time: '18:30', desc: '必吃烤玉米、煎餅與巨人炸雞', addr: '釜山廣域市中區富平洞', query: '부평깡통시장' },
+        { id: 'B3', title: '愉快的生拌牛肉', cat: 'FOOD', time: '19:30', desc: '生拌牛肉與章魚海鮮拉麵', addr: '釜山廣域市中區', query: '유쾌한육회' },
+        { id: 'B4', title: '國際市場', cat: 'SIGHTSEEING', time: '15:00', desc: '大型傳統市場，伴手禮好去處', addr: '釜山廣域市中區新昌洞', query: '국제시장' },
+        { id: 'B5', title: 'BIFF 廣場', cat: 'FOOD', time: '16:30', desc: '必吃堅果黑糖餅', addr: '釜山廣域市中區南浦洞', query: 'BIFF 광장' },
+        { id: 'B6', title: 'Olive Young gwangbok town', cat: 'SIGHTSEEING', time: '17:30', desc: '旗艦店，美妝護膚天堂', addr: '釜山廣域市中區光復路', query: '올리브영 광복타운' },
+        { id: 'B7', title: '札嘎其市場', cat: 'FOOD', time: '12:00', desc: '韓國最大海鮮市場', addr: '釜山廣域市中區札嘎其海岸路', query: '자갈치시장' },
+        { id: 'B8', title: '新東亞水產物綜合市場', cat: 'FOOD', time: '13:00', desc: '在地人偏愛的海鮮市場', addr: '釜山廣域市中區', query: '신동아수산물종합시장' }
       ],
       'C': [
-        { id: 'C1', title: '水邊豬肉湯飯 西面店', cat: 'FOOD', time: '08:30', desc: '廣安里名店分店，薄切豬肉片湯飯極讚', addr: '釜山廣域市釜山鎮區', query: '수변최고돼지국밥 서면' },
-        { id: 'C2', title: '安木 西面店', cat: 'FOOD', time: '12:00', desc: '精緻韓定食與特色熟成肉料理', addr: '釜山廣域市釜山鎮區', query: '안목 서면' },
-        { id: 'C3', title: '세든 365약국 藥局', cat: 'SIGHTSEEING', time: '14:00', desc: '西面便利藥局，常備藥與保健品採買好去處', addr: '釜山廣域市釜山鎮區', query: '세든365약국' },
-        { id: 'C4', title: '돼지나무 사랑엄청난 서面 本店 燒肉', cat: 'FOOD', time: '18:00', desc: '西面人氣黑豬肉專賣店', addr: '釜山廣域市釜山鎮區', query: '돼지나무사랑엄청난 서면' },
-        { id: 'C5', title: '烤肉的男子 西面店', cat: 'FOOD', time: '19:30', desc: '桌邊專人幫烤，五花肉與豬頸肉極度優質', addr: '釜山廣域市釜山鎮區', query: '고기굽는남자 서면' },
-        { id: 'C6', title: 'Poset Jeonpo 明信片', cat: 'SIGHTSEEING', time: '15:00', desc: '田浦咖啡街必逛質感明信片文創選物店', addr: '釜山廣域市釜山鎮區田浦洞', query: '포셋 전포' },
-        { id: 'C7', title: '老宅邸 燒肉', cat: 'FOOD', time: '20:30', desc: '充滿復古老宅氛圍的高質感燒肉店', addr: '釜山廣域市釜山鎮區', query: '고택 서면' },
-        { id: 'C8', title: 'Solsot 西面店 燒肉', cat: 'FOOD', time: '13:00', desc: '精緻韓式釜飯，拌入特製醬汁與鍋巴湯', addr: '釜山廣域市釜山鎮區', query: '솔솥 서면' },
-        { id: 'C9', title: 'PURADAK炸雞', cat: 'FOOD', time: '21:30', desc: '精品級黑色包裝炸雞，必點：青辣椒蛋黃醬炸雞', addr: '釜山廣域市釜山鎮區', query: '푸라닭 서면' },
-        { id: 'C10', title: 'moody bread market 咖啡&麵包', cat: 'FOOD', time: '11:00', desc: '田浦質感烘焙坊，各式新鮮出爐歐式麵包', addr: '釜山廣域市釜山鎮區田浦洞', query: '무디브레드마켓' },
-        { id: 'C11', title: 'Pot of busan 甜點', cat: 'FOOD', time: '16:00', desc: '特色造型甜點與午茶好去處', addr: '釜山廣域市釜山鎮區', query: '팟오브부산' },
-        { id: 'C12', title: 'Strut Coffee', cat: 'FOOD', time: '10:30', desc: '極簡工業風咖啡廳，手沖與拿鐵表現極佳', addr: '釜山廣域市釜山鎮區田浦洞', query: '스트럿커피' },
-        { id: 'C13', title: 'Momos Coffee - Flagship Store', cat: 'FOOD', time: '09:30', desc: 'WBC 世界咖啡師冠軍旗艦店，咖啡迷必朝聖', addr: '釜山廣域市金井區/溫泉場', query: '모모스커피 본점' }
+        { id: 'C1', title: '水邊豬肉湯飯 西面店', cat: 'FOOD', time: '08:30', desc: '薄切豬肉片湯飯極讚', addr: '釜山廣域市釜山鎮區', query: '수변최고돼지국밥 서면' },
+        { id: 'C2', title: '安木 西面店', cat: 'FOOD', time: '12:00', desc: '精緻韓定食與熟成肉料理', addr: '釜山廣域市釜山鎮區', query: '안목 서면' },
+        { id: 'C3', title: '세든 365약국 藥局', cat: 'SIGHTSEEING', time: '14:00', desc: '西面便利藥局', addr: '釜山廣域市釜山鎮區', query: '세든365약국' },
+        { id: 'C4', title: '돼지나무 사랑엄청난 서面 本店 燒肉', cat: 'FOOD', time: '18:00', desc: '西面人氣黑豬肉專賣', addr: '釜山廣域市釜山鎮區', query: '돼지나무사랑엄청난 서면' },
+        { id: 'C5', title: '烤肉的男子 西面店', cat: 'FOOD', time: '19:30', desc: '專人代烤優質五花肉', addr: '釜山廣域市釜山鎮區', query: '고기굽는남자 서면' },
+        { id: 'C6', title: 'Poset Jeonpo 明信片', cat: 'SIGHTSEEING', time: '15:00', desc: '田浦質感明信片文創選物', addr: '釜山廣域市釜山鎮區田浦洞', query: '포셋 전포' },
+        { id: 'C7', title: '老宅邸 燒肉', cat: 'FOOD', time: '20:30', desc: '復古老宅氛圍燒肉', addr: '釜山廣域市釜山鎮區', query: '고택 서면' },
+        { id: 'C8', title: 'Solsot 西面店 燒肉', cat: 'FOOD', time: '13:00', desc: '精緻韓式釜飯', addr: '釜山廣域市釜山鎮區', query: '솔솥 서면' },
+        { id: 'C9', title: 'PURADAK炸雞', cat: 'FOOD', time: '21:30', desc: '精品黑色包裝炸雞', addr: '釜山廣域市釜山鎮區', query: '푸라닭 서면' },
+        { id: 'C10', title: 'moody bread market 咖啡&麵包', cat: 'FOOD', time: '11:00', desc: '田浦烘焙坊', addr: '釜山廣域市釜山鎮區田浦洞', query: '무디브레드마켓' },
+        { id: 'C11', title: 'Pot of busan 甜點', cat: 'FOOD', time: '16:00', desc: '特色造型甜點午茶', addr: '釜山廣域市釜山鎮區', query: '팟오브부산' },
+        { id: 'C12', title: 'Strut Coffee', cat: 'FOOD', time: '10:30', desc: '極簡工業風咖啡廳', addr: '釜山廣域市釜山鎮區田浦洞', query: '스트럿커피' },
+        { id: 'C13', title: 'Momos Coffee - Flagship Store', cat: 'FOOD', time: '09:30', desc: 'WBC 咖啡冠軍旗艦店', addr: '釜山廣域市溫泉場', query: '모모스커피 본점' }
       ],
       'D': [
-        { id: 'D1', title: '五六島天空步道', cat: 'SIGHTSEEING', time: '10:00', desc: '懸空玻璃步道，俯瞰五六島與壯麗懸崖', addr: '釜山廣域市南區五六島路', query: '오륙도 스카이워크' },
-        { id: 'D2', title: 'Namagjib 豬肉湯飯 / 米其林推薦', cat: 'FOOD', time: '11:30', desc: '米其林推薦高質感湯飯，清爽極致', addr: '釜山廣域市水營區', query: '남아집돼지국밥' },
-        { id: 'D3', title: 'Momos Coffee - Dorunheon', cat: 'FOOD', time: '13:30', desc: '莫莫斯咖啡廣安海景分店，環境清幽雅緻', addr: '釜山廣域市水營區', query: '모모스커피 광안' },
-        { id: 'D4', title: '烤肉的男子 廣安里店', cat: 'FOOD', time: '18:00', desc: '享受美味專人代烤肉品，同時欣賞廣安里海景', addr: '釜山廣域市水營區', query: '고기굽는남자 광안리' },
-        { id: 'D5', title: '釜飯', cat: 'FOOD', time: '12:30', desc: '廣安里在地高評價精緻釜飯料理', addr: '釜山廣域市水營區', query: '광안리 솥밥' },
-        { id: 'D6', title: 'Ancien 咖啡&麵包', cat: 'FOOD', time: '15:00', desc: '香氣四溢的手工麵包與舒適咖啡空間', addr: '釜山廣域市水營區', query: '앙시앙 광안리' },
-        { id: 'D7', title: 'La Mia Estate 義式冰淇淋', cat: 'FOOD', time: '16:30', desc: '香濃滑順的義式手工 Gelato 冰淇淋', addr: '釜山廣域市水營區', query: '라미아에스테이트' },
-        { id: 'D8', title: 'All Sunday', cat: 'FOOD', time: '14:30', desc: '廣安里人氣打卡早午餐與咖啡烘焙坊', addr: '釜山廣域市水營區', query: '올선데이 광안리' },
-        { id: 'D9', title: '廣安里 M 無人機燈光秀', cat: 'SPECIAL EXPERIENCE', time: '19:00', desc: '每週六晚上限定的廣安大橋無人機燈光演出', addr: '廣安里海水浴場沙灘', query: '광안리 M 드론라이트쇼' },
-        { id: 'D10', title: '고하순 광안직영점 燒肉', cat: 'FOOD', time: '20:00', desc: '廣安里直營極品熟成烤肉專賣店', addr: '釜山廣域市水營區', query: '고하순 광안리' },
-        { id: 'D11', title: '新世界百貨公司 Centum City / SPA LAND', cat: 'SIGHTSEEING', time: '15:30', desc: '全球最大百貨內的高級五星級 SPA LAND 汗蒸幕', addr: '釜山廣域市海雲台區Centum洞', query: '신세계백화점 센텀시티점' }
+        { id: 'D1', title: '五六島天空步道', cat: 'SIGHTSEEING', time: '10:00', desc: '懸空玻璃步道俯瞰懸崖', addr: '釜山廣域市南區五六島路', query: '오륙도 스카이워크' },
+        { id: 'D2', title: 'Namagjib 豬肉湯飯 / 米其林推薦', cat: 'FOOD', time: '11:30', desc: '米其林推薦清爽湯飯', addr: '釜山廣域市水營區', query: '남아집돼지국밥' },
+        { id: 'D3', title: 'Momos Coffee - Dorunheon', cat: 'FOOD', time: '13:30', desc: '廣安海景分店', addr: '釜山廣域市水營區', query: '모모스커피 광안' },
+        { id: 'D4', title: '烤肉的男子 廣安里店', cat: 'FOOD', time: '18:00', desc: '專人代烤欣賞海景', addr: '釜山廣域市水營區', query: '고기굽는남자 광안리' },
+        { id: 'D5', title: '釜飯', cat: 'FOOD', time: '12:30', desc: '廣安里高評價釜飯', addr: '釜山廣域市水營區', query: '광안리 솥밥' },
+        { id: 'D6', title: 'Ancien 咖啡&麵包', cat: 'FOOD', time: '15:00', desc: '手工麵包與咖啡空間', addr: '釜山廣域市水營區', query: '앙시앙 광안리' },
+        { id: 'D7', title: 'La Mia Estate 義式冰淇淋', cat: 'FOOD', time: '16:30', desc: '義式手工 Gelato', addr: '釜山廣域市水營區', query: '라미아에스테이트' },
+        { id: 'D8', title: 'All Sunday', cat: 'FOOD', time: '14:30', desc: '人氣打卡早午餐', addr: '釜山廣域市水營區', query: '올선데이 광안리' },
+        { id: 'D9', title: '廣安里 M 無人機燈光秀', cat: 'SPECIAL EXPERIENCE', time: '19:00', desc: '週六限定無人機燈光演出', addr: '廣安里海水浴場沙灘', query: '광안리 M 드론라이트쇼' },
+        { id: 'D10', title: '고하순 광안직영점 燒肉', cat: 'FOOD', time: '20:00', desc: '極品熟成烤肉專賣', addr: '釜山廣域市水營區', query: '고하순 광안리' },
+        { id: 'D11', title: '新世界百貨 Centum City / SPA LAND', cat: 'SIGHTSEEING', time: '15:30', desc: '五星級豪華汗蒸幕', addr: '釜山廣域市海雲台區Centum洞', query: '신세계백화점 센텀시티점' }
       ],
       'E': [
-        { id: 'E1', title: '味贊王鹽烤肉 海雲台店', cat: 'FOOD', time: '17:30', desc: '3.5cm 超厚切鹽烤五花肉，代烤服務極佳', addr: '釜山廣域市海雲台區', query: '맛찬들왕소금구이 해운대' },
-        { id: 'E2', title: '嚴湧帛豬肉湯飯 海雲台店', cat: 'FOOD', time: '08:30', desc: '排隊名店：分為釜山式濃湯與密陽式清湯兩種風格', addr: '釜山廣域市海雲台區', query: '엄용백돼지국밥 해운대' },
-        { id: 'E3', title: 'Busandang 紅豆麵包', cat: 'FOOD', time: '10:30', desc: '香甜濃郁的經典紅豆麵包', addr: '釜山廣域市海雲台區', query: '부산당 해운대' },
-        { id: 'E4', title: '螞蟻家辣炒章魚', cat: 'FOOD', time: '12:00', desc: '招牌牛腸炒章魚蝦仁，拌飯一流', addr: '釜山廣域市海雲台區', query: '개미집 해운대' },
-        { id: 'E5', title: '海雲台傳統市場', cat: 'SIGHTSEEING', time: '19:00', desc: '充滿在地小吃、海鮮與糖餅的熱鬧市集', addr: '釜山廣域市海雲台區', query: '해운대시시장' },
-        { id: 'E6', title: 'Haeundae 31cm Haemul Kalguksu 貝類湯麵', cat: 'FOOD', time: '13:00', desc: '超澎湃綜合貝類海鮮刀削麵', addr: '釜山廣域市海雲台區', query: '해운대31cm해물칼국수' },
-        { id: 'E7', title: 'Jayeondo Sogeumppang (Salt Bread)', cat: 'FOOD', time: '15:00', desc: '自然島鹽可頌，外酥內軟排隊名店', addr: '釜山廣域市海雲台區', query: '자연도소금빵 해운대' },
-        { id: 'E8', title: '오브봔 ovone 水果蛋糕', cat: 'FOOD', time: '16:00', desc: '精緻美味的季節水果蛋糕與午茶甜點', addr: '釜山廣域市海雲台區', query: '오브봔 해운대' },
-        { id: 'E9', title: 'Miffy 專門店', cat: 'SIGHTSEEING', time: '14:30', desc: '可愛的米飛兔官方授權專賣店與選物', addr: '釜山廣域市海雲台區', query: '미피 해운대' },
-        { id: 'E10', title: '水邊豬肉湯飯', cat: 'FOOD', time: '09:00', desc: '海雲台分店，濃郁順口的在地好滋味', addr: '釜山廣域市海雲台區', query: '수변최고돼지국밥 해운대' }
+        { id: 'E1', title: '味贊王鹽烤肉 海雲台店', cat: 'FOOD', time: '17:30', desc: '3.5cm 超厚切鹽烤五花肉', addr: '釜山廣域市海雲台區', query: '맛찬들왕소금구이 해운대' },
+        { id: 'E2', title: '嚴湧帛豬肉湯飯 海雲台店', cat: 'FOOD', time: '08:30', desc: '排隊名店湯飯', addr: '釜山廣域市海雲台區', query: '엄용백돼지국밥 해운대' },
+        { id: 'E3', title: 'Busandang 紅豆麵包', cat: 'FOOD', time: '10:30', desc: '經典紅豆麵包', addr: '釜山廣域市海雲台區', query: '부산당 해운대' },
+        { id: 'E4', title: '螞蟻家辣炒章魚', cat: 'FOOD', time: '12:00', desc: '招牌牛腸炒章魚拌飯', addr: '釜山廣域市海雲台區', query: '개미집 해운대' },
+        { id: 'E5', title: '海雲台傳統市場', cat: 'SIGHTSEEING', time: '19:00', desc: '熱鬧小吃與海鮮市集', addr: '釜山廣域市海雲台區', query: '해운대시시장' },
+        { id: 'E6', title: '海雲台 31cm 貝類湯麵', cat: 'FOOD', time: '13:00', desc: '澎湃綜合貝類海鮮刀削麵', addr: '釜山廣域市海雲台區', query: '해운대31cm해물칼국수' },
+        { id: 'E7', title: '自然島鹽可頌 (Salt Bread)', cat: 'FOOD', time: '15:00', desc: '外酥內軟排隊名店', addr: '釜山廣域市海雲台區', query: '자연도소금빵 해운대' },
+        { id: 'E8', title: '오브봔 ovone 水果蛋糕', cat: 'FOOD', time: '16:00', desc: '精緻季節水果蛋糕', addr: '釜山廣域市海雲台區', query: '오브봔 해운대' },
+        { id: 'E9', title: 'Miffy 專門店', cat: 'SIGHTSEEING', time: '14:30', desc: '米飛兔官方授權專賣', addr: '釜山廣域市海雲台區', query: '미피 해운대' },
+        { id: 'E10', title: '水邊豬肉湯飯', cat: 'FOOD', time: '09:00', desc: '海雲台分店', addr: '釜山廣域市海雲台區', query: '수변최고돼지국밥 해운대' }
       ],
       'F': [
-        { id: 'F1', title: '海雲臺藍線公園 尾浦站—青沙浦站', cat: 'SPECIAL EXPERIENCE', time: '09:30', desc: '彩色車廂在高空軌道運行欣賞海景', addr: '釜山廣域市海雲台區尾浦', query: '해운대블루라인파크 미포정거장' },
-        { id: 'F2', title: 'TIDE Coffee Roasters', cat: 'FOOD', time: '11:00', desc: '青沙浦海景第一排的烘焙咖啡館', addr: '釜山廣域市海雲台區青沙浦', query: '타이드커피로스터스' },
-        { id: 'F3', title: 'Edge 993', cat: 'FOOD', time: '12:30', desc: '擁有超棒頂樓露台，眺望海岸列車與海景', addr: '釜山廣域市海雲台區', query: '엣지993' },
-        { id: 'F4', title: 'CHU PLUS 松亭店', cat: 'FOOD', time: '14:00', desc: '松亭海灘旁，現炸香酥吉拿棒佐濃郁冰淇淋', addr: '釜山廣域市海雲台區松亭', query: '츄플러스 송정' },
-        { id: 'F5', title: '青沙浦紅白雙燈塔', cat: 'SIGHTSEEING', time: '15:30', desc: '紅白雙燈塔映襯海景', addr: '釜山廣域市海雲台區青沙浦', query: '청사포 등대' },
-        { id: 'F6', title: '青沙浦踏石瞭望台', cat: 'SIGHTSEEING', time: '16:30', desc: '海上步道：透明玻璃天空步道，感受懸空看海的刺激', addr: '釜山廣域市海雲台區青沙浦', query: '청사포 다릿돌전망대' },
-        { id: 'F7', title: 'Skyline Luge Busan', cat: 'SPECIAL EXPERIENCE', time: '10:30', desc: '釜山斜坡滑車，驚險刺激適合結伴同遊', addr: '釜山廣域市機張郡', query: '스카inline루지 부산' }
+        { id: 'F1', title: '海雲臺藍線公園 尾浦—青沙浦', cat: 'SPECIAL EXPERIENCE', time: '09:30', desc: '彩色車廂高空軌道欣賞海景', addr: '釜山廣域市海雲台區尾浦', query: '해운대블루라인파크 미포정거장' },
+        { id: 'F2', title: 'TIDE Coffee Roasters', cat: 'FOOD', time: '11:00', desc: '青沙浦海景烘焙咖啡館', addr: '釜山廣域市海雲台區青沙浦', query: '타이드커피로스터스' },
+        { id: 'F3', title: 'Edge 993', cat: 'FOOD', time: '12:30', desc: '頂樓露台眺望海岸列車', addr: '釜山廣域市海雲台區', query: '엣지993' },
+        { id: 'F4', title: 'CHU PLUS 松亭店', cat: 'FOOD', time: '14:00', desc: '現炸吉拿棒佐冰淇淋', addr: '釜山廣域市海雲台區松亭', query: '츄플러스 송정' },
+        { id: 'F5', title: '青沙浦紅白雙燈塔', cat: 'SIGHTSEEING', time: '15:30', desc: '經典雙燈塔打卡點', addr: '釜山廣域市海雲台區青沙浦', query: '청사포 등대' },
+        { id: 'F6', title: '青沙浦踏石瞭望台', cat: 'SIGHTSEEING', time: '16:30', desc: '海上透明玻璃天空步道', addr: '釜山廣域市海雲台區青沙浦', query: '청사포 다릿돌전망대' },
+        { id: 'F7', title: 'Skyline Luge Busan', cat: 'SPECIAL EXPERIENCE', time: '10:30', desc: '釜山斜坡滑車極速體驗', addr: '釜山廣域市機張郡', query: '스카inline루지 부산' }
       ]
     };
 
     const TRIP_DATES = [
-      { key: '2026-12-29', dayNum: '29', week: 'TUE', label: '12/29 Tue', title: 'DAY 1' },
-      { key: '2026-12-30', dayNum: '30', week: 'THU', label: '12/30 Thu', title: 'DAY 2' },
-      { key: '2026-12-31', dayNum: '31', week: 'FRI', label: '12/31 Fri', title: 'DAY 3' },
-      { key: '2027-01-01', dayNum: '1', week: 'SAT', label: '1/1 Sat', title: 'DAY 4' },
-      { key: '2027-01-02', dayNum: '2', week: 'SUN', label: '1/2 Sun', title: 'DAY 5' },
-      { key: '2027-01-03', dayNum: '3', week: 'MON', label: '1/3 Mon', title: 'DAY 6' }
+      { key: '2026-12-29', dayNum: '29', week: 'TUE', label: '12/29', title: 'DAY 1' },
+      { key: '2026-12-30', dayNum: '30', week: 'THU', label: '12/30', title: 'DAY 2' },
+      { key: '2026-12-31', dayNum: '31', week: 'FRI', label: '12/31', title: 'DAY 3' },
+      { key: '2027-01-01', dayNum: '1', week: 'SAT', label: '1/1', title: 'DAY 4' },
+      { key: '2027-01-02', dayNum: '2', week: 'SUN', label: '1/2', title: 'DAY 5' },
+      { key: '2027-01-03', dayNum: '3', week: 'MON', label: '1/3', title: 'DAY 6' }
     ];
 
     let currentActiveDateKey = '2026-12-29';
@@ -800,66 +790,42 @@
       renderCalendarBar();
       renderTimeline();
       initSortable();
-      initSwipeNavigation();
+      initBottomSheetGestures();
     });
 
-    /* 多頁滑動與底部導覽列雙向切換 */
-    function initSwipeNavigation() {
-      const container = document.getElementById('swipe-container');
-      let touchStartX = 0;
-      let touchEndX = 0;
-      let isDraggingHandle = false;
-
-      // 避免拖曳 SortableJS 卡片時引發橫向翻頁
-      document.addEventListener('touchstart', (e) => {
-        if (e.target.closest('.drag-handle')) {
-          isDraggingHandle = true;
-        } else {
-          isDraggingHandle = false;
-        }
-        touchStartX = e.changedTouches[0].screenX;
-      }, { passive: true });
-
-      document.addEventListener('touchend', (e) => {
-        if (isDraggingHandle) return;
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipeGesture();
-      }, { passive: true });
-
-      function handleSwipeGesture() {
-        const threshold = 60;
-        if (touchStartX - touchEndX > threshold) {
-          // 向左滑 -> 移動到行程頁 (Page 1)
-          switchPage(1);
-        } else if (touchEndX - touchStartX > threshold) {
-          // 向右滑 -> 移動到首頁 (Page 0)
-          switchPage(0);
-        }
-      }
-    }
-
+    /* 純底部 Bar 點擊切換頁面 */
     window.switchPage = function(index) {
-      const container = document.getElementById('swipe-container');
       currentPageIndex = index;
-      container.style.transform = `translateX(-${index * 100}vw)`;
-      updateNavActiveState(index === 0 ? 'home' : 'schedule');
+      const homePage = document.getElementById('page-home');
+      const itiPage = document.getElementById('page-itinerary');
+      if (index === 0) {
+        homePage.classList.add('active-page');
+        itiPage.classList.remove('active-page');
+        updateNavActiveState('home');
+      } else {
+        homePage.classList.remove('active-page');
+        itiPage.classList.add('active-page');
+        updateNavActiveState('schedule');
+      }
     };
 
     window.handleNavClick = function(type) {
       if (type === 'home') {
-        if (currentSheetType !== null) closeSheet();
+        if (currentSheetType !== null) { closeSheet(); return; }
         if (currentPageIndex === 0) {
+          // 若已在首頁，再次點擊首頁 Icon 滾動回最頂端
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
           switchPage(0);
-          document.getElementById('page-home').scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       } else if (type === 'schedule') {
-        if (currentSheetType !== null) closeSheet();
+        if (currentSheetType !== null) { closeSheet(); return; }
         if (currentPageIndex === 1) {
           document.getElementById('page-itinerary').scrollTo({ top: 0, behavior: 'smooth' });
         } else {
           switchPage(1);
+          document.getElementById('page-itinerary').scrollTo({ top: 0, behavior: 'smooth' });
         }
       } else if (type === 'favorites') {
         if (currentSheetType === 'favorites') closeSheet();
@@ -885,11 +851,7 @@
           { id: 'def_1', time: '07:30', title: '金海國際機場 (PUS)', cat: 'FLIGHT', desc: '搭乘班機直飛釜山金海機場', addr: '釜山廣域市江西區機場路 108', note: '備妥 Q-CODE 與護照。', highlight: false, query: '김해국제공항' },
           { id: 'def_2', time: '13:00', title: '午餐：水邊豬肉湯飯 西面店', cat: 'FOOD', desc: '釜山必吃湯飯名店', addr: '釜山廣域市釜山鎮區', note: '加韭菜與蝦醬提味！', highlight: true, query: '수변최고돼지국밥 서면' }
         ],
-        '2026-12-30': [],
-        '2026-12-31': [],
-        '2027-01-01': [],
-        '2027-01-02': [],
-        '2027-01-03': []
+        '2026-12-30': [], '2026-12-31': [], '2027-01-01': [], '2027-01-02': [], '2027-01-03': []
       };
     }
 
@@ -907,6 +869,7 @@
       localStorage.setItem('busan_app_v6_data', JSON.stringify(itineraryData));
     }
 
+    /* 上方日期列：固定 5 天在上方正中間 */
     function renderCalendarBar() {
       const dateBar = document.getElementById('dateBar');
       dateBar.innerHTML = '';
@@ -914,15 +877,14 @@
         const isActive = d.key === currentActiveDateKey;
         const dateBtn = document.createElement('button');
         dateBtn.onclick = () => switchDate(d.key);
-        dateBtn.className = `min-w-[58px] py-2 px-2.5 rounded-2xl flex flex-col items-center transition-all shrink-0 border ${
+        dateBtn.className = `py-1.5 px-1 rounded-xl flex flex-col items-center transition-all border ${
           isActive 
-          ? 'bg-warm-dark text-cream shadow-md border-warm-dark font-bold scale-105' 
+          ? 'bg-warm-dark text-cream border-warm-dark font-bold' 
           : 'bg-white/80 border-warm-border/60 text-warm-dark hover:bg-warm-bg opacity-80'
         }`;
         dateBtn.innerHTML = `
-          <span class="text-[9px] tracking-wider uppercase font-semibold ${isActive ? 'text-gold-highlight' : 'text-warm-muted'}">${d.week}</span>
-          <span class="text-lg font-extrabold leading-none my-0.5">${d.dayNum}</span>
-          ${isActive ? '<span class="w-1.5 h-1.5 bg-gold-highlight rounded-full mt-0.5"></span>' : '<span class="w-1.5 h-1.5 opacity-0 mt-0.5"></span>'}
+          <span class="text-[8px] tracking-wider uppercase font-semibold ${isActive ? 'text-gold-highlight' : 'text-warm-muted'}">${d.label}</span>
+          <span class="text-sm font-extrabold leading-none my-0.5">${d.dayNum}</span>
         `;
         dateBar.appendChild(dateBtn);
       });
@@ -972,23 +934,23 @@
           <div class="drag-item flex gap-3 items-start group select-none" data-id="${item.id}">
             <div class="w-12 text-right pt-2 shrink-0">
               <span class="text-xs font-bold text-warm-dark block font-mono leading-none">${item.time || '10:00'}</span>
-              <span class="w-2 h-2 rounded-full inline-block mt-2 ${isHighlight ? 'bg-gold-highlight ring-4 ring-gold-highlight/20' : 'bg-warm-border'}"></span>
+              <span class="w-2 h-2 rounded-full inline-block mt-2 ${isHighlight ? 'bg-gold-highlight' : 'bg-warm-border'}"></span>
             </div>
-            <div onclick="openDetailSheet('${item.id}')" class="flex-1 cursor-pointer rounded-2xl p-4 transition-all duration-200 relative ${
-              isHighlight ? 'highlight-card' : 'bg-cream-card border border-warm-border/60 shadow-sm hover:shadow-md'
+            <div onclick="openDetailSheet('${item.id}')" class="flex-1 cursor-pointer rounded-2xl p-4 transition-all relative ${
+              isHighlight ? 'highlight-card' : 'bg-cream-card border border-warm-border/60'
             }">
               <div class="flex justify-between items-start gap-2 mb-1.5">
                 <span class="category-badge px-2 py-0.5 rounded-md ${catStyle.bg} ${catStyle.text} font-bold inline-flex items-center gap-1">
                   <i class="fa-solid ${catStyle.icon} text-[10px]"></i> ${item.cat}
                 </span>
                 <div class="flex items-center gap-1 text-warm-muted" onclick="event.stopPropagation()">
-                  <button onclick="toggleHighlight('${item.id}'); event.stopPropagation();" class="w-7 h-7 rounded-full hover:bg-warm-bg flex items-center justify-center text-xs ${isHighlight ? 'text-[#EFBDBD]' : 'text-warm-border'}">
+                  <button onclick="toggleHighlight('${item.id}'); event.stopPropagation();" class="w-7 h-7 rounded-full flex items-center justify-center text-xs ${isHighlight ? 'text-[#EFBDBD]' : 'text-warm-border'}">
                     <i class="fa-solid fa-bookmark"></i>
                   </button>
-                  <button onclick="openDeleteModal('${item.id}'); event.stopPropagation();" class="w-7 h-7 rounded-full bg-warm-bg/50 hover:bg-red-50 text-warm-dark hover:text-red-500 flex items-center justify-center text-xs">
+                  <button onclick="openDeleteModal('${item.id}'); event.stopPropagation();" class="w-7 h-7 rounded-full bg-warm-bg/50 hover:text-red-500 flex items-center justify-center text-xs">
                     <i class="fa-solid fa-xmark text-sm"></i>
                   </button>
-                  <div class="drag-handle w-7 h-7 rounded-lg bg-warm-bg/40 text-warm-muted hover:text-warm-dark flex items-center justify-center text-sm ml-0.5">
+                  <div class="drag-handle w-7 h-7 rounded-lg bg-warm-bg/40 text-warm-muted flex items-center justify-center text-sm ml-0.5">
                     <i class="fa-solid fa-grip-vertical"></i>
                   </div>
                 </div>
@@ -1099,13 +1061,13 @@
       spots.forEach((spot) => {
         const catStyle = getCategoryStyle(spot.cat);
         const spotCard = `
-          <div class="bg-white border border-warm-border/60 rounded-2xl p-3 flex justify-between items-center shadow-sm select-none">
+          <div class="bg-white border border-warm-border/60 rounded-2xl p-3 flex justify-between items-center select-none">
             <div class="flex-1 pr-2">
               <span class="category-badge px-2 py-0.5 rounded ${catStyle.bg} ${catStyle.text}">${spot.cat}</span>
               <h5 class="font-bold text-warm-dark text-sm mt-1">${spot.title}</h5>
               <p class="text-[11px] text-warm-muted line-clamp-1 mt-0.5">${spot.desc}</p>
             </div>
-            <button onclick="addPresetSpotToItinerary('${areaKey}', '${spot.title.replace(/'/g, "\\'")}')" style="background-color: ${areaColor}" class="text-warm-dark px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 shadow-sm border border-warm-dark/20">
+            <button onclick="addPresetSpotToItinerary('${areaKey}', '${spot.title.replace(/'/g, "\\'")}')" style="background-color: ${areaColor}" class="text-warm-dark px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1 border border-warm-dark/20">
               <i class="fa-solid fa-plus text-[10px]"></i> 加入
             </button>
           </div>
@@ -1180,7 +1142,7 @@
 
     window.closeDetailSheet = function() {
       const sheet = document.getElementById('detailSheet');
-      sheet.querySelector('.bottom-sheet').classList.add('hidden-sheet');
+      sheet.querySelector('.bottom-sheet').style.transform = 'translateY(105%)';
       setTimeout(() => sheet.classList.add('hidden'), 300);
     };
 
@@ -1321,6 +1283,50 @@
     }
     startSingleCountdown();
 
+    /* 85% 寬鬆觸發手勢下拉關閉機制 (含所有 Bottom Sheet 視窗) */
+    function initBottomSheetGestures() {
+      const sheets = [document.getElementById('bottom-sheet'), document.getElementById('detailSheetBox')];
+      sheets.forEach(sheet => {
+        if (!sheet) return;
+        let startY = 0;
+        let currentY = 0;
+        let isDragging = false;
+
+        const header = sheet.querySelector('.sheet-header') || sheet;
+
+        header.addEventListener('touchstart', (e) => {
+          startY = e.touches[0].clientY;
+          isDragging = true;
+          sheet.style.transition = 'none';
+        }, { passive: true });
+
+        header.addEventListener('touchmove', (e) => {
+          if (!isDragging) return;
+          currentY = e.touches[0].clientY;
+          const diff = currentY - startY;
+          if (diff > 0) {
+            sheet.style.transform = `translateY(${diff}px)`;
+          }
+        }, { passive: true });
+
+        header.addEventListener('touchend', (e) => {
+          if (!isDragging) return;
+          isDragging = false;
+          sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
+          const diff = currentY - startY;
+          const sheetHeight = sheet.clientHeight;
+
+          // 設定 85% 寬鬆觸發門檻
+          if (diff > sheetHeight * 0.15) {
+            if (sheet.id === 'detailSheetBox') closeDetailSheet();
+            else closeSheet();
+          } else {
+            sheet.style.transform = 'translateY(0)';
+          }
+        }, { passive: true });
+      });
+    }
+
     /* Bottom Sheet 互動 */
     window.closeSheet = function() {
       const sheet = document.getElementById('bottom-sheet');
@@ -1410,7 +1416,7 @@
         sheetBody.innerHTML = `
           <div class="empty-fav-msg">
             <i class="fa-regular fa-heart" style="font-size:36px; margin-bottom:12px; color:var(--color-pink);"></i><br>
-            還沒有收藏的景點喔！<br>點擊分區卡片點擊愛心加入收藏吧～
+            還沒有收藏的景點喔！
           </div>
         `;
         return;
@@ -1470,7 +1476,7 @@
             <select id="expense-date">${generateDateOptions()}</select>
             <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
           </div>
-          <input type="number" id="expense-amount" placeholder="金額 (KRW)" oninput="updateTwdHint(this.value)">
+          <input type="number" id="expense-amount" placeholder="金額 (KRW)">
           <div class="twd-hint" id="twd-conversion-hint">台幣試算：≈ NT$ 0</div>
           <div class="payer-section-label">
             <span>付款人</span>
@@ -1550,7 +1556,6 @@
       await addDoc(collection(db, "expenses"), { date: dateVal, item, amount, payer: payerStr, createdAt: Date.now() });
       document.getElementById('expense-item').value = '';
       document.getElementById('expense-amount').value = '';
-      document.getElementById('twd-conversion-hint').innerText = '台幣試算：≈ NT$ 0';
     };
 
     window.deleteExpense = async function(docId) {
