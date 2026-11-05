@@ -139,7 +139,7 @@
           </div>
         </div>
 
-        <!-- 2. 即時匯率換算與動態退稅提醒 (右側輸入、淺色 Placeholder 壓底) -->
+        <!-- 2. 即時匯率換算與動態退稅提醒 -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
           <div class="flex justify-between items-center">
             <div class="flex items-center gap-1.5">
@@ -165,14 +165,14 @@
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 -->
+        <!-- 3. 釜山當地即時氣象卡片 (已修正標題垂直對齊與上方一致) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
               <svg class="w-4 h-4 text-[#7D92B6] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
               <span class="text-sm font-serif font-bold text-[#2B2927]">釜山當地即時氣象</span>
             </div>
-            <button onclick="fetchBusanWeather()" title="更新氣象" class="text-base text-[#A09D98] hover:text-[#2B2927] transition p-1">↻</button>
+            <button onclick="fetchBusanWeather()" title="更新氣象" class="text-base text-[#A09D98] hover:text-[#2B2927] transition p-1 leading-none">↻</button>
           </div>
           
           <div class="flex items-center justify-between pt-1">
@@ -709,7 +709,7 @@
       if (type === 'twd') {
         const twdVal = parseFloat(twdInput.value) || 0;
         krwVal = Math.round(twdVal * rate);
-        krwInput.value = twdVal === 0 ? '' : krwVal;
+        krwInput.value = krwVal === 0 ? '' : krwVal;
       } else {
         krwVal = parseFloat(krwInput.value) || 0;
         twdInput.value = krwVal === 0 ? '' : Math.round(krwVal / rate);
