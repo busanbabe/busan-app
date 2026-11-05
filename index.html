@@ -99,7 +99,7 @@
     <!-- ==================== TAB 1: 首頁 (Home) ==================== -->
     <div id="tab-home" class="tab-content">
       
-      <!-- 頂部 Header：精準對齊內部小卡片，並套用指定色碼 -->
+      <!-- 頂部 Header -->
       <header class="pt-8 px-9 pb-2 flex justify-between items-baseline">
         <h1 class="text-3xl font-serif font-semibold tracking-tight text-[#9ab4fe]">Hello Busan</h1>
         <span class="text-3xl font-serif font-semibold tracking-tight text-[#f492ff]">Hi 2027</span>
@@ -159,7 +159,7 @@
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 (左側放大兩倍太陽並具備舒適呼吸間距) -->
+        <!-- 3. 釜山當地即時氣象卡片 (改為簡潔大方 SVG 天氣圖示) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
@@ -170,10 +170,10 @@
           </div>
           
           <div class="flex items-center justify-between pt-1">
-            <!-- 左側：太陽 Emoji 放大兩倍，與溫度保持舒適間距 -->
+            <!-- 左側：簡潔大方 SVG 氣象圖示與舒適呼吸間距 -->
             <div class="flex items-center gap-3">
-              <div id="weatherIcon" class="text-5xl shrink-0 leading-none">
-                <span>☀️</span>
+              <div id="weatherIcon" class="text-[#7D92B6] shrink-0">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
               </div>
               <div class="flex flex-col justify-center">
                 <div class="flex items-baseline gap-1 leading-none">
@@ -192,7 +192,7 @@
           </div>
         </div>
 
-        <!-- 4. 探索釜山 A~F 區互動地圖 (已移除右上角小字) -->
+        <!-- 4. 探索釜山 A~F 區互動地圖 -->
         <div class="bg-white rounded-2xl p-3 border border-[#EBE7E0] shadow-sm space-y-2">
           <div class="flex justify-between items-center px-1">
             <div class="flex items-center gap-1.5">
@@ -305,7 +305,7 @@
       </main>
     </div>
 
-    <!-- ==================== 底部懸浮膠囊導覽列 (首頁與資訊內縮、四個按鈕完美均分) ==================== -->
+    <!-- ==================== 底部懸浮膠囊導覽列 ==================== -->
     <div class="fixed bottom-6 left-0 right-0 w-full max-w-md mx-auto z-20 pointer-events-none px-6">
       
       <div id="previewBar" class="mb-3 pointer-events-auto hidden">
@@ -354,21 +354,30 @@
     </div>
 
     <!-- ==================== MODALS ==================== -->
+    <!-- 地區介紹彈窗：內部拉高、底部留出呼吸空間、大標副標下方加極細分隔線 -->
     <div id="regionBottomSheet" class="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none hidden">
       <div class="flex-1 bg-black/30 pointer-events-auto backdrop-blur-xs" onclick="closeRegionSheet()"></div>
-      <div class="w-full max-w-md bg-white rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto transition-transform duration-300 transform translate-y-0 relative border-t border-[#EBE7E0]">
+      <div class="w-full max-w-md bg-white rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto transition-transform duration-300 transform translate-y-0 relative border-t border-[#EBE7E0] pb-10">
         <button onclick="closeRegionSheet()" class="absolute top-3 right-4 z-20 text-[#A09D98] hover:text-[#2B2927] text-xl font-light p-1 focus:outline-none">✕</button>
+        
+        <!-- 圖片在上、文字在下（絕對不壓圖） -->
         <div class="h-44 bg-cover bg-center relative" id="sheetImage">
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
           <span id="sheetBadge" class="absolute top-3 left-4 bg-white/90 backdrop-blur-md text-[#2B2927] text-xs font-bold px-2.5 py-0.5 rounded-full shadow-sm">-- 區</span>
-          <div class="absolute bottom-3 left-4 right-4 text-white">
-            <h3 id="sheetTitle" class="text-2xl font-serif font-bold">--</h3>
-            <p id="sheetSubtitle" class="text-sm text-gray-200 mt-0.5">--</p>
-          </div>
         </div>
-        <div class="p-5 space-y-3 max-h-[55vh] overflow-y-auto">
-          <p id="sheetDesc" class="text-sm text-[#555] leading-relaxed font-sans">--</p>
-          <div class="pt-2 border-t border-[#F5F2EC]">
+
+        <!-- 標題與副標區塊 -->
+        <div class="px-5 pt-4 pb-2">
+          <h3 id="sheetTitle" class="text-2xl font-serif font-bold text-[#2B2927]">--</h3>
+          <p id="sheetSubtitle" class="text-sm text-[#7F7F7F] mt-0.5">--</p>
+          <!-- 仿照精選必訪亮點上方的極細線風格 -->
+          <div class="w-full h-[1px] bg-[#EBE7E0] mt-3"></div>
+        </div>
+
+        <!-- 詳細內文與亮點（底部保有舒適呼吸空間） -->
+        <div class="px-5 space-y-3 max-h-[50vh] overflow-y-auto">
+          <p id="sheetDesc" class="text-sm text-[#555] leading-relaxed font-sans pt-1">--</p>
+          <div class="pt-2">
             <span class="text-xs text-[#A09D98] font-serif font-bold block mb-2">精選必訪亮點</span>
             <div id="sheetHighlights" class="flex flex-wrap gap-1.5"></div>
           </div>
@@ -519,7 +528,7 @@
       },
       B: {
         badge: 'B 區', title: '市集 · 市場', subtitle: '體驗熱氣騰騰的傳統韓式美食與人情味',
-        img: 'https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?auto=format&fit=crop&w=800&q=80',
+        img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
         desc: '釜山活力最奔放的核心靈魂地帶！札嘎其海鮮市場現剖海味、富平罐頭市場熱騰騰的魚板湯與香甜堅果黑糖餅，再順道去龍頭山公園俯瞰整個釜山港灣景色。',
         highlights: ['札嘎其海鮮市場', 'BIFF 廣場黑糖餅', '富平罐頭夜市', '國際市場選物']
       },
@@ -633,7 +642,7 @@
           document.getElementById('apparentTempDisplay').innerText = `${apparentTemp} °C`;
           
           const info = getWeatherInfo(code);
-          document.getElementById('weatherIcon').innerHTML = info.emoji;
+          document.getElementById('weatherIcon').innerHTML = info.svg;
           document.getElementById('weatherDesc').innerText = info.desc;
         }
       } catch (err) {
@@ -642,13 +651,14 @@
     }
 
     function getWeatherInfo(code) {
-      if (code === 0) return { emoji: '<span>☀️</span>', desc: '晴朗無雲' };
-      if (code >= 1 && code <= 3) return { emoji: '<span>⛅</span>', desc: '多雲時晴' };
-      if (code >= 45 && code <= 48) return { emoji: '<span>🌫️</span>', desc: '濃霧繚繞' };
-      if (code >= 51 && code <= 67) return { emoji: '<span>🌧️</span>', desc: '局部降雨' };
-      if (code >= 71 && code <= 77) return { emoji: '<span>❄️</span>', desc: '降雪天氣' };
-      if (code >= 80 && code <= 82) return { emoji: '<span>🌦️</span>', desc: '陣雨降臨' };
-      return { emoji: '<span>☁️</span>', desc: '陰天多雲' };
+      const svgSun = '<svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>';
+      const svgCloudSun = '<svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M20.5 10.5a4.5 4.5 0 00-8.22-2.43A5.5 5.5 0 105.5 17h14.5a3 3 0 00.5-5.95z"/></svg>';
+      const svgRain = '<svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 16.5a4.5 4.5 0 00-8-2.82M7.5 19h.01M11.5 19h.01M15.5 19h.01M19 14.5A4.5 4.5 0 0010.5 8a5.5 5.5 0 00-10.4 2.22A3.5 3.5 0 004 17h15a2 2 0 000-4z"/></svg>';
+
+      if (code === 0) return { svg: svgSun, desc: '晴朗無雲' };
+      if (code >= 1 && code <= 3) return { svg: svgCloudSun, desc: '多雲時晴' };
+      if (code >= 51 && code <= 67) return { svg: svgRain, desc: '局部降雨' };
+      return { svg: svgCloudSun, desc: '陰天多雲' };
     }
 
     function switchTab(tabName) {
