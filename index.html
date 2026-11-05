@@ -99,97 +99,111 @@
     <!-- ==================== TAB 1: 首頁 (Home) ==================== -->
     <div id="tab-home" class="tab-content">
       
-      <!-- 獨立 Header： Hello Busan 與 Hi 2027 字型、大小、顏色完全相同 -->
-      <header class="pt-8 px-5 pb-1 flex justify-between items-baseline">
-        <h1 class="text-xl font-serif font-semibold text-[#2B2927]">Hello Busan</h1>
-        <span class="text-xl font-serif font-semibold text-[#2B2927]">Hi 2027</span>
+      <!-- 頂部 Header：等比放大3級，H 靠左精準齊平下層小標圖示左緣，7 靠右精準齊平卡片內邊界 -->
+      <header class="pt-8 px-5 pb-2 flex justify-between items-baseline">
+        <h1 class="text-3xl font-serif font-semibold text-[#2B2927] tracking-tight">Hello Busan</h1>
+        <span class="text-3xl font-serif font-semibold text-[#2B2927] tracking-tight">Hi 2027</span>
       </header>
 
       <main class="px-5 py-3 space-y-5">
         
-        <!-- 1. 頂部翻頁時鐘 Flip Clock (靠左標題，刪除時間備註) -->
+        <!-- 1. 頂部翻頁時鐘 Flip Clock (維持小標與平面愛心圖示) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
-          <p class="text-xs font-serif font-bold text-[#2B2927] text-left">成員集合倒數</p>
+          <div class="flex items-center gap-1.5">
+            <!-- Illustrator 平面純色愛心 -->
+            <svg class="w-4 h-4 text-[#E5989B] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span class="text-sm font-serif font-bold text-[#2B2927]">成員集合倒數</span>
+          </div>
           <div class="grid grid-cols-4 gap-2">
             <div class="flip-card h-20">
-              <span id="clock-days" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
-              <span class="text-[9px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">DAY</span>
+              <span id="clock-days" class="text-3xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
+              <span class="text-[11px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">DAY</span>
             </div>
             <div class="flip-card h-20">
-              <span id="clock-hours" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
-              <span class="text-[9px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">HR</span>
+              <span id="clock-hours" class="text-3xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
+              <span class="text-[11px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">HR</span>
             </div>
             <div class="flip-card h-20">
-              <span id="clock-minutes" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
-              <span class="text-[9px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">MIN</span>
+              <span id="clock-minutes" class="text-3xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
+              <span class="text-[11px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">MIN</span>
             </div>
             <div class="flip-card h-20">
-              <span id="clock-seconds" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
-              <span class="text-[9px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">SEC</span>
+              <span id="clock-seconds" class="text-3xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
+              <span class="text-[11px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">SEC</span>
             </div>
           </div>
         </div>
 
-        <!-- 2. 即時匯率換算與動態退稅提醒 -->
+        <!-- 2. 即時匯率換算與動態退稅提醒 (加入小標四角星芒圖示，文字整體放大) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
           <div class="flex justify-between items-center">
-            <span class="text-xs font-serif font-bold text-[#2B2927]">即時匯率換算</span>
-            <span class="text-[10px] text-[#A09D98] bg-[#F5F2EC] px-2 py-0.5 rounded-full">1 TWD ≈ 41.0 KRW</span>
+            <div class="flex items-center gap-1.5">
+              <!-- Illustrator 平面四角星芒圖示 -->
+              <svg class="w-4 h-4 text-[#7D92B6] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
+              <span class="text-sm font-serif font-bold text-[#2B2927]">即時匯率換算</span>
+            </div>
+            <span class="text-xs text-[#A09D98] bg-[#F5F2EC] px-2 py-0.5 rounded-full">1 TWD ≈ 41.0 KRW</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="flex-1 bg-[#F8F6F2] rounded-xl px-3 py-2 border border-[#EBE7E0]">
-              <span class="text-[9px] text-[#A09D98] block">韓元 (KRW)</span>
-              <input type="number" id="homeKrwInput" oninput="convertHomeCurrency('krw')" value="50000" class="w-full bg-transparent text-sm font-bold focus:outline-none text-[#2B2927]">
+              <span class="text-[11px] text-[#A09D98] block">韓元 (KRW)</span>
+              <input type="number" id="homeKrwInput" oninput="convertHomeCurrency('krw')" value="50000" class="w-full bg-transparent text-base font-bold focus:outline-none text-[#2B2927]">
             </div>
-            <span class="text-xs text-[#A09D98]">⇌</span>
+            <span class="text-sm text-[#A09D98]">⇌</span>
             <div class="flex-1 bg-[#F8F6F2] rounded-xl px-3 py-2 border border-[#EBE7E0]">
-              <span class="text-[9px] text-[#A09D98] block">台幣 (TWD)</span>
-              <input type="number" id="homeTwdInput" oninput="convertHomeCurrency('twd')" value="1220" class="w-full bg-transparent text-sm font-bold focus:outline-none text-[#2B2927]">
+              <span class="text-[11px] text-[#A09D98] block">台幣 (TWD)</span>
+              <input type="number" id="homeTwdInput" oninput="convertHomeCurrency('twd')" value="1220" class="w-full bg-transparent text-base font-bold focus:outline-none text-[#2B2927]">
             </div>
           </div>
-          <div class="bg-[#FAF6F0] p-2.5 rounded-xl border border-[#EFE7DC] text-[11px] text-[#706B63] flex justify-between items-center">
+          <div class="bg-[#FAF6F0] p-2.5 rounded-xl border border-[#EFE7DC] text-xs text-[#706B63] flex justify-between items-center">
             <span>₩15,000 達退稅門檻</span>
             <span id="taxRefundStatus" class="font-bold text-[#7F7F7F] transition-colors duration-300">可申請退稅</span>
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 (極簡 SVG Icon 精準對齊版) -->
+        <!-- 3. 釜山當地即時氣象卡片 (極簡幾何圖示，移除綠色標籤，刷新放大，SVG高度全涵蓋，右側齊平「象」字) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
-              <span class="text-xs font-serif font-bold text-[#2B2927]">釜山當地即時氣象</span>
-              <span id="weatherStatusTag" class="text-[9px] bg-[#E8F0FE] text-[#3B66AD] px-2 py-0.5 rounded-full font-medium">連線中...</span>
+              <!-- 平面極簡幾何圖示 -->
+              <svg class="w-4 h-4 text-[#7D92B6] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+              <span class="text-sm font-serif font-bold text-[#2B2927]">釜山當地即時氣象</span>
             </div>
-            <button onclick="fetchBusanWeather()" title="更新氣象" class="text-xs text-[#A09D98] hover:text-[#2B2927] transition p-1">↻</button>
+            <!-- 右上角↻旋轉圖示放大 -->
+            <button onclick="fetchBusanWeather()" title="更新氣象" class="text-base text-[#A09D98] hover:text-[#2B2927] transition p-1">↻</button>
           </div>
+          
           <div class="flex items-center justify-between pt-1">
-            <!-- 左側：SVG Weather Icon + 溫度 + 描述 (嚴謹水平中線對齊) -->
-            <div class="flex items-center gap-3">
-              <div id="weatherIcon" class="w-8 h-8 flex items-center justify-center text-[#7D92B6]">
-                <!-- 預設氣象 SVG -->
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-              </div>
-              <div class="flex flex-col justify-center">
-                <div class="flex items-baseline gap-1 leading-none">
-                  <span id="tempDisplay" class="text-2xl font-serif font-bold text-[#2B2927]">--</span>
-                  <span class="text-xs text-[#7F7F7F] font-serif">°C</span>
-                </div>
-                <p id="weatherDesc" class="text-[11px] text-[#7F7F7F] mt-1 leading-none">正在獲取氣象資料...</p>
-              </div>
+            <!-- 左側：SVG 天氣圖示高度全面涵蓋上下範圍 -->
+            <div id="weatherIcon" class="w-14 h-14 flex items-center justify-center text-[#7D92B6] shrink-0">
+              <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
             </div>
+
+            <!-- 中間：溫度與描述（右移對齊上方標題「象」字右緣） -->
+            <div class="flex flex-col justify-center text-right pr-2">
+              <div class="flex items-baseline justify-end gap-1 leading-none">
+                <span id="tempDisplay" class="text-3xl font-serif font-bold text-[#2B2927]">--</span>
+                <span class="text-sm text-[#7F7F7F] font-serif">°C</span>
+              </div>
+              <p id="weatherDesc" class="text-xs text-[#7F7F7F] mt-1.5 leading-none">正在獲取氣象資料...</p>
+            </div>
+
             <!-- 右側：體感溫度 -->
-            <div class="text-right border-l border-[#F0ECE6] pl-4 flex flex-col justify-center">
-              <div class="text-[10px] text-[#A09D98] leading-none mb-1">體感溫度</div>
-              <div id="apparentTempDisplay" class="text-sm font-serif font-semibold text-[#2B2927] leading-none">-- °C</div>
+            <div class="text-right border-l border-[#F0ECE6] pl-3 flex flex-col justify-center shrink-0">
+              <div class="text-xs text-[#A09D98] leading-none mb-1">體感溫度</div>
+              <div id="apparentTempDisplay" class="text-base font-serif font-semibold text-[#2B2927] leading-none">-- °C</div>
             </div>
           </div>
         </div>
 
-        <!-- 4. 探索釜山 A~F 區互動地圖 (採用 map.PNG 大寫副檔名底圖 + 熱點覆蓋) -->
+        <!-- 4. 探索釜山 A~F 區互動地圖 (加入小標幾何圖示) -->
         <div class="bg-white rounded-2xl p-3 border border-[#EBE7E0] shadow-sm space-y-2">
           <div class="flex justify-between items-center px-1">
-            <h2 class="text-xs font-serif font-bold text-[#2B2927]">探索釜山</h2>
-            <span class="text-[10px] text-[#A09D98]">點擊地圖上的 Icon 檢視介紹</span>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-[#7D92B6] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              <h2 class="text-sm font-serif font-bold text-[#2B2927]">探索釜山</h2>
+            </div>
+            <span class="text-xs text-[#A09D98]">點擊地圖上的 Icon 檢視介紹</span>
           </div>
 
           <!-- 地圖容器 (相對定位) -->
@@ -197,23 +211,12 @@
             <!-- 原始圖片底圖：對應 map.PNG -->
             <img src="map.PNG" alt="釜山旅遊地圖" class="w-full h-auto block object-cover">
 
-            <!-- A~F 精準透明點擊熱點 (Hotspots) -->
-            <!-- A區 (左下：松島 / 影島) -->
+            <!-- A~F 熱點 -->
             <button onclick="openRegionSheet('A')" class="absolute top-[68%] left-[7%] w-[38%] h-[26%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="A區：松島 · 影島"></button>
-
-            <!-- B區 (左中：市集 · 市場) -->
             <button onclick="openRegionSheet('B')" class="absolute top-[42%] left-[10%] w-[26%] h-[24%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="B區：市集 · 市場"></button>
-
-            <!-- C區 (中上：西面 · 田浦) -->
             <button onclick="openRegionSheet('C')" class="absolute top-[21%] left-[23%] w-[26%] h-[23%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="C區：西面 · 田浦"></button>
-
-            <!-- D區 (海邊中段：廣安里) -->
             <button onclick="openRegionSheet('D')" class="absolute top-[26%] left-[50%] w-[22%] h-[23%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="D區：廣安里"></button>
-
-            <!-- E區 (東北海岸：海雲台) -->
             <button onclick="openRegionSheet('E')" class="absolute top-[16%] left-[63%] w-[20%] h-[23%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="E區：海雲台"></button>
-
-            <!-- F區 (右上：天空膠囊列車) -->
             <button onclick="openRegionSheet('F')" class="absolute top-[3%] left-[75%] w-[24%] h-[24%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="F區：天空膠囊列車"></button>
           </div>
         </div>
@@ -224,9 +227,9 @@
     <!-- ==================== TAB 2: 行程導覽 (Itinerary) ==================== -->
     <div id="tab-itinerary" class="tab-content hidden">
       <header class="pt-8 px-6 text-center pb-2 bg-[#FAF8F5] sticky top-0 z-10">
-        <p class="text-[10px] tracking-[0.25em] text-[#A09D98] font-medium uppercase mb-1">FAMILY TRIP</p>
+        <p class="text-xs tracking-[0.25em] text-[#A09D98] font-medium uppercase mb-1">FAMILY TRIP</p>
         <div class="flex items-center justify-center gap-2 mb-4">
-          <h1 class="text-2xl font-serif font-semibold tracking-wide text-[#2B2927]">釜山行程</h1>
+          <h1 class="text-3xl font-serif font-semibold tracking-wide text-[#2B2927]">釜山行程</h1>
           <span class="text-xs px-2.5 py-0.5 rounded-full border border-[#DCD6CD] text-[#7A756C]">2026-2027</span>
         </div>
         <div id="dateBar" class="flex justify-between items-center px-1 border-b border-[#EBE7E0] pb-3 no-scrollbar overflow-x-auto"></div>
@@ -241,12 +244,12 @@
     <div id="tab-expense" class="tab-content hidden">
       <header class="pt-8 px-6 bg-[#FAF8F5] sticky top-0 z-10 border-b border-[#EBE7E0] pb-3">
         <div class="flex justify-between items-center mb-3">
-          <h1 class="text-xl font-serif font-semibold text-[#2B2927]">旅遊帳本</h1>
+          <h1 class="text-2xl font-serif font-semibold text-[#2B2927]">旅遊帳本</h1>
           <button onclick="openExpenseModal()" class="bg-[#7D92B6] text-white text-xs px-3 py-1.5 rounded-xl font-medium shadow">＋ 新增帳單</button>
         </div>
         <div id="expenseDateBar" class="flex justify-between items-center no-scrollbar overflow-x-auto mb-3"></div>
         <div class="flex items-center gap-1.5 pt-1">
-          <span class="text-[10px] text-[#A09D98] mr-1">付款人:</span>
+          <span class="text-xs text-[#A09D98] mr-1">付款人:</span>
           <button onclick="filterPayer('ALL')" class="payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#2B2927] text-white font-medium" data-payer="ALL">ALL</button>
           <button onclick="filterPayer('J1')" class="payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#EBE7E0] text-[#555] font-medium" data-payer="J1">J (Jase)</button>
           <button onclick="filterPayer('J2')" class="payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#EBE7E0] text-[#555] font-medium" data-payer="J2">J (Jewel)</button>
@@ -258,12 +261,12 @@
       <main class="px-5 py-4 space-y-4">
         <div class="bg-white p-4 rounded-2xl border border-[#EBE7E0] shadow-sm flex justify-between items-center">
           <div>
-            <span class="text-[10px] text-[#A09D98] block">當日總消費 (韓元)</span>
-            <span id="totalKrwDisplay" class="text-xl font-serif font-bold text-[#2B2927]">₩0</span>
+            <span class="text-xs text-[#A09D98] block">當日總消費 (韓元)</span>
+            <span id="totalKrwDisplay" class="text-2xl font-serif font-bold text-[#2B2927]">₩0</span>
           </div>
           <div class="text-right">
-            <span class="text-[9px] text-[#A09D98] block">折合台幣 (TWD)</span>
-            <span id="totalTwdDisplay" class="text-sm font-semibold text-[#7D92B6]">NT$ 0</span>
+            <span class="text-[11px] text-[#A09D98] block">折合台幣 (TWD)</span>
+            <span id="totalTwdDisplay" class="text-base font-semibold text-[#7D92B6]">NT$ 0</span>
           </div>
         </div>
         <div id="expenseListContainer" class="space-y-3"></div>
@@ -273,45 +276,39 @@
     <!-- ==================== TAB 4: Information (旅途指南) ==================== -->
     <div id="tab-info" class="tab-content hidden">
       <header class="pt-8 px-6 text-center pb-2">
-        <p class="text-[10px] tracking-[0.25em] text-[#A09D98] font-medium uppercase mb-1">TRAVEL GUIDE</p>
-        <h1 class="text-2xl font-serif font-semibold text-[#2B2927]">旅途指南</h1>
+        <p class="text-xs tracking-[0.25em] text-[#A09D98] font-medium uppercase mb-1">TRAVEL GUIDE</p>
+        <h1 class="text-3xl font-serif font-semibold text-[#2B2927]">旅途指南</h1>
       </header>
 
       <main class="px-5 py-6 space-y-4">
-        <!-- 四大入口按鈕 -->
         <div class="grid grid-cols-2 gap-3">
-          <!-- 成員介紹按鈕 -->
           <button onclick="openMemberStackModal()" class="bg-[#F9DCDC]/50 p-4 rounded-2xl border border-[#F4CECE] text-left hover:bg-[#F9DCDC] transition">
             <span class="text-2xl block mb-1">👥</span>
-            <h3 class="text-sm font-serif font-bold text-[#2B2927]">成員介紹</h3>
-            <p class="text-[10px] text-[#7F7F7F]">3 歐尼 × 1 歐巴</p>
+            <h3 class="text-base font-serif font-bold text-[#2B2927]">成員介紹</h3>
+            <p class="text-xs text-[#7F7F7F]">3 歐尼 × 1 歐巴</p>
           </button>
           
-          <!-- 航班資訊 -->
           <button onclick="alert('航班資訊：去回程中華航空 CI 班機')" class="bg-[#E3D7F3]/50 p-4 rounded-2xl border border-[#D5C4EC] text-left hover:bg-[#E3D7F3] transition">
             <span class="text-2xl block mb-1">✈️</span>
-            <h3 class="text-sm font-serif font-bold text-[#2B2927]">航班資訊</h3>
-            <p class="text-[10px] text-[#7F7F7F]">高雄 ⇌ 釜山金海</p>
+            <h3 class="text-base font-serif font-bold text-[#2B2927]">航班資訊</h3>
+            <p class="text-xs text-[#7F7F7F]">高雄 ⇌ 釜山金海</p>
           </button>
 
-          <!-- 住宿資訊 -->
           <button onclick="alert('住宿飯店：Grand Josun Busan')" class="bg-[#CBD3ED]/50 p-4 rounded-2xl border border-[#B5C2E4] text-left hover:bg-[#CBD3ED] transition">
             <span class="text-2xl block mb-1">🏨</span>
-            <h3 class="text-sm font-serif font-bold text-[#2B2927]">住宿資訊</h3>
-            <p class="text-[10px] text-[#7F7F7F]">海雲台五星海景飯店</p>
+            <h3 class="text-base font-serif font-bold text-[#2B2927]">住宿資訊</h3>
+            <p class="text-xs text-[#7F7F7F]">海雲台五星海景飯店</p>
           </button>
 
-          <!-- 互相提醒備註 -->
           <button onclick="alert('互相提醒：記得帶韓國轉接頭與保暖外套！')" class="bg-[#D6EADF]/50 p-4 rounded-2xl border border-[#C1DFCD] text-left hover:bg-[#D6EADF] transition">
             <span class="text-2xl block mb-1">📝</span>
-            <h3 class="text-sm font-serif font-bold text-[#2B2927]">互相提醒</h3>
-            <p class="text-[10px] text-[#7F7F7F]">備忘錄與注意事項</p>
+            <h3 class="text-base font-serif font-bold text-[#2B2927]">互相提醒</h3>
+            <p class="text-xs text-[#7F7F7F]">備忘錄與注意事項</p>
           </button>
         </div>
 
-        <!-- 旅途隨手記筆記區 -->
         <div class="bg-white p-4 rounded-2xl border border-[#EBE7E0] shadow-sm space-y-2">
-          <h3 class="text-xs font-serif font-bold text-[#2B2927]">旅途筆記 (共享區)</h3>
+          <h3 class="text-sm font-serif font-bold text-[#2B2927]">旅途筆記 (共享區)</h3>
           <textarea rows="4" placeholder="填寫要提醒大家的事情..." class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl p-3 text-xs focus:outline-none"></textarea>
         </div>
       </main>
@@ -320,7 +317,6 @@
     <!-- ==================== 底部懸浮膠囊導覽列 ==================== -->
     <div class="fixed bottom-6 left-0 right-0 w-full max-w-md mx-auto z-20 pointer-events-none px-6">
       
-      <!-- 行程頁限定：即時預覽 Bar -->
       <div id="previewBar" class="mb-3 pointer-events-auto hidden">
         <div class="bg-white/90 backdrop-blur-md border border-[#EBE6DF] rounded-2xl p-3 shadow-lg flex items-center justify-between">
           <div class="flex items-center gap-3">
@@ -330,115 +326,107 @@
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <span id="previewTime" class="font-serif font-bold text-base text-[#2B2927]">13:45</span>
-                <span class="text-[10px] bg-[#F2EDE4] text-[#706B63] px-1.5 py-0.5 rounded">行程預覽</span>
+                <span id="previewTime" class="font-serif font-bold text-lg text-[#2B2927]">13:45</span>
+                <span class="text-xs bg-[#F2EDE4] text-[#706B63] px-1.5 py-0.5 rounded">行程預覽</span>
               </div>
               <p id="previewTitle" class="text-xs font-serif text-[#4A4640] truncate max-w-[180px]">甘川洞文化村</p>
             </div>
           </div>
           <div class="text-right border-l border-[#EBE6DF] pl-4">
-            <span class="text-[10px] text-[#A8A299] block">下個時間</span>
-            <span id="nextTime" class="font-serif font-bold text-sm text-[#2B2927]">15:00</span>
+            <span class="text-xs text-[#A8A299] block">下個時間</span>
+            <span id="nextTime" class="font-serif font-bold text-base text-[#2B2927]">15:00</span>
           </div>
         </div>
       </div>
 
-      <!-- 四大 Nav 按鈕懸浮膠囊 -->
       <nav class="bg-white/95 backdrop-blur-lg border border-[#EBE7E0] rounded-full px-6 py-2.5 flex justify-between items-center pointer-events-auto shadow-lg">
         <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-[#7D92B6] font-semibold">
           <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-          <span class="text-[10px]">首頁</span>
+          <span class="text-xs">首頁</span>
         </button>
 
         <button onclick="switchTab('itinerary')" id="nav-itinerary" class="flex flex-col items-center text-[#B0AA9F] hover:text-[#2B2927]">
           <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
-          <span class="text-[10px]">行程導覽</span>
+          <span class="text-xs">行程導覽</span>
         </button>
 
         <button onclick="switchTab('expense')" id="nav-expense" class="flex flex-col items-center text-[#B0AA9F] hover:text-[#2B2927]">
           <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          <span class="text-[10px]">記帳</span>
+          <span class="text-xs">記帳</span>
         </button>
 
-        <!-- Information 小寫 i 圖示 -->
         <button onclick="switchTab('info')" id="nav-info" class="flex flex-col items-center text-[#B0AA9F] hover:text-[#2B2927]">
           <div class="w-5 h-5 border-2 border-current rounded-full flex items-center justify-center font-serif text-xs font-bold leading-none mb-0.5">i</div>
-          <span class="text-[10px]">資訊</span>
+          <span class="text-xs">資訊</span>
         </button>
       </nav>
     </div>
 
-    <!-- ==================== MODAL 0: 地圖區域介紹底部彈窗 (Bottom Sheet) ==================== -->
+    <!-- ==================== MODALS ==================== -->
     <div id="regionBottomSheet" class="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none hidden">
       <div class="flex-1 bg-black/30 pointer-events-auto backdrop-blur-xs" onclick="closeRegionSheet()"></div>
       <div class="w-full max-w-md bg-white rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto transition-transform duration-300 transform translate-y-0 relative border-t border-[#EBE7E0]">
-        
         <button onclick="closeRegionSheet()" class="absolute top-3 right-4 z-20 text-[#A09D98] hover:text-[#2B2927] text-xl font-light p-1 focus:outline-none">✕</button>
-
         <div class="h-44 bg-cover bg-center relative" id="sheetImage">
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
-          <span id="sheetBadge" class="absolute top-3 left-4 bg-white/90 backdrop-blur-md text-[#2B2927] text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">-- 區</span>
+          <span id="sheetBadge" class="absolute top-3 left-4 bg-white/90 backdrop-blur-md text-[#2B2927] text-xs font-bold px-2.5 py-0.5 rounded-full shadow-sm">-- 區</span>
           <div class="absolute bottom-3 left-4 right-4 text-white">
-            <h3 id="sheetTitle" class="text-xl font-serif font-bold">--</h3>
-            <p id="sheetSubtitle" class="text-xs text-gray-200 mt-0.5">--</p>
+            <h3 id="sheetTitle" class="text-2xl font-serif font-bold">--</h3>
+            <p id="sheetSubtitle" class="text-sm text-gray-200 mt-0.5">--</p>
           </div>
         </div>
-
         <div class="p-5 space-y-3 max-h-[55vh] overflow-y-auto">
-          <p id="sheetDesc" class="text-xs text-[#555] leading-relaxed font-sans">--</p>
+          <p id="sheetDesc" class="text-sm text-[#555] leading-relaxed font-sans">--</p>
           <div class="pt-2 border-t border-[#F5F2EC]">
-            <span class="text-[10px] text-[#A09D98] font-serif font-bold block mb-2">精選必訪亮點</span>
+            <span class="text-xs text-[#A09D98] font-serif font-bold block mb-2">精選必訪亮點</span>
             <div id="sheetHighlights" class="flex flex-wrap gap-1.5"></div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- ==================== MODAL 1: 四張成員動態彈出卡片 ==================== -->
     <div id="memberStackModal" class="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none hidden">
       <div class="flex-1 pointer-events-auto" onclick="closeMemberStackModal()"></div>
       <div class="w-full max-w-md px-4 pb-20 space-y-[-2rem] pointer-events-auto transition-transform duration-300 transform translate-y-0">
         <div class="bg-[#FCE7C5] p-5 rounded-3xl border border-[#F2D19D] shadow-xl flex items-center gap-4">
           <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-xl font-bold text-[#63491F] border-2 border-[#F2D19D] shadow-sm">👤</div>
           <div>
-            <span class="text-[10px] bg-white/80 text-[#63491F] px-2 py-0.5 rounded-full font-bold">歐巴 × 1</span>
-            <h3 class="text-xl font-bold font-serif text-[#2B2927] mt-0.5">Jase</h3>
-            <p class="text-xs text-[#7A5B27] font-medium">瀘州宋慧喬</p>
+            <span class="text-xs bg-white/80 text-[#63491F] px-2 py-0.5 rounded-full font-bold">歐巴 × 1</span>
+            <h3 class="text-2xl font-bold font-serif text-[#2B2927] mt-0.5">Jase</h3>
+            <p class="text-sm text-[#7A5B27] font-medium">瀘州宋慧喬</p>
           </div>
         </div>
         <div class="bg-[#CBD3ED] p-5 rounded-3xl border border-[#B5C2E4] shadow-xl flex items-center gap-4">
           <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-xl font-bold text-[#2C3E6B] border-2 border-[#B5C2E4] shadow-sm">👩</div>
           <div>
-            <span class="text-[10px] bg-white/80 text-[#2C3E6B] px-2 py-0.5 rounded-full font-bold">歐尼 × 3</span>
-            <h3 class="text-xl font-bold font-serif text-[#2B2927] mt-0.5">Jewel</h3>
-            <p class="text-xs text-[#3C528B] font-medium">古亭孫藝珍</p>
+            <span class="text-xs bg-white/80 text-[#2C3E6B] px-2 py-0.5 rounded-full font-bold">歐尼 × 3</span>
+            <h3 class="text-2xl font-bold font-serif text-[#2B2927] mt-0.5">Jewel</h3>
+            <p class="text-sm text-[#3C528B] font-medium">古亭孫藝珍</p>
           </div>
         </div>
         <div class="bg-[#F9DCDC] p-5 rounded-3xl border border-[#F4CECE] shadow-xl flex items-center gap-4">
           <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-xl font-bold text-[#6B3737] border-2 border-[#F4CECE] shadow-sm">👩</div>
           <div>
-            <span class="text-[10px] bg-white/80 text-[#6B3737] px-2 py-0.5 rounded-full font-bold">歐尼 × 3</span>
-            <h3 class="text-xl font-bold font-serif text-[#2B2927] mt-0.5">Jessie</h3>
-            <p class="text-xs text-[#8B4C4C] font-medium">高雄全智賢</p>
+            <span class="text-xs bg-white/80 text-[#6B3737] px-2 py-0.5 rounded-full font-bold">歐尼 × 3</span>
+            <h3 class="text-2xl font-bold font-serif text-[#2B2927] mt-0.5">Jessie</h3>
+            <p class="text-sm text-[#8B4C4C] font-medium">高雄全智賢</p>
           </div>
         </div>
         <div class="bg-[#E3D7F3] p-5 rounded-3xl border border-[#D5C4EC] shadow-2xl flex items-center gap-4">
           <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-xl font-bold text-[#4A3B69] border-2 border-[#D5C4EC] shadow-sm">👩</div>
           <div>
-            <span class="text-[10px] bg-white/80 text-[#4A3B69] px-2 py-0.5 rounded-full font-bold">歐尼 × 3</span>
-            <h3 class="text-xl font-bold font-serif text-[#2B2927] mt-0.5">Kay</h3>
-            <p class="text-xs text-[#63518B] font-medium">高雄馬東石</p>
+            <span class="text-xs bg-white/80 text-[#4A3B69] px-2 py-0.5 rounded-full font-bold">歐尼 × 3</span>
+            <h3 class="text-2xl font-bold font-serif text-[#2B2927] mt-0.5">Kay</h3>
+            <p class="text-sm text-[#63518B] font-medium">高雄馬東石</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== MODAL 2: 新增景點行程 Modal ==================== -->
     <div id="addModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-end hidden">
       <div class="bg-white w-full max-w-md rounded-t-3xl p-6 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-[#EBE7E0] pb-3">
-          <h3 id="modalTitle" class="text-lg font-serif font-bold text-[#2B2927]">新增景點行程</h3>
+          <h3 id="modalTitle" class="text-xl font-serif font-bold text-[#2B2927]">新增景點行程</h3>
           <button onclick="closeAddModal()" class="text-[#A09D98] hover:text-[#2B2927]">✕</button>
         </div>
         <form id="spotForm" onsubmit="handleSaveSpot(event)" class="space-y-4">
@@ -493,11 +481,10 @@
       </div>
     </div>
 
-    <!-- ==================== MODAL 3: 新增消費帳單 Modal ==================== -->
     <div id="expenseModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-end hidden">
       <div class="bg-white w-full max-w-md rounded-t-3xl p-6 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-[#EBE7E0] pb-3">
-          <h3 class="text-lg font-serif font-bold text-[#2B2927]">新增消費帳單</h3>
+          <h3 class="text-xl font-serif font-bold text-[#2B2927]">新增消費帳單</h3>
           <button onclick="closeExpenseModal()" class="text-[#A09D98] hover:text-[#2B2927]">✕</button>
         </div>
         <form onsubmit="handleSaveExpense(event)" class="space-y-4">
@@ -518,7 +505,7 @@
           <div>
             <label class="block text-xs font-semibold text-[#666] mb-1">金額 (韓元 KRW)</label>
             <input type="number" id="expKrwInput" oninput="calcExpTwd()" placeholder="例：35000" required class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl px-3 py-2 text-sm focus:outline-none font-bold">
-            <span id="expTwdHint" class="text-[11px] text-[#7D92B6] mt-1 block">≈ NT$ 0</span>
+            <span id="expTwdHint" class="text-xs text-[#7D92B6] mt-1 block">≈ NT$ 0</span>
           </div>
           <div class="flex gap-3 pt-2">
             <button type="button" onclick="closeExpenseModal()" class="flex-1 py-2.5 bg-[#EBE7E0] text-[#555] rounded-xl text-sm font-medium">取消</button>
@@ -619,7 +606,6 @@
       convertHomeCurrency('krw');
     };
 
-    // 1. 地圖區域彈窗邏輯
     function openRegionSheet(regionCode) {
       const data = regionDetails[regionCode];
       if (!data) return;
@@ -632,7 +618,7 @@
 
       const highlightsContainer = document.getElementById('sheetHighlights');
       highlightsContainer.innerHTML = data.highlights.map(h => 
-        `<span class="bg-[#F4F1EA] text-[#605A52] text-[10px] px-2.5 py-1 rounded-full font-medium border border-[#E8E3DA]">${h}</span>`
+        `<span class="bg-[#F4F1EA] text-[#605A52] text-xs px-2.5 py-1 rounded-full font-medium border border-[#E8E3DA]">${h}</span>`
       ).join('');
 
       document.getElementById('regionBottomSheet').classList.remove('hidden');
@@ -642,12 +628,7 @@
       document.getElementById('regionBottomSheet').classList.add('hidden');
     }
 
-    // 2. 釜山即時氣象 (Open-Meteo API + SVG 圖示)
     async function fetchBusanWeather() {
-      const tag = document.getElementById('weatherStatusTag');
-      tag.innerText = '連線中...';
-      tag.className = 'text-[9px] bg-[#E8F0FE] text-[#3B66AD] px-2 py-0.5 rounded-full font-medium';
-
       try {
         const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.1796&longitude=129.0756&current_weather=true&hourly=apparent_temperature');
         const data = await res.json();
@@ -663,24 +644,18 @@
           const info = getWeatherInfo(code);
           document.getElementById('weatherIcon').innerHTML = info.svg;
           document.getElementById('weatherDesc').innerText = info.desc;
-
-          tag.innerText = '即時連線';
-          tag.className = 'text-[9px] bg-[#EAF5EA] text-[#2D7A32] px-2 py-0.5 rounded-full font-medium';
         }
       } catch (err) {
         document.getElementById('weatherDesc').innerText = '氣象連線稍後重試';
-        tag.innerText = '連線失敗';
-        tag.className = 'text-[9px] bg-[#FDF2F2] text-[#C86D6D] px-2 py-0.5 rounded-full font-medium';
       }
     }
 
-    // 極簡莫蘭迪風格 Weather SVG Map
     function getWeatherInfo(code) {
-      const sunSvg = `<svg class="w-7 h-7 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>`;
-      const cloudSunSvg = `<svg class="w-7 h-7 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m4.2 1.8l-1.4 1.4M20 12h-2M4 12H2m3.8-5.8L4.4 4.8M12 19a7 7 0 100-14 7 7 0 000 14z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 16.5A3.5 3.5 0 0013.5 13H11a4 4 0 100 8h5a3.5 3.5 0 000-7z"/></svg>`;
-      const cloudSvg = `<svg class="w-7 h-7 text-[#9A958D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/></svg>`;
-      const rainSvg = `<svg class="w-7 h-7 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 16.58A5 5 0 0018 7h-1.26A8 8 0 104 15.25M8 19v2m4-2v2m4-2v2"/></svg>`;
-      const snowSvg = `<svg class="w-7 h-7 text-[#A0B2C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2v20m10-10H2m15.536 6.536L4.464 4.464m15.072 0L4.464 19.536"/></svg>`;
+      const sunSvg = `<svg class="w-12 h-12 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>`;
+      const cloudSunSvg = `<svg class="w-12 h-12 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m4.2 1.8l-1.4 1.4M20 12h-2M4 12H2m3.8-5.8L4.4 4.8M12 19a7 7 0 100-14 7 7 0 000 14z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 16.5A3.5 3.5 0 0013.5 13H11a4 4 0 100 8h5a3.5 3.5 0 000-7z"/></svg>`;
+      const cloudSvg = `<svg class="w-12 h-12 text-[#9A958D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/></svg>`;
+      const rainSvg = `<svg class="w-12 h-12 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 16.58A5 5 0 0018 7h-1.26A8 8 0 104 15.25M8 19v2m4-2v2m4-2v2"/></svg>`;
+      const snowSvg = `<svg class="w-12 h-12 text-[#A0B2C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2v20m10-10H2m15.536 6.536L4.464 4.464m15.072 0L4.464 19.536"/></svg>`;
 
       if (code === 0) return { svg: sunSvg, desc: '晴朗無雲' };
       if (code >= 1 && code <= 3) return { svg: cloudSunSvg, desc: '多雲時晴' };
@@ -691,7 +666,6 @@
       return { svg: cloudSvg, desc: '陰天多雲' };
     }
 
-    // Tab 切換
     function switchTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.getElementById(`tab-${tabName}`).classList.remove('hidden');
@@ -715,7 +689,6 @@
       }
     }
 
-    // 翻頁時鐘
     function startFlipClock() {
       const targetDate = new Date('2026-12-31T18:00:00');
       function updateClock() {
@@ -733,7 +706,6 @@
       setInterval(updateClock, 1000);
     }
 
-    // 雙向匯率對照與退稅動態高亮
     function convertHomeCurrency(type) {
       const rate = 41.0;
       const krwInput = document.getElementById('homeKrwInput');
@@ -757,7 +729,6 @@
       }
     }
 
-    // 日期列
     function renderDateBars() {
       const renderBar = (elementId, clickFn) => {
         const container = document.getElementById(elementId);
@@ -765,8 +736,8 @@
           const isActive = item.fullDate === currentDate;
           return `
             <button onclick="${clickFn}('${item.fullDate}')" class="flex flex-col items-center px-3 py-1 transition-all ${isActive ? 'scale-105' : 'opacity-60'}">
-              <span class="text-[9px] font-sans font-medium text-[#7A756C]">${item.day}</span>
-              <span class="text-lg font-serif font-semibold my-0.5 ${isActive ? 'text-[#2B2927]' : 'text-[#7A756C]'}">${item.date}</span>
+              <span class="text-[11px] font-sans font-medium text-[#7A756C]">${item.day}</span>
+              <span class="text-xl font-serif font-semibold my-0.5 ${isActive ? 'text-[#2B2927]' : 'text-[#7A756C]'}">${item.date}</span>
               <span class="w-1.5 h-1.5 rounded-full ${isActive ? 'bg-[#C86D6D]' : 'bg-transparent'}"></span>
             </button>
           `;
@@ -783,7 +754,6 @@
       renderExpenses();
     }
 
-    // 行程渲染
     function renderItinerary() {
       const container = document.getElementById('itineraryContainer');
       const list = itineraryData[currentDate] || [];
@@ -791,8 +761,8 @@
       if (list.length === 0) {
         container.innerHTML = `
           <div class="text-center py-16 text-[#A09D98]">
-            <p class="text-sm font-serif mb-2">今天尚未安排行程</p>
-            <button onclick="openAddModal()" class="text-xs text-[#7D92B6] underline">點擊新增景點</button>
+            <p class="text-base font-serif mb-2">今天尚未安排行程</p>
+            <button onclick="openAddModal()" class="text-sm text-[#7D92B6] underline">點擊新增景點</button>
           </div>
         `;
         updateBottomBar(null, null);
@@ -801,20 +771,20 @@
 
       container.innerHTML = list.map((item, index) => `
         <div class="relative pl-16 pr-1 spot-card" data-index="${index}" draggable="true" ondragstart="handleDragStart(event)" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
-          <div class="absolute left-0 top-1 text-base font-serif font-semibold text-[#2B2927]">${item.time}</div>
+          <div class="absolute left-0 top-1 text-lg font-serif font-semibold text-[#2B2927]">${item.time}</div>
           ${index !== list.length - 1 ? `<div class="absolute left-[3.25rem] top-7 bottom-0 w-[1px] bg-[#E5E0D8]"></div>` : ''}
 
           <div class="bg-white rounded-xl p-4 border border-[#EFECE6] shadow-sm relative drag-zone ${item.highlight ? 'highlighted-spot' : ''}">
             <div class="flex justify-between items-start mb-1">
-              <h3 class="text-base font-serif font-bold text-[#2B2927]">${item.title}</h3>
+              <h3 class="text-lg font-serif font-bold text-[#2B2927]">${item.title}</h3>
               <div class="flex items-center space-x-1 opacity-80">
                 <button onclick="toggleHighlight('${item.id}')" class="p-1 text-[#B5B0A8]">★</button>
                 <button onclick="editSpot('${item.id}')" class="p-1 text-[#B5B0A8]">✎</button>
                 <button onclick="deleteSpot('${item.id}')" class="p-1 text-[#B5B0A8]">✕</button>
               </div>
             </div>
-            <div class="text-[10px] font-semibold text-[#8C867D] mb-1 uppercase">${item.category}</div>
-            ${item.note ? `<p class="text-xs text-[#666057] border-t border-[#F5F2EC] pt-2 mt-1">${item.note}</p>` : ''}
+            <div class="text-xs font-semibold text-[#8C867D] mb-1 uppercase">${item.category}</div>
+            ${item.note ? `<p class="text-sm text-[#666057] border-t border-[#F5F2EC] pt-2 mt-1">${item.note}</p>` : ''}
           </div>
         </div>
       `).join('');
@@ -882,7 +852,6 @@
       }
     }
 
-    // 記帳邏輯
     function filterPayer(payer) {
       currentPayerFilter = payer;
       document.querySelectorAll('.payer-filter-btn').forEach(btn => {
@@ -906,7 +875,7 @@
       let totalTwd = 0;
 
       if (rawList.length === 0) {
-        container.innerHTML = `<div class="text-center py-12 text-[#A09D98] text-xs font-serif">今日尚無記帳紀錄</div>`;
+        container.innerHTML = `<div class="text-center py-12 text-[#A09D98] text-sm font-serif">今日尚無記帳紀錄</div>`;
       } else {
         container.innerHTML = rawList.map(item => {
           totalKrw += item.krw;
@@ -915,12 +884,12 @@
           return `
             <div class="bg-white p-3.5 rounded-xl border border-[#EBE7E0] shadow-sm flex justify-between items-center">
               <div>
-                <span class="text-xs font-bold text-[#2B2927] block mb-0.5">${item.item}</span>
-                <span class="text-[9px] bg-[#F2EDE4] text-[#706B63] px-2 py-0.5 rounded-full font-medium">由 ${payerLabel} 付款</span>
+                <span class="text-sm font-bold text-[#2B2927] block mb-0.5">${item.item}</span>
+                <span class="text-xs bg-[#F2EDE4] text-[#706B63] px-2 py-0.5 rounded-full font-medium">由 ${payerLabel} 付款</span>
               </div>
               <div class="text-right">
-                <span class="text-sm font-bold text-[#2B2927] block">₩ ${item.krw.toLocaleString()}</span>
-                <span class="text-[10px] text-[#A09D98]">≈ NT$ ${item.twd.toLocaleString()}</span>
+                <span class="text-base font-bold text-[#2B2927] block">₩ ${item.krw.toLocaleString()}</span>
+                <span class="text-xs text-[#A09D98]">≈ NT$ ${item.twd.toLocaleString()}</span>
               </div>
             </div>
           `;
