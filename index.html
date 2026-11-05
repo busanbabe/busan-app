@@ -99,18 +99,17 @@
     <!-- ==================== TAB 1: 首頁 (Home) ==================== -->
     <div id="tab-home" class="tab-content">
       
-      <main class="px-5 pt-8 pb-4 space-y-5">
-        
-        <!-- 1. 頂部對齊區塊：Header 與 翻頁時鐘 Flip Clock -->
-        <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
-          
-          <!-- 標題區：Hello Busan 靠左對齊時鐘左界，Hi 2027 靠右對齊時鐘右界 -->
-          <div class="flex justify-between items-baseline px-0.5">
-            <h1 class="text-xl font-serif font-semibold text-[#2B2927]">Hello Busan</h1>
-            <span class="text-xs font-serif font-medium text-[#7F7F7F]">Hi 2027</span>
-          </div>
+      <!-- 獨立 Header： Hello Busan 與 Hi 2027 精準對齊兩端 -->
+      <header class="pt-8 px-5 pb-1 flex justify-between items-baseline">
+        <h1 class="text-xl font-serif font-semibold text-[#2B2927]">Hello Busan</h1>
+        <span class="text-xs font-serif font-medium text-[#7F7F7F]">Hi 2027</span>
+      </header>
 
-          <p class="text-xs font-serif text-[#7F7F7F] text-center pt-1">成員集合倒數 (12/31 18:00)</p>
+      <main class="px-5 py-3 space-y-5">
+        
+        <!-- 1. 頂部翻頁時鐘 Flip Clock -->
+        <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
+          <p class="text-xs font-serif text-[#7F7F7F] text-center">成員集合倒數 (12/31 18:00)</p>
           <div class="grid grid-cols-4 gap-2">
             <div class="flip-card h-20">
               <span id="clock-days" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
@@ -154,7 +153,7 @@
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 (即時連線 API) -->
+        <!-- 3. 釜山當地即時氣象卡片 (精準垂直中線對齊版) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
@@ -164,19 +163,21 @@
             <button onclick="fetchBusanWeather()" title="更新氣象" class="text-xs text-[#A09D98] hover:text-[#2B2927] transition p-1">↻</button>
           </div>
           <div class="flex items-center justify-between pt-1">
+            <!-- 左側：Weather Icon + 溫度 + 描述 (齊平居中) -->
             <div class="flex items-center gap-3">
-              <span id="weatherIcon" class="text-3xl">🌤️</span>
-              <div>
-                <div class="flex items-baseline gap-1">
+              <span id="weatherIcon" class="text-3xl leading-none flex items-center justify-center">🌤️</span>
+              <div class="flex flex-col justify-center">
+                <div class="flex items-baseline gap-1 leading-none">
                   <span id="tempDisplay" class="text-2xl font-serif font-bold text-[#2B2927]">--</span>
-                  <span class="text-xs text-[#7F7F7F]">°C</span>
+                  <span class="text-xs text-[#7F7F7F] font-serif">°C</span>
                 </div>
-                <p id="weatherDesc" class="text-[11px] text-[#7F7F7F]">正在獲取氣象資料...</p>
+                <p id="weatherDesc" class="text-[11px] text-[#7F7F7F] mt-1 leading-none">正在獲取氣象資料...</p>
               </div>
             </div>
-            <div class="text-right border-l border-[#F0ECE6] pl-4">
-              <div class="text-[10px] text-[#A09D98]">體感溫度</div>
-              <div id="apparentTempDisplay" class="text-sm font-serif font-semibold text-[#2B2927] mt-0.5">-- °C</div>
+            <!-- 右側：體感溫度 -->
+            <div class="text-right border-l border-[#F0ECE6] pl-4 flex flex-col justify-center">
+              <div class="text-[10px] text-[#A09D98] leading-none mb-1">體感溫度</div>
+              <div id="apparentTempDisplay" class="text-sm font-serif font-semibold text-[#2B2927] leading-none">-- °C</div>
             </div>
           </div>
         </div>
