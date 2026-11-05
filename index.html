@@ -165,7 +165,7 @@
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 (已修正標題垂直對齊與上方一致) -->
+        <!-- 3. 釜山當地即時氣象卡片 -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
@@ -233,6 +233,24 @@
       <main class="px-5 py-4">
         <div id="itineraryContainer" class="relative space-y-6"></div>
       </main>
+
+      <!-- 懸浮置中純加號 (＋) 按鈕 (無圓底框、z-40 高層級確保不被清單壓住) -->
+      <button
+        type="button"
+        onclick="openAddModal()"
+        aria-label="新增行程"
+        class="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 flex items-center justify-center p-2 text-[#b89b9d] hover:text-[#9e7d80] active:scale-90 transition-all duration-200 cursor-pointer select-none"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-10 h-10 stroke-current"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </button>
     </div>
 
     <!-- ==================== TAB 3: 旅遊帳本 (Expense) ==================== -->
@@ -312,28 +330,6 @@
     <!-- ==================== 底部懸浮膠囊導覽列 ==================== -->
     <div class="fixed bottom-6 left-0 right-0 w-full max-w-md mx-auto z-20 pointer-events-none px-6">
       
-      <div id="previewBar" class="mb-3 pointer-events-auto hidden">
-        <div class="bg-white/90 backdrop-blur-md border border-[#EBE6DF] rounded-2xl p-3 shadow-lg flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-[#F5EBE6] flex flex-col items-center justify-center text-[10px] text-[#A0887E]">
-              <span class="leading-none font-bold">GPS</span>
-              <span class="text-[8px] leading-none">OFF</span>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <span id="previewTime" class="font-serif font-bold text-lg text-[#2B2927]">13:45</span>
-                <span class="text-xs bg-[#F2EDE4] text-[#706B63] px-1.5 py-0.5 rounded">行程預覽</span>
-              </div>
-              <p id="previewTitle" class="text-xs font-serif text-[#4A4640] truncate max-w-[180px]">甘川洞文化村</p>
-            </div>
-          </div>
-          <div class="text-right border-l border-[#EBE6DF] pl-4">
-            <span class="text-xs text-[#A8A299] block">下個時間</span>
-            <span id="nextTime" class="font-serif font-bold text-base text-[#2B2927]">15:00</span>
-          </div>
-        </div>
-      </div>
-
       <nav class="bg-white/95 backdrop-blur-lg border border-[#EBE7E0] rounded-full px-8 py-2.5 flex justify-between items-center pointer-events-auto shadow-lg">
         <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-[#7D92B6] font-semibold">
           <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
@@ -422,6 +418,7 @@
       </div>
     </div>
 
+    <!-- 新增行程彈出視窗 (z-50 高於加號按鈕，開啟時完美覆蓋) -->
     <div id="addModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-end hidden">
       <div class="bg-white w-full max-w-md rounded-t-3xl p-6 shadow-2xl space-y-4">
         <div class="flex justify-between items-center border-b border-[#EBE7E0] pb-3">
@@ -673,13 +670,6 @@
           }
         }
       });
-
-      const previewBar = document.getElementById('previewBar');
-      if (tabName === 'itinerary') {
-        previewBar.classList.remove('hidden');
-      } else {
-        previewBar.classList.add('hidden');
-      }
     }
 
     function startFlipClock() {
@@ -760,7 +750,6 @@
             <button onclick="openAddModal()" class="text-sm text-[#7D92B6] underline">點擊新增景點</button>
           </div>
         `;
-        updateBottomBar(null, null);
         return;
       }
 
@@ -783,8 +772,6 @@
           </div>
         </div>
       `).join('');
-
-      updateBottomBar(list[0], list[1]);
     }
 
     function toggleHighlight(id) {
@@ -825,12 +812,6 @@
       itineraryData[currentDate].sort((a, b) => a.time.localeCompare(b.time));
       closeAddModal();
       renderItinerary();
-    }
-
-    function updateBottomBar(c, n) {
-      document.getElementById('previewTime').innerText = c ? c.time : '--:--';
-      document.getElementById('previewTitle').innerText = c ? c.title : '無行程';
-      document.getElementById('nextTime').innerText = n ? n.time : '--:--';
     }
 
     let draggedIdx = null;
