@@ -99,15 +99,15 @@
     <!-- ==================== TAB 1: 首頁 (Home) ==================== -->
     <div id="tab-home" class="tab-content">
       
-      <!-- 頂部 Header：等比放大3級，H 靠左精準齊平下層小標圖示左緣，7 靠右精準齊平卡片內邊界 -->
-      <header class="pt-8 px-5 pb-2 flex justify-between items-baseline">
+      <!-- 頂部 Header：精準對齊內部小卡片（倒數時鐘第一格最左邊與最右邊緣） -->
+      <header class="pt-8 px-9 pb-2 flex justify-between items-baseline">
         <h1 class="text-3xl font-serif font-semibold text-[#2B2927] tracking-tight">Hello Busan</h1>
         <span class="text-3xl font-serif font-semibold text-[#2B2927] tracking-tight">Hi 2027</span>
       </header>
 
       <main class="px-5 py-3 space-y-5">
         
-        <!-- 1. 頂部翻頁時鐘 Flip Clock (維持小標與平面愛心圖示) -->
+        <!-- 1. 頂部翻頁時鐘 Flip Clock (成員集合倒數) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
           <div class="flex items-center gap-1.5">
             <!-- Illustrator 平面純色愛心 -->
@@ -134,7 +134,7 @@
           </div>
         </div>
 
-        <!-- 2. 即時匯率換算與動態退稅提醒 (加入小標四角星芒圖示，文字整體放大) -->
+        <!-- 2. 即時匯率換算與動態退稅提醒 -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
           <div class="flex justify-between items-center">
             <div class="flex items-center gap-1.5">
@@ -161,27 +161,27 @@
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 (極簡幾何圖示，移除綠色標籤，刷新放大，SVG高度全涵蓋，右側齊平「象」字) -->
+        <!-- 3. 釜山當地即時氣象卡片 (彩色趣味天氣圖示，恢復標準左右三欄結構，圖示下對齊文字) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
-              <!-- 平面極簡幾何圖示 -->
               <svg class="w-4 h-4 text-[#7D92B6] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
               <span class="text-sm font-serif font-bold text-[#2B2927]">釜山當地即時氣象</span>
             </div>
-            <!-- 右上角↻旋轉圖示放大 -->
             <button onclick="fetchBusanWeather()" title="更新氣象" class="text-base text-[#A09D98] hover:text-[#2B2927] transition p-1">↻</button>
           </div>
           
           <div class="flex items-center justify-between pt-1">
-            <!-- 左側：SVG 天氣圖示高度全面涵蓋上下範圍 -->
-            <div id="weatherIcon" class="w-14 h-14 flex items-center justify-center text-[#7D92B6] shrink-0">
-              <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <!-- 左側：彩色生動天氣圖示（大小 85%，底部對齊晴朗無雲） -->
+            <div class="flex items-end h-12 pb-0.5">
+              <div id="weatherIcon" class="flex items-center justify-center transform scale-[0.85] origin-bottom-left">
+                <span class="text-3xl">☀️</span>
+              </div>
             </div>
 
-            <!-- 中間：溫度與描述（右移對齊上方標題「象」字右緣） -->
-            <div class="flex flex-col justify-center text-right pr-2">
-              <div class="flex items-baseline justify-end gap-1 leading-none">
+            <!-- 中間：溫度與描述（恢復標準位置） -->
+            <div class="flex flex-col justify-center text-center">
+              <div class="flex items-baseline justify-center gap-1 leading-none">
                 <span id="tempDisplay" class="text-3xl font-serif font-bold text-[#2B2927]">--</span>
                 <span class="text-sm text-[#7F7F7F] font-serif">°C</span>
               </div>
@@ -196,7 +196,7 @@
           </div>
         </div>
 
-        <!-- 4. 探索釜山 A~F 區互動地圖 (加入小標幾何圖示) -->
+        <!-- 4. 探索釜山 A~F 區互動地圖 -->
         <div class="bg-white rounded-2xl p-3 border border-[#EBE7E0] shadow-sm space-y-2">
           <div class="flex justify-between items-center px-1">
             <div class="flex items-center gap-1.5">
@@ -206,12 +206,8 @@
             <span class="text-xs text-[#A09D98]">點擊地圖上的 Icon 檢視介紹</span>
           </div>
 
-          <!-- 地圖容器 (相對定位) -->
           <div class="relative w-full rounded-xl overflow-hidden shadow-inner border border-[#F0ECE6]">
-            <!-- 原始圖片底圖：對應 map.PNG -->
             <img src="map.PNG" alt="釜山旅遊地圖" class="w-full h-auto block object-cover">
-
-            <!-- A~F 熱點 -->
             <button onclick="openRegionSheet('A')" class="absolute top-[68%] left-[7%] w-[38%] h-[26%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="A區：松島 · 影島"></button>
             <button onclick="openRegionSheet('B')" class="absolute top-[42%] left-[10%] w-[26%] h-[24%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="B區：市集 · 市場"></button>
             <button onclick="openRegionSheet('C')" class="absolute top-[21%] left-[23%] w-[26%] h-[23%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="C區：西面 · 田浦"></button>
@@ -642,7 +638,7 @@
           document.getElementById('apparentTempDisplay').innerText = `${apparentTemp} °C`;
           
           const info = getWeatherInfo(code);
-          document.getElementById('weatherIcon').innerHTML = info.svg;
+          document.getElementById('weatherIcon').innerHTML = info.emoji;
           document.getElementById('weatherDesc').innerText = info.desc;
         }
       } catch (err) {
@@ -651,19 +647,13 @@
     }
 
     function getWeatherInfo(code) {
-      const sunSvg = `<svg class="w-12 h-12 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>`;
-      const cloudSunSvg = `<svg class="w-12 h-12 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m4.2 1.8l-1.4 1.4M20 12h-2M4 12H2m3.8-5.8L4.4 4.8M12 19a7 7 0 100-14 7 7 0 000 14z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 16.5A3.5 3.5 0 0013.5 13H11a4 4 0 100 8h5a3.5 3.5 0 000-7z"/></svg>`;
-      const cloudSvg = `<svg class="w-12 h-12 text-[#9A958D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/></svg>`;
-      const rainSvg = `<svg class="w-12 h-12 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 16.58A5 5 0 0018 7h-1.26A8 8 0 104 15.25M8 19v2m4-2v2m4-2v2"/></svg>`;
-      const snowSvg = `<svg class="w-12 h-12 text-[#A0B2C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2v20m10-10H2m15.536 6.536L4.464 4.464m15.072 0L4.464 19.536"/></svg>`;
-
-      if (code === 0) return { svg: sunSvg, desc: '晴朗無雲' };
-      if (code >= 1 && code <= 3) return { svg: cloudSunSvg, desc: '多雲時晴' };
-      if (code >= 45 && code <= 48) return { svg: cloudSvg, desc: '濃霧繚繞' };
-      if (code >= 51 && code <= 67) return { svg: rainSvg, desc: '局部降雨' };
-      if (code >= 71 && code <= 77) return { svg: snowSvg, desc: '降雪天氣' };
-      if (code >= 80 && code <= 82) return { svg: rainSvg, desc: '陣雨降臨' };
-      return { svg: cloudSvg, desc: '陰天多雲' };
+      if (code === 0) return { emoji: '<span class="text-3xl">☀️</span>', desc: '晴朗無雲' };
+      if (code >= 1 && code <= 3) return { emoji: '<span class="text-3xl">⛅</span>', desc: '多雲時晴' };
+      if (code >= 45 && code <= 48) return { emoji: '<span class="text-3xl">🌫️</span>', desc: '濃霧繚繞' };
+      if (code >= 51 && code <= 67) return { emoji: '<span class="text-3xl">🌧️</span>', desc: '局部降雨' };
+      if (code >= 71 && code <= 77) return { emoji: '<span class="text-3xl">❄️</span>', desc: '降雪天氣' };
+      if (code >= 80 && code <= 82) return { emoji: '<span class="text-3xl">🌦️</span>', desc: '陣雨降臨' };
+      return { emoji: '<span class="text-3xl">☁️</span>', desc: '陰天多雲' };
     }
 
     function switchTab(tabName) {
