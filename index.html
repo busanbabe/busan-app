@@ -133,7 +133,7 @@
           </div>
         </div>
 
-        <!-- 2. 即時匯率換算與動態退稅提醒 -->
+        <!-- 2. 即時匯率換算與動態退稅提醒 (已左右對調並預設為 0) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
           <div class="flex justify-between items-center">
             <div class="flex items-center gap-1.5">
@@ -144,22 +144,22 @@
           </div>
           <div class="flex items-center gap-2">
             <div class="flex-1 bg-[#F8F6F2] rounded-xl px-3 py-2 border border-[#EBE7E0]">
-              <span class="text-[11px] text-[#A09D98] block">韓元 (KRW)</span>
-              <input type="number" id="homeKrwInput" oninput="convertHomeCurrency('krw')" value="50000" class="w-full bg-transparent text-base font-bold focus:outline-none text-[#2B2927]">
+              <span class="text-[11px] text-[#A09D98] block">台幣 (TWD)</span>
+              <input type="number" id="homeTwdInput" oninput="convertHomeCurrency('twd')" value="0" class="w-full bg-transparent text-base font-bold focus:outline-none text-[#2B2927]">
             </div>
             <span class="text-sm text-[#A09D98]">⇌</span>
             <div class="flex-1 bg-[#F8F6F2] rounded-xl px-3 py-2 border border-[#EBE7E0]">
-              <span class="text-[11px] text-[#A09D98] block">台幣 (TWD)</span>
-              <input type="number" id="homeTwdInput" oninput="convertHomeCurrency('twd')" value="1220" class="w-full bg-transparent text-base font-bold focus:outline-none text-[#2B2927]">
+              <span class="text-[11px] text-[#A09D98] block">韓元 (KRW)</span>
+              <input type="number" id="homeKrwInput" oninput="convertHomeCurrency('krw')" value="0" class="w-full bg-transparent text-base font-bold focus:outline-none text-[#2B2927]">
             </div>
           </div>
           <div class="bg-[#FAF6F0] p-2.5 rounded-xl border border-[#EFE7DC] text-xs text-[#706B63] flex justify-between items-center">
             <span>₩15,000 達退稅門檻</span>
-            <span id="taxRefundStatus" class="font-bold text-[#7F7F7F] transition-colors duration-300">可申請退稅</span>
+            <span id="taxRefundStatus" class="font-bold text-[#7F7F7F] transition-colors duration-300">未達退稅門檻</span>
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 (採用簡潔大方 SVG 天氣圖示) -->
+        <!-- 3. 釜山當地即時氣象卡片 (已更換為無圓圈外框的簡約 SVG 圖標) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
@@ -352,27 +352,22 @@
     </div>
 
     <!-- ==================== MODALS ==================== -->
-    <!-- 地區介紹彈窗：往上拉高、底部預留呼吸空間、大標副標下方加極細分隔線 -->
     <div id="regionBottomSheet" class="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none hidden">
       <div class="flex-1 bg-black/30 pointer-events-auto backdrop-blur-xs" onclick="closeRegionSheet()"></div>
       <div class="w-full max-w-md bg-white rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto transition-transform duration-300 transform translate-y-0 relative border-t border-[#EBE7E0] pb-12">
         <button onclick="closeRegionSheet()" class="absolute top-3 right-4 z-20 text-[#A09D98] hover:text-[#2B2927] text-xl font-light p-1 focus:outline-none">✕</button>
         
-        <!-- 圖片在上、文字在下（絕對不壓圖） -->
         <div class="h-44 bg-cover bg-center relative" id="sheetImage">
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
           <span id="sheetBadge" class="absolute top-3 left-4 bg-white/90 backdrop-blur-md text-[#2B2927] text-xs font-bold px-2.5 py-0.5 rounded-full shadow-sm">-- 區</span>
         </div>
 
-        <!-- 標題與副標區塊 -->
         <div class="px-5 pt-4 pb-2">
           <h3 id="sheetTitle" class="text-2xl font-serif font-bold text-[#2B2927]">--</h3>
           <p id="sheetSubtitle" class="text-sm text-[#7F7F7F] mt-0.5">--</p>
-          <!-- 加在大標／副標下方與內文之間的極細線 -->
           <div class="w-full h-[1px] bg-[#EBE7E0] mt-3"></div>
         </div>
 
-        <!-- 詳細內文與亮點（下方保留約2公分舒適呼吸空間） -->
         <div class="px-5 space-y-3 max-h-[52vh] overflow-y-auto">
           <p id="sheetDesc" class="text-sm text-[#555] leading-relaxed font-sans pt-1">--</p>
           <div class="pt-2">
@@ -601,7 +596,7 @@
       renderItinerary();
       renderExpenses();
       updateAttractionOptions();
-      convertHomeCurrency('krw');
+      convertHomeCurrency('twd');
     };
 
     function openRegionSheet(regionCode) {
@@ -701,23 +696,25 @@
 
     function convertHomeCurrency(type) {
       const rate = 41.0;
-      const krwInput = document.getElementById('homeKrwInput');
       const twdInput = document.getElementById('homeTwdInput');
+      const krwInput = document.getElementById('homeKrwInput');
       const taxStatus = document.getElementById('taxRefundStatus');
 
       let krwVal = 0;
-      if (type === 'krw') {
-        krwVal = parseFloat(krwInput.value) || 0;
-        twdInput.value = Math.round(krwVal / rate);
-      } else {
+      if (type === 'twd') {
         const twdVal = parseFloat(twdInput.value) || 0;
         krwVal = Math.round(twdVal * rate);
         krwInput.value = krwVal;
+      } else {
+        krwVal = parseFloat(krwInput.value) || 0;
+        twdInput.value = Math.round(krwVal / rate);
       }
 
       if (krwVal >= 15000) {
+        taxStatus.innerText = '可申請退稅';
         taxStatus.className = 'font-bold text-[#E5989B] transition-colors duration-300';
       } else {
+        taxStatus.innerText = '未達退稅門檻';
         taxStatus.className = 'font-bold text-[#7F7F7F] transition-colors duration-300';
       }
     }
