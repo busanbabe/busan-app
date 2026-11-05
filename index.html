@@ -99,17 +99,17 @@
     <!-- ==================== TAB 1: 首頁 (Home) ==================== -->
     <div id="tab-home" class="tab-content">
       
-      <!-- 獨立 Header： Hello Busan 與 Hi 2027 精準對齊兩端 -->
+      <!-- 獨立 Header： Hello Busan 與 Hi 2027 字型、大小、顏色完全相同 -->
       <header class="pt-8 px-5 pb-1 flex justify-between items-baseline">
         <h1 class="text-xl font-serif font-semibold text-[#2B2927]">Hello Busan</h1>
-        <span class="text-xs font-serif font-medium text-[#7F7F7F]">Hi 2027</span>
+        <span class="text-xl font-serif font-semibold text-[#2B2927]">Hi 2027</span>
       </header>
 
       <main class="px-5 py-3 space-y-5">
         
-        <!-- 1. 頂部翻頁時鐘 Flip Clock -->
+        <!-- 1. 頂部翻頁時鐘 Flip Clock (靠左標題，刪除時間備註) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
-          <p class="text-xs font-serif text-[#7F7F7F] text-center">成員集合倒數 (12/31 18:00)</p>
+          <p class="text-xs font-serif font-bold text-[#2B2927] text-left">成員集合倒數</p>
           <div class="grid grid-cols-4 gap-2">
             <div class="flip-card h-20">
               <span id="clock-days" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
@@ -153,7 +153,7 @@
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 (精準垂直中線對齊版) -->
+        <!-- 3. 釜山當地即時氣象卡片 (極簡 SVG Icon 精準對齊版) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
@@ -163,9 +163,12 @@
             <button onclick="fetchBusanWeather()" title="更新氣象" class="text-xs text-[#A09D98] hover:text-[#2B2927] transition p-1">↻</button>
           </div>
           <div class="flex items-center justify-between pt-1">
-            <!-- 左側：Weather Icon + 溫度 + 描述 (齊平居中) -->
+            <!-- 左側：SVG Weather Icon + 溫度 + 描述 (嚴謹水平中線對齊) -->
             <div class="flex items-center gap-3">
-              <span id="weatherIcon" class="text-3xl leading-none flex items-center justify-center">🌤️</span>
+              <div id="weatherIcon" class="w-8 h-8 flex items-center justify-center text-[#7D92B6]">
+                <!-- 預設氣象 SVG -->
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              </div>
               <div class="flex flex-col justify-center">
                 <div class="flex items-baseline gap-1 leading-none">
                   <span id="tempDisplay" class="text-2xl font-serif font-bold text-[#2B2927]">--</span>
@@ -340,7 +343,7 @@
         </div>
       </div>
 
-      <!-- 四大 Nav 按鈕懸浮膠囊 (縮邊避開邊角，整體上移 25%) -->
+      <!-- 四大 Nav 按鈕懸浮膠囊 -->
       <nav class="bg-white/95 backdrop-blur-lg border border-[#EBE7E0] rounded-full px-6 py-2.5 flex justify-between items-center pointer-events-auto shadow-lg">
         <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-[#7D92B6] font-semibold">
           <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
@@ -367,40 +370,25 @@
 
     <!-- ==================== MODAL 0: 地圖區域介紹底部彈窗 (Bottom Sheet) ==================== -->
     <div id="regionBottomSheet" class="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none hidden">
-      <!-- 點擊遮罩空白處可關閉彈窗 -->
       <div class="flex-1 bg-black/30 pointer-events-auto backdrop-blur-xs" onclick="closeRegionSheet()"></div>
-      
-      <!-- 彈窗主體卡片 -->
       <div class="w-full max-w-md bg-white rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto transition-transform duration-300 transform translate-y-0 relative border-t border-[#EBE7E0]">
         
-        <!-- 右上角極簡關閉按鈕：純灰色叉叉 (無底圖、無背景) -->
-        <button onclick="closeRegionSheet()" class="absolute top-3 right-4 z-20 text-[#A09D98] hover:text-[#2B2927] text-xl font-light p-1 focus:outline-none">
-          ✕
-        </button>
+        <button onclick="closeRegionSheet()" class="absolute top-3 right-4 z-20 text-[#A09D98] hover:text-[#2B2927] text-xl font-light p-1 focus:outline-none">✕</button>
 
-        <!-- 上半部：區域高質感精選大圖 -->
         <div class="h-44 bg-cover bg-center relative" id="sheetImage">
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
-          <span id="sheetBadge" class="absolute top-3 left-4 bg-white/90 backdrop-blur-md text-[#2B2927] text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
-            -- 區
-          </span>
+          <span id="sheetBadge" class="absolute top-3 left-4 bg-white/90 backdrop-blur-md text-[#2B2927] text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">-- 區</span>
           <div class="absolute bottom-3 left-4 right-4 text-white">
             <h3 id="sheetTitle" class="text-xl font-serif font-bold">--</h3>
             <p id="sheetSubtitle" class="text-xs text-gray-200 mt-0.5">--</p>
           </div>
         </div>
 
-        <!-- 下半部：生動區域故事介紹與精選亮點 -->
         <div class="p-5 space-y-3 max-h-[55vh] overflow-y-auto">
-          <p id="sheetDesc" class="text-xs text-[#555] leading-relaxed font-sans">
-            --
-          </p>
-          
+          <p id="sheetDesc" class="text-xs text-[#555] leading-relaxed font-sans">--</p>
           <div class="pt-2 border-t border-[#F5F2EC]">
             <span class="text-[10px] text-[#A09D98] font-serif font-bold block mb-2">精選必訪亮點</span>
-            <div id="sheetHighlights" class="flex flex-wrap gap-1.5">
-              <!-- JS 動態帶入亮點標籤 -->
-            </div>
+            <div id="sheetHighlights" class="flex flex-wrap gap-1.5"></div>
           </div>
         </div>
 
@@ -544,52 +532,39 @@
 
   <!-- JavaScript 邏輯 -->
   <script>
-    // A 到 F 區域詳細介紹資料庫 (彈窗內容 + 精選圖片)
     const regionDetails = {
       A: {
-        badge: 'A 區',
-        title: '松島 · 影島',
-        subtitle: '漫步海岸天空步道與懸崖壁畫巷弄',
+        badge: 'A 區', title: '松島 · 影島', subtitle: '漫步海岸天空步道與懸崖壁畫巷弄',
         img: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80',
         desc: '連結影島大橋與松島海灘！這裡擁有橫跨海面蔚藍極景的松島跨海纜車，以及號稱釜山聖托里尼的白淺灘文化村。沿著海岸懸崖木棧道漫步，隨處都能發現充滿質感的無敵海景韓系咖啡廳。',
         highlights: ['松島海上纜車', '白淺灘文化村', '太宗台地質公園', '影島大橋開橋']
       },
       B: {
-        badge: 'B 區',
-        title: '市集 · 市場',
-        subtitle: '體驗熱氣騰騰的傳統韓式美食與人情味',
+        badge: 'B 區', title: '市集 · 市場', subtitle: '體驗熱氣騰騰的傳統韓式美食與人情味',
         img: 'https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?auto=format&fit=crop&w=800&q=80',
         desc: '釜山活力最奔放的核心靈魂地帶！札嘎其海鮮市場現剖海味、富平罐頭市場熱騰騰的魚板湯與香甜堅果黑糖餅，再順道去龍頭山公園俯瞰整個釜山港灣景色。',
         highlights: ['札嘎其海鮮市場', 'BIFF 廣場黑糖餅', '富平罐頭夜市', '國際市場選物']
       },
       C: {
-        badge: 'C 區',
-        title: '西面 · 田浦',
-        subtitle: '潮流購物商圈與文青咖啡小館交匯地',
+        badge: 'C 區', title: '西面 · 田浦', subtitle: '潮流購物商圈與文青咖啡小館交匯地',
         img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
         desc: '釜山時尚潮流的最前線！田浦咖啡街隱藏著無數由舊工廠改造的風格獨立咖啡館、手作選物雜貨店與文創小店。西面地下街更是好逛好買的購物天堂。',
         highlights: ['田浦咖啡街', '西面地下商圈', '樂天百貨西面店', '釜山市民公園']
       },
       D: {
-        badge: 'D 區',
-        title: '廣安里',
-        subtitle: '璀璨廣安大橋夜景與愜意沙灘酒吧',
+        badge: 'D 區', title: '廣安里', subtitle: '璀璨廣安大橋夜景與愜意沙灘酒吧',
         img: 'https://images.unsplash.com/photo-1538485199708-0f51451c5313?auto=format&fit=crop&w=800&q=80',
         desc: '釜山浪漫夜景的代表作！夜幕低垂時廣安大橋綻放五彩燈光，坐在沙灘邊喝啤酒聽浪濤聲，或是走進臨海酒吧與海景餐廳，享受無可比擬的都會海濱氛圍。',
         highlights: ['廣安大橋燈光秀', '廣安里海水浴場', 'Millak 水邊公園', '海景酒吧咖啡館']
       },
       E: {
-        badge: 'E 區',
-        title: '海雲台',
-        subtitle: '經典度假勝地與壯麗海天一色景象',
+        badge: 'E 區', title: '海雲台', subtitle: '經典度假勝地與壯麗海天一色景象',
         img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
         desc: '釜山名氣響亮的國際級度假海灘！擁有廣闊的金黃色沙灘、頂級飯店群以及著名的 The Bay 101 高樓夜景倒影打卡點，也是放鬆渡假的不二首選。',
         highlights: ['海雲台海水浴場', 'BUSAN X the SKY', 'The Bay 101 夜景', 'Grand Josun 飯店']
       },
       F: {
-        badge: 'F 區',
-        title: '天空膠囊列車 & 海岸列車',
-        subtitle: '沿著東海岸行駛的可愛繽紛復古列車',
+        badge: 'F 區', title: '天空膠囊列車 & 海岸列車', subtitle: '沿著東海岸行駛的可愛繽紛復古列車',
         img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80',
         desc: '釜山爆紅熱門地標！行駛於尾浦至青沙浦天空軌道上的馬卡龍色彩膠囊列車，搭乘時可飽覽蔚藍蔚洋與海岸松林，青沙浦的灌籃高手同款平交道也是絕美打卡點。',
         highlights: ['藍線公園膠囊列車', '青沙浦天空步道', '海東龍宮寺', '機張斜坡滑車 Luge']
@@ -605,7 +580,6 @@
       F: ['海雲台藍線公園膠囊列車', '機張斜坡滑車 Luge', '樂天世界冒險樂園', '海東龍宮寺']
     };
 
-    // 5 天 4 夜日期標籤
     const tripDates = [
       { day: 'MON', date: '29', fullDate: '2026-12-29' },
       { day: 'TUE', date: '30', fullDate: '2026-12-30' },
@@ -668,7 +642,7 @@
       document.getElementById('regionBottomSheet').classList.add('hidden');
     }
 
-    // 2. 釜山即時氣象 (Open-Meteo API)
+    // 2. 釜山即時氣象 (Open-Meteo API + SVG 圖示)
     async function fetchBusanWeather() {
       const tag = document.getElementById('weatherStatusTag');
       tag.innerText = '連線中...';
@@ -687,7 +661,7 @@
           document.getElementById('apparentTempDisplay').innerText = `${apparentTemp} °C`;
           
           const info = getWeatherInfo(code);
-          document.getElementById('weatherIcon').innerText = info.icon;
+          document.getElementById('weatherIcon').innerHTML = info.svg;
           document.getElementById('weatherDesc').innerText = info.desc;
 
           tag.innerText = '即時連線';
@@ -700,14 +674,21 @@
       }
     }
 
+    // 極簡莫蘭迪風格 Weather SVG Map
     function getWeatherInfo(code) {
-      if (code === 0) return { icon: '☀️', desc: '晴朗無雲' };
-      if (code >= 1 && code <= 3) return { icon: '🌤️', desc: '多雲時晴' };
-      if (code >= 45 && code <= 48) return { icon: '🌫️', desc: '濃霧繚繞' };
-      if (code >= 51 && code <= 67) return { icon: '🌧️', desc: '局部降雨' };
-      if (code >= 71 && code <= 77) return { icon: '❄️', desc: '降雪天氣' };
-      if (code >= 80 && code <= 82) return { icon: '🌦️', desc: '陣雨降臨' };
-      return { icon: '🌥️', desc: '陰天多雲' };
+      const sunSvg = `<svg class="w-7 h-7 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>`;
+      const cloudSunSvg = `<svg class="w-7 h-7 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2m4.2 1.8l-1.4 1.4M20 12h-2M4 12H2m3.8-5.8L4.4 4.8M12 19a7 7 0 100-14 7 7 0 000 14z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 16.5A3.5 3.5 0 0013.5 13H11a4 4 0 100 8h5a3.5 3.5 0 000-7z"/></svg>`;
+      const cloudSvg = `<svg class="w-7 h-7 text-[#9A958D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/></svg>`;
+      const rainSvg = `<svg class="w-7 h-7 text-[#7D92B6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 16.58A5 5 0 0018 7h-1.26A8 8 0 104 15.25M8 19v2m4-2v2m4-2v2"/></svg>`;
+      const snowSvg = `<svg class="w-7 h-7 text-[#A0B2C6]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 2v20m10-10H2m15.536 6.536L4.464 4.464m15.072 0L4.464 19.536"/></svg>`;
+
+      if (code === 0) return { svg: sunSvg, desc: '晴朗無雲' };
+      if (code >= 1 && code <= 3) return { svg: cloudSunSvg, desc: '多雲時晴' };
+      if (code >= 45 && code <= 48) return { svg: cloudSvg, desc: '濃霧繚繞' };
+      if (code >= 51 && code <= 67) return { svg: rainSvg, desc: '局部降雨' };
+      if (code >= 71 && code <= 77) return { svg: snowSvg, desc: '降雪天氣' };
+      if (code >= 80 && code <= 82) return { svg: rainSvg, desc: '陣雨降臨' };
+      return { svg: cloudSvg, desc: '陰天多雲' };
     }
 
     // Tab 切換
@@ -769,7 +750,6 @@
         krwInput.value = krwVal;
       }
 
-      // 動態判定退稅門檻（滿 ₩15,000 亮起莫蘭迪柔粉紅）
       if (krwVal >= 15000) {
         taxStatus.className = 'font-bold text-[#E5989B] transition-colors duration-300';
       } else {
@@ -972,7 +952,6 @@
       renderExpenses();
     }
 
-    // 成員動態彈出卡片 Modal 邏輯
     function openMemberStackModal() {
       document.getElementById('memberStackModal').classList.remove('hidden');
     }
