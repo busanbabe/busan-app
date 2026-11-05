@@ -1,44 +1,34 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Hello Busan | Hi 2027</title>
-  
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Hello Busan">
-  <link rel="apple-touch-icon" href="cover.PNG">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello Busan - 釜山安妞行程導覽</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Google Fonts & FontAwesome -->
+  <!-- Google Fonts: Noto Serif TC & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            cream: '#FAF6C8',
-            'cream-card': '#FFFFFF',
-            'warm-bg': '#F7DFDF',
-            'warm-dark': '#5C4E4E',
-            'warm-muted': '#8C7C7C',
-            'warm-border': '#BBB7E5',
-            'gold-highlight': '#EFBDBD',
-
-            'color-a': '#BBB7E5',
-            'color-b': '#F7DFDF',
-            'color-c': '#DAE9FA',
-            'color-d': '#EFBDBD',
-            'color-e': '#B6C687',
-            'color-f': '#FAF6C8',
+            appBg: '#FAF8F5',
+            textMain: '#262626',
+            textSub: '#7F7F7F',
+            accentBlue: '#7D92B6',
+            pinkPastel: '#F9DCDC',
+            purplePastel: '#E3D7F3',
+            bluePastel: '#CBD3ED',
+            greenPastel: '#D6EADF',
+            yellowPastel: '#FCE7C5',
+          },
+          fontFamily: {
+            serif: ['Noto Serif TC', 'serif'],
+            sans: ['Inter', 'sans-serif'],
           }
         }
       }
@@ -46,1174 +36,931 @@
   </script>
 
   <style>
-    :root {
-      --color-lavender: #BBB7E5;
-      --color-light-rose: #F7DFDF;
-      --color-snow: #DAE9FA;
-      --color-baby-pink: #EFBDBD;
-      --color-pistachio: #B6C687;
-      --color-pale-yellow: #FAF6C8;
-      --color-pink: #F98BA9;
-
-      --bg-color: #FAF9F6;
-      --text-main: #5C4E4E;
-      --text-sub: #8C7C7C;
-      --border-color: #EFECE6;
-
-      --color-cat-a: #BBB7E5;
-      --color-cat-b: #F7DFDF;
-      --color-cat-c: #DAE9FA;
-      --color-cat-d: #EFBDBD;
-      --color-cat-e: #B6C687;
-      --color-cat-f: #FAF6C8;
-
-      --expense-theme: #BBB7E5;
-      --expense-btn-color: #B6C687;
-
-      --flip-bg: #F7DFDF;
-      --flip-stripe: rgba(255, 255, 255, 0.35);
-      --flip-text: #5C4E4E;
-      --flip-subtext: #7D6E6E;
-
-      --nav-height: calc(52px + env(safe-area-inset-bottom));
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    body {
+      background-color: #F3F0EB;
+      color: #262626;
+      font-family: 'Inter', 'Noto Serif TC', sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
-    body {
-      background-color: var(--bg-color);
-      background-image: 
-        radial-gradient(circle at 15% 10%, rgba(187, 183, 229, 0.18) 0%, transparent 45%),
-        radial-gradient(circle at 85% 25%, rgba(247, 223, 223, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 50% 70%, rgba(250, 246, 200, 0.25) 0%, transparent 60%),
-        radial-gradient(circle at 90% 90%, rgba(239, 189, 189, 0.18) 0%, transparent 50%);
-      background-attachment: fixed;
-      color: var(--text-main);
-      padding-bottom: calc(65px + env(safe-area-inset-bottom));
-      padding-top: env(safe-area-inset-top);
-      letter-spacing: 0.3px;
-      user-select: none;
-      -webkit-user-select: none;
-      overflow-x: hidden;
-    }
-
-    input, textarea, select {
-      user-select: text !important;
-      -webkit-user-select: text !important;
-    }
-
-    .app-page {
+    .no-scrollbar::-webkit-scrollbar {
       display: none;
-      width: 100vw;
-      min-height: 100vh;
     }
-    .app-page.active-page {
-      display: block;
-    }
-
-    /* 頂部 Header */
-    header {
-      background: transparent;
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 24px 16px 8px 34px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
 
-    .header-title-text {
-      font-family: 'Noto Serif', serif;
-      font-size: clamp(24px, 6vw, 32px);
-      font-weight: 700;
-      color: var(--color-pink);
+    /* 劃線高亮 Highlight */
+    .highlighted-spot {
+      background: linear-gradient(120deg, rgba(249, 220, 220, 0.7) 0%, rgba(227, 215, 243, 0.7) 100%);
+      border-left: 4px solid #E5989B !important;
     }
 
-    .new-year-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      user-select: none;
-    }
-
-    .sparkle-icon {
-      font-size: clamp(24px, 6vw, 32px);
-      cursor: pointer;
-      display: inline-block;
-      line-height: 1;
-      animation: breathePulse 1.2s infinite ease-in-out;
-      transition: transform 0.1s ease;
-    }
-    .sparkle-icon:active { transform: scale(0.75); }
-
-    @keyframes breathePulse {
-      0%, 100% { opacity: 0.3; transform: scale(0.9) rotate(0deg); }
-      50% { opacity: 1; transform: scale(1.25) rotate(0deg); }
-    }
-
-    .container {
-      padding: 16px;
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    .hero-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 16px;
-      border: 1px solid var(--border-color);
-    }
-    #hero-countdown-card { margin-top: -12px; }
-
-    .weather-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 14px;
-      margin-bottom: 14px;
-      border-bottom: 1px dashed var(--border-color);
-    }
-    .weather-temp { font-size: 22px; font-weight: 700; color: var(--text-main); }
-
-    .countdown-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .countdown-title {
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .countdown-title .title-heart-icon { color: var(--color-pink); font-size: 16px; }
-
-    .flip-clock { display: flex; gap: 8px; justify-content: space-between; width: 100%; }
-    .flip-unit { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
-
-    .flip-card-wrapper {
+    /* 翻頁時鐘 Flip Card 樣式 */
+    .flip-card {
       position: relative;
-      width: 100%;
-      aspect-ratio: 0.82;
+      background: #F4EBE8;
+      border: 1px solid #E5DCD8;
       border-radius: 12px;
-      background-color: var(--flip-bg);
-      background-image: repeating-linear-gradient(-45deg, transparent, transparent 5px, var(--flip-stripe) 5px, var(--flip-stripe) 8px);
-      overflow: hidden;
-      border: 1px solid var(--text-main);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       display: flex;
       flex-direction: column;
-      perspective: 200px;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
-    .flip-card-wrapper::before, .flip-card-wrapper::after {
+    .flip-card::after {
       content: '';
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 10px;
-      background-color: var(--text-main);
-      z-index: 35;
-      border-radius: 2px;
-    }
-    .flip-card-wrapper::before { left: -1px; }
-    .flip-card-wrapper::after { right: -1px; }
-
-    .flip-card-half {
-      position: absolute;
-      left: 0; right: 0; width: 100%; height: 50%;
-      overflow: hidden; display: flex; justify-content: center;
-      background-color: var(--flip-bg);
-      background-image: repeating-linear-gradient(-45deg, transparent, transparent 5px, var(--flip-stripe) 5px, var(--flip-stripe) 8px);
-      color: var(--flip-text); font-weight: 800;
-      font-size: clamp(30px, 8.5vw, 44px);
-    }
-    .flip-card-half.top { top: 0; align-items: flex-end; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom: 2px solid rgba(92, 78, 78, 0.25); }
-    .flip-card-half.top span { transform: translateY(50%); }
-    .flip-card-half.bottom { bottom: 0; align-items: flex-start; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-top: 1px solid rgba(255, 255, 255, 0.6); }
-    .flip-card-half.bottom span { transform: translateY(-50%); }
-
-    .flip-card-flipper {
-      position: absolute; top: 0; left: 0; width: 100%; height: 50%;
-      transform-origin: bottom center; transform-style: preserve-3d; z-index: 25; display: none;
-    }
-    .flip-card-flipper.flipping { display: block; animation: foldFlipNew 0.5s cubic-bezier(0.3, 0.7, 0.1, 1) forwards; }
-    @keyframes foldFlipNew { 0% { transform: rotateX(0deg); } 100% { transform: rotateX(-180deg); } }
-
-    .flipper-face {
-      position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-      backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; justify-content: center; overflow: hidden;
-      background-color: var(--flip-bg);
-      background-image: repeating-linear-gradient(-45deg, transparent, transparent 5px, var(--flip-stripe) 5px, var(--flip-stripe) 8px);
-      color: var(--flip-text); font-weight: 800; font-size: clamp(30px, 8.5vw, 44px);
-    }
-    .flipper-face.front { align-items: flex-end; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom: 2px solid rgba(92, 78, 78, 0.25); }
-    .flipper-face.front span { transform: translateY(50%); }
-    .flipper-face.back { align-items: flex-start; transform: rotateX(180deg); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; border-top: 1px solid rgba(255, 255, 255, 0.6); }
-    .flipper-face.back span { transform: translateY(-50%); }
-
-    .unit-label {
-      position: absolute; 
-      bottom: 6px; 
-      left: 50%; 
-      transform: translateX(-50%);
-      font-size: clamp(9px, 2.4vw, 11px); 
-      font-weight: 800; 
-      color: var(--flip-subtext); 
-      letter-spacing: 0.8px; 
-      z-index: 40; 
-      pointer-events: none;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.08);
+      z-index: 5;
     }
 
-    .calc-card-bar {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      border-radius: 20px; padding: 16px; margin-top: 18px; margin-bottom: 16px; border: 1px solid var(--border-color);
+    /* 拖曳與長按觸控區域 */
+    .drag-zone {
+      cursor: grab;
+      touch-action: none;
     }
-    .calc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .calc-title { font-size: 13px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
-    .calc-rate-badge { font-size: 11px; color: var(--text-sub); font-weight: 600; }
-
-    .calc-input-box { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; width: 100%; }
-    .calc-input-wrap { flex: 1; position: relative; }
-    .calc-input-wrap input {
-      width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 10px;
-      font-size: 14px; font-weight: 700; background: #FAF7F4; color: var(--text-main); outline: none; text-align: right;
-    }
-    .calc-input-wrap input#quick-twd { padding-right: 38px; }
-    .calc-input-wrap input#quick-krw { padding-right: 48px; }
-    .calc-input-wrap .unit-tag { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 700; color: var(--text-sub); pointer-events: none; }
-    .swap-icon-wrap { color: var(--text-sub); font-size: 12px; opacity: 0.7; }
-
-    .tax-free-banner {
-      background: #FAF7F4; border: 1px dashed var(--border-color); border-radius: 10px; padding: 10px 12px;
-      display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sub); font-weight: 600; width: 100%;
-    }
-    .tax-free-banner.reached { background: rgba(182, 198, 135, 0.2); border: 1px solid var(--color-pistachio); color: #5C4E4E; }
-
-    .section-title-label { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-    .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-
-    .cat-card-btn {
-      aspect-ratio: 1 / 1; border-radius: 18px; padding: 14px; border: 1px solid #5C4E4E;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden; text-align: center; color: var(--text-main);
-    }
-    .cat-card-btn:active { transform: scale(0.96); }
-    .cat-card-btn[data-cat="A"] { background: var(--color-cat-a); }
-    .cat-card-btn[data-cat="B"] { background: var(--color-cat-b); }
-    .cat-card-btn[data-cat="C"] { background: var(--color-cat-c); }
-    .cat-card-btn[data-cat="D"] { background: var(--color-cat-d); }
-    .cat-card-btn[data-cat="E"] { background: var(--color-cat-e); }
-    .cat-card-btn[data-cat="F"] { background: var(--color-cat-f); }
-
-    .cat-letter-badge { position: absolute; top: 10px; left: 12px; font-size: 13px; font-weight: 800; color: var(--text-main); opacity: 0.85; }
-    .cat-card-title { font-size: 15px; font-weight: 700; color: var(--text-main); line-height: 1.35; }
-
-    .item-card {
-      background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-      border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border-color); border-left: 5px solid var(--expense-btn-color);
-    }
-    .item-card.cat-A { border-left-color: var(--color-cat-a); }
-    .item-card.cat-B { border-left-color: var(--color-cat-b); }
-    .item-card.cat-C { border-left-color: var(--color-cat-c); }
-    .item-card.cat-D { border-left-color: var(--color-cat-d); }
-    .item-card.cat-E { border-left-color: var(--color-cat-e); }
-    .item-card.cat-F { border-left-color: var(--color-cat-f); }
-    .item-card.expense-item-card { border-left-color: var(--expense-btn-color); }
-
-    .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-    .item-title { font-size: 15px; font-weight: 600; color: var(--text-main); line-height: 1.35; }
-    .card-actions { display: flex; gap: 10px; }
-    .icon-btn { background: none; border: none; font-size: 18px; color: #D5CEC7; cursor: pointer; transition: transform 0.2s; }
-    .icon-btn:active { transform: scale(1.2); }
-    .icon-btn.active-heart { color: var(--color-pink); }
-
-    .story-box { font-size: 13px; color: var(--text-sub); line-height: 1.5; margin-top: 6px; background: rgba(250, 247, 244, 0.8); padding: 9px 11px; border-radius: 10px; }
-    .map-btn { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; padding: 6px 12px; background: rgba(92, 78, 78, 0.08); color: #5C4E4E; text-decoration: none; border-radius: 8px; font-size: 12px; font-weight: 700; }
-
-    /* Bottom Sheet */
-    .sheet-overlay { 
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-      background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(2px); 
-      z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; 
-    }
-    .sheet-overlay.active { opacity: 1; pointer-events: auto; }
-
-    .bottom-sheet { 
-      position: fixed; left: 0; right: 0; bottom: var(--nav-height); 
-      max-width: 680px; margin: 0 auto; 
-      height: 70vh; 
-      background: #FAF9F6; border-top-left-radius: 24px; border-top-right-radius: 24px; 
-      z-index: 200; transform: translateY(105%); 
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); 
-      display: flex; flex-direction: column; overflow: hidden; 
-      border: 1px solid var(--border-color); border-bottom: none; 
-    }
-    .bottom-sheet.active { transform: translateY(0); }
-
-    .sheet-header { 
-      padding: 12px 20px 14px; 
-      flex-shrink: 0; 
-      background: rgba(255, 255, 255, 0.95); 
-      backdrop-filter: blur(10px); 
-      border-bottom: 1px solid var(--border-color); 
-      cursor: grab; 
-      user-select: none; 
-    }
-    .sheet-handle { width: 38px; height: 5px; background: #D4CBC0; border-radius: 3px; margin: 0 auto 10px; }
-    .sheet-title-bar { display: flex; justify-content: center; align-items: center; }
-    .sheet-title { font-size: 16px; font-weight: 700; color: var(--text-main); }
-    
-    .sheet-body { 
-      flex: 1; 
-      overflow-y: auto; 
-      -webkit-overflow-scrolling: touch; 
-      overscroll-behavior: contain; 
-      padding: 16px; 
-    }
-
-    /* 記帳頁面 */
-    .add-form { background: rgba(255, 255, 255, 0.95); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); }
-    .add-form input, .add-form select { width: 100%; padding: 10px 12px; margin-bottom: 8px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px; background: #FAF7F4; color: var(--text-main); outline: none; }
-    .form-row-inline { display: flex; gap: 8px; margin-bottom: 8px; }
-    .form-row-inline select { flex: 1; margin-bottom: 0; }
-    .form-row-inline input { flex: 2; margin-bottom: 0; }
-    .payer-section-label { font-size: 12px; font-weight: 600; color: var(--text-sub); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
-    .payer-select-container { display: flex; gap: 6px; margin-bottom: 12px; width: 100%; }
-    .payer-chip { flex: 1; padding: 6px 4px; font-size: 12px; font-weight: 600; border-radius: 20px; border: 1px solid var(--border-color); background: #FAF7F4; color: var(--text-sub); cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; gap: 3px; }
-    .payer-chip.selected { background: var(--text-main); color: #FFFFFF; border-color: var(--text-main); }
-    .select-all-btn { font-size: 11px; color: var(--text-main); background: none; border: none; cursor: pointer; font-weight: 700; padding: 2px 4px; }
-    .twd-hint { font-size: 12px; color: var(--text-main); margin-bottom: 10px; font-weight: 600; padding-left: 2px; }
-    .btn-submit { width: 100%; background: var(--text-main); color: white; border: none; padding: 11px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; }
-
-    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-    .dash-box { background: linear-gradient(135deg, #BBB7E5 0%, #A49EE0 100%); color: #5C4E4E; border-radius: 16px; padding: 16px 14px; display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; border: 1px solid #5C4E4E; }
-    .dash-title { font-size: 12px; font-weight: 600; opacity: 0.95; }
-    .dash-main-val { font-size: clamp(19px, 5.2vw, 23px); font-weight: 800; margin-top: 4px; }
-    .dash-sub-val { font-size: 11px; opacity: 0.9; margin-top: 2px; }
-    .expense-actions { display: flex; gap: 8px; margin-top: 10px; justify-content: flex-end; }
-    .expense-btn { padding: 5px 10px; font-size: 11px; border-radius: 8px; border: 1px solid var(--border-color); background: #FAF7F4; cursor: pointer; color: var(--text-sub); }
-    .expense-btn.delete { color: var(--color-pink); border-color: rgba(249, 139, 169, 0.3); background: #FFF9F8; }
-    .empty-fav-msg { text-align: center; padding: 50px 20px; color: var(--text-sub); font-size: 14px; }
-
-    /* Bottom Nav Bar */
-    nav {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(16px);
-      display: flex; justify-content: space-around; padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-      border-top: 1px solid var(--border-color); z-index: 300;
-    }
-    .nav-item {
-      display: flex; flex-direction: column; align-items: center; color: var(--text-sub);
-      text-decoration: none; font-size: 11px; border: none; background: none; cursor: pointer; flex: 1;
-    }
-    .nav-item i { font-size: 18px; margin-bottom: 3px; }
-    .nav-item.active-nav { color: var(--text-main); font-weight: 700; }
-    .nav-item.active-favorites { color: var(--color-pink); font-weight: 700; }
-    .nav-item.active-expenses { color: var(--color-lavender); font-weight: 700; }
-
-    /* Toast 提示 */
-    #toast {
-      position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999;
-      background: var(--text-main); color: #FAF6C8; font-size: 12px; padding: 10px 18px;
-      border-radius: 99px; opacity: 0;
-      transition: opacity 0.3s ease; pointer-events: none; display: flex; align-items: center; gap: 6px;
+    .drag-zone:active {
+      cursor: grabbing;
     }
   </style>
 </head>
-<body>
+<body class="flex justify-center min-h-screen pb-20">
 
-  <!-- PAGE 1: 首頁 (HOME) -->
-  <div class="app-page active-page" id="page-home">
-    <header>
-      <div class="header-title-text">Hello Busan</div>
-      <div class="new-year-badge">
-        <span class="header-title-text">Hi 2027</span>
-        <span class="sparkle-icon" id="sparkle-btn">✨</span>
-      </div>
-    </header>
+  <!-- 手機主體 App 外殼 -->
+  <div class="w-full max-w-md bg-[#FAF8F5] min-h-screen relative shadow-2xl flex flex-col justify-between overflow-hidden">
 
-    <div class="container">
-      <!-- 倒數與天氣卡片 -->
-      <div class="hero-card" id="hero-countdown-card">
-        <div class="weather-box">
-          <div>
-            <div style="font-size: 12px; color: var(--text-sub);">釜山今日天氣</div>
-            <div style="font-size: 14px; font-weight: 500; margin-top:2px;" id="weather-text">載入天氣中... 🌤️</div>
-          </div>
-          <div class="weather-temp" id="weather-temp">--°C</div>
-        </div>
+    <!-- ==================== TAB 1: 首頁 (Home) ==================== -->
+    <div id="tab-home" class="tab-content">
+      <header class="pt-8 px-6 text-center pb-2">
+        <p class="text-[10px] tracking-[0.25em] text-[#A09D98] font-medium uppercase mb-1">FAMILY TRIP</p>
+        <h1 class="text-2xl font-serif font-semibold text-[#2B2927]">Hello Busan 釜山安妞</h1>
+      </header>
 
-        <div class="reunion-countdown-section">
-          <div class="countdown-header">
-            <span class="countdown-title">
-              <i class="fa-solid fa-heart title-heart-icon"></i> 集合倒數
-            </span>
-          </div>
-          <div class="flip-clock" id="clock-reunion">
-            <div class="flip-unit" data-unit="days">
-              <div class="flip-card-wrapper">
-                <div class="flip-card-half top"><span>00</span></div>
-                <div class="flip-card-half bottom"><span>00</span></div>
-                <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
-              </div>
-              <span class="unit-label">DAY</span>
-            </div>
-            <div class="flip-unit" data-unit="hours">
-              <div class="flip-card-wrapper">
-                <div class="flip-card-half top"><span>00</span></div>
-                <div class="flip-card-half bottom"><span>00</span></div>
-                <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
-              </div>
-              <span class="unit-label">HR</span>
-            </div>
-            <div class="flip-unit" data-unit="minutes">
-              <div class="flip-card-wrapper">
-                <div class="flip-card-half top"><span>00</span></div>
-                <div class="flip-card-half bottom"><span>00</span></div>
-                <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
-              </div>
-              <span class="unit-label">MIN</span>
-            </div>
-            <div class="flip-unit" data-unit="seconds">
-              <div class="flip-card-wrapper">
-                <div class="flip-card-half top"><span>00</span></div>
-                <div class="flip-card-half bottom"><span>00</span></div>
-                <div class="flip-card-flipper"><div class="flipper-face front"><span>00</span></div><div class="flipper-face back"><span>00</span></div></div>
-              </div>
-              <span class="unit-label">SEC</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 匯率與退稅卡片 -->
-      <div class="calc-card-bar">
-        <div class="calc-header">
-          <div class="calc-title"><i class="fa-solid fa-calculator" style="color: var(--text-main);"></i> Go Exchange</div>
-          <div class="calc-rate-badge" id="calc-rate-display">1 TWD ≈ 41.50 KRW</div>
-        </div>
+      <main class="px-5 py-4 space-y-5">
         
-        <div class="calc-input-box">
-          <div class="calc-input-wrap">
-            <input type="number" id="quick-twd" placeholder="0" oninput="convertQuickRate('twd')">
-            <span class="unit-tag">NT$</span>
-          </div>
-          <div class="swap-icon-wrap"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
-          <div class="calc-input-wrap">
-            <input type="number" id="quick-krw" placeholder="0" oninput="convertQuickRate('krw')">
-            <span class="unit-tag">KRW</span>
+        <!-- 1. 頂部翻頁時鐘 Flip Clock -->
+        <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
+          <p class="text-xs font-serif text-[#7F7F7F] mb-3 text-center">成員集合倒數 (12/31 18:00)</p>
+          <div class="grid grid-cols-4 gap-2">
+            <div class="flip-card h-20">
+              <span id="clock-days" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
+              <span class="text-[9px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">DAY</span>
+            </div>
+            <div class="flip-card h-20">
+              <span id="clock-hours" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
+              <span class="text-[9px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">HR</span>
+            </div>
+            <div class="flip-card h-20">
+              <span id="clock-minutes" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
+              <span class="text-[9px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">MIN</span>
+            </div>
+            <div class="flip-card h-20">
+              <span id="clock-seconds" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
+              <span class="text-[9px] font-sans font-bold text-[#A09D98] tracking-widest z-10 mb-1">SEC</span>
+            </div>
           </div>
         </div>
 
-        <div class="tax-free-banner" id="tax-banner">
-          <span><i class="fa-solid fa-receipt" style="margin-right: 4px;"></i> 退稅進度</span>
-          <span style="font-weight: 700;" id="tax-status-text">再 ₩15,000 達退稅門檻</span>
+        <!-- 2. 即時匯率與退稅門檻換算器 -->
+        <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-serif font-bold text-[#2B2927]">即時匯率對照計算機</span>
+            <span class="text-[10px] text-[#A09D98] bg-[#F5F2EC] px-2 py-0.5 rounded-full">1 TWD ≈ 41.0 KRW</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex-1 bg-[#F8F6F2] rounded-xl px-3 py-2 border border-[#EBE7E0]">
+              <span class="text-[9px] text-[#A09D98] block">韓元 (KRW)</span>
+              <input type="number" id="homeKrwInput" oninput="convertHomeCurrency('krw')" value="50000" class="w-full bg-transparent text-sm font-bold focus:outline-none text-[#2B2927]">
+            </div>
+            <span class="text-xs text-[#A09D98]">⇌</span>
+            <div class="flex-1 bg-[#F8F6F2] rounded-xl px-3 py-2 border border-[#EBE7E0]">
+              <span class="text-[9px] text-[#A09D98] block">台幣 (TWD)</span>
+              <input type="number" id="homeTwdInput" oninput="convertHomeCurrency('twd')" value="1220" class="w-full bg-transparent text-sm font-bold focus:outline-none text-[#2B2927]">
+            </div>
+          </div>
+          <div class="bg-[#FAF6F0] p-2.5 rounded-xl border border-[#EFE7DC] text-[11px] text-[#706B63] flex justify-between items-center">
+            <span>單筆消費滿 ₩15,000 達退稅門檻</span>
+            <span class="font-bold text-[#C86D6D]">可申請退稅</span>
+          </div>
+        </div>
+
+        <!-- 3. 釜山當地即時氣象卡片 (即時連線 API) -->
+        <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
+          <div class="flex justify-between items-center mb-2">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-serif font-bold text-[#2B2927]">釜山當地即時氣象</span>
+              <span id="weatherStatusTag" class="text-[9px] bg-[#E8F0FE] text-[#3B66AD] px-2 py-0.5 rounded-full font-medium">連線中...</span>
+            </div>
+            <button onclick="fetchBusanWeather()" title="更新氣象" class="text-xs text-[#A09D98] hover:text-[#2B2927] transition p-1">↻</button>
+          </div>
+          <div class="flex items-center justify-between pt-1">
+            <div class="flex items-center gap-3">
+              <span id="weatherIcon" class="text-3xl">🌤️</span>
+              <div>
+                <div class="flex items-baseline gap-1">
+                  <span id="tempDisplay" class="text-2xl font-serif font-bold text-[#2B2927]">--</span>
+                  <span class="text-xs text-[#7F7F7F]">°C</span>
+                </div>
+                <p id="weatherDesc" class="text-[11px] text-[#7F7F7F]">正在獲取氣象資料...</p>
+              </div>
+            </div>
+            <div class="text-right border-l border-[#F0ECE6] pl-4">
+              <div class="text-[10px] text-[#A09D98]">體感溫度</div>
+              <div id="apparentTempDisplay" class="text-sm font-serif font-semibold text-[#2B2927] mt-0.5">-- °C</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 釜山 A~F 區互動地圖 (採用 map.PNG 大寫副檔名底圖 + 熱點覆蓋) -->
+        <div class="bg-white rounded-2xl p-3 border border-[#EBE7E0] shadow-sm space-y-2">
+          <div class="flex justify-between items-center px-1">
+            <h2 class="text-xs font-serif font-bold text-[#2B2927]">釜山分區探索 (A ~ F 區)</h2>
+            <span class="text-[10px] text-[#A09D98]">點擊地圖上的 Icon 檢視介紹</span>
+          </div>
+
+          <!-- 地圖容器 (相對定位) -->
+          <div class="relative w-full rounded-xl overflow-hidden shadow-inner border border-[#F0ECE6]">
+            <!-- 原始圖片底圖：對應 map.PNG -->
+            <img src="map.PNG" alt="釜山旅遊地圖" class="w-full h-auto block object-cover">
+
+            <!-- A~F 精準透明點擊熱點 (Hotspots) -->
+            <!-- A區 (左下：松島 / 影島) -->
+            <button onclick="openRegionSheet('A')" class="absolute top-[68%] left-[7%] w-[38%] h-[26%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="A區：松島 · 影島"></button>
+
+            <!-- B區 (左中：市集 · 市場) -->
+            <button onclick="openRegionSheet('B')" class="absolute top-[42%] left-[10%] w-[26%] h-[24%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="B區：市集 · 市場"></button>
+
+            <!-- C區 (中上：西面 · 田浦) -->
+            <button onclick="openRegionSheet('C')" class="absolute top-[21%] left-[23%] w-[26%] h-[23%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="C區：西面 · 田浦"></button>
+
+            <!-- D區 (海邊中段：廣安里) -->
+            <button onclick="openRegionSheet('D')" class="absolute top-[26%] left-[50%] w-[22%] h-[23%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="D區：廣安里"></button>
+
+            <!-- E區 (東北海岸：海雲台) -->
+            <button onclick="openRegionSheet('E')" class="absolute top-[16%] left-[63%] w-[20%] h-[23%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="E區：海雲台"></button>
+
+            <!-- F區 (右上：天空膠囊列車) -->
+            <button onclick="openRegionSheet('F')" class="absolute top-[3%] left-[75%] w-[24%] h-[24%] bg-transparent cursor-pointer rounded-2xl focus:outline-none hover:bg-black/5 transition" title="F區：天空膠囊列車"></button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+    <!-- ==================== TAB 2: 行程導覽 (Itinerary) ==================== -->
+    <div id="tab-itinerary" class="tab-content hidden">
+      <header class="pt-8 px-6 text-center pb-2 bg-[#FAF8F5] sticky top-0 z-10">
+        <p class="text-[10px] tracking-[0.25em] text-[#A09D98] font-medium uppercase mb-1">FAMILY TRIP</p>
+        <div class="flex items-center justify-center gap-2 mb-4">
+          <h1 class="text-2xl font-serif font-semibold tracking-wide text-[#2B2927]">釜山行程</h1>
+          <span class="text-xs px-2.5 py-0.5 rounded-full border border-[#DCD6CD] text-[#7A756C]">2026-2027</span>
+        </div>
+        <div id="dateBar" class="flex justify-between items-center px-1 border-b border-[#EBE7E0] pb-3 no-scrollbar overflow-x-auto"></div>
+      </header>
+
+      <main class="px-5 py-4">
+        <div id="itineraryContainer" class="relative space-y-6"></div>
+      </main>
+    </div>
+
+    <!-- ==================== TAB 3: 記帳 (Expense) ==================== -->
+    <div id="tab-expense" class="tab-content hidden">
+      <header class="pt-8 px-6 bg-[#FAF8F5] sticky top-0 z-10 border-b border-[#EBE7E0] pb-3">
+        <div class="flex justify-between items-center mb-3">
+          <h1 class="text-xl font-serif font-semibold text-[#2B2927]">旅遊帳本</h1>
+          <button onclick="openExpenseModal()" class="bg-[#7D92B6] text-white text-xs px-3 py-1.5 rounded-xl font-medium shadow">＋ 新增帳單</button>
+        </div>
+        <div id="expenseDateBar" class="flex justify-between items-center no-scrollbar overflow-x-auto mb-3"></div>
+        <div class="flex items-center gap-1.5 pt-1">
+          <span class="text-[10px] text-[#A09D98] mr-1">付款人:</span>
+          <button onclick="filterPayer('ALL')" class="payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#2B2927] text-white font-medium" data-payer="ALL">ALL</button>
+          <button onclick="filterPayer('J1')" class="payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#EBE7E0] text-[#555] font-medium" data-payer="J1">J (Jase)</button>
+          <button onclick="filterPayer('J2')" class="payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#EBE7E0] text-[#555] font-medium" data-payer="J2">J (Jewel)</button>
+          <button onclick="filterPayer('J3')" class="payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#EBE7E0] text-[#555] font-medium" data-payer="J3">J (Jessie)</button>
+          <button onclick="filterPayer('K')" class="payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#EBE7E0] text-[#555] font-medium" data-payer="K">K (Kay)</button>
+        </div>
+      </header>
+
+      <main class="px-5 py-4 space-y-4">
+        <div class="bg-white p-4 rounded-2xl border border-[#EBE7E0] shadow-sm flex justify-between items-center">
+          <div>
+            <span class="text-[10px] text-[#A09D98] block">當日總消費 (韓元)</span>
+            <span id="totalKrwDisplay" class="text-xl font-serif font-bold text-[#2B2927]">₩0</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[9px] text-[#A09D98] block">折合台幣 (TWD)</span>
+            <span id="totalTwdDisplay" class="text-sm font-semibold text-[#7D92B6]">NT$ 0</span>
+          </div>
+        </div>
+        <div id="expenseListContainer" class="space-y-3"></div>
+      </main>
+    </div>
+
+    <!-- ==================== TAB 4: Information (旅途指南) ==================== -->
+    <div id="tab-info" class="tab-content hidden">
+      <header class="pt-8 px-6 text-center pb-2">
+        <p class="text-[10px] tracking-[0.25em] text-[#A09D98] font-medium uppercase mb-1">TRAVEL GUIDE</p>
+        <h1 class="text-2xl font-serif font-semibold text-[#2B2927]">旅途指南</h1>
+      </header>
+
+      <main class="px-5 py-6 space-y-4">
+        <!-- 四大入口按鈕 -->
+        <div class="grid grid-cols-2 gap-3">
+          <!-- 成員介紹按鈕 -->
+          <button onclick="openMemberStackModal()" class="bg-[#F9DCDC]/50 p-4 rounded-2xl border border-[#F4CECE] text-left hover:bg-[#F9DCDC] transition">
+            <span class="text-2xl block mb-1">👥</span>
+            <h3 class="text-sm font-serif font-bold text-[#2B2927]">成員介紹</h3>
+            <p class="text-[10px] text-[#7F7F7F]">3 歐尼 × 1 歐巴</p>
+          </button>
+          
+          <!-- 航班資訊 -->
+          <button onclick="alert('航班資訊：去回程中華航空 CI 班機')" class="bg-[#E3D7F3]/50 p-4 rounded-2xl border border-[#D5C4EC] text-left hover:bg-[#E3D7F3] transition">
+            <span class="text-2xl block mb-1">✈️</span>
+            <h3 class="text-sm font-serif font-bold text-[#2B2927]">航班資訊</h3>
+            <p class="text-[10px] text-[#7F7F7F]">高雄 ⇌ 釜山金海</p>
+          </button>
+
+          <!-- 住宿資訊 -->
+          <button onclick="alert('住宿飯店：Grand Josun Busan')" class="bg-[#CBD3ED]/50 p-4 rounded-2xl border border-[#B5C2E4] text-left hover:bg-[#CBD3ED] transition">
+            <span class="text-2xl block mb-1">🏨</span>
+            <h3 class="text-sm font-serif font-bold text-[#2B2927]">住宿資訊</h3>
+            <p class="text-[10px] text-[#7F7F7F]">海雲台五星海景飯店</p>
+          </button>
+
+          <!-- 互相提醒備註 -->
+          <button onclick="alert('互相提醒：記得帶韓國轉接頭與保暖外套！')" class="bg-[#D6EADF]/50 p-4 rounded-2xl border border-[#C1DFCD] text-left hover:bg-[#D6EADF] transition">
+            <span class="text-2xl block mb-1">📝</span>
+            <h3 class="text-sm font-serif font-bold text-[#2B2927]">互相提醒</h3>
+            <p class="text-[10px] text-[#7F7F7F]">備忘錄與注意事項</p>
+          </button>
+        </div>
+
+        <!-- 旅途隨手記筆記區 -->
+        <div class="bg-white p-4 rounded-2xl border border-[#EBE7E0] shadow-sm space-y-2">
+          <h3 class="text-xs font-serif font-bold text-[#2B2927]">旅途筆記 (共享區)</h3>
+          <textarea rows="4" placeholder="填寫要提醒大家的事情..." class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl p-3 text-xs focus:outline-none"></textarea>
+        </div>
+      </main>
+    </div>
+
+    <!-- ==================== 底部固定導覽列 ==================== -->
+    <div class="fixed bottom-0 w-full max-w-md z-20 pointer-events-none">
+      
+      <!-- 行程頁限定：即時預覽 Bar -->
+      <div id="previewBar" class="px-4 mb-3 pointer-events-auto hidden">
+        <div class="bg-white/90 backdrop-blur-md border border-[#EBE6DF] rounded-2xl p-3 shadow-lg flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-[#F5EBE6] flex flex-col items-center justify-center text-[10px] text-[#A0887E]">
+              <span class="leading-none font-bold">GPS</span>
+              <span class="text-[8px] leading-none">OFF</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span id="previewTime" class="font-serif font-bold text-base text-[#2B2927]">13:45</span>
+                <span class="text-[10px] bg-[#F2EDE4] text-[#706B63] px-1.5 py-0.5 rounded">行程預覽</span>
+              </div>
+              <p id="previewTitle" class="text-xs font-serif text-[#4A4640] truncate max-w-[180px]">甘川洞文化村</p>
+            </div>
+          </div>
+          <div class="text-right border-l border-[#EBE6DF] pl-4">
+            <span class="text-[10px] text-[#A8A299] block">下個時間</span>
+            <span id="nextTime" class="font-serif font-bold text-sm text-[#2B2927]">15:00</span>
+          </div>
         </div>
       </div>
 
-      <!-- 探索景點分類網格 -->
-      <div class="hero-card">
-        <div class="section-title-label"><i class="fa-solid fa-map-location-dot" style="color: var(--text-main);"></i> 探索景點</div>
-        <div class="category-grid">
-          <button class="cat-card-btn" data-cat="A" onclick="openCategorySheet('A', 'A. 松島 . 影島')"><span class="cat-letter-badge">A</span><div class="cat-card-title">松島 . 影島</div></button>
-          <button class="cat-card-btn" data-cat="B" onclick="openCategorySheet('B', 'B. 市集 . 市場')"><span class="cat-letter-badge">B</span><div class="cat-card-title">市集 . 市場</div></button>
-          <button class="cat-card-btn" data-cat="C" onclick="openCategorySheet('C', 'C. 西面 . 田浦')"><span class="cat-letter-badge">C</span><div class="cat-card-title">西面 . 田浦</div></button>
-          <button class="cat-card-btn" data-cat="D" onclick="openCategorySheet('D', 'D. 廣安里')"><span class="cat-letter-badge">D</span><div class="cat-card-title">廣安里</div></button>
-          <button class="cat-card-btn" data-cat="E" onclick="openCategorySheet('E', 'E. 海雲台')"><span class="cat-letter-badge">E</span><div class="cat-card-title">海雲台</div></button>
-          <button class="cat-card-btn" data-cat="F" onclick="openCategorySheet('F', 'F. 天空膠囊 & 海岸列車')"><span class="cat-letter-badge">F</span><div class="cat-card-title">膠囊 & 海岸列車</div></button>
+      <!-- 四大 Nav 按鈕 (首頁、行程導覽、記帳、Information) -->
+      <nav class="bg-white/95 backdrop-blur-lg border-t border-[#EBE7E0] px-6 py-3 flex justify-between items-center pointer-events-auto">
+        <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-[#7D92B6] font-semibold">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          <span class="text-[10px]">首頁</span>
+        </button>
+
+        <button onclick="switchTab('itinerary')" id="nav-itinerary" class="flex flex-col items-center text-[#B0AA9F] hover:text-[#2B2927]">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+          <span class="text-[10px]">行程導覽</span>
+        </button>
+
+        <button onclick="switchTab('expense')" id="nav-expense" class="flex flex-col items-center text-[#B0AA9F] hover:text-[#2B2927]">
+          <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span class="text-[10px]">記帳</span>
+        </button>
+
+        <!-- Information 小寫 i 圖示 -->
+        <button onclick="switchTab('info')" id="nav-info" class="flex flex-col items-center text-[#B0AA9F] hover:text-[#2B2927]">
+          <div class="w-5 h-5 border-2 border-current rounded-full flex items-center justify-center font-serif text-xs font-bold leading-none mb-0.5">i</div>
+          <span class="text-[10px]">資訊</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- ==================== MODAL 0: 地圖區域介紹底部彈窗 (Bottom Sheet) ==================== -->
+    <div id="regionBottomSheet" class="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none hidden">
+      <!-- 點擊遮罩空白處可關閉彈窗 -->
+      <div class="flex-1 bg-black/30 pointer-events-auto backdrop-blur-xs" onclick="closeRegionSheet()"></div>
+      
+      <!-- 彈窗主體卡片 -->
+      <div class="w-full max-w-md bg-white rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto transition-transform duration-300 transform translate-y-0 relative border-t border-[#EBE7E0]">
+        
+        <!-- 右上角極簡關閉按鈕：純灰色叉叉 (無底圖、無背景) -->
+        <button onclick="closeRegionSheet()" class="absolute top-3 right-4 z-20 text-[#A09D98] hover:text-[#2B2927] text-xl font-light p-1 focus:outline-none">
+          ✕
+        </button>
+
+        <!-- 上半部：區域高質感精選大圖 -->
+        <div class="h-44 bg-cover bg-center relative" id="sheetImage">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20"></div>
+          <span id="sheetBadge" class="absolute top-3 left-4 bg-white/90 backdrop-blur-md text-[#2B2927] text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
+            -- 區
+          </span>
+          <div class="absolute bottom-3 left-4 right-4 text-white">
+            <h3 id="sheetTitle" class="text-xl font-serif font-bold">--</h3>
+            <p id="sheetSubtitle" class="text-xs text-gray-200 mt-0.5">--</p>
+          </div>
+        </div>
+
+        <!-- 下半部：生動區域故事介紹與精選亮點 -->
+        <div class="p-5 space-y-3 max-h-[55vh] overflow-y-auto">
+          <p id="sheetDesc" class="text-xs text-[#555] leading-relaxed font-sans">
+            --
+          </p>
+          
+          <div class="pt-2 border-t border-[#F5F2EC]">
+            <span class="text-[10px] text-[#A09D98] font-serif font-bold block mb-2">精選必訪亮點</span>
+            <div id="sheetHighlights" class="flex flex-wrap gap-1.5">
+              <!-- JS 動態帶入亮點標籤 -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== MODAL 1: 四張成員動態彈出卡片 ==================== -->
+    <div id="memberStackModal" class="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none hidden">
+      <div class="flex-1 pointer-events-auto" onclick="closeMemberStackModal()"></div>
+      <div class="w-full max-w-md px-4 pb-20 space-y-[-2rem] pointer-events-auto transition-transform duration-300 transform translate-y-0">
+        <div class="bg-[#FCE7C5] p-5 rounded-3xl border border-[#F2D19D] shadow-xl flex items-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-xl font-bold text-[#63491F] border-2 border-[#F2D19D] shadow-sm">👤</div>
+          <div>
+            <span class="text-[10px] bg-white/80 text-[#63491F] px-2 py-0.5 rounded-full font-bold">歐巴 × 1</span>
+            <h3 class="text-xl font-bold font-serif text-[#2B2927] mt-0.5">Jase</h3>
+            <p class="text-xs text-[#7A5B27] font-medium">瀘州宋慧喬</p>
+          </div>
+        </div>
+        <div class="bg-[#CBD3ED] p-5 rounded-3xl border border-[#B5C2E4] shadow-xl flex items-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-xl font-bold text-[#2C3E6B] border-2 border-[#B5C2E4] shadow-sm">👩</div>
+          <div>
+            <span class="text-[10px] bg-white/80 text-[#2C3E6B] px-2 py-0.5 rounded-full font-bold">歐尼 × 3</span>
+            <h3 class="text-xl font-bold font-serif text-[#2B2927] mt-0.5">Jewel</h3>
+            <p class="text-xs text-[#3C528B] font-medium">古亭孫藝珍</p>
+          </div>
+        </div>
+        <div class="bg-[#F9DCDC] p-5 rounded-3xl border border-[#F4CECE] shadow-xl flex items-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-xl font-bold text-[#6B3737] border-2 border-[#F4CECE] shadow-sm">👩</div>
+          <div>
+            <span class="text-[10px] bg-white/80 text-[#6B3737] px-2 py-0.5 rounded-full font-bold">歐尼 × 3</span>
+            <h3 class="text-xl font-bold font-serif text-[#2B2927] mt-0.5">Jessie</h3>
+            <p class="text-xs text-[#8B4C4C] font-medium">高雄全智賢</p>
+          </div>
+        </div>
+        <div class="bg-[#E3D7F3] p-5 rounded-3xl border border-[#D5C4EC] shadow-2xl flex items-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-xl font-bold text-[#4A3B69] border-2 border-[#D5C4EC] shadow-sm">👩</div>
+          <div>
+            <span class="text-[10px] bg-white/80 text-[#4A3B69] px-2 py-0.5 rounded-full font-bold">歐尼 × 3</span>
+            <h3 class="text-xl font-bold font-serif text-[#2B2927] mt-0.5">Kay</h3>
+            <p class="text-xs text-[#63518B] font-medium">高雄馬東石</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- PAGE 2: 行程導覽 (ITINERARY) -->
-  <div class="app-page max-w-md mx-auto relative select-none" id="page-itinerary">
-    <!-- 未來新行程導覽內容可在此區塊構建 -->
-  </div>
-
-  <!-- Bottom Sheet -->
-  <div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
-  <div class="bottom-sheet" id="bottom-sheet">
-    <div class="sheet-header" id="sheet-header">
-      <div class="sheet-handle"></div>
-      <div class="sheet-title-bar"><div class="sheet-title" id="sheet-title">標題</div></div>
+    <!-- ==================== MODAL 2: 新增景點行程 Modal ==================== -->
+    <div id="addModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-end hidden">
+      <div class="bg-white w-full max-w-md rounded-t-3xl p-6 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b border-[#EBE7E0] pb-3">
+          <h3 id="modalTitle" class="text-lg font-serif font-bold text-[#2B2927]">新增景點行程</h3>
+          <button onclick="closeAddModal()" class="text-[#A09D98] hover:text-[#2B2927]">✕</button>
+        </div>
+        <form id="spotForm" onsubmit="handleSaveSpot(event)" class="space-y-4">
+          <input type="hidden" id="editSpotId" value="">
+          <div>
+            <label class="block text-xs font-semibold text-[#666] mb-1">選擇區域</label>
+            <select id="regionSelect" onchange="updateAttractionOptions()" class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl px-3 py-2 text-sm focus:outline-none">
+              <option value="A">A 區：松島 . 影島</option>
+              <option value="B">B 區：市集 . 市場</option>
+              <option value="C">C 區：西面 . 田浦</option>
+              <option value="D">D 區：廣安里</option>
+              <option value="E">E 區：海雲台</option>
+              <option value="F">F 區：天空膠囊列車 & 海岸列車</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#666] mb-1">選擇景點</label>
+            <select id="attractionSelect" class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl px-3 py-2 text-sm focus:outline-none"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#666] mb-1">分類標籤</label>
+            <select id="categorySelect" class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl px-3 py-2 text-sm focus:outline-none">
+              <option value="SIGHTSEEING">SIGHTSEEING</option>
+              <option value="SHOPPING">SHOPPING</option>
+              <option value="HOTEL">HOTEL</option>
+              <option value="FOOD">FOOD</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#666] mb-1">時間</label>
+            <select id="timeSelect" class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl px-3 py-2 text-sm focus:outline-none">
+              <option value="08:00">08:00</option>
+              <option value="09:30">09:30</option>
+              <option value="11:00">11:00</option>
+              <option value="12:30">12:30</option>
+              <option value="14:00">14:00</option>
+              <option value="15:30">15:30</option>
+              <option value="17:00">17:00</option>
+              <option value="18:30">18:30</option>
+              <option value="20:00">20:00</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#666] mb-1">行程備註</label>
+            <textarea id="noteInput" rows="2" placeholder="備註特色攻略..." class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl p-3 text-sm focus:outline-none"></textarea>
+          </div>
+          <div class="flex gap-3 pt-2">
+            <button type="button" onclick="closeAddModal()" class="flex-1 py-2.5 bg-[#EBE7E0] text-[#555] rounded-xl text-sm font-medium">取消</button>
+            <button type="submit" class="flex-1 py-2.5 bg-[#7D92B6] text-white rounded-xl text-sm font-medium shadow">儲存行程</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="sheet-body" id="sheet-body"></div>
+
+    <!-- ==================== MODAL 3: 新增消費帳單 Modal ==================== -->
+    <div id="expenseModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-end hidden">
+      <div class="bg-white w-full max-w-md rounded-t-3xl p-6 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b border-[#EBE7E0] pb-3">
+          <h3 class="text-lg font-serif font-bold text-[#2B2927]">新增消費帳單</h3>
+          <button onclick="closeExpenseModal()" class="text-[#A09D98] hover:text-[#2B2927]">✕</button>
+        </div>
+        <form onsubmit="handleSaveExpense(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-[#666] mb-1">誰付錢的？</label>
+            <select id="expPayerSelect" class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl px-3 py-2 text-sm focus:outline-none">
+              <option value="ALL">ALL (公費全體分攤)</option>
+              <option value="J1">J (Jase)</option>
+              <option value="J2">J (Jewel)</option>
+              <option value="J3">J (Jessie)</option>
+              <option value="K">K (Kay)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#666] mb-1">消費項目</label>
+            <input type="text" id="expItemInput" placeholder="例：札嘎其烤魚、計程車費..." required class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl px-3 py-2 text-sm focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-[#666] mb-1">金額 (韓元 KRW)</label>
+            <input type="number" id="expKrwInput" oninput="calcExpTwd()" placeholder="例：35000" required class="w-full bg-[#F8F6F2] border border-[#E2DDD5] rounded-xl px-3 py-2 text-sm focus:outline-none font-bold">
+            <span id="expTwdHint" class="text-[11px] text-[#7D92B6] mt-1 block">≈ NT$ 0</span>
+          </div>
+          <div class="flex gap-3 pt-2">
+            <button type="button" onclick="closeExpenseModal()" class="flex-1 py-2.5 bg-[#EBE7E0] text-[#555] rounded-xl text-sm font-medium">取消</button>
+            <button type="submit" class="flex-1 py-2.5 bg-[#7D92B6] text-white rounded-xl text-sm font-medium shadow">新增這筆帳單</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Toast 提示組件 -->
-  <div id="toast">
-    <i class="fa-solid fa-circle-check"></i>
-    <span id="toastMsg">操作成功</span>
-  </div>
-
-  <!-- 底部導覽列 Bar -->
-  <nav>
-    <button class="nav-item active-nav" id="nav-home" onclick="handleNavClick('home')">
-      <i class="fa-solid fa-house"></i> 首頁
-    </button>
-    <button class="nav-item" id="nav-schedule" onclick="handleNavClick('schedule')">
-      <i class="fa-solid fa-calendar-days"></i> 行程導覽
-    </button>
-    <button class="nav-item" id="nav-favorites" onclick="handleNavClick('favorites')">
-      <i class="fa-solid fa-heart"></i> 收藏
-    </button>
-    <button class="nav-item" id="nav-expenses" onclick="handleNavClick('expenses')">
-      <i class="fa-solid fa-wallet"></i> 記帳小幫手
-    </button>
-  </nav>
-
-  <!-- JS 邏輯整合 -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, deleteDoc, onSnapshot, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyArSoZq0ZMYSrt5oqb_E3uxP2iC...",
-      authDomain: "busan-app-1a910.firebaseapp.com",
-      projectId: "busan-app-1a910",
-      storageBucket: "busan-app-1a910.firebasestorage.app",
-      messagingSenderId: "48335271845",
-      appId: "1:48335271845:web:9aca079ac5943ff...",
-      measurementId: "G-7HBZZ7H72Z"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    let EXCHANGE_RATE = 41.5;
-    let latestExpensesData = [];
-    let currentSheetType = null;
-    let currentActiveCat = null;
-    let currentPageIndex = 0;
-
-    const categoryThemeMap = {
-      'A': { code: 'SONGDO & YEONGDO' },
-      'B': { code: 'MARKETS' },
-      'C': { code: 'SEOMYEON & JEONPO' },
-      'D': { code: 'GWANGANLI' },
-      'E': { code: 'HAEUNDAE' },
-      'F': { code: 'SKY CAPSULE & TRAIN' }
-    };
-
-    const PRESET_SPOTS_DB = {
-      'A': [
-        { id: 'A1', title: 'Songdo Bay Station 海上纜車', cat: 'SIGHTSEEING', time: '10:00', desc: '跨越海港的水晶纜車，飽覽松島海灣景色', addr: '釜山廣域市西區松島海邊路 171', query: 'Songdo Bay Station' },
-        { id: 'A2', title: 'Songdo Sky Park', cat: 'SIGHTSEEING', time: '11:00', desc: '纜車終點站，內有小王子雕像與龍宮雲橋', addr: '釜山廣域市西區岩南公園路', query: 'Songdo Sky Park' },
-        { id: 'A3', title: '影島海女村', cat: 'FOOD', time: '12:30', desc: '必點海鮮拉麵與海膽紫菜包飯', addr: '釜山廣域市影島區中里海邊路 2-35', query: '영도해녀문화전시관' },
-        { id: 'A4', title: 'Having moment', cat: 'FOOD', time: '14:30', desc: '白淺灘文化村海景第一排咖啡廳', addr: '釜山廣域市影島區白淺灘路', query: 'Having moment 영도' },
-        { id: 'A5', title: 'Burger Yo Busan', cat: 'FOOD', time: '16:00', desc: '手工巨無霸漢堡，海景極佳', addr: '釜山廣域市影島區', query: '버거요 영도' },
-        { id: 'A6', title: 'THRILL ON THE MUG 海景咖啡', cat: 'FOOD', time: '17:30', desc: '階梯式海景座位與壯觀海景窗', addr: '釜山廣域市影島區東三洞', query: 'THRILL ON THE MUG' },
-        { id: 'A7', title: 'ATRE Museum Busan', cat: 'SIGHTSEEING', time: '19:00', desc: '沉浸式光影藝術展覽', addr: '釜山廣域市影島區', query: '아르떼뮤지엄 부산' },
-        { id: 'A8', title: '甘川文化村', cat: 'SIGHTSEEING', time: '09:30', desc: '釜山馬丘比丘，小王子打卡點', addr: '釜山廣域市沙下區甘川洞', query: '감천문화마을' }
-      ],
-      'B': [
-        { id: 'B1', title: '山青豬肉湯飯', cat: 'FOOD', time: '09:00', desc: '在地老字號湯飯，湯頭濃郁', addr: '釜山廣域市中區', query: '산청돼지국밥' },
-        { id: 'B2', title: '富平罐頭市場', cat: 'FOOD', time: '18:30', desc: '必吃烤玉米、煎餅與巨人炸雞', addr: '釜山廣域市中區富平洞', query: '부평깡통시장' },
-        { id: 'B3', title: '愉快的生拌牛肉', cat: 'FOOD', time: '19:30', desc: '生拌牛肉與章魚海鮮拉麵', addr: '釜山廣域市中區', query: '유쾌한육회' },
-        { id: 'B4', title: '國際市場', cat: 'SIGHTSEEING', time: '15:00', desc: '大型傳統市場，伴手禮好去處', addr: '釜山廣域市中區新昌洞', query: '국제시장' },
-        { id: 'B5', title: 'BIFF 廣場', cat: 'FOOD', time: '16:30', desc: '必吃堅果黑糖餅', addr: '釜山廣域市中區南浦洞', query: 'BIFF 광장' },
-        { id: 'B6', title: 'Olive Young gwangbok town', cat: 'SIGHTSEEING', time: '17:30', desc: '旗艦店，美妝護膚天堂', addr: '釜山廣域市中區光復路', query: '올리브영 광복타운' },
-        { id: 'B7', title: '札嘎其市場', cat: 'FOOD', time: '12:00', desc: '韓國最大海鮮市場', addr: '釜山廣域市中區札嘎其海岸路', query: '자갈치시장' },
-        { id: 'B8', title: '新東亞水產物綜合市場', cat: 'FOOD', time: '13:00', desc: '在地人偏愛的海鮮市場', addr: '釜山廣域市中區', query: '신동아수산물종합시장' }
-      ],
-      'C': [
-        { id: 'C1', title: '水邊豬肉湯飯 西面店', cat: 'FOOD', time: '08:30', desc: '薄切豬肉片湯飯極讚', addr: '釜山廣域市釜山鎮區', query: '수변최고돼지국밥 서면' },
-        { id: 'C2', title: '安木 西面店', cat: 'FOOD', time: '12:00', desc: '精緻韓定食與熟成肉料理', addr: '釜山廣域市釜山鎮區', query: '안목 서면' },
-        { id: 'C3', title: '세든 365약국 藥局', cat: 'SIGHTSEEING', time: '14:00', desc: '西面便利藥局', addr: '釜山廣域市釜山鎮區', query: '세든365약국' },
-        { id: 'C4', title: '돼지나무 사랑엄청난 서面 本店 燒肉', cat: 'FOOD', time: '18:00', desc: '西面人氣黑豬肉專賣', addr: '釜山廣域市釜山鎮區', query: '돼지나무사랑엄청난 서면' },
-        { id: 'C5', title: '烤肉的男子 西面店', cat: 'FOOD', time: '19:30', desc: '專人代烤優質五花肉', addr: '釜山廣域市釜山鎮區', query: '고기굽는남자 서면' },
-        { id: 'C6', title: 'Poset Jeonpo 明信片', cat: 'SIGHTSEEING', time: '15:00', desc: '田浦質感明信片文創選物', addr: '釜山廣域市釜山鎮區田浦洞', query: '포셋 전포' },
-        { id: 'C7', title: '老宅邸 燒肉', cat: 'FOOD', time: '20:30', desc: '復古老宅氛圍燒肉', addr: '釜山廣域市釜山鎮區', query: '고택 서면' },
-        { id: 'C8', title: 'Solsot 西面店 燒肉', cat: 'FOOD', time: '13:00', desc: '精緻韓式釜飯', addr: '釜山廣域市釜山鎮區', query: '솔솥 서면' },
-        { id: 'C9', title: 'PURADAK炸雞', cat: 'FOOD', time: '21:30', desc: '精品黑色包裝炸雞', addr: '釜山廣域市釜山鎮區', query: '푸라닭 서면' },
-        { id: 'C10', title: 'moody bread market 咖啡&麵包', cat: 'FOOD', time: '11:00', desc: '田浦烘焙坊', addr: '釜山廣域市釜山鎮區田浦洞', query: '무디브레드마켓' },
-        { id: 'C11', title: 'Pot of busan 甜點', cat: 'FOOD', time: '16:00', desc: '特色造型甜點午茶', addr: '釜山廣域市釜山鎮區', query: '팟오브부산' },
-        { id: 'C12', title: 'Strut Coffee', cat: 'FOOD', time: '10:30', desc: '極簡工業風咖啡廳', addr: '釜山廣域市釜山鎮區田浦洞', query: '스트럿커피' },
-        { id: 'C13', title: 'Momos Coffee - Flagship Store', cat: 'FOOD', time: '09:30', desc: 'WBC 咖啡冠軍旗艦店', addr: '釜山廣域市溫泉場', query: '모모스커피 본점' }
-      ],
-      'D': [
-        { id: 'D1', title: '五六島天空步道', cat: 'SIGHTSEEING', time: '10:00', desc: '懸空玻璃步道俯瞰懸崖', addr: '釜山廣域市南區五六島路', query: '오륙도 스카이워크' },
-        { id: 'D2', title: 'Namagjib 豬肉湯飯 / 米其林推薦', cat: 'FOOD', time: '11:30', desc: '米其林推薦清爽湯飯', addr: '釜山廣域市水營區', query: '남아집돼지국밥' },
-        { id: 'D3', title: 'Momos Coffee - Dorunheon', cat: 'FOOD', time: '13:30', desc: '廣安海景分店', addr: '釜山廣域市水營區', query: '모모스커피 광안' },
-        { id: 'D4', title: '烤肉的男子 廣安里店', cat: 'FOOD', time: '18:00', desc: '專人代烤欣賞海景', addr: '釜山廣域市水營區', query: '고기굽는남자 광안리' },
-        { id: 'D5', title: '釜飯', cat: 'FOOD', time: '12:30', desc: '廣安里高評價釜飯', addr: '釜山廣域市水營區', query: '광안리 솥밥' },
-        { id: 'D6', title: 'Ancien 咖啡&麵包', cat: 'FOOD', time: '15:00', desc: '手工麵包與咖啡空間', addr: '釜山廣域市水營區', query: '앙시앙 광안리' },
-        { id: 'D7', title: 'La Mia Estate 義式冰淇淋', cat: 'FOOD', time: '16:30', desc: '義式手工 Gelato', addr: '釜山廣域市水營區', query: '라미아에스테이트' },
-        { id: 'D8', title: 'All Sunday', cat: 'FOOD', time: '14:30', desc: '人氣打卡早午餐', addr: '釜山廣域市水營區', query: '올선데이 광안리' },
-        { id: 'D9', title: '廣安里 M 無人機燈光秀', cat: 'SPECIAL EXPERIENCE', time: '19:00', desc: '週六限定無人機燈光演出', addr: '廣安里海水浴場沙灘', query: '광안리 M 드론라이트쇼' },
-        { id: 'D10', title: '고하순 광안직영점 燒肉', cat: 'FOOD', time: '20:00', desc: '極品熟成烤肉專賣', addr: '釜山廣域市水營區', query: '고하순 광안리' },
-        { id: 'D11', title: '新世界百貨 Centum City / SPA LAND', cat: 'SIGHTSEEING', time: '15:30', desc: '五星級豪華汗蒸幕', addr: '釜山廣域市海雲台區Centum洞', query: '신세계백화점 센텀시티점' }
-      ],
-      'E': [
-        { id: 'E1', title: '味贊王鹽烤肉 海雲台店', cat: 'FOOD', time: '17:30', desc: '3.5cm 超厚切鹽烤五花肉', addr: '釜山廣域市海雲台區', query: '맛찬들왕소금구이 해운대' },
-        { id: 'E2', title: '嚴湧帛豬肉湯飯 海雲台店', cat: 'FOOD', time: '08:30', desc: '排隊名店湯飯', addr: '釜山廣域市海雲台區', query: '엄용백돼지국밥 해운대' },
-        { id: 'E3', title: 'Busandang 紅豆麵包', cat: 'FOOD', time: '10:30', desc: '經典紅豆麵包', addr: '釜山廣域市海雲台區', query: '부산당 해운대' },
-        { id: 'E4', title: '螞蟻家辣炒章魚', cat: 'FOOD', time: '12:00', desc: '招牌牛腸炒章魚拌飯', addr: '釜山廣域市海雲台區', query: '개미집 해운대' },
-        { id: 'E5', title: '海雲台傳統市場', cat: 'SIGHTSEEING', time: '19:00', desc: '熱鬧小吃與海鮮市集', addr: '釜山廣域市海雲台區', query: '해운대시시장' },
-        { id: 'E6', title: '海雲台 31cm 貝類湯麵', cat: 'FOOD', time: '13:00', desc: '澎湃綜合貝類海鮮刀削麵', addr: '釜山廣域市海雲台區', query: '해운대31cm해물칼국수' },
-        { id: 'E7', title: '自然島鹽可頌 (Salt Bread)', cat: 'FOOD', time: '15:00', desc: '外酥內軟排隊名店', addr: '釜山廣域市海雲台區', query: '자연도소금빵 해운대' },
-        { id: 'E8', title: '오브봔 ovone 水果蛋糕', cat: 'FOOD', time: '16:00', desc: '精緻季節水果蛋糕', addr: '釜山廣域市海雲台區', query: '오브봔 해운대' },
-        { id: 'E9', title: 'Miffy 專門店', cat: 'SIGHTSEEING', time: '14:30', desc: '米飛兔官方授權專賣', addr: '釜山廣域市海雲台區', query: '미피 해운대' },
-        { id: 'E10', title: '水邊豬肉湯飯', cat: 'FOOD', time: '09:00', desc: '海雲台分店', addr: '釜山廣域市海雲台區', query: '수변최고돼지국밥 해운대' }
-      ],
-      'F': [
-        { id: 'F1', title: '海雲臺藍線公園 尾浦—青沙浦', cat: 'SPECIAL EXPERIENCE', time: '09:30', desc: '彩色車廂高空軌道欣賞海景', addr: '釜山廣域市海雲台區尾浦', query: '해운대블루라인파크 미포정거장' },
-        { id: 'F2', title: 'TIDE Coffee Roasters', cat: 'FOOD', time: '11:00', desc: '青沙浦海景烘焙咖啡館', addr: '釜山廣域市海雲台區青沙浦', query: '타이드커피로스터스' },
-        { id: 'F3', title: 'Edge 993', cat: 'FOOD', time: '12:30', desc: '頂樓露台眺望海岸列車', addr: '釜山廣域市海雲台區', query: '엣지993' },
-        { id: 'F4', title: 'CHU PLUS 松亭店', cat: 'FOOD', time: '14:00', desc: '現炸吉拿棒佐冰淇淋', addr: '釜山廣域市海雲台區松亭', query: '츄플러스 송정' },
-        { id: 'F5', title: '青沙浦紅白雙燈塔', cat: 'SIGHTSEEING', time: '15:30', desc: '經典雙燈塔打卡點', addr: '釜山廣域市海雲台區青沙浦', query: '청사포 등대' },
-        { id: 'F6', title: '青沙浦踏石瞭望台', cat: 'SIGHTSEEING', time: '16:30', desc: '海上透明玻璃天空步道', addr: '釜山廣域市海雲台區青沙浦', query: '청사포 다릿돌전망대' },
-        { id: 'F7', title: 'Skyline Luge Busan', cat: 'SPECIAL EXPERIENCE', time: '10:30', desc: '釜山斜坡滑車極速體驗', addr: '釜山廣域市機張郡', query: '스카inline루지 부산' }
-      ]
-    };
-
-    let favorites = JSON.parse(localStorage.getItem('busan_favs') || '[]');
-
-    /* 下拉手勢控制機制 */
-    function initBottomSheetGestures() {
-      const sheet = document.getElementById('bottom-sheet');
-      if (!sheet) return;
-      let startY = 0;
-      let currentY = 0;
-      let isDragging = false;
-
-      const dragHeader = sheet.querySelector('.sheet-header');
-      if (!dragHeader) return;
-
-      dragHeader.addEventListener('touchstart', (e) => {
-        startY = e.touches[0].clientY;
-        isDragging = true;
-        sheet.style.transition = 'none';
-      }, { passive: true });
-
-      dragHeader.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        currentY = e.touches[0].clientY;
-        const diff = currentY - startY;
-        if (diff > 0) {
-          sheet.style.transform = `translateY(${diff}px)`;
-        }
-      }, { passive: true });
-
-      dragHeader.addEventListener('touchend', () => {
-        if (!isDragging) return;
-        isDragging = false;
-        sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-        const diff = currentY - startY;
-        const sheetHeight = sheet.clientHeight;
-
-        if (diff > sheetHeight * 0.15) {
-          window.closeSheet();
-        } else {
-          sheet.style.transform = 'translateY(0)';
-        }
-      });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      initBottomSheetGestures();
-    });
-
-    /* 切換頁面 */
-    window.switchPage = function(index) {
-      currentPageIndex = index;
-      const homePage = document.getElementById('page-home');
-      const itiPage = document.getElementById('page-itinerary');
-      if (index === 0) {
-        homePage.classList.add('active-page');
-        itiPage.classList.remove('active-page');
-        updateNavActiveState('home');
-      } else {
-        homePage.classList.remove('active-page');
-        itiPage.classList.add('active-page');
-        updateNavActiveState('schedule');
+  <!-- JavaScript 邏輯 -->
+  <script>
+    // A 到 F 區域詳細介紹資料庫 (彈窗內容 + 精選圖片)
+    const regionDetails = {
+      A: {
+        badge: 'A 區',
+        title: '松島 · 影島',
+        subtitle: '漫步海岸天空步道與懸崖壁畫巷弄',
+        img: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=800&q=80',
+        desc: '連結影島大橋與松島海灘！這裡擁有橫跨海面蔚藍極景的松島跨海纜車，以及號稱釜山聖托里尼的白淺灘文化村。沿著海岸懸崖木棧道漫步，隨處都能發現充滿質感的無敵海景韓系咖啡廳。',
+        highlights: ['松島海上纜車', '白淺灘文化村', '太宗台地質公園', '影島大橋開橋']
+      },
+      B: {
+        badge: 'B 區',
+        title: '市集 · 市場',
+        subtitle: '體驗熱氣騰騰的傳統韓式美食與人情味',
+        img: 'https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?auto=format&fit=crop&w=800&q=80',
+        desc: '釜山活力最奔放的核心靈魂地帶！札嘎其海鮮市場現剖海味、富平罐頭市場熱騰騰的魚板湯與香甜堅果黑糖餅，再順道去龍頭山公園俯瞰整個釜山港灣景色。',
+        highlights: ['札嘎其海鮮市場', 'BIFF 廣場黑糖餅', '富平罐頭夜市', '國際市場選物']
+      },
+      C: {
+        badge: 'C 區',
+        title: '西面 · 田浦',
+        subtitle: '潮流購物商圈與文青咖啡小館交匯地',
+        img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
+        desc: '釜山時尚潮流的最前線！田浦咖啡街隱藏著無數由舊工廠改造的風格獨立咖啡館、手作選物雜貨店與文創小店。西面地下街更是好逛好買的購物天堂。',
+        highlights: ['田浦咖啡街', '西面地下商圈', '樂天百貨西面店', '釜山市民公園']
+      },
+      D: {
+        badge: 'D 區',
+        title: '廣安里',
+        subtitle: '璀璨廣安大橋夜景與愜意沙灘酒吧',
+        img: 'https://images.unsplash.com/photo-1538485199708-0f51451c5313?auto=format&fit=crop&w=800&q=80',
+        desc: '釜山浪漫夜景的代表作！夜幕低垂時廣安大橋綻放五彩燈光，坐在沙灘邊喝啤酒聽浪濤聲，或是走進臨海酒吧與海景餐廳，享受無可比擬的都會海濱氛圍。',
+        highlights: ['廣安大橋燈光秀', '廣安里海水浴場', 'Millak 水邊公園', '海景酒吧咖啡館']
+      },
+      E: {
+        badge: 'E 區',
+        title: '海雲台',
+        subtitle: '經典度假勝地與壯麗海天一色景象',
+        img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+        desc: '釜山名氣響亮的國際級度假海灘！擁有廣闊的金黃色沙灘、頂級飯店群以及著名的 The Bay 101 高樓夜景倒影打卡點，也是放鬆渡假的不二首選。',
+        highlights: ['海雲台海水浴場', 'BUSAN X the SKY', 'The Bay 101 夜景', 'Grand Josun 飯店']
+      },
+      F: {
+        badge: 'F 區',
+        title: '天空膠囊列車 & 海岸列車',
+        subtitle: '沿著東海岸行駛的可愛繽紛復古列車',
+        img: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80',
+        desc: '釜山爆紅熱門地標！行駛於尾浦至青沙浦天空軌道上的馬卡龍色彩膠囊列車，搭乘時可飽覽蔚藍蔚洋與海岸松林，青沙浦的灌籃高手同款平交道也是絕美打卡點。',
+        highlights: ['藍線公園膠囊列車', '青沙浦天空步道', '海東龍宮寺', '機張斜坡滑車 Luge']
       }
     };
 
-    window.handleNavClick = function(type) {
-      if (type === 'home') {
-        if (currentSheetType !== null) { window.closeSheet(); return; }
-        if (currentPageIndex === 0) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          window.switchPage(0);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      } else if (type === 'schedule') {
-        if (currentSheetType !== null) { window.closeSheet(); return; }
-        if (currentPageIndex === 1) {
-          document.getElementById('page-itinerary').scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          window.switchPage(1);
-          document.getElementById('page-itinerary').scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      } else if (type === 'favorites') {
-        if (currentSheetType === 'favorites') window.closeSheet();
-        else window.openFavoritesSheet();
-      } else if (type === 'expenses') {
-        if (currentSheetType === 'expenses') window.closeSheet();
-        else window.openExpensesSheet();
-      }
+    const regionAttractions = {
+      A: ['松島海上纜車', '松島龍宮雲橋', '太宗台溫泉/公園', '白淺灘文化村', '影島大橋'],
+      B: ['札嘎其市場', '國際市場', '富平罐頭市場', '龍頭山公園/釜山塔', 'BIFF 廣場'],
+      C: ['西面地下街', '田浦咖啡街', '釜山市民公園', '樂天百貨西面店'],
+      D: ['廣安里海水浴場', '廣安大橋夜景觀景台', 'Millak 水邊公園'],
+      E: ['海雲台海水浴場', 'BUSAN X the SKY', 'The Bay 101'],
+      F: ['海雲台藍線公園膠囊列車', '機張斜坡滑車 Luge', '樂天世界冒險樂園', '海東龍宮寺']
     };
 
-    function updateNavActiveState(activeType) {
-      document.querySelectorAll('.nav-item').forEach(el => el.className = 'nav-item');
-      if (activeType === 'home') document.getElementById('nav-home').classList.add('active-nav');
-      else if (activeType === 'schedule') document.getElementById('nav-schedule').classList.add('active-nav');
-      else if (activeType === 'favorites') document.getElementById('nav-favorites').classList.add('active-favorites');
-      else if (activeType === 'expenses') document.getElementById('nav-expenses').classList.add('active-expenses');
-    }
+    // 5 天 4 夜日期標籤
+    const tripDates = [
+      { day: 'MON', date: '29', fullDate: '2026-12-29' },
+      { day: 'TUE', date: '30', fullDate: '2026-12-30' },
+      { day: 'WED', date: '31', fullDate: '2026-12-31' },
+      { day: 'THU', date: '1', fullDate: '2027-01-01' },
+      { day: 'FRI', date: '2', fullDate: '2027-01-02' },
+      { day: 'SAT', date: '3', fullDate: '2027-01-03' }
+    ];
 
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.style.opacity = '1';
-      setTimeout(() => toast.style.opacity = '0', 2000);
-    }
-
-    /* 匯率與計算 */
-    async function fetchLiveExchangeRate() {
-      try {
-        const res = await fetch('https://open.er-api.com/v6/latest/TWD');
-        const data = await res.json();
-        if (data && data.rates && data.rates.KRW) {
-          EXCHANGE_RATE = data.rates.KRW;
-          const rateMain = document.getElementById('rate-main-val');
-          const rateSub = document.getElementById('rate-sub-val');
-          const calcRateDisp = document.getElementById('calc-rate-display');
-          if(rateMain) rateMain.innerText = EXCHANGE_RATE.toFixed(2);
-          if(rateSub) rateSub.innerText = `1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW`;
-          if(calcRateDisp) calcRateDisp.innerText = `1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW`;
-          if (currentSheetType === 'expenses') renderExpensesUI();
-        }
-      } catch (err) {}
-    }
-    fetchLiveExchangeRate();
-
-    window.convertQuickRate = function(type) {
-      const krwInput = document.getElementById('quick-krw');
-      const twdInput = document.getElementById('quick-twd');
-      if (type === 'krw') {
-        const krw = Number(krwInput.value);
-        if (!krwInput.value || isNaN(krw) || krw <= 0) { twdInput.value = ''; updateTaxBanner(0); return; }
-        twdInput.value = Math.round(krw / EXCHANGE_RATE);
-        updateTaxBanner(krw);
-      } else {
-        const twd = Number(twdInput.value);
-        if (!twdInput.value || isNaN(twd) || twd <= 0) { krwInput.value = ''; updateTaxBanner(0); return; }
-        const krw = Math.round(twd * EXCHANGE_RATE);
-        krwInput.value = krw;
-        updateTaxBanner(krw);
-      }
+    let itineraryData = {
+      '2026-12-29': [
+        { id: 's1', time: '13:45', title: '甘川洞文化村', category: 'SIGHTSEEING', note: '【拍攝攻略】小王子與狐狸雕像打卡點。', highlight: false },
+        { id: 's2', time: '15:00', title: '白淺灘文化村', category: 'SHOPPING', note: '【景點概念】海景咖啡廳與海邊散步道。', highlight: true },
+        { id: 's3', time: '16:00', title: 'Check-in: Grand Josun', category: 'HOTEL', note: '【飯店定位】海雲台飯店。', highlight: false }
+      ],
+      '2026-12-30': [], '2026-12-31': [], '2027-01-01': [], '2027-01-02': [], '2027-01-03': []
     };
 
-    function updateTaxBanner(krwVal) {
-      const banner = document.getElementById('tax-banner');
-      const statusText = document.getElementById('tax-status-text');
-      const threshold = 15000;
-      if (krwVal >= threshold) {
-        banner.className = 'tax-free-banner reached';
-        statusText.innerText = '✨ 已達退稅門檻';
-      } else {
-        const diff = threshold - krwVal;
-        banner.className = 'tax-free-banner';
-        statusText.innerText = `再 ₩${diff.toLocaleString()} 達退稅門檻`;
-      }
+    let expenseData = {
+      '2026-12-29': [
+        { id: 'e1', item: '金海機場交通卡充值', krw: 40000, twd: 975, payer: 'ALL' },
+        { id: 'e2', item: '甘川洞壁畫村韓服體驗', krw: 60000, twd: 1463, payer: 'J1' }
+      ],
+      '2026-12-30': [], '2026-12-31': [], '2027-01-01': [], '2027-01-02': [], '2027-01-03': []
+    };
+
+    let currentDate = '2026-12-29';
+    let currentPayerFilter = 'ALL';
+
+    window.onload = function() {
+      startFlipClock();
+      fetchBusanWeather();
+      renderDateBars();
+      renderItinerary();
+      renderExpenses();
+      updateAttractionOptions();
+    };
+
+    // 1. 地圖區域彈窗邏輯
+    function openRegionSheet(regionCode) {
+      const data = regionDetails[regionCode];
+      if (!data) return;
+
+      document.getElementById('sheetBadge').innerText = data.badge;
+      document.getElementById('sheetTitle').innerText = data.title;
+      document.getElementById('sheetSubtitle').innerText = data.subtitle;
+      document.getElementById('sheetImage').style.backgroundImage = `url('${data.img}')`;
+      document.getElementById('sheetDesc').innerText = data.desc;
+
+      const highlightsContainer = document.getElementById('sheetHighlights');
+      highlightsContainer.innerHTML = data.highlights.map(h => 
+        `<span class="bg-[#F4F1EA] text-[#605A52] text-[10px] px-2.5 py-1 rounded-full font-medium border border-[#E8E3DA]">${h}</span>`
+      ).join('');
+
+      document.getElementById('regionBottomSheet').classList.remove('hidden');
     }
 
+    function closeRegionSheet() {
+      document.getElementById('regionBottomSheet').classList.add('hidden');
+    }
+
+    // 2. 釜山即時氣象 (Open-Meteo API)
     async function fetchBusanWeather() {
+      const tag = document.getElementById('weatherStatusTag');
+      tag.innerText = '連線中...';
+      tag.className = 'text-[9px] bg-[#E8F0FE] text-[#3B66AD] px-2 py-0.5 rounded-full font-medium';
+
       try {
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=35.1796&longitude=129.0756&current_weather=true`);
+        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.1796&longitude=129.0756&current_weather=true&hourly=apparent_temperature');
         const data = await res.json();
+        
         if (data && data.current_weather) {
           const temp = Math.round(data.current_weather.temperature);
           const code = data.current_weather.weathercode;
-          let weatherDesc = "晴朗 ☀️";
-          if (code === 1 || code === 2) weatherDesc = "多雲晴朗 🌤️";
-          else if (code === 3) weatherDesc = "陰天 ☁️";
-          else if (code >= 45) weatherDesc = "有雨 🌧️";
+          const apparentTemp = data.hourly && data.hourly.apparent_temperature ? Math.round(data.hourly.apparent_temperature[0]) : temp - 2;
 
-          document.getElementById('weather-temp').innerText = `${temp}°C`;
-          document.getElementById('weather-text').innerText = `${weatherDesc}`;
+          document.getElementById('tempDisplay').innerText = temp;
+          document.getElementById('apparentTempDisplay').innerText = `${apparentTemp} °C`;
+          
+          const info = getWeatherInfo(code);
+          document.getElementById('weatherIcon').innerText = info.icon;
+          document.getElementById('weatherDesc').innerText = info.desc;
+
+          tag.innerText = '即時連線';
+          tag.className = 'text-[9px] bg-[#EAF5EA] text-[#2D7A32] px-2 py-0.5 rounded-full font-medium';
         }
       } catch (err) {
-        document.getElementById('weather-temp').innerText = "12°C";
-        document.getElementById('weather-text').innerText = "多雲晴朗 🌤️";
-      }
-    }
-    fetchBusanWeather();
-
-    /* 翻頁時鐘倒數機制 */
-    function updateClockUnit(unitName, value) {
-      const formatted = String(value).padStart(2, '0');
-      const unitElem = document.querySelector(`[data-unit="${unitName}"]`);
-      if (!unitElem) return;
-
-      const topHalf = unitElem.querySelector('.flip-card-half.top span');
-      const bottomHalf = unitElem.querySelector('.flip-card-half.bottom span');
-      const flipper = unitElem.querySelector('.flip-card-flipper');
-      const frontSpan = flipper.querySelector('.flipper-face.front span');
-      const backSpan = flipper.querySelector('.flipper-face.back span');
-
-      const currentText = topHalf.textContent;
-      if (currentText !== formatted) {
-        frontSpan.textContent = currentText;
-        backSpan.textContent = formatted;
-        flipper.classList.remove('flipping');
-        void flipper.offsetWidth;
-        flipper.classList.add('flipping');
-        topHalf.textContent = formatted;
-        setTimeout(() => {
-          bottomHalf.textContent = formatted;
-          flipper.classList.remove('flipping');
-        }, 500);
+        document.getElementById('weatherDesc').innerText = '氣象連線稍後重試';
+        tag.innerText = '連線失敗';
+        tag.className = 'text-[9px] bg-[#FDF2F2] text-[#C86D6D] px-2 py-0.5 rounded-full font-medium';
       }
     }
 
-    function startSingleCountdown() {
-      const targetDate = new Date(`2026-12-31T18:00:00`);
-      function tick() {
-        const now = new Date();
-        const diff = targetDate - now;
+    function getWeatherInfo(code) {
+      if (code === 0) return { icon: '☀️', desc: '晴朗無雲' };
+      if (code >= 1 && code <= 3) return { icon: '🌤️', desc: '多雲時晴' };
+      if (code >= 45 && code <= 48) return { icon: '🌫️', desc: '濃霧繚繞' };
+      if (code >= 51 && code <= 67) return { icon: '🌧️', desc: '局部降雨' };
+      if (code >= 71 && code <= 77) return { icon: '❄️', desc: '降雪天氣' };
+      if (code >= 80 && code <= 82) return { icon: '🌦️', desc: '陣雨降臨' };
+      return { icon: '🌥️', desc: '陰天多雲' };
+    }
+
+    // Tab 切換
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+      ['home', 'itinerary', 'expense', 'info'].forEach(name => {
+        const btn = document.getElementById(`nav-${name}`);
+        if (btn) {
+          if (name === tabName) {
+            btn.className = 'flex flex-col items-center text-[#7D92B6] font-semibold';
+          } else {
+            btn.className = 'flex flex-col items-center text-[#B0AA9F] hover:text-[#2B2927]';
+          }
+        }
+      });
+
+      const previewBar = document.getElementById('previewBar');
+      if (tabName === 'itinerary') {
+        previewBar.classList.remove('hidden');
+      } else {
+        previewBar.classList.add('hidden');
+      }
+    }
+
+    // 翻頁時鐘
+    function startFlipClock() {
+      const targetDate = new Date('2026-12-31T18:00:00');
+      function updateClock() {
+        const diff = targetDate - new Date();
         if (diff <= 0) {
-          updateClockUnit('days', 0); updateClockUnit('hours', 0);
-          updateClockUnit('minutes', 0); updateClockUnit('seconds', 0);
+          ['days', 'hours', 'minutes', 'seconds'].forEach(id => document.getElementById(`clock-${id}`).innerText = '00');
           return;
         }
-        updateClockUnit('days', Math.floor(diff / (1000 * 60 * 60 * 24)));
-        updateClockUnit('hours', Math.floor((diff / (1000 * 60 * 60)) % 24));
-        updateClockUnit('minutes', Math.floor((diff / 1000 / 60) % 60));
-        updateClockUnit('seconds', Math.floor((diff / 1000) % 60));
+        document.getElementById('clock-days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        document.getElementById('clock-hours').innerText = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+        document.getElementById('clock-minutes').innerText = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
+        document.getElementById('clock-seconds').innerText = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
       }
-      setInterval(tick, 1000); 
-      tick();
-    }
-    startSingleCountdown();
-
-    /* Bottom Sheet 展開與關閉 */
-    window.openSheet = function() {
-      const sheet = document.getElementById('bottom-sheet');
-      const overlay = document.getElementById('sheet-overlay');
-      sheet.classList.add('active');
-      overlay.classList.add('active');
-      sheet.style.transform = 'translateY(0)';
-      document.body.style.overflow = 'hidden';
-    };
-
-    window.closeSheet = function() {
-      const sheet = document.getElementById('bottom-sheet');
-      const overlay = document.getElementById('sheet-overlay');
-      sheet.style.transition = 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)';
-      sheet.style.transform = 'translateY(105%)';
-      overlay.classList.remove('active');
-      sheet.classList.remove('active');
-      updateNavActiveState(currentPageIndex === 0 ? 'home' : 'schedule');
-      currentSheetType = null;
-      currentActiveCat = null;
-      document.body.style.overflow = '';
-    };
-
-    window.openCategorySheet = function(catCode, titleName) {
-      currentSheetType = 'category';
-      currentActiveCat = catCode;
-      const theme = categoryThemeMap[catCode];
-      document.getElementById('sheet-title').innerHTML = `
-        <div style="text-align: center; color: var(--text-main);">
-          <div style="font-size: 16px; font-weight: 700;">${titleName}</div>
-          <div style="font-size: 10px; font-weight: 800; opacity: 0.7; letter-spacing: 0.8px; margin-top: 1px;">${theme.code}</div>
-        </div>
-      `;
-      renderCategorySheetContent(catCode);
-      window.openSheet();
-    };
-
-    function renderCategorySheetContent(catCode) {
-      const sheetBody = document.getElementById('sheet-body');
-      sheetBody.innerHTML = '';
-      const listData = PRESET_SPOTS_DB[catCode] || [];
-      listData.forEach((item, index) => {
-        const isFav = favorites.includes(item.id);
-        const card = document.createElement('div');
-        card.className = `item-card cat-${catCode}`;
-        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.title)}`;
-        card.innerHTML = `
-          <div class="card-top">
-            <div class="item-title">${index + 1}. ${item.title}</div>
-            <div class="card-actions">
-              <button class="icon-btn ${isFav ? 'active-heart' : ''}" onclick="toggleFavorite('${item.id}')">
-                <i class="fa-${isFav ? 'solid' : 'regular'} fa-heart"></i>
-              </button>
-            </div>
-          </div>
-          <div class="story-box">${item.desc}</div>
-          <a href="${mapUrl}" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> Google Map</a>
-        `;
-        sheetBody.appendChild(card);
-      });
+      updateClock();
+      setInterval(updateClock, 1000);
     }
 
-    window.openFavoritesSheet = function() {
-      currentSheetType = 'favorites';
-      updateNavActiveState('favorites');
-      const titleElem = document.getElementById('sheet-title');
-      titleElem.innerText = `收藏 (${favorites.length})`;
-      titleElem.style.color = 'var(--color-pink)';
-      renderFavoritesSheetContent();
-      window.openSheet();
-    };
+    // 雙向匯率對照
+    function convertHomeCurrency(type) {
+      const rate = 41.0;
+      if (type === 'krw') {
+        const krw = document.getElementById('homeKrwInput').value;
+        document.getElementById('homeTwdInput').value = Math.round(krw / rate);
+      } else {
+        const twd = document.getElementById('homeTwdInput').value;
+        document.getElementById('homeKrwInput').value = Math.round(twd * rate);
+      }
+    }
 
-    window.openExpensesSheet = function() {
-      currentSheetType = 'expenses';
-      updateNavActiveState('expenses');
-      const titleElem = document.getElementById('sheet-title');
-      titleElem.innerText = `記帳小幫手`;
-      titleElem.style.color = 'var(--text-main)';
-      renderExpensesSheetContent();
-      window.openSheet();
-    };
+    // 日期列
+    function renderDateBars() {
+      const renderBar = (elementId, clickFn) => {
+        const container = document.getElementById(elementId);
+        container.innerHTML = tripDates.map(item => {
+          const isActive = item.fullDate === currentDate;
+          return `
+            <button onclick="${clickFn}('${item.fullDate}')" class="flex flex-col items-center px-3 py-1 transition-all ${isActive ? 'scale-105' : 'opacity-60'}">
+              <span class="text-[9px] font-sans font-medium text-[#7A756C]">${item.day}</span>
+              <span class="text-lg font-serif font-semibold my-0.5 ${isActive ? 'text-[#2B2927]' : 'text-[#7A756C]'}">${item.date}</span>
+              <span class="w-1.5 h-1.5 rounded-full ${isActive ? 'bg-[#C86D6D]' : 'bg-transparent'}"></span>
+            </button>
+          `;
+        }).join('');
+      };
+      renderBar('dateBar', 'switchTripDate');
+      renderBar('expenseDateBar', 'switchTripDate');
+    }
 
-    function renderFavoritesSheetContent() {
-      const sheetBody = document.getElementById('sheet-body');
-      sheetBody.innerHTML = '';
-      const allPresetArr = Object.values(PRESET_SPOTS_DB).flat();
-      const favItems = allPresetArr.filter(item => favorites.includes(item.id));
+    function switchTripDate(dateStr) {
+      currentDate = dateStr;
+      renderDateBars();
+      renderItinerary();
+      renderExpenses();
+    }
 
-      if (favItems.length === 0) {
-        sheetBody.innerHTML = `
-          <div class="empty-fav-msg">
-            <i class="fa-regular fa-heart" style="font-size:36px; margin-bottom:12px; color:var(--color-pink);"></i><br>
-            還沒有收藏的景點喔！
+    // 行程渲染
+    function renderItinerary() {
+      const container = document.getElementById('itineraryContainer');
+      const list = itineraryData[currentDate] || [];
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-16 text-[#A09D98]">
+            <p class="text-sm font-serif mb-2">今天尚未安排行程</p>
+            <button onclick="openAddModal()" class="text-xs text-[#7D92B6] underline">點擊新增景點</button>
           </div>
         `;
+        updateBottomBar(null, null);
         return;
       }
 
-      favItems.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = `item-card cat-${item.cat || 'A'}`;
-        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('釜山 ' + item.title)}`;
-        card.innerHTML = `
-          <div class="card-top">
-            <div class="item-title">${index + 1}. ${item.title}</div>
-            <div class="card-actions">
-              <button class="icon-btn active-heart" onclick="toggleFavorite('${item.id}')">
-                <i class="fa-solid fa-heart"></i>
-              </button>
-            </div>
-          </div>
-          <div class="story-box">${item.desc}</div>
-          <a href="${mapUrl}" target="_blank" class="map-btn"><i class="fa-solid fa-location-dot"></i> Google Map</a>
-        `;
-        sheetBody.appendChild(card);
-      });
-    }
+      container.innerHTML = list.map((item, index) => `
+        <div class="relative pl-16 pr-1 spot-card" data-index="${index}" draggable="true" ondragstart="handleDragStart(event)" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+          <div class="absolute left-0 top-1 text-base font-serif font-semibold text-[#2B2927]">${item.time}</div>
+          ${index !== list.length - 1 ? `<div class="absolute left-[3.25rem] top-7 bottom-0 w-[1px] bg-[#E5E0D8]"></div>` : ''}
 
-    function generateDateOptions(selectedVal) {
-      const tripDates = [
-        { val: '12/29', text: '12/29 (Tue)' }, { val: '12/30', text: '12/30 (Wed)' },
-        { val: '12/31', text: '12/31 (Thu)' }, { val: '1/1', text: '1/1 (Fri)' },
-        { val: '1/2', text: '1/2 (Sat)' }, { val: '1/3', text: '1/3 (Sun)' }
-      ];
-      return tripDates.map(d => `<option value="${d.val}" ${d.val === selectedVal ? 'selected' : ''}>${d.text}</option>`).join('');
-    }
-
-    function renderExpensesSheetContent() {
-      const sheetBody = document.getElementById('sheet-body');
-      sheetBody.innerHTML = `
-        <div class="dashboard-grid">
-          <div class="dash-box">
-            <div class="dash-title">消費總金額</div>
-            <div>
-              <div class="dash-main-val" id="total-expense">₩ 0</div>
-              <div class="dash-sub-val" id="total-expense-twd">≈ NT$ 0</div>
+          <div class="bg-white rounded-xl p-4 border border-[#EFECE6] shadow-sm relative drag-zone ${item.highlight ? 'highlighted-spot' : ''}">
+            <div class="flex justify-between items-start mb-1">
+              <h3 class="text-base font-serif font-bold text-[#2B2927]">${item.title}</h3>
+              <div class="flex items-center space-x-1 opacity-80">
+                <button onclick="toggleHighlight('${item.id}')" class="p-1 text-[#B5B0A8]">★</button>
+                <button onclick="editSpot('${item.id}')" class="p-1 text-[#B5B0A8]">✎</button>
+                <button onclick="deleteSpot('${item.id}')" class="p-1 text-[#B5B0A8]">✕</button>
+              </div>
             </div>
-          </div>
-          <div class="dash-box">
-            <div class="dash-title">當日即時匯率</div>
-            <div>
-              <div class="dash-main-val" id="rate-main-val">${EXCHANGE_RATE.toFixed(2)}</div>
-              <div class="dash-sub-val" id="rate-sub-val">1 TWD ≈ ${EXCHANGE_RATE.toFixed(2)} KRW</div>
-            </div>
+            <div class="text-[10px] font-semibold text-[#8C867D] mb-1 uppercase">${item.category}</div>
+            ${item.note ? `<p class="text-xs text-[#666057] border-t border-[#F5F2EC] pt-2 mt-1">${item.note}</p>` : ''}
           </div>
         </div>
-        <div class="add-form">
-          <h3 style="font-size: 14px; margin-bottom: 8px; color: var(--text-main);">新增消費紀錄</h3>
-          <div class="form-row-inline">
-            <select id="expense-date">${generateDateOptions()}</select>
-            <input type="text" id="expense-item" placeholder="品項（例：味贊王燒肉）">
-          </div>
-          <input type="number" id="expense-amount" placeholder="金額 (KRW)">
-          <div class="twd-hint" id="twd-conversion-hint">台幣試算：≈ NT$ 0</div>
-          <div class="payer-section-label">
-            <span>付款人</span>
-            <button class="select-all-btn" onclick="toggleSelectAllPayers()">全選 / 清除</button>
-          </div>
-          <div class="payer-select-container">
-            <div class="payer-chip selected" data-payer="All" onclick="selectPayerChip('All')"><i class="fa-solid fa-users" style="font-size:10px;"></i> All</div>
-            <div class="payer-chip" data-payer="Jase" onclick="selectPayerChip('Jase')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jase</div>
-            <div class="payer-chip" data-payer="Jessie" onclick="selectPayerChip('Jessie')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jessie</div>
-            <div class="payer-chip" data-payer="Jewel" onclick="selectPayerChip('Jewel')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Jewel</div>
-            <div class="payer-chip" data-payer="Kay" onclick="selectPayerChip('Kay')"><i class="fa-solid fa-user" style="font-size:10px;"></i> Kay</div>
-          </div>
-          <button class="btn-submit" onclick="addExpense()">帳單確認</button>
-        </div>
-        <div id="expenses-list"></div>
-      `;
-      renderExpensesUI();
+      `).join('');
+
+      updateBottomBar(list[0], list[1]);
     }
 
-    let selectedPayers = ['All'];
-    window.selectPayerChip = function(payerName) {
-      const chips = document.querySelectorAll('.payer-chip');
-      if (payerName === 'All') {
-        selectedPayers = ['All'];
+    function toggleHighlight(id) {
+      const spot = itineraryData[currentDate].find(i => i.id === id);
+      if (spot) { spot.highlight = !spot.highlight; renderItinerary(); }
+    }
+    function deleteSpot(id) {
+      itineraryData[currentDate] = itineraryData[currentDate].filter(i => i.id !== id);
+      renderItinerary();
+    }
+    function updateAttractionOptions() {
+      const region = document.getElementById('regionSelect').value;
+      const list = regionAttractions[region] || [];
+      document.getElementById('attractionSelect').innerHTML = list.map(item => `<option value="${item}">${item}</option>`).join('');
+    }
+    function openAddModal() {
+      document.getElementById('editSpotId').value = '';
+      document.getElementById('spotForm').reset();
+      updateAttractionOptions();
+      document.getElementById('addModal').classList.remove('hidden');
+    }
+    function closeAddModal() { document.getElementById('addModal').classList.add('hidden'); }
+
+    function handleSaveSpot(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editSpotId').value;
+      const title = document.getElementById('attractionSelect').value;
+      const category = document.getElementById('categorySelect').value;
+      const time = document.getElementById('timeSelect').value;
+      const note = document.getElementById('noteInput').value;
+
+      if (editId) {
+        const item = itineraryData[currentDate].find(i => i.id === editId);
+        if (item) Object.assign(item, { title, category, time, note });
       } else {
-        if (selectedPayers.includes('All')) selectedPayers = [];
-        const idx = selectedPayers.indexOf(payerName);
-        if (idx > -1) selectedPayers.splice(idx, 1);
-        else selectedPayers.push(payerName);
-        if (selectedPayers.length === 0) selectedPayers = ['All'];
+        itineraryData[currentDate].push({ id: 's-' + Date.now(), time, title, category, note, highlight: false });
       }
-      chips.forEach(chip => {
-        const p = chip.getAttribute('data-payer');
-        if (selectedPayers.includes(p)) chip.classList.add('selected');
-        else chip.classList.remove('selected');
-      });
-    };
-
-    let allSelectedState = false;
-    window.toggleSelectAllPayers = function() {
-      const chips = document.querySelectorAll('.payer-chip');
-      allSelectedState = !allSelectedState;
-      if (allSelectedState) selectedPayers = ['Jase', 'Jessie', 'Jewel', 'Kay'];
-      else selectedPayers = ['All'];
-      chips.forEach(chip => {
-        const p = chip.getAttribute('data-payer');
-        if (selectedPayers.includes(p) || (allSelectedState && p !== 'All')) {
-          if(p !== 'All' || !allSelectedState) chip.classList.add('selected');
-        } else chip.classList.remove('selected');
-        if(!allSelectedState && p === 'All') chip.classList.add('selected');
-        else if(allSelectedState && p === 'All') chip.classList.remove('selected');
-      });
-    };
-
-    window.toggleFavorite = function(itemId) {
-      const idx = favorites.indexOf(itemId);
-      if (idx > -1) favorites.splice(idx, 1);
-      else favorites.push(itemId);
-      localStorage.setItem('busan_favs', JSON.stringify(favorites));
-
-      if (currentSheetType === 'category' && currentActiveCat) {
-        renderCategorySheetContent(currentActiveCat);
-      } else if (currentSheetType === 'favorites') {
-        document.getElementById('sheet-title').innerText = `收藏 (${favorites.length})`;
-        renderFavoritesSheetContent();
-      }
-    };
-
-    window.addExpense = async function() {
-      const dateVal = document.getElementById('expense-date').value;
-      const item = document.getElementById('expense-item').value;
-      const amount = Number(document.getElementById('expense-amount').value);
-      let payerStr = selectedPayers.join(', ');
-      if (selectedPayers.includes('All')) payerStr = 'All (Jase, Jessie, Jewel, Kay)';
-      if (!item || !amount) return alert('請填寫品項與金額！');
-
-      await addDoc(collection(db, "expenses"), { date: dateVal, item, amount, payer: payerStr, createdAt: Date.now() });
-      document.getElementById('expense-item').value = '';
-      document.getElementById('expense-amount').value = '';
-    };
-
-    window.deleteExpense = async function(docId) {
-      if (confirm('確定要刪除這筆帳單嗎？')) {
-        await deleteDoc(doc(db, "expenses", docId));
-      }
-    };
-
-    function renderExpensesUI() {
-      const expensesList = document.getElementById('expenses-list');
-      const totalElement = document.getElementById('total-expense');
-      const totalTwdElement = document.getElementById('total-expense-twd');
-      if (!expensesList) return;
-      expensesList.innerHTML = '';
-      let total = 0;
-
-      latestExpensesData.forEach((docSnap) => {
-        const data = docSnap.data();
-        const docId = docSnap.id;
-        total += data.amount;
-        const card = document.createElement('div');
-        card.className = 'item-card expense-item-card';
-        card.innerHTML = `
-          <div class="card-top">
-            <div class="item-title">${data.date ? data.date + ' ｜ ' : ''}${data.item}</div>
-            <div style="text-align: right;">
-              <span style="color:var(--text-main); font-weight:700;">₩ ${data.amount.toLocaleString()}</span>
-              <div style="font-size: 11px; color: var(--text-sub);">≈ NT$ ${Math.round(data.amount / EXCHANGE_RATE).toLocaleString()}</div>
-            </div>
-          </div>
-          <div style="font-size:12px; color:var(--text-sub); margin-top:6px;"><i class="fa-solid fa-credit-card"></i> ${data.payer || 'All'}</div>
-          <div class="expense-actions">
-            <button class="expense-btn delete" onclick="deleteExpense('${docId}')"><i class="fa-solid fa-trash"></i> 整筆刪除</button>
-          </div>
-        `;
-        expensesList.appendChild(card);
-      });
-
-      if(totalElement) totalElement.innerText = `₩ ${total.toLocaleString()}`;
-      if(totalTwdElement) totalTwdElement.innerText = `≈ NT$ ${Math.round(total / EXCHANGE_RATE).toLocaleString()}`;
+      itineraryData[currentDate].sort((a, b) => a.time.localeCompare(b.time));
+      closeAddModal();
+      renderItinerary();
     }
 
-    onSnapshot(collection(db, "expenses"), (snapshot) => {
-      latestExpensesData = snapshot.docs;
-      if (currentSheetType === 'expenses') renderExpensesUI();
-    });
+    function updateBottomBar(c, n) {
+      document.getElementById('previewTime').innerText = c ? c.time : '--:--';
+      document.getElementById('previewTitle').innerText = c ? c.title : '無行程';
+      document.getElementById('nextTime').innerText = n ? n.time : '--:--';
+    }
 
-    document.getElementById('sparkle-btn')?.addEventListener('click', function (e) {
-      e.stopPropagation();
-      const fireworkSpots = [
-        { x: window.innerWidth * 0.5, y: window.innerHeight * 0.25 },
-        { x: window.innerWidth * 0.28, y: window.innerHeight * 0.2 },
-        { x: window.innerWidth * 0.72, y: window.innerHeight * 0.2 }
-      ];
-      fireworkSpots.forEach((spot, index) => {
-        setTimeout(() => createIllustrationFirework(spot.x, spot.y), index * 160);
-      });
-    });
-
-    window.createIllustrationFirework = function(x, y) {
-      const rayCount = 24;
-      const colors = ['#BBB7E5', '#F7DFDF', '#DAE9FA', '#EFBDBD', '#B6C687', '#FAF6C8'];
-      for (let i = 0; i < rayCount; i++) {
-        const ray = document.createElement('div');
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        ray.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:2.5px;height:${30 + Math.random() * 35}px;background-color:${color};border-radius:2px;pointer-events:none;z-index:99999;transform-origin:top center;opacity:1;`;
-        const angle = (360 / rayCount) * i + (Math.random() * 8 - 4);
-        const distance = 50 + Math.random() * 50;
-        ray.style.transform = `rotate(${angle}deg) scaleY(0.2)`;
-        ray.style.transition = 'all 0.8s cubic-bezier(0.1, 0.8, 0.3, 1)';
-        document.body.appendChild(ray);
-        requestAnimationFrame(() => {
-          ray.style.transform = `rotate(${angle}deg) translateY(${distance}px) scaleY(1.2)`;
-          ray.style.opacity = '0';
-        });
-        setTimeout(() => ray.remove(), 800);
+    let draggedIdx = null;
+    function handleDragStart(e) { draggedIdx = +e.currentTarget.getAttribute('data-index'); }
+    function handleDragOver(e) { e.preventDefault(); }
+    function handleDrop(e) {
+      e.preventDefault();
+      const dropIdx = +e.currentTarget.getAttribute('data-index');
+      if (draggedIdx !== null && draggedIdx !== dropIdx) {
+        const list = itineraryData[currentDate];
+        const [moved] = list.splice(draggedIdx, 1);
+        list.splice(dropIdx, 0, moved);
+        renderItinerary();
       }
-    };
+    }
+
+    // 記帳邏輯
+    function filterPayer(payer) {
+      currentPayerFilter = payer;
+      document.querySelectorAll('.payer-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-payer') === payer) {
+          btn.className = 'payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#2B2927] text-white font-medium';
+        } else {
+          btn.className = 'payer-filter-btn px-3 py-1 text-xs rounded-lg bg-[#EBE7E0] text-[#555] font-medium';
+        }
+      });
+      renderExpenses();
+    }
+
+    function renderExpenses() {
+      const container = document.getElementById('expenseListContainer');
+      let rawList = expenseData[currentDate] || [];
+      if (currentPayerFilter !== 'ALL') {
+        rawList = rawList.filter(item => item.payer === currentPayerFilter);
+      }
+
+      let totalKrw = 0;
+      let totalTwd = 0;
+
+      if (rawList.length === 0) {
+        container.innerHTML = `<div class="text-center py-12 text-[#A09D98] text-xs font-serif">今日尚無記帳紀錄</div>`;
+      } else {
+        container.innerHTML = rawList.map(item => {
+          totalKrw += item.krw;
+          totalTwd += item.twd;
+          const payerLabel = { ALL: 'ALL', J1: 'J (Jase)', J2: 'J (Jewel)', J3: 'J (Jessie)', K: 'K (Kay)' }[item.payer];
+          return `
+            <div class="bg-white p-3.5 rounded-xl border border-[#EBE7E0] shadow-sm flex justify-between items-center">
+              <div>
+                <span class="text-xs font-bold text-[#2B2927] block mb-0.5">${item.item}</span>
+                <span class="text-[9px] bg-[#F2EDE4] text-[#706B63] px-2 py-0.5 rounded-full font-medium">由 ${payerLabel} 付款</span>
+              </div>
+              <div class="text-right">
+                <span class="text-sm font-bold text-[#2B2927] block">₩ ${item.krw.toLocaleString()}</span>
+                <span class="text-[10px] text-[#A09D98]">≈ NT$ ${item.twd.toLocaleString()}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('totalKrwDisplay').innerText = `₩ ${totalKrw.toLocaleString()}`;
+      document.getElementById('totalTwdDisplay').innerText = `NT$ ${totalTwd.toLocaleString()}`;
+    }
+
+    function openExpenseModal() { document.getElementById('expenseModal').classList.remove('hidden'); }
+    function closeExpenseModal() { document.getElementById('expenseModal').classList.add('hidden'); }
+    function calcExpTwd() {
+      const krw = document.getElementById('expKrwInput').value;
+      document.getElementById('expTwdHint').innerText = `≈ NT$ ${Math.round(krw / 41.0).toLocaleString()}`;
+    }
+
+    function handleSaveExpense(e) {
+      e.preventDefault();
+      const payer = document.getElementById('expPayerSelect').value;
+      const item = document.getElementById('expItemInput').value;
+      const krw = +document.getElementById('expKrwInput').value;
+      const twd = Math.round(krw / 41.0);
+
+      if (!expenseData[currentDate]) expenseData[currentDate] = [];
+      expenseData[currentDate].push({ id: 'e-' + Date.now(), item, krw, twd, payer });
+
+      closeExpenseModal();
+      renderExpenses();
+    }
+
+    // 成員動態彈出卡片 Modal 邏輯
+    function openMemberStackModal() {
+      document.getElementById('memberStackModal').classList.remove('hidden');
+    }
+    function closeMemberStackModal() {
+      document.getElementById('memberStackModal').classList.add('hidden');
+    }
   </script>
 </body>
 </html>
