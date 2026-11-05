@@ -99,10 +99,10 @@
     <!-- ==================== TAB 1: 首頁 (Home) ==================== -->
     <div id="tab-home" class="tab-content">
       
-      <!-- 頂部 Header：精準對齊內部小卡片（倒數時鐘第一格最左邊與最右邊緣） -->
+      <!-- 頂部 Header：精準對齊內部小卡片，並套用指定色碼 -->
       <header class="pt-8 px-9 pb-2 flex justify-between items-baseline">
-        <h1 class="text-3xl font-serif font-semibold text-[#2B2927] tracking-tight">Hello Busan</h1>
-        <span class="text-3xl font-serif font-semibold text-[#2B2927] tracking-tight">Hi 2027</span>
+        <h1 class="text-3xl font-serif font-semibold tracking-tight text-[#9ab4fe]">Hello Busan</h1>
+        <span class="text-3xl font-serif font-semibold tracking-tight text-[#f492ff]">Hi 2027</span>
       </header>
 
       <main class="px-5 py-3 space-y-5">
@@ -110,7 +110,6 @@
         <!-- 1. 頂部翻頁時鐘 Flip Clock (成員集合倒數) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
           <div class="flex items-center gap-1.5">
-            <!-- Illustrator 平面純色愛心 -->
             <svg class="w-4 h-4 text-[#E5989B] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
             <span class="text-sm font-serif font-bold text-[#2B2927]">成員集合倒數</span>
           </div>
@@ -138,7 +137,6 @@
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
           <div class="flex justify-between items-center">
             <div class="flex items-center gap-1.5">
-              <!-- Illustrator 平面四角星芒圖示 -->
               <svg class="w-4 h-4 text-[#7D92B6] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/></svg>
               <span class="text-sm font-serif font-bold text-[#2B2927]">即時匯率換算</span>
             </div>
@@ -161,7 +159,7 @@
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 (彩色趣味天氣圖示，恢復標準左右三欄結構，圖示下對齊文字) -->
+        <!-- 3. 釜山當地即時氣象卡片 (左側放大兩倍太陽並具備舒適呼吸間距) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
@@ -172,20 +170,18 @@
           </div>
           
           <div class="flex items-center justify-between pt-1">
-            <!-- 左側：彩色生動天氣圖示（大小 85%，底部對齊晴朗無雲） -->
-            <div class="flex items-end h-12 pb-0.5">
-              <div id="weatherIcon" class="flex items-center justify-center transform scale-[0.85] origin-bottom-left">
-                <span class="text-3xl">☀️</span>
+            <!-- 左側：太陽 Emoji 放大兩倍，與溫度保持舒適間距 -->
+            <div class="flex items-center gap-3">
+              <div id="weatherIcon" class="text-5xl shrink-0 leading-none">
+                <span>☀️</span>
               </div>
-            </div>
-
-            <!-- 中間：溫度與描述（恢復標準位置） -->
-            <div class="flex flex-col justify-center text-center">
-              <div class="flex items-baseline justify-center gap-1 leading-none">
-                <span id="tempDisplay" class="text-3xl font-serif font-bold text-[#2B2927]">--</span>
-                <span class="text-sm text-[#7F7F7F] font-serif">°C</span>
+              <div class="flex flex-col justify-center">
+                <div class="flex items-baseline gap-1 leading-none">
+                  <span id="tempDisplay" class="text-3xl font-serif font-bold text-[#2B2927]">--</span>
+                  <span class="text-sm text-[#7F7F7F] font-serif">°C</span>
+                </div>
+                <p id="weatherDesc" class="text-xs text-[#7F7F7F] mt-1.5 leading-none">正在獲取氣象資料...</p>
               </div>
-              <p id="weatherDesc" class="text-xs text-[#7F7F7F] mt-1.5 leading-none">正在獲取氣象資料...</p>
             </div>
 
             <!-- 右側：體感溫度 -->
@@ -196,14 +192,13 @@
           </div>
         </div>
 
-        <!-- 4. 探索釜山 A~F 區互動地圖 -->
+        <!-- 4. 探索釜山 A~F 區互動地圖 (已移除右上角小字) -->
         <div class="bg-white rounded-2xl p-3 border border-[#EBE7E0] shadow-sm space-y-2">
           <div class="flex justify-between items-center px-1">
             <div class="flex items-center gap-1.5">
               <svg class="w-4 h-4 text-[#7D92B6] shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
               <h2 class="text-sm font-serif font-bold text-[#2B2927]">探索釜山</h2>
             </div>
-            <span class="text-xs text-[#A09D98]">點擊地圖上的 Icon 檢視介紹</span>
           </div>
 
           <div class="relative w-full rounded-xl overflow-hidden shadow-inner border border-[#F0ECE6]">
@@ -310,7 +305,7 @@
       </main>
     </div>
 
-    <!-- ==================== 底部懸浮膠囊導覽列 ==================== -->
+    <!-- ==================== 底部懸浮膠囊導覽列 (首頁與資訊內縮、四個按鈕完美均分) ==================== -->
     <div class="fixed bottom-6 left-0 right-0 w-full max-w-md mx-auto z-20 pointer-events-none px-6">
       
       <div id="previewBar" class="mb-3 pointer-events-auto hidden">
@@ -335,7 +330,7 @@
         </div>
       </div>
 
-      <nav class="bg-white/95 backdrop-blur-lg border border-[#EBE7E0] rounded-full px-6 py-2.5 flex justify-between items-center pointer-events-auto shadow-lg">
+      <nav class="bg-white/95 backdrop-blur-lg border border-[#EBE7E0] rounded-full px-8 py-2.5 flex justify-between items-center pointer-events-auto shadow-lg">
         <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-[#7D92B6] font-semibold">
           <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           <span class="text-xs">首頁</span>
@@ -647,13 +642,13 @@
     }
 
     function getWeatherInfo(code) {
-      if (code === 0) return { emoji: '<span class="text-3xl">☀️</span>', desc: '晴朗無雲' };
-      if (code >= 1 && code <= 3) return { emoji: '<span class="text-3xl">⛅</span>', desc: '多雲時晴' };
-      if (code >= 45 && code <= 48) return { emoji: '<span class="text-3xl">🌫️</span>', desc: '濃霧繚繞' };
-      if (code >= 51 && code <= 67) return { emoji: '<span class="text-3xl">🌧️</span>', desc: '局部降雨' };
-      if (code >= 71 && code <= 77) return { emoji: '<span class="text-3xl">❄️</span>', desc: '降雪天氣' };
-      if (code >= 80 && code <= 82) return { emoji: '<span class="text-3xl">🌦️</span>', desc: '陣雨降臨' };
-      return { emoji: '<span class="text-3xl">☁️</span>', desc: '陰天多雲' };
+      if (code === 0) return { emoji: '<span>☀️</span>', desc: '晴朗無雲' };
+      if (code >= 1 && code <= 3) return { emoji: '<span>⛅</span>', desc: '多雲時晴' };
+      if (code >= 45 && code <= 48) return { emoji: '<span>🌫️</span>', desc: '濃霧繚繞' };
+      if (code >= 51 && code <= 67) return { emoji: '<span>🌧️</span>', desc: '局部降雨' };
+      if (code >= 71 && code <= 77) return { emoji: '<span>❄️</span>', desc: '降雪天氣' };
+      if (code >= 80 && code <= 82) return { emoji: '<span>🌦️</span>', desc: '陣雨降臨' };
+      return { emoji: '<span>☁️</span>', desc: '陰天多雲' };
     }
 
     function switchTab(tabName) {
