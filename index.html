@@ -159,7 +159,7 @@
           </div>
         </div>
 
-        <!-- 3. 釜山當地即時氣象卡片 (改為簡潔大方 SVG 天氣圖示) -->
+        <!-- 3. 釜山當地即時氣象卡片 (採用簡潔大方 SVG 天氣圖示) -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
           <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-1.5">
@@ -170,7 +170,6 @@
           </div>
           
           <div class="flex items-center justify-between pt-1">
-            <!-- 左側：簡潔大方 SVG 氣象圖示與舒適呼吸間距 -->
             <div class="flex items-center gap-3">
               <div id="weatherIcon" class="text-[#7D92B6] shrink-0">
                 <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>
@@ -184,7 +183,6 @@
               </div>
             </div>
 
-            <!-- 右側：體感溫度 -->
             <div class="text-right border-l border-[#F0ECE6] pl-3 flex flex-col justify-center shrink-0">
               <div class="text-xs text-[#A09D98] leading-none mb-1">體感溫度</div>
               <div id="apparentTempDisplay" class="text-base font-serif font-semibold text-[#2B2927] leading-none">-- °C</div>
@@ -354,10 +352,10 @@
     </div>
 
     <!-- ==================== MODALS ==================== -->
-    <!-- 地區介紹彈窗：內部拉高、底部留出呼吸空間、大標副標下方加極細分隔線 -->
+    <!-- 地區介紹彈窗：往上拉高、底部預留呼吸空間、大標副標下方加極細分隔線 -->
     <div id="regionBottomSheet" class="fixed inset-0 z-50 flex flex-col justify-end pointer-events-none hidden">
       <div class="flex-1 bg-black/30 pointer-events-auto backdrop-blur-xs" onclick="closeRegionSheet()"></div>
-      <div class="w-full max-w-md bg-white rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto transition-transform duration-300 transform translate-y-0 relative border-t border-[#EBE7E0] pb-10">
+      <div class="w-full max-w-md bg-white rounded-t-3xl overflow-hidden shadow-2xl pointer-events-auto transition-transform duration-300 transform translate-y-0 relative border-t border-[#EBE7E0] pb-12">
         <button onclick="closeRegionSheet()" class="absolute top-3 right-4 z-20 text-[#A09D98] hover:text-[#2B2927] text-xl font-light p-1 focus:outline-none">✕</button>
         
         <!-- 圖片在上、文字在下（絕對不壓圖） -->
@@ -370,12 +368,12 @@
         <div class="px-5 pt-4 pb-2">
           <h3 id="sheetTitle" class="text-2xl font-serif font-bold text-[#2B2927]">--</h3>
           <p id="sheetSubtitle" class="text-sm text-[#7F7F7F] mt-0.5">--</p>
-          <!-- 仿照精選必訪亮點上方的極細線風格 -->
+          <!-- 加在大標／副標下方與內文之間的極細線 -->
           <div class="w-full h-[1px] bg-[#EBE7E0] mt-3"></div>
         </div>
 
-        <!-- 詳細內文與亮點（底部保有舒適呼吸空間） -->
-        <div class="px-5 space-y-3 max-h-[50vh] overflow-y-auto">
+        <!-- 詳細內文與亮點（下方保留約2公分舒適呼吸空間） -->
+        <div class="px-5 space-y-3 max-h-[52vh] overflow-y-auto">
           <p id="sheetDesc" class="text-sm text-[#555] leading-relaxed font-sans pt-1">--</p>
           <div class="pt-2">
             <span class="text-xs text-[#A09D98] font-serif font-bold block mb-2">精選必訪亮點</span>
