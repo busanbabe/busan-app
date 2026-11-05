@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello Busan - 釜山安妞行程導覽</title>
+  <title>Hello Busan - 釜山行程導覽</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Noto Serif TC & Inter -->
@@ -91,23 +91,26 @@
     }
   </style>
 </head>
-<body class="flex justify-center min-h-screen pb-20">
+<body class="flex justify-center min-h-screen pb-24">
 
   <!-- 手機主體 App 外殼 -->
   <div class="w-full max-w-md bg-[#FAF8F5] min-h-screen relative shadow-2xl flex flex-col justify-between overflow-hidden">
 
     <!-- ==================== TAB 1: 首頁 (Home) ==================== -->
     <div id="tab-home" class="tab-content">
-      <header class="pt-8 px-6 text-center pb-2">
-        <p class="text-[10px] tracking-[0.25em] text-[#A09D98] font-medium uppercase mb-1">FAMILY TRIP</p>
-        <h1 class="text-2xl font-serif font-semibold text-[#2B2927]">Hello Busan 釜山安妞</h1>
-      </header>
-
-      <main class="px-5 py-4 space-y-5">
+      
+      <main class="px-5 pt-8 pb-4 space-y-5">
         
-        <!-- 1. 頂部翻頁時鐘 Flip Clock -->
-        <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm">
-          <p class="text-xs font-serif text-[#7F7F7F] mb-3 text-center">成員集合倒數 (12/31 18:00)</p>
+        <!-- 1. 頂部對齊區塊：Header 與 翻頁時鐘 Flip Clock -->
+        <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
+          
+          <!-- 標題區：Hello Busan 靠左對齊時鐘左界，Hi 2027 靠右對齊時鐘右界 -->
+          <div class="flex justify-between items-baseline px-0.5">
+            <h1 class="text-xl font-serif font-semibold text-[#2B2927]">Hello Busan</h1>
+            <span class="text-xs font-serif font-medium text-[#7F7F7F]">Hi 2027</span>
+          </div>
+
+          <p class="text-xs font-serif text-[#7F7F7F] text-center pt-1">成員集合倒數 (12/31 18:00)</p>
           <div class="grid grid-cols-4 gap-2">
             <div class="flip-card h-20">
               <span id="clock-days" class="text-2xl font-bold font-serif text-[#2B2927] z-10 mt-1">--</span>
@@ -128,10 +131,10 @@
           </div>
         </div>
 
-        <!-- 2. 即時匯率與退稅門檻換算器 -->
+        <!-- 2. 即時匯率換算與動態退稅提醒 -->
         <div class="bg-white rounded-2xl p-4 border border-[#EBE7E0] shadow-sm space-y-3">
           <div class="flex justify-between items-center">
-            <span class="text-xs font-serif font-bold text-[#2B2927]">即時匯率對照計算機</span>
+            <span class="text-xs font-serif font-bold text-[#2B2927]">即時匯率換算</span>
             <span class="text-[10px] text-[#A09D98] bg-[#F5F2EC] px-2 py-0.5 rounded-full">1 TWD ≈ 41.0 KRW</span>
           </div>
           <div class="flex items-center gap-2">
@@ -146,8 +149,8 @@
             </div>
           </div>
           <div class="bg-[#FAF6F0] p-2.5 rounded-xl border border-[#EFE7DC] text-[11px] text-[#706B63] flex justify-between items-center">
-            <span>單筆消費滿 ₩15,000 達退稅門檻</span>
-            <span class="font-bold text-[#C86D6D]">可申請退稅</span>
+            <span>₩15,000 達退稅門檻</span>
+            <span id="taxRefundStatus" class="font-bold text-[#7F7F7F] transition-colors duration-300">可申請退稅</span>
           </div>
         </div>
 
@@ -178,10 +181,10 @@
           </div>
         </div>
 
-        <!-- 4. 釜山 A~F 區互動地圖 (採用 map.PNG 大寫副檔名底圖 + 熱點覆蓋) -->
+        <!-- 4. 探索釜山 A~F 區互動地圖 (採用 map.PNG 大寫副檔名底圖 + 熱點覆蓋) -->
         <div class="bg-white rounded-2xl p-3 border border-[#EBE7E0] shadow-sm space-y-2">
           <div class="flex justify-between items-center px-1">
-            <h2 class="text-xs font-serif font-bold text-[#2B2927]">釜山分區探索 (A ~ F 區)</h2>
+            <h2 class="text-xs font-serif font-bold text-[#2B2927]">探索釜山</h2>
             <span class="text-[10px] text-[#A09D98]">點擊地圖上的 Icon 檢視介紹</span>
           </div>
 
@@ -310,11 +313,11 @@
       </main>
     </div>
 
-    <!-- ==================== 底部固定導覽列 ==================== -->
-    <div class="fixed bottom-0 w-full max-w-md z-20 pointer-events-none">
+    <!-- ==================== 底部懸浮膠囊導覽列 ==================== -->
+    <div class="fixed bottom-6 left-0 right-0 w-full max-w-md mx-auto z-20 pointer-events-none px-6">
       
       <!-- 行程頁限定：即時預覽 Bar -->
-      <div id="previewBar" class="px-4 mb-3 pointer-events-auto hidden">
+      <div id="previewBar" class="mb-3 pointer-events-auto hidden">
         <div class="bg-white/90 backdrop-blur-md border border-[#EBE6DF] rounded-2xl p-3 shadow-lg flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-full bg-[#F5EBE6] flex flex-col items-center justify-center text-[10px] text-[#A0887E]">
@@ -336,8 +339,8 @@
         </div>
       </div>
 
-      <!-- 四大 Nav 按鈕 (首頁、行程導覽、記帳、Information) -->
-      <nav class="bg-white/95 backdrop-blur-lg border-t border-[#EBE7E0] px-6 py-3 flex justify-between items-center pointer-events-auto">
+      <!-- 四大 Nav 按鈕懸浮膠囊 (縮邊避開邊角，整體上移 25%) -->
+      <nav class="bg-white/95 backdrop-blur-lg border border-[#EBE7E0] rounded-full px-6 py-2.5 flex justify-between items-center pointer-events-auto shadow-lg">
         <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-[#7D92B6] font-semibold">
           <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           <span class="text-[10px]">首頁</span>
@@ -638,6 +641,7 @@
       renderItinerary();
       renderExpenses();
       updateAttractionOptions();
+      convertHomeCurrency('krw');
     };
 
     // 1. 地圖區域彈窗邏輯
@@ -747,15 +751,28 @@
       setInterval(updateClock, 1000);
     }
 
-    // 雙向匯率對照
+    // 雙向匯率對照與退稅動態高亮
     function convertHomeCurrency(type) {
       const rate = 41.0;
+      const krwInput = document.getElementById('homeKrwInput');
+      const twdInput = document.getElementById('homeTwdInput');
+      const taxStatus = document.getElementById('taxRefundStatus');
+
+      let krwVal = 0;
       if (type === 'krw') {
-        const krw = document.getElementById('homeKrwInput').value;
-        document.getElementById('homeTwdInput').value = Math.round(krw / rate);
+        krwVal = parseFloat(krwInput.value) || 0;
+        twdInput.value = Math.round(krwVal / rate);
       } else {
-        const twd = document.getElementById('homeTwdInput').value;
-        document.getElementById('homeKrwInput').value = Math.round(twd * rate);
+        const twdVal = parseFloat(twdInput.value) || 0;
+        krwVal = Math.round(twdVal * rate);
+        krwInput.value = krwVal;
+      }
+
+      // 動態判定退稅門檻（滿 ₩15,000 亮起莫蘭迪柔粉紅）
+      if (krwVal >= 15000) {
+        taxStatus.className = 'font-bold text-[#E5989B] transition-colors duration-300';
+      } else {
+        taxStatus.className = 'font-bold text-[#7F7F7F] transition-colors duration-300';
       }
     }
 
